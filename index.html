@@ -4,242 +4,362 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>Ganhar em dólar, freelancer e clientes internacionais | TalkGlobal</title>
+<title>Ganhar em dólar, freelancer e tecnologia | TalkGlobal</title>
 
-<meta name="description"
-content="Aprenda como ganhar em dólar trabalhando online, conseguir clientes internacionais e crescer como freelancer. Conteúdo prático, direto e sem promessas irreais." />
+<meta name="description" content="Aprenda como ganhar em dólar trabalhando online, começar como freelancer internacional e usar tecnologia para evoluir com consistência. Sem promessas irreais." />
 
 <link rel="icon" href="favicon-32x32.png" />
 
 <style>
 :root {
   --bg: #030b17;
-  --bg-2: #07111f;
   --card: rgba(255,255,255,0.05);
   --line: rgba(255,255,255,0.08);
   --text: #f5f7fb;
   --muted: #9aa8c2;
   --green: #23c552;
+  --green-2: #19ae46;
+  --blue: #2f67ea;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background: #030b17;
+  overscroll-behavior: none;
 }
 
 body {
-  font-family: -apple-system, Arial;
-  background: linear-gradient(180deg, #020816 0%, #07111f 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   color: var(--text);
-  margin:0;
+  line-height: 1.6;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(35,197,82,.16), transparent 25%),
+    radial-gradient(circle at 90% 10%, rgba(47,103,234,.18), transparent 24%),
+    linear-gradient(180deg, #020816 0%, #07111f 100%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 .container {
-  width: min(100% - 32px, 1100px);
+  width: min(100% - 32px, 1180px);
   margin: auto;
 }
 
 .topbar {
-  padding: 20px 0;
-  border-bottom:1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(14px);
+  background: rgba(3,11,23,.84);
+  border-bottom: 1px solid var(--line);
 }
 
 .nav {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
 }
 
-.nav a {
-  color: var(--muted);
-  margin-left:20px;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+.brand img {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  color: #cbd6e8;
+  font-weight: 600;
+  flex-wrap: wrap;
+}
+
+.menu a:hover {
+  color: #fff;
 }
 
 .btn {
-  background: var(--green);
-  padding:12px 22px;
-  border-radius:12px;
-  color:#000;
-  font-weight:700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 0 24px;
+  border-radius: 16px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--green), var(--green-2));
+  color: #06110a;
+  box-shadow: 0 14px 32px rgba(35,197,82,.22);
+  transition: .2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,.05);
+  color: #f5f7fb;
+  border: 1px solid rgba(255,255,255,.09);
+  box-shadow: none;
 }
 
 .hero {
-  padding:80px 0;
+  padding: 84px 0 52px;
+}
+
+.pill {
+  display: inline-flex;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(47,103,234,.18);
+  border: 1px solid rgba(255,255,255,.08);
+  color: #dbe7ff;
+  font-weight: 800;
+  margin-bottom: 24px;
 }
 
 h1 {
-  font-size:56px;
-  line-height:1;
-  margin-bottom:20px;
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: .96;
+  letter-spacing: -0.07em;
+  max-width: 930px;
+  margin-bottom: 24px;
 }
 
 .lead {
   color: var(--muted);
-  max-width:600px;
-  font-size:18px;
+  font-size: 1.15rem;
+  max-width: 760px;
+  margin-bottom: 28px;
 }
 
-.grid {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px;
-  margin-top:40px;
-}
-
-.card {
-  background: var(--card);
-  border:1px solid var(--line);
-  padding:24px;
-  border-radius:20px;
-}
-
-.card h3 {
-  margin-bottom:10px;
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 26px;
 }
 
 .section {
-  padding:60px 0;
+  padding: 54px 0;
 }
 
-.section h2 {
-  font-size:34px;
-  margin-bottom:20px;
+.section-head {
+  margin-bottom: 26px;
+}
+
+.tag {
+  color: #7df2a2;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: .85rem;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 3.8rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  max-width: 900px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.03));
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 28px;
+  padding: 28px;
+  min-height: 230px;
+  transition: .2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(35,197,82,.25);
+}
+
+.card small {
+  color: #7df2a2;
+  font-weight: 900;
+}
+
+.card h3 {
+  font-size: 1.35rem;
+  line-height: 1.15;
+  margin: 14px 0 12px;
+}
+
+.card p {
+  color: var(--muted);
+}
+
+.callout {
+  background:
+    radial-gradient(circle at top right, rgba(35,197,82,.16), transparent 25%),
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  border: 1px solid rgba(35,197,82,.16);
+  border-radius: 34px;
+  padding: 38px;
+  margin-top: 10px;
 }
 
 .footer {
-  padding:40px 0;
-  border-top:1px solid var(--line);
-  color:var(--muted);
-  font-size:14px;
+  margin-top: 50px;
+  padding: 36px 0;
+  border-top: 1px solid rgba(255,255,255,.08);
+  color: var(--muted);
+  font-size: .92rem;
 }
 
-@media(max-width:900px){
-  .grid{grid-template-columns:1fr;}
-  h1{font-size:38px;}
+@media(max-width: 900px) {
+  .nav {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 18px 0;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding-top: 56px;
+  }
+
+  h1 {
+    letter-spacing: -0.05em;
+  }
 }
 </style>
-
 </head>
 
 <body>
 
 <header class="topbar">
   <div class="container nav">
-    <strong>TalkGlobal</strong>
-    <div>
-      <a href="#">Ganhar em dólar</a>
-      <a href="#">Freelancer</a>
-      <a href="#">Tecnologia</a>
+    <a href="/" class="brand">
+      <img src="icon48.png" alt="TalkGlobal logo">
+      TalkGlobal
+    </a>
+
+    <nav class="menu">
+      <a href="/blog/ganhar-em-dolar.html">Ganhar em dólar</a>
+      <a href="/blog/freelancer-internacional.html">Freelancer</a>
+      <a href="/blog/tecnologia-para-freelancer.html">Tecnologia</a>
       <a href="/extensao.html">Extensão</a>
-    </div>
+    </nav>
   </div>
 </header>
 
 <main>
 
 <section class="hero container">
+  <div class="pill">Guias reais para trabalhar online e evoluir com consistência</div>
 
-<h1>Ganhar em dólar trabalhando online começa com a direção certa</h1>
+  <h1>Ganhar em dólar começa com direção, esforço e execução.</h1>
 
-<p class="lead">
-Se você quer mudar sua renda e começar a trabalhar com clientes internacionais,
-precisa de estratégia — não de promessas.
+  <p class="lead">
+    Se você quer mudar sua renda, trabalhar com clientes internacionais e usar a tecnologia a seu favor,
+    aqui é o lugar para aprender o caminho com clareza.
+    Sem promessas irreais. Sem atalhos mágicos. Só estratégia prática para quem quer construir algo de verdade.
+  </p>
 
-Aqui você aprende como ganhar em dólar, atuar como freelancer e evoluir com consistência.
-Sem atalhos. Só o que funciona na prática.
-</p>
-
-<a href="/extensao.html" class="btn">Ver ferramenta recomendada</a>
-
+  <div class="hero-actions">
+    <a href="/blog/ganhar-em-dolar.html" class="btn">Começar pelo guia principal</a>
+    <a href="/extensao.html" class="btn btn-secondary">Ver ferramenta recomendada</a>
+  </div>
 </section>
 
-<section class="container section">
-
-<h2>💰 Começar do zero</h2>
-
-<div class="grid">
-  <div class="card">
-    <h3>Como ganhar em dólar começando do zero</h3>
-    <p>O caminho mais direto para sair do zero e começar no mercado internacional.</p>
+<section class="section container">
+  <div class="section-head">
+    <div class="tag">Comece aqui</div>
+    <h2>Os guias essenciais para quem quer entrar no mercado internacional</h2>
   </div>
 
-  <div class="card">
-    <h3>O erro que faz iniciantes desistirem</h3>
-    <p>O motivo real que impede a maioria de evoluir trabalhando online.</p>
-  </div>
+  <div class="grid">
+    <a href="/blog/ganhar-em-dolar.html" class="card">
+      <small>GUIA PRINCIPAL</small>
+      <h3>Como ganhar em dólar trabalhando online</h3>
+      <p>Um guia direto para entender o caminho real: habilidade, posicionamento, comunicação e consistência.</p>
+    </a>
 
-  <div class="card">
-    <h3>Primeiros clientes internacionais</h3>
-    <p>Como conseguir seus primeiros clientes fora do Brasil.</p>
-  </div>
-</div>
+    <a href="/blog/freelancer-internacional.html" class="card">
+      <small>FREELANCER</small>
+      <h3>Como começar como freelancer internacional</h3>
+      <p>Como sair do zero, escolher um serviço, montar uma presença profissional e buscar clientes fora.</p>
+    </a>
 
+    <a href="/blog/tecnologia-para-freelancer.html" class="card">
+      <small>TECNOLOGIA</small>
+      <h3>Tecnologia para trabalhar melhor e parecer mais profissional</h3>
+      <p>Ferramentas e processos para ganhar velocidade, melhorar comunicação e entregar com mais qualidade.</p>
+    </a>
+  </div>
 </section>
 
-<section class="container section">
-
-<h2>💻 Freelancer internacional</h2>
-
-<div class="grid">
-  <div class="card">
-    <h3>Melhores plataformas para trabalhar para fora</h3>
-    <p>Onde encontrar oportunidades reais para ganhar em dólar.</p>
+<section class="section container">
+  <div class="section-head">
+    <div class="tag">Mentalidade certa</div>
+    <h2>Não é sobre dinheiro fácil. É sobre construir uma nova possibilidade.</h2>
   </div>
 
-  <div class="card">
-    <h3>Como cobrar em dólar</h3>
-    <p>Estratégias simples para definir preços e não perder dinheiro.</p>
+  <div class="callout">
+    <p class="lead">
+      Ganhar em dólar exige trabalho, paciência e evolução. A diferença é que, com direção certa,
+      você para de agir no escuro. Aprende onde procurar oportunidades, como se comunicar melhor e como usar tecnologia
+      para competir com mais confiança.
+    </p>
   </div>
-
-  <div class="card">
-    <h3>Como conseguir clientes gringos</h3>
-    <p>O que realmente funciona para atrair clientes internacionais.</p>
-  </div>
-</div>
-
 </section>
 
-<section class="container section">
-
-<h2>🌎 Inglês para trabalho</h2>
-
-<div class="grid">
-  <div class="card">
-    <h3>Como responder clientes em inglês</h3>
-    <p>Mesmo sem fluência, você consegue se comunicar de forma clara.</p>
+<section class="section container">
+  <div class="section-head">
+    <div class="tag">Comunicação</div>
+    <h2>O inglês não precisa ser perfeito, mas sua comunicação precisa ser clara.</h2>
   </div>
 
-  <div class="card">
-    <h3>Frases prontas para freelancers</h3>
-    <p>Use estruturas que funcionam no dia a dia profissional.</p>
+  <div class="callout">
+    <p class="lead">
+      Muitos profissionais têm habilidade, mas travam quando precisam responder um cliente internacional.
+      Por isso, uma parte importante do seu crescimento é aprender a escrever melhor, responder com segurança
+      e usar ferramentas que reduzem atrito no processo.
+    </p>
+
+    <a href="/extensao.html" class="btn">Conhecer ferramenta recomendada</a>
   </div>
-
-  <div class="card">
-    <h3>Erros comuns com clientes internacionais</h3>
-    <p>Evite falhas que passam falta de profissionalismo.</p>
-  </div>
-</div>
-
-</section>
-
-<section class="container section">
-
-<h2>🧠 Ferramentas recomendadas</h2>
-
-<p class="lead">
-Uma das maiores dificuldades ao trabalhar com clientes internacionais
-é a comunicação.
-
-Existem formas de acelerar isso sem depender de fluência completa — e isso pode mudar sua evolução.
-</p>
-
-<a href="/extensao.html" class="btn">Conhecer ferramenta →</a>
-
 </section>
 
 </main>
 
 <footer class="footer">
   <div class="container">
-    <p>
-    Este site tem caráter educacional. Resultados dependem de esforço, consistência e aplicação prática.
-    </p>
-    <p>© 2026 TalkGlobal</p>
+    <p>Este site tem caráter educacional. Resultados dependem de esforço, consistência e aplicação prática.</p>
+    <p>© 2026 TalkGlobal. Todos os direitos reservados.</p>
   </div>
 </footer>
 
