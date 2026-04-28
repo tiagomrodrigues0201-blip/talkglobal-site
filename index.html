@@ -5,10 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <title>Ganhar em dólar, freelancer e tecnologia | TalkGlobal</title>
-
 <meta name="description" content="Guias premium para quem quer ganhar em dólar, trabalhar como freelancer internacional e usar tecnologia para evoluir com consistência. Sem promessas irreais." />
 
-<!-- ✅ FAVICON CORRIGIDO -->
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="shortcut icon" href="/favicon-32x32.png">
@@ -28,10 +26,7 @@
   --max:1180px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{
-  background:#030b17;
-  overscroll-behavior:none;
-}
+html,body{background:#030b17;overscroll-behavior:none}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
   color:var(--text);
@@ -42,179 +37,194 @@ body{
     linear-gradient(180deg,#020816 0%,#041022 48%,#07111f 100%);
 }
 a{color:inherit;text-decoration:none}
-.container{
-  width:min(100% - 32px,var(--max));
-  margin:auto;
-}
+.container{width:min(100% - 32px,var(--max));margin:auto}
 .topbar{
-  position:sticky;
-  top:0;
-  z-index:50;
+  position:sticky;top:0;z-index:50;
   backdrop-filter:blur(16px);
   background:rgba(3,11,23,.82);
   border-bottom:1px solid var(--line);
 }
 .nav{
-  min-height:82px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:24px;
+  min-height:82px;display:flex;align-items:center;
+  justify-content:space-between;gap:24px;
 }
-.brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  font-weight:900;
-}
-.brand img{
-  width:44px;
-  height:44px;
-  border-radius:14px;
-}
-.menu{
-  display:flex;
-  gap:24px;
-  color:#cbd6e8;
-  font-weight:700;
-}
+.brand{display:flex;align-items:center;gap:12px;font-weight:900;font-size:1.12rem}
+.brand img{width:44px;height:44px;border-radius:14px;box-shadow:0 12px 30px rgba(35,197,82,.16)}
+.menu{display:flex;align-items:center;gap:24px;color:#cbd6e8;font-weight:700;flex-wrap:wrap}
 .menu a:hover{color:#fff}
 .btn{
-  min-height:56px;
-  padding:0 24px;
-  border-radius:17px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:900;
-  background:linear-gradient(135deg,var(--green),var(--green2));
-  color:#06110a;
-  transition:.2s;
+  min-height:56px;padding:0 24px;border-radius:17px;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-weight:900;background:linear-gradient(135deg,var(--green),var(--green2));
+  color:#06110a;box-shadow:0 16px 36px rgba(35,197,82,.22);transition:.22s ease;
 }
-.btn.secondary{
-  background:rgba(255,255,255,.05);
-  border:1px solid var(--line);
-  color:#fff;
-}
-.hero{
-  padding:90px 0 60px;
+.btn:hover{transform:translateY(-2px)}
+.btn.secondary{background:rgba(255,255,255,.055);border:1px solid var(--line);color:#f5f7fb;box-shadow:none}
+.hero{padding:92px 0 58px}
+.pill{
+  display:inline-flex;padding:10px 17px;border-radius:999px;
+  background:rgba(47,103,234,.18);border:1px solid rgba(255,255,255,.09);
+  color:#dbe7ff;font-weight:900;margin-bottom:26px;
 }
 h1{
-  font-size:clamp(3rem,6vw,5rem);
-  margin-bottom:20px;
+  font-size:clamp(3.2rem,7vw,6.6rem);
+  line-height:.94;letter-spacing:-.075em;max-width:980px;margin-bottom:26px;
 }
 .accent{
-  background:linear-gradient(135deg,#fff,#86f5aa);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+  background:linear-gradient(135deg,#fff 5%,#d7e2ff 45%,#86f5aa 85%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
 }
-.lead{
-  color:var(--muted);
-  max-width:700px;
-  margin-bottom:30px;
+.lead{color:var(--muted);font-size:1.16rem;max-width:760px;margin-bottom:30px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:46px}
+.stat{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:22px;padding:22px}
+.stat strong{display:block;font-size:1.5rem;margin-bottom:4px}
+.stat span{color:var(--muted)}
+.section{padding:58px 0}
+.tag{
+  color:#7df2a2;font-weight:900;letter-spacing:.08em;
+  text-transform:uppercase;font-size:.86rem;margin-bottom:10px;
 }
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:24px;
+h2{
+  font-size:clamp(2.2rem,4vw,4.1rem);
+  line-height:.98;letter-spacing:-.055em;max-width:920px;margin-bottom:26px;
 }
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
 .card{
-  background:var(--card);
-  border:1px solid var(--line);
-  padding:30px;
-  border-radius:20px;
-  transition:.2s;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.032));
+  border:1px solid var(--line);border-radius:30px;padding:30px;
+  min-height:245px;transition:.22s ease;position:relative;overflow:hidden;
 }
-.card:hover{
-  transform:translateY(-5px);
+.card:before{
+  content:"";position:absolute;inset:auto 0 0 0;height:2px;
+  background:linear-gradient(90deg,var(--green),var(--blue));opacity:.65;
 }
-.card small{
-  color:#7df2a2;
-  font-weight:700;
+.card:hover{transform:translateY(-5px);border-color:rgba(35,197,82,.28)}
+.card small{color:#7df2a2;font-weight:900;letter-spacing:.06em}
+.card h3{font-size:1.55rem;line-height:1.12;margin:15px 0 12px}
+.card p{color:var(--muted)}
+.callout{
+  background:
+    radial-gradient(circle at top right,rgba(35,197,82,.16),transparent 26%),
+    radial-gradient(circle at bottom left,rgba(47,103,234,.16),transparent 26%),
+    linear-gradient(180deg,rgba(255,255,255,.065),rgba(255,255,255,.035));
+  border:1px solid rgba(35,197,82,.16);
+  border-radius:36px;
+  padding:42px;
 }
-.card h3{
-  margin:10px 0;
-}
-.card p{
-  color:var(--muted);
-}
+.callout h2{margin-bottom:18px}
 .footer{
-  margin-top:60px;
-  padding:30px;
-  border-top:1px solid var(--line);
-  color:var(--muted);
+  margin-top:54px;padding:38px 0;border-top:1px solid var(--line);
+  color:var(--muted);font-size:.94rem;
+}
+.footer-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.footer a:hover{color:#fff}
+@media(max-width:900px){
+  .nav{flex-direction:column;align-items:flex-start;padding:18px 0}
+  .grid,.stats{grid-template-columns:1fr}
+  .hero{padding-top:58px}
+  h1{letter-spacing:-.055em}
+  .btn{width:100%}
 }
 </style>
 </head>
 
 <body>
-
 <header class="topbar">
   <div class="container nav">
     <a href="/" class="brand">
-      <img src="/icon48.png">
+      <img src="/icon48.png" alt="TalkGlobal logo">
       <span>TalkGlobal</span>
     </a>
-
     <nav class="menu">
       <a href="/blog/ganhar-em-dolar.html">Ganhar em dólar</a>
       <a href="/blog/freelancer-internacional.html">Freelancer</a>
       <a href="/blog/tecnologia-para-freelancer.html">Tecnologia</a>
+      <a href="/extensao.html">Extensão</a>
     </nav>
   </div>
 </header>
 
-<main class="container">
-
-<section class="hero">
-  <h1>
-    Ganhar em dólar não é sorte.  
-    É <span class="accent">posicionamento</span>.
-  </h1>
-
+<main>
+<section class="hero container">
+  <div class="pill">Guias para quem quer construir renda internacional com consistência</div>
+  <h1>Ganhar em dólar não é sorte. É <span class="accent">posicionamento</span>.</h1>
   <p class="lead">
-    Sem promessas irreais. Sem atalhos.  
-    Apenas conteúdo direto para quem quer trabalhar online,
-    evoluir como freelancer e construir renda internacional com consistência.
+    Você não precisa de promessas fáceis. Precisa entender o jogo, desenvolver habilidades,
+    se comunicar melhor e usar tecnologia com inteligência. Aqui você aprende o caminho real:
+    trabalho, estratégia e execução.
   </p>
+  <div class="hero-actions">
+    <a href="/blog/ganhar-em-dolar.html" class="btn">Começar pelo guia principal</a>
+    <a href="/extensao.html" class="btn secondary">Ver ferramenta recomendada</a>
+  </div>
+  <div class="stats">
+    <div class="stat"><strong>Sem atalhos</strong><span>conteúdo direto, realista e aplicável.</span></div>
+    <div class="stat"><strong>Foco global</strong><span>freelancer, clientes internacionais e dólar.</span></div>
+    <div class="stat"><strong>Toda semana</strong><span>novas análises sobre trabalho, tecnologia e renda.</span></div>
+  </div>
+</section>
 
+<section class="section container">
+  <div class="tag">Comece aqui</div>
+  <h2>Os guias essenciais para entrar no mercado internacional</h2>
   <div class="grid">
-
     <a href="/blog/ganhar-em-dolar.html" class="card">
-      <small>GUIA</small>
+      <small>GUIA PRINCIPAL</small>
       <h3>Como ganhar em dólar trabalhando online</h3>
-      <p>O caminho real para começar e evoluir.</p>
+      <p>Um guia direto para entender o caminho real: habilidade, posicionamento, comunicação e consistência.</p>
     </a>
-
     <a href="/blog/freelancer-internacional.html" class="card">
       <small>FREELANCER</small>
       <h3>Como começar como freelancer internacional</h3>
-      <p>Saia do zero e entre no mercado global.</p>
+      <p>Como sair do zero, escolher um serviço, montar presença profissional e buscar clientes fora.</p>
     </a>
-
     <a href="/blog/tecnologia-para-freelancer.html" class="card">
       <small>TECNOLOGIA</small>
       <h3>Tecnologia para freelancers</h3>
-      <p>Ferramentas que aumentam produtividade.</p>
+      <p>Ferramentas e processos para ganhar velocidade, melhorar comunicação e entregar com mais qualidade.</p>
     </a>
-
     <a href="/blog/ingles-para-ganhar-em-dolar.html" class="card">
       <small>MENTALIDADE</small>
       <h3>Você não precisa falar inglês perfeito para ganhar em dólar</h3>
-      <p>Pare de esperar o momento ideal.</p>
+      <p>Entenda por que esperar o momento ideal está te atrasando e o que realmente importa para começar.</p>
     </a>
-
   </div>
-
 </section>
 
+<section class="section container">
+  <div class="callout">
+    <div class="tag">Nossa visão</div>
+    <h2>Não é sobre dinheiro fácil. É sobre construir uma nova possibilidade.</h2>
+    <p class="lead">
+      A maioria das pessoas procura atalhos. O problema é que atalhos não constroem reputação,
+      habilidade nem confiança. O TalkGlobal existe para educar quem quer aprender o caminho real:
+      trabalhar melhor, se comunicar melhor e competir em um mercado maior.
+    </p>
+  </div>
+</section>
+
+<section class="section container">
+  <div class="callout">
+    <div class="tag">Comunicação</div>
+    <h2>O inglês não precisa ser perfeito. Mas sua comunicação precisa ser clara.</h2>
+    <p class="lead">
+      Muitos profissionais têm capacidade, mas travam quando precisam responder um cliente internacional.
+      Melhorar essa comunicação pode acelerar sua evolução — e a tecnologia pode ajudar nesse processo.
+    </p>
+    <a href="/extensao.html" class="btn">Conhecer a extensão TalkGlobal</a>
+  </div>
+</section>
 </main>
 
 <footer class="footer">
-  © 2026 TalkGlobal ·
-  <a href="/privacy.html">Privacy</a> ·
-  <a href="/terms.html">Terms</a>
+  <div class="container footer-row">
+    <p>© 2026 TalkGlobal. Conteúdo educacional. Resultados dependem de esforço, consistência e aplicação prática.</p>
+    <p>
+      <a href="/privacy.html">Privacy</a> ·
+      <a href="/terms.html">Terms</a>
+    </p>
+  </div>
 </footer>
-
 </body>
 </html>
