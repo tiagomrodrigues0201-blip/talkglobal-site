@@ -1,167 +1,338 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <title>Você não precisa falar inglês perfeito para ganhar em dólar</title>
-
 <meta name="description" content="Descubra por que o inglês perfeito não é necessário para ganhar em dólar e o que realmente faz diferença no mercado internacional." />
 
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7852370456334253"
+crossorigin="anonymous"></script>
+
 <style>
-body{
-  background:#030b17;
-  color:#fff;
-  font-family:Arial;
-  line-height:1.6;
-  max-width:800px;
-  margin:auto;
-  padding:20px;
+:root{
+  --green:#23c552;
+  --green2:#19ae46;
+  --text:#111827;
+  --muted:#64748b;
+  --line:#e5e7eb;
+  --soft:#f8fafc;
+  --max:860px;
+  --wide:1180px;
 }
-h1{font-size:34px;}
-h2{margin-top:40px;}
-p{color:#9aa8c2;}
-a{color:#23c552;}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:#fff;
+  color:var(--text);
+  line-height:1.75;
+}
+
+a{text-decoration:none;color:inherit}
+
+.container{
+  width:min(100% - 32px,var(--max));
+  margin:auto;
+}
+
+/* HEADER */
+.topbar{
+  border-bottom:1px solid var(--line);
+  background:#fff;
+}
+
+.nav{
+  width:min(100% - 32px,var(--wide));
+  margin:auto;
+  min-height:76px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:900;
+  font-size:1.15rem;
+}
+
+.brand img{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+}
+
+.menu{
+  display:flex;
+  gap:22px;
+  font-weight:700;
+  color:#475569;
+}
+
+.menu a:hover{color:var(--green2)}
+
+/* HERO */
+.hero{
+  padding:54px 0 34px;
+  border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,#fff,#f8fafc);
+}
+
+.kicker{
+  color:var(--green2);
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-size:.82rem;
+  margin-bottom:12px;
+}
+
+h1{
+  font-size:clamp(2.5rem,6vw,4.8rem);
+  line-height:1;
+  letter-spacing:-.06em;
+  margin-bottom:18px;
+}
+
+.subtitle{
+  color:var(--muted);
+  font-size:1.18rem;
+  max-width:760px;
+}
+
+.meta{
+  margin-top:16px;
+  color:#94a3b8;
+  font-size:.95rem;
+  font-weight:700;
+}
+
+/* CONTENT */
+.content{
+  padding:42px 0 64px;
+}
+
+.content p,
+.content li{
+  color:var(--muted);
+  font-size:1.08rem;
+  margin-bottom:18px;
+}
+
+.content strong{
+  color:var(--text);
+}
+
+.content h2{
+  font-size:clamp(1.7rem,3vw,2.3rem);
+  margin:46px 0 16px;
+}
+
+.content ul{
+  padding-left:22px;
+  margin-bottom:24px;
+}
+
+/* CALLOUT */
+.callout{
+  background:var(--soft);
+  border-left:5px solid var(--green);
+  border-radius:16px;
+  padding:22px;
+  margin:30px 0;
+}
+
+/* CTA */
+.cta{
+  margin-top:28px;
+  display:inline-block;
+  background:linear-gradient(135deg,var(--green),var(--green2));
+  color:#06110a;
+  font-weight:900;
+  padding:14px 20px;
+  border-radius:12px;
+}
+
+/* RELATED */
+.related{
+  margin-top:54px;
+  border-top:1px solid var(--line);
+  padding-top:30px;
+}
+
+.related-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-top:16px;
+}
+
+.related-card{
+  border:1px solid var(--line);
+  padding:18px;
+  border-radius:14px;
+}
+
+.related-card span{
+  color:var(--green2);
+  font-size:.75rem;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.back{
+  display:inline-block;
+  margin-top:30px;
+  color:var(--green2);
+  font-weight:900;
+}
+
+/* FOOTER */
+.footer{
+  border-top:1px solid var(--line);
+  padding:30px 0;
+  color:var(--muted);
+  font-size:.95rem;
+}
+
+.footer-row{
+  width:min(100% - 32px,var(--wide));
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+}
+
+@media(max-width:800px){
+  .nav{flex-direction:column;align-items:flex-start}
+  .related-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 
 <body>
 
-<h1>Você não precisa falar inglês perfeito para ganhar em dólar</h1>
+<header class="topbar">
+  <div class="nav">
+    <a href="/" class="brand">
+      <img src="/icon48.png">
+      <span>TalkGlobal</span>
+    </a>
 
-<p>
-Existe uma mentira silenciosa travando muita gente.
-</p>
+    <nav class="menu">
+      <a href="/">Início</a>
+      <a href="/blog/ganhar-em-dolar.html">Guia</a>
+      <a href="/blog/freelancer-internacional.html">Freelancer</a>
+      <a href="/blog/tecnologia-para-freelancer.html">Tecnologia</a>
+    </nav>
+  </div>
+</header>
 
-<p>
-A ideia de que você precisa falar inglês perfeito antes de começar.
-</p>
+<main>
 
-<p>
-E enquanto você espera esse “momento ideal”, outras pessoas — menos preparadas — estão fechando clientes lá fora.
-</p>
+<section class="hero">
+  <div class="container">
+    <div class="kicker">Mentalidade</div>
+    <h1>Você não precisa falar inglês perfeito</h1>
+    <p class="subtitle">
+      O que realmente faz diferença para ganhar em dólar no mercado internacional.
+    </p>
+    <div class="meta">TalkGlobal · Comunicação · 2026</div>
+  </div>
+</section>
 
-<h2>O erro que parece inteligente</h2>
+<section class="content">
+  <article class="container">
 
-<p>
-Melhorar o inglês parece uma decisão lógica.
-</p>
+    <p>Existe uma mentira silenciosa travando muita gente.</p>
 
-<p>
-Mas, na prática, isso vira uma desculpa confortável.
-</p>
+    <p><strong>A ideia de que você precisa falar inglês perfeito antes de começar.</strong></p>
 
-<p>
-Você estuda, consome conteúdo, aprende novas palavras…  
-mas não entra no jogo.
-</p>
+    <h2>O erro que parece inteligente</h2>
 
-<p>
-E o mercado não recompensa quem se prepara infinitamente.
-Ele recompensa quem aparece.
-</p>
+    <p>Melhorar o inglês parece lógico. Mas na prática vira uma desculpa confortável.</p>
 
-<h2>O que os clientes realmente querem</h2>
+    <div class="callout">
+      <p><strong>O mercado não recompensa quem se prepara infinitamente. Ele recompensa quem aparece.</strong></p>
+    </div>
 
-<p>
-Clientes internacionais não estão procurando professores de inglês.
-</p>
+    <h2>O que os clientes realmente querem</h2>
 
-<p>
-Eles querem:
-</p>
+    <ul>
+      <li>clareza</li>
+      <li>resposta rápida</li>
+      <li>alguém que resolva o problema</li>
+    </ul>
 
-<ul>
-<li>clareza</li>
-<li>resposta rápida</li>
-<li>alguém que resolva o problema</li>
-</ul>
+    <p>Se você consegue se comunicar de forma simples, já está na frente.</p>
 
-<p>
-Se você consegue se comunicar de forma simples, já está na frente de muita gente.
-</p>
+    <h2>Inglês funcional paga contas</h2>
 
-<h2>Comunicação imperfeita ainda fecha contratos</h2>
+    <p>Existe uma diferença enorme entre:</p>
 
-<p>
-Você não precisa escrever bonito.
-</p>
+    <ul>
+      <li>inglês perfeito</li>
+      <li>inglês funcional</li>
+    </ul>
 
-<p>
-Precisa ser entendido.
-</p>
+    <p><strong>E é o funcional que gera renda.</strong></p>
 
-<p>
-Existe uma diferença enorme entre:
-</p>
+    <h2>O jogo real não é idioma</h2>
 
-<ul>
-<li>inglês perfeito</li>
-<li>inglês funcional</li>
-</ul>
+    <p>É posicionamento. Consistência. Volume de tentativa.</p>
 
-<p>
-E é o funcional que paga suas contas.
-</p>
+    <h2>Use ferramentas, não orgulho</h2>
 
-<h2>O jogo real não é idioma</h2>
+    <p>Hoje você não precisa fazer tudo sozinho.</p>
 
-<p>
-É posicionamento.
-</p>
+    <a href="/extensao.html" class="cta">Facilitar minha comunicação</a>
 
-<p>
-É consistência.
-</p>
+    <h2>Conclusão</h2>
 
-<p>
-É volume de tentativa.
-</p>
+    <p>Você não está travado por falta de inglês.</p>
 
-<p>
-Enquanto você tenta “se sentir pronto”, alguém com metade do seu conhecimento já está acumulando experiência real.
-</p>
+    <p><strong>Está travado por esperar demais.</strong></p>
 
-<h2>Use ferramentas, não orgulho</h2>
+    <section class="related">
+      <h2>Leia também</h2>
 
-<p>
-Hoje, você não precisa fazer tudo sozinho.
-</p>
+      <div class="related-grid">
+        <a href="/blog/ganhar-em-dolar.html" class="related-card">
+          <span>Guia</span>
+          <strong>Como ganhar em dólar trabalhando online</strong>
+        </a>
 
-<p>
-Ferramentas existem para acelerar sua comunicação e reduzir erro.
-</p>
+        <a href="/blog/freelancer-internacional.html" class="related-card">
+          <span>Freelancer</span>
+          <strong>Como começar como freelancer internacional</strong>
+        </a>
+      </div>
+    </section>
 
-<p>
-Ignorar isso não é disciplina.  
-É resistência ao progresso.
-</p>
+    <a class="back" href="/">← Voltar</a>
 
-<p>
-👉 <a href="/extensao.html">Veja como facilitar sua comunicação aqui</a>
-</p>
+  </article>
+</section>
 
-<h2>Conclusão</h2>
+</main>
 
-<p>
-Você não está travado por falta de inglês.
-</p>
-
-<p>
-Está travado por esperar demais.
-</p>
-
-<p>
-Comece com o que você tem.
-</p>
-
-<p>
-A fluência vem depois.
-</p>
-
-<p>
-O dinheiro também.
-</p>
+<footer class="footer">
+  <div class="footer-row">
+    <p>© 2026 TalkGlobal</p>
+    <p>
+      <a href="/privacy.html">Privacy</a> ·
+      <a href="/terms.html">Terms</a>
+    </p>
+  </div>
+</footer>
 
 </body>
 </html>

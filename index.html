@@ -4,238 +4,126 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>TalkGlobal | Notícias sobre renda em dólar, freelancer e trabalho global</title>
-<meta name="description" content="Notícias, análises e guias sobre ganhar em dólar, trabalho remoto internacional, freelancer global, tecnologia e novas oportunidades digitais." />
+<title>TalkGlobal | Notícias sobre trabalho, renda e mercado global</title>
+<meta name="description" content="Portal de notícias sobre trabalho remoto, renda em dólar, tecnologia, freelancers e tendências globais." />
 
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="shortcut icon" href="/favicon-32x32.png">
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7852370456334253"
-crossorigin="anonymous"></script>
+<link rel="icon" href="/favicon-32x32.png">
 
 <style>
 :root{
-  --green:#23c552;
-  --green2:#19ae46;
-  --blue:#2f67ea;
-  --text:#111827;
-  --muted:#64748b;
-  --line:#e5e7eb;
-  --bg:#ffffff;
-  --soft:#f8fafc;
-  --max:1180px;
+--green:#23c552;
+--green2:#19ae46;
+--text:#111827;
+--muted:#64748b;
+--line:#e5e7eb;
+--max:1180px;
 }
-*{box-sizing:border-box;margin:0;padding:0}
+*{margin:0;padding:0;box-sizing:border-box}
 body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.6;
+font-family:-apple-system,Segoe UI,Roboto,Arial;
+background:#fff;
+color:var(--text);
+line-height:1.6;
 }
 a{text-decoration:none;color:inherit}
 .container{width:min(100% - 32px,var(--max));margin:auto}
 
+/* NAV */
 .topbar{
-  border-bottom:1px solid var(--line);
-  background:#fff;
-  position:sticky;
-  top:0;
-  z-index:20;
+border-bottom:1px solid var(--line);
+background:#fff;
+position:sticky;
+top:0;
+z-index:10;
 }
 .nav{
-  min-height:76px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:24px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+min-height:70px;
 }
 .brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  font-weight:900;
-  font-size:1.15rem;
+display:flex;
+align-items:center;
+gap:10px;
+font-weight:900;
 }
-.brand img{
-  width:42px;
-  height:42px;
-  border-radius:12px;
-}
+.brand img{width:38px;border-radius:10px}
 .menu{
-  display:flex;
-  gap:24px;
-  font-weight:700;
-  color:#475569;
-  flex-wrap:wrap;
+display:flex;
+gap:20px;
+font-weight:700;
+color:#475569;
 }
-.menu a:hover{color:var(--green)}
 
+/* HERO */
 .hero{
-  padding:42px 0 32px;
-  border-bottom:1px solid var(--line);
+padding:40px 0;
+border-bottom:1px solid var(--line);
 }
-.kicker{
-  color:var(--green2);
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-  font-size:.82rem;
-  margin-bottom:10px;
+.hero a{
+display:block;
+padding:30px;
+border:1px solid var(--line);
+border-radius:20px;
+background:#f8fafc;
 }
-.hero-grid{
-  display:grid;
-  grid-template-columns:1.4fr .8fr;
-  gap:34px;
-  align-items:stretch;
+.hero h1{
+font-size:clamp(2rem,5vw,3.5rem);
+margin-bottom:15px;
 }
-.main-story{
-  background:var(--soft);
-  border:1px solid var(--line);
-  border-radius:28px;
-  padding:34px;
-}
-.main-story h1{
-  font-size:clamp(2.4rem,5vw,4.8rem);
-  line-height:1;
-  letter-spacing:-.06em;
-  margin-bottom:18px;
-}
-.main-story p{
-  color:var(--muted);
-  font-size:1.12rem;
-  max-width:760px;
-}
-.btn{
-  margin-top:24px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-height:52px;
-  padding:0 22px;
-  border-radius:14px;
-  background:linear-gradient(135deg,var(--green),var(--green2));
-  color:#06110a;
-  font-weight:900;
-}
-.side-box{
-  border:1px solid var(--line);
-  border-radius:28px;
-  padding:28px;
-}
-.side-box h3{
-  font-size:1.45rem;
-  line-height:1.15;
-  margin-bottom:12px;
-}
-.side-box p{color:var(--muted)}
+.hero p{color:var(--muted)}
 
-.section{padding:42px 0}
-.section-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:end;
-  gap:20px;
-  margin-bottom:22px;
-}
-.section h2{
-  font-size:clamp(1.9rem,3vw,3rem);
-  line-height:1;
-  letter-spacing:-.04em;
-}
-.section-head p{color:var(--muted)}
-
+/* GRID */
 .grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:22px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+padding:40px 0;
 }
 .card{
-  border:1px solid var(--line);
-  border-radius:22px;
-  padding:24px;
-  background:#fff;
-  transition:.2s ease;
-  min-height:230px;
+border:1px solid var(--line);
+border-radius:16px;
+padding:20px;
 }
-.card:hover{
-  transform:translateY(-4px);
-  border-color:rgba(35,197,82,.45);
-  box-shadow:0 18px 40px rgba(15,23,42,.08);
-}
-.tag{
-  display:inline-flex;
-  color:var(--green2);
-  font-size:.76rem;
-  font-weight:900;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  margin-bottom:14px;
-}
-.card h3{
-  font-size:1.35rem;
-  line-height:1.16;
-  margin-bottom:12px;
-}
+.card h3{margin-bottom:10px}
 .card p{color:var(--muted)}
 
-.latest{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:28px;
+/* FEED (INSTAGRAM STYLE) */
+.feed{
+border-top:1px solid var(--line);
 }
-.list{
-  border-top:1px solid var(--line);
+.feed a{
+display:block;
+padding:22px 0;
+border-bottom:1px solid var(--line);
 }
-.list a{
-  display:block;
-  padding:18px 0;
-  border-bottom:1px solid var(--line);
-  font-weight:800;
+.feed span{
+font-size:.75rem;
+color:var(--green2);
+font-weight:900;
+text-transform:uppercase;
 }
-.list span{
-  display:block;
-  color:var(--muted);
-  font-weight:500;
-  font-size:.95rem;
-  margin-top:4px;
+.feed strong{
+display:block;
+font-size:1.3rem;
+margin-top:6px;
 }
+.feed p{color:var(--muted);margin-top:6px}
 
-.categories{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:18px;
-}
-.category{
-  background:var(--soft);
-  border:1px solid var(--line);
-  border-radius:20px;
-  padding:22px;
-  font-weight:900;
-}
-.category small{
-  display:block;
-  color:var(--muted);
-  font-weight:600;
-  margin-top:6px;
-}
-
+/* FOOTER */
 .footer{
-  margin-top:40px;
-  padding:34px 0;
-  border-top:1px solid var(--line);
-  color:var(--muted);
-}
-.footer-row{
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-  flex-wrap:wrap;
+margin-top:40px;
+padding:30px 0;
+border-top:1px solid var(--line);
+color:var(--muted);
+display:flex;
+justify-content:space-between;
+flex-wrap:wrap;
 }
 
 @media(max-width:900px){
-  .nav{align-items:flex-start;flex-direction:column;padding:16px 0}
-  .hero-grid,.grid,.latest,.categories{grid-template-columns:1fr}
+.grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -243,153 +131,106 @@ a{text-decoration:none;color:inherit}
 <body>
 
 <header class="topbar">
-  <div class="container nav">
-    <a href="/" class="brand">
-      <img src="/icon48.png" alt="TalkGlobal logo">
-      <span>TalkGlobal</span>
-    </a>
+<div class="container nav">
+<a href="/" class="brand">
+<img src="/icon48.png">
+<span>TalkGlobal</span>
+</a>
 
-    <nav class="menu">
-      <a href="/blog/brasileiros-renda-em-dolar.html">Mercado</a>
-      <a href="/blog/freelancer-internacional.html">Freelancer</a>
-      <a href="/blog/tecnologia-para-freelancer.html">Tecnologia</a>
-      <a href="/blog/ganhar-em-dolar.html">Guias</a>
-    </nav>
-  </div>
+<nav class="menu">
+<a href="/blog/">Blog</a>
+<a href="/blog/trabalho-remoto-internacional-crescimento.html">Mercado</a>
+<a href="/blog/inteligencia-artificial-freelancers-produtividade.html">Tecnologia</a>
+<a href="/blog/ganhar-em-dolar.html">Guias</a>
+</nav>
+</div>
 </header>
 
-<main>
+<main class="container">
 
+<!-- HERO -->
 <section class="hero">
-  <div class="container hero-grid">
-    <a href="/blog/brasileiros-renda-em-dolar.html" class="main-story">
-      <div class="kicker">Notícia em destaque</div>
-      <h1>Nova tendência faz brasileiros migrarem para renda em dólar</h1>
-      <p>O crescimento do trabalho remoto internacional está mudando o comportamento de profissionais no Brasil.</p>
-      <span class="btn">Ler matéria completa</span>
-    </a>
-
-    <div class="side-box">
-      <div class="kicker">Análise</div>
-      <h3>O mercado global está deixando de ser distante para profissionais brasileiros</h3>
-      <p>Freelancer, tecnologia e comunicação viraram fatores decisivos para competir fora do Brasil.</p>
-    </div>
-  </div>
+<a href="/blog/trabalho-remoto-internacional-crescimento.html">
+<h1>Empresas globais já contratam sem exigir localização</h1>
+<p>O trabalho remoto internacional cresce e muda a forma como profissionais acessam oportunidades no mundo.</p>
+</a>
 </section>
 
-<section class="section container">
-  <div class="section-head">
-    <div>
-      <div class="kicker">Últimas publicações</div>
-      <h2>Notícias e guias para trabalhar no mercado global</h2>
-    </div>
-  </div>
+<!-- GRID -->
+<section class="grid">
 
-  <div class="grid">
-    <a href="/blog/ganhar-em-dolar.html" class="card">
-      <span class="tag">Guia</span>
-      <h3>Como ganhar em dólar trabalhando online</h3>
-      <p>O caminho real para começar com estratégia, habilidade e consistência.</p>
-    </a>
+<a href="/blog/trabalho-online-home-office-milhoes.html" class="card">
+<h3>Trabalho online já envolve milhões</h3>
+<p>Home office cresce como alternativa global.</p>
+</a>
 
-    <a href="/blog/freelancer-internacional.html" class="card">
-      <span class="tag">Freelancer</span>
-      <h3>Como começar como freelancer internacional</h3>
-      <p>Como sair do zero, criar presença profissional e buscar clientes fora.</p>
-    </a>
+<a href="/blog/inteligencia-artificial-freelancers-produtividade.html" class="card">
+<h3>IA acelera freelancers</h3>
+<p>Produtividade virou vantagem competitiva.</p>
+</a>
 
-    <a href="/blog/tecnologia-para-freelancer.html" class="card">
-      <span class="tag">Tecnologia</span>
-      <h3>Tecnologia para freelancers</h3>
-      <p>Ferramentas e processos para ganhar velocidade e entregar melhor.</p>
-    </a>
+<a href="/blog/mercado-imobiliario-brasil-comprar-ou-investir-2026.html" class="card">
+<h3>2026 pode ser momento para comprar imóvel</h3>
+<p>Mercado imobiliário aquece.</p>
+</a>
 
-    <a href="/blog/ingles-para-ganhar-em-dolar.html" class="card">
-      <span class="tag">Mentalidade</span>
-      <h3>Você não precisa falar inglês perfeito para ganhar em dólar</h3>
-      <p>Entenda por que esperar o momento ideal pode atrasar seu crescimento.</p>
-    </a>
-
-    <a href="/blog/brasileiros-renda-em-dolar.html" class="card">
-      <span class="tag">Mercado</span>
-      <h3>Brasileiros buscam renda internacional</h3>
-      <p>Uma mudança silenciosa vem acontecendo no mercado digital brasileiro.</p>
-    </a>
-
-    <a href="/extensao.html" class="card">
-      <span class="tag">Ferramenta</span>
-      <h3>Comunicação clara no mercado global</h3>
-      <p>Entenda como tecnologia pode ajudar profissionais a responder melhor clientes internacionais.</p>
-    </a>
-  </div>
 </section>
 
-<section class="section container">
-  <div class="latest">
-    <div>
-      <div class="kicker">Radar TalkGlobal</div>
-      <h2>O que acompanhar agora</h2>
-    </div>
+<!-- FEED INFINITO -->
+<section class="feed">
 
-    <div class="list">
-      <a href="/blog/brasileiros-renda-em-dolar.html">
-        Trabalho remoto internacional cresce entre brasileiros
-        <span>Mercado global</span>
-      </a>
-      <a href="/blog/freelancer-internacional.html">
-        O que muda ao buscar clientes fora do Brasil
-        <span>Freelancer</span>
-      </a>
-      <a href="/blog/tecnologia-para-freelancer.html">
-        Tecnologia vira vantagem competitiva para profissionais digitais
-        <span>Tecnologia</span>
-      </a>
-      <a href="/blog/ingles-para-ganhar-em-dolar.html">
-        Comunicação clara pesa mais que inglês perfeito
-        <span>Carreira global</span>
-      </a>
-    </div>
-  </div>
-</section>
+<a href="/blog/brasileiros-renda-em-dolar.html">
+<span>Mercado</span>
+<strong>Brasileiros buscam renda internacional</strong>
+<p>Uma mudança silenciosa está acontecendo no Brasil.</p>
+</a>
 
-<section class="section container">
-  <div class="section-head">
-    <div>
-      <div class="kicker">Categorias</div>
-      <h2>Explore por tema</h2>
-    </div>
-  </div>
+<a href="/blog/freelancer-internacional.html">
+<span>Freelancer</span>
+<strong>Como começar como freelancer internacional</strong>
+<p>O caminho real para clientes fora do Brasil.</p>
+</a>
 
-  <div class="categories">
-    <a href="/blog/brasileiros-renda-em-dolar.html" class="category">
-      Mercado
-      <small>tendências e renda em dólar</small>
-    </a>
-    <a href="/blog/freelancer-internacional.html" class="category">
-      Freelancer
-      <small>clientes, propostas e posicionamento</small>
-    </a>
-    <a href="/blog/tecnologia-para-freelancer.html" class="category">
-      Tecnologia
-      <small>ferramentas e produtividade</small>
-    </a>
-    <a href="/blog/ingles-para-ganhar-em-dolar.html" class="category">
-      Mentalidade
-      <small>clareza, comunicação e execução</small>
-    </a>
-  </div>
+<a href="/blog/tecnologia-para-freelancer.html">
+<span>Tecnologia</span>
+<strong>Tecnologia vira diferencial competitivo</strong>
+<p>Ferramentas aceleram resultados.</p>
+</a>
+
+<a href="/blog/ingles-para-ganhar-em-dolar.html">
+<span>Comunicação</span>
+<strong>Você não precisa falar inglês perfeito</strong>
+<p>Clareza vale mais que fluência.</p>
+</a>
+
+<a href="/blog/trabalho-remoto-internacional-crescimento.html">
+<span>Mercado</span>
+<strong>Trabalho remoto internacional cresce</strong>
+<p>Empresas contratam globalmente.</p>
+</a>
+
+<a href="/blog/inteligencia-artificial-freelancers-produtividade.html">
+<span>IA</span>
+<strong>IA cria vantagem competitiva</strong>
+<p>Quem usa tecnologia cresce mais rápido.</p>
+</a>
+
+<a href="/blog/mercado-imobiliario-brasil-comprar-ou-investir-2026.html">
+<span>Imóveis</span>
+<strong>Comprar imóvel em 2026</strong>
+<p>Momento estratégico para entrar no mercado.</p>
+</a>
+
 </section>
 
 </main>
 
-<footer class="footer">
-  <div class="container footer-row">
-    <p>© 2026 TalkGlobal. Notícias, guias e análises sobre trabalho global.</p>
-    <p>
-      <a href="/privacy.html">Privacy</a> ·
-      <a href="/terms.html">Terms</a>
-    </p>
-  </div>
+<footer class="footer container">
+<p>© 2026 TalkGlobal. Todos os direitos reservados.</p>
+<p>
+<a href="/privacy.html">Privacy</a> ·
+<a href="/terms.html">Terms</a>
+</p>
 </footer>
 
 </body>
