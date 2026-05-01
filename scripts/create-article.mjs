@@ -204,6 +204,8 @@ function pageHead({ title, description, path = "/", type = "website", schema }) 
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${canonical}">
 <meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="author" content="TalkGlobal">
+<meta name="theme-color" content="#1e3a8a">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:type" content="${type}">
 <meta property="og:site_name" content="TalkGlobal">
@@ -216,6 +218,7 @@ function pageHead({ title, description, path = "/", type = "website", schema }) 
 <meta name="twitter:description" content="${esc(description)}">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" href="/icon128.png">
 <link rel="stylesheet" href="/assets/talkglobal.css">
 ${schema ? `<script type="application/ld+json">${JSON.stringify(schema)}</script>` : ""}
 ${adsenseScript}
@@ -252,15 +255,31 @@ function home(posts) {
   const latest = posts.slice(4);
   const schema = {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "TalkGlobal",
-    url: siteUrl,
-    description: "Portal editorial sobre mercado global, tecnologia, trabalho remoto e novas formas de renda.",
-    publisher: { "@type": "Organization", name: "TalkGlobal", url: siteUrl },
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": `${siteUrl}/#organization`,
+        name: "TalkGlobal",
+        url: `${siteUrl}/`,
+        logo: `${siteUrl}/icon128.png`,
+        description: "Portal editorial sobre mercado global, tecnologia, inteligência artificial, renda online, trabalho remoto, imóveis e oportunidades digitais.",
+        knowsAbout: ["mercado global", "tecnologia", "inteligência artificial", "renda online", "trabalho remoto", "imóveis", "oportunidades digitais"],
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${siteUrl}/#website`,
+        name: "TalkGlobal",
+        alternateName: "TalkGlobal App",
+        url: `${siteUrl}/`,
+        inLanguage: "pt-BR",
+        publisher: { "@id": `${siteUrl}/#organization` },
+        description: "Análises sobre tecnologia, IA, renda online, trabalho remoto, imóveis e tendências globais para entender oportunidades antes da maioria.",
+      },
+    ],
   };
   return `${pageHead({
-    title: "TalkGlobal | Mercado global, tecnologia e novas formas de renda",
-    description: "Análises e guias sobre trabalho remoto, renda em dólar, tecnologia, imóveis e oportunidades globais para brasileiros.",
+    title: "TalkGlobal | Mercado global, tecnologia e oportunidades",
+    description: "Análises sobre tecnologia, IA, renda online, trabalho remoto, imóveis e tendências globais para entender oportunidades antes da maioria.",
     path: "/",
     schema,
   })}
@@ -337,8 +356,8 @@ function blogIndex(posts) {
     hasPart: posts.map((post) => ({ "@type": "Article", headline: post.titulo, url: `${siteUrl}${post.link}` })),
   };
   return `${pageHead({
-    title: "Blog TalkGlobal | Notícias, análises e oportunidades globais",
-    description: "Todas as análises da TalkGlobal sobre mercado, tecnologia, renda internacional, trabalho remoto e imóveis.",
+    title: "Blog TalkGlobal | Mercado, tecnologia e oportunidades",
+    description: "Notícias e análises sobre mercado global, IA, renda online, trabalho remoto, imóveis e oportunidades digitais.",
     path: "/blog/",
     schema,
   })}
