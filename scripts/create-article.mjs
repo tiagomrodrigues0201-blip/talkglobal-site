@@ -83,6 +83,58 @@ function slugify(value) {
     .replace(/^-|-$/g, "");
 }
 
+function socialSlug(post) {
+  const fromLink = String(post.link || "").split("/").pop()?.replace(/\.html$/, "");
+  return fromLink || slugify(post.titulo);
+}
+
+function defaultInstagramCopy(post) {
+  return `${post.titulo}\n\n${post.descricao}\n\nLeia a analise completa no TalkGlobal.\n\n#TalkGlobal #MercadoGlobal #Tecnologia #RendaOnline #TrabalhoRemoto`;
+}
+
+function defaultImagePrompt(post) {
+  const theme = inferTheme(post);
+  const elements = {
+    remote: "notebook, trabalhador moderno, mapa global discreto, conexoes digitais e grafico sutil",
+    digital: "celular, carrinho digital, cards de interface fintech e grafico de crescimento",
+    property: "predios modernos, chave, dashboard imobiliario e grafico de valorizacao",
+    tech: "interface de IA, notebook, elementos digitais, painel de produtividade e linhas de conexao",
+    money: "notebook, moedas digitais, dashboard financeiro e grafico de crescimento",
+  }[theme] || "elementos editoriais de tecnologia, mercado global e graficos sutis";
+
+  return `Imagem vertical 1080x1350 para Instagram, estilo noticia premium nivel Forbes/Exame, fundo branco ou cinza muito claro, visual moderno e editorial. Titulo grande: "${post.titulo}". Subtitulo: "${post.descricao}". Usar ${elements}. Cores: azul #1e3a8a como base, verde #16a34a apenas para destaque, preto e branco. Layout limpo, tipografia forte, sem poluicao visual, sem parecer anuncio.`;
+}
+
+function extractSection(markdown, heading) {
+  const pattern = new RegExp(`(^|\\n)## ${heading}\\n([\\s\\S]*?)(?=\\n## |$)`, "i");
+  const match = markdown.match(pattern);
+  return match ? match[2].trim() : "";
+}
+
+function stripSocialSections(markdown) {
+  return markdown
+    .replace(/(^|\n)## Copy para Instagram\n[\s\S]*?(?=\n## |$)/gi, "")
+    .replace(/(^|\n)## Ideia de imagem\n[\s\S]*?(?=\n## |$)/gi, "")
+    .trim();
+}
+
+function socialKitFromMarkdown(markdown, post) {
+  return {
+    copy: extractSection(markdown, "Copy para Instagram") || defaultInstagramCopy(post),
+    prompt: extractSection(markdown, "Ideia de imagem") || defaultImagePrompt(post),
+  };
+}
+
+function writeSocialKit(post, kit = {}) {
+  const folder = join("social", socialSlug(post));
+  mkdirSync(folder, { recursive: true });
+  const copy = (kit.copy || defaultInstagramCopy(post)).trim();
+  const prompt = (kit.prompt || defaultImagePrompt(post)).trim();
+  writeFileSync(join(folder, "copy.txt"), `${copy}\n`);
+  writeFileSync(join(folder, "prompt-imagem.txt"), `${prompt}\n`);
+  writeFileSync(join(folder, "info.txt"), `Titulo: ${post.titulo}\nCategoria: ${post.categoria}\nArtigo: ${siteUrl}${post.link}\nStatus da imagem: criar manualmente\n`);
+}
+
 function readPosts() {
   const source = readFileSync("posts.js", "utf8");
   const match = source.match(/const posts = (\[[\s\S]*?\]);/);
@@ -523,9 +575,12 @@ const post = {
 if (args.theme) post.theme = args.theme;
 mkdirSync("blog", { recursive: true });
 
-const content = markdownToHtml(readFileSync(args.source, "utf8"));
+const sourceMarkdown = readFileSync(args.source, "utf8");
+const socialKit = socialKitFromMarkdown(sourceMarkdown, post);
+const content = markdownToHtml(stripSocialSections(sourceMarkdown));
 const nextPosts = [post, ...posts];
 writeFileSync(join("blog", file), articlePage(post, content, nextPosts));
+writeSocialKit(post, socialKit);
 rebuildSharedPages(nextPosts);
 
 console.log(`Artigo criado: blog/${file}`);

@@ -6,7 +6,8 @@
   "scripts": {
     "generate": "node automation/generateArticles.js",
     "approve": "node automation/publishApprovedArticles.js --approve-only",
-    "publish": "node automation/publishApprovedArticles.js"
+    "publish": "node automation/publishApprovedArticles.js",
+    "sync-social": "node scripts/sync-social.mjs"
   },
   "engines": {
     "node": ">=18"

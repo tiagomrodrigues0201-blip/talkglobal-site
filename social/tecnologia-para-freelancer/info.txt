@@ -1,0 +1,4 @@
+Titulo: Tecnologia para freelancers
+Categoria: Tecnologia
+Artigo: https://talkglobalapp.com/blog/tecnologia-para-freelancer.html
+Status da imagem: criar manualmente
