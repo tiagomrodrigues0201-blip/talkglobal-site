@@ -1,237 +1,152 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-<title>TalkGlobal | Notícias sobre trabalho, renda e mercado global</title>
-<meta name="description" content="Portal de notícias sobre trabalho remoto, renda em dólar, tecnologia, freelancers e tendências globais." />
-
-<link rel="icon" href="/favicon-32x32.png">
-
-<style>
-:root{
---green:#23c552;
---green2:#19ae46;
---text:#111827;
---muted:#64748b;
---line:#e5e7eb;
---max:1180px;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-font-family:-apple-system,Segoe UI,Roboto,Arial;
-background:#fff;
-color:var(--text);
-line-height:1.6;
-}
-a{text-decoration:none;color:inherit}
-.container{width:min(100% - 32px,var(--max));margin:auto}
-
-/* NAV */
-.topbar{
-border-bottom:1px solid var(--line);
-background:#fff;
-position:sticky;
-top:0;
-z-index:10;
-}
-.nav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-min-height:70px;
-}
-.brand{
-display:flex;
-align-items:center;
-gap:10px;
-font-weight:900;
-}
-.brand img{width:38px;border-radius:10px}
-.menu{
-display:flex;
-gap:20px;
-font-weight:700;
-color:#475569;
-}
-
-/* HERO */
-.hero{
-padding:40px 0;
-border-bottom:1px solid var(--line);
-}
-.hero a{
-display:block;
-padding:30px;
-border:1px solid var(--line);
-border-radius:20px;
-background:#f8fafc;
-}
-.hero h1{
-font-size:clamp(2rem,5vw,3.5rem);
-margin-bottom:15px;
-}
-.hero p{color:var(--muted)}
-
-/* GRID */
-.grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:20px;
-padding:40px 0;
-}
-.card{
-border:1px solid var(--line);
-border-radius:16px;
-padding:20px;
-}
-.card h3{margin-bottom:10px}
-.card p{color:var(--muted)}
-
-/* FEED (INSTAGRAM STYLE) */
-.feed{
-border-top:1px solid var(--line);
-}
-.feed a{
-display:block;
-padding:22px 0;
-border-bottom:1px solid var(--line);
-}
-.feed span{
-font-size:.75rem;
-color:var(--green2);
-font-weight:900;
-text-transform:uppercase;
-}
-.feed strong{
-display:block;
-font-size:1.3rem;
-margin-top:6px;
-}
-.feed p{color:var(--muted);margin-top:6px}
-
-/* FOOTER */
-.footer{
-margin-top:40px;
-padding:30px 0;
-border-top:1px solid var(--line);
-color:var(--muted);
-display:flex;
-justify-content:space-between;
-flex-wrap:wrap;
-}
-
-@media(max-width:900px){
-.grid{grid-template-columns:1fr}
-}
-</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TalkGlobal | Mercado global, tecnologia e novas formas de renda</title>
+<meta name="description" content="Análises e guias sobre trabalho remoto, renda em dólar, tecnologia, imóveis e oportunidades globais para brasileiros.">
+<link rel="canonical" href="https://www.talkglobalapp.com/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TalkGlobal">
+<meta property="og:title" content="TalkGlobal | Mercado global, tecnologia e novas formas de renda">
+<meta property="og:description" content="Análises e guias sobre trabalho remoto, renda em dólar, tecnologia, imóveis e oportunidades globais para brasileiros.">
+<meta property="og:url" content="https://www.talkglobalapp.com/">
+<meta property="og:image" content="https://www.talkglobalapp.com/icon128.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TalkGlobal | Mercado global, tecnologia e novas formas de renda">
+<meta name="twitter:description" content="Análises e guias sobre trabalho remoto, renda em dólar, tecnologia, imóveis e oportunidades globais para brasileiros.">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="stylesheet" href="/assets/talkglobal.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"TalkGlobal","url":"https://www.talkglobalapp.com","description":"Portal editorial sobre mercado global, tecnologia, trabalho remoto e novas formas de renda.","publisher":{"@type":"Organization","name":"TalkGlobal","url":"https://www.talkglobalapp.com"}}</script>
 </head>
-
 <body>
 
-<header class="topbar">
-<div class="container nav">
-<a href="/" class="brand">
-<img src="/icon48.png">
-<span>TalkGlobal</span>
-</a>
+    <header class="topbar">
+      <div class="container nav">
+        <a href="/" class="brand" aria-label="TalkGlobal">
+          <img src="/icon48.png" alt="" width="38" height="38">
+          <span>TalkGlobal</span>
+        </a>
+        <nav class="menu" aria-label="Navegação principal">
+          <a  href="/blog/trabalho-remoto-internacional-crescimento.html">Mercado</a><a  href="/blog/inteligencia-artificial-freelancers-produtividade.html">Tecnologia</a><a  href="/blog/ganhar-em-dolar.html">Renda</a><a  href="/blog/mercado-imobiliario-brasil-comprar-ou-investir-2026.html">Imóveis</a><a  href="/blog/">Blog</a>
+        </nav>
+      </div>
+    </header>
+<main>
+  <section class="container cover">
+    <a class="lead-story" href="/blog/trabalho-remoto-internacional-crescimento.html">
+      <div>
+        <span class="kicker">Mercado global</span>
+        <h1>Empresas globais já contratam sem exigir localização</h1>
+        <p>O trabalho remoto internacional cresce e muda a forma como profissionais acessam oportunidades no mundo.</p>
+        <small>Redação TalkGlobal · 5 min</small>
+      </div>
+      
+    <div class="visual visual-remote" aria-hidden="true">
+      <div class="visual-card">
+        <span></span><span></span><span></span>
+        <b></b>
+      </div>
+      <div class="visual-device"></div>
+      <div class="visual-chart">
+        <i></i><i></i><i></i><i></i>
+        <svg viewBox="0 0 220 120" role="img">
+          <path d="M18 96 C48 72 72 78 104 48 C138 16 166 28 204 12" />
+          <polyline points="178,12 206,12 206,42" />
+        </svg>
+      </div>
+      <div class="visual-pill"><span>global</span><strong>online</strong></div>
+    </div>
+    </a>
+    <aside class="briefing">
+      <span class="section-label">Briefing</span>
+      
+        <a href="/blog/3-sites-pagar-mais-barato-e-lucrar.html">
+          <strong>Os 3 sites onde podemos pagar mais barato e ainda lucrar</strong>
+          <span>Oportunidades digitais · 4 min</span>
+        </a>
+        <a href="/blog/mercado-imobiliario-brasil-comprar-ou-investir-2026.html">
+          <strong>2026 pode ser um dos momentos mais estratégicos para comprar imóvel</strong>
+          <span>Imóveis · 5 min</span>
+        </a>
+        <a href="/blog/trabalho-online-home-office-milhoes.html">
+          <strong>Milhões já trabalham online — e esse número só cresce</strong>
+          <span>Trabalho online · 4 min</span>
+        </a>
+    </aside>
+  </section>
 
-<nav class="menu">
-<a href="/blog/">Blog</a>
-<a href="/blog/trabalho-remoto-internacional-crescimento.html">Mercado</a>
-<a href="/blog/inteligencia-artificial-freelancers-produtividade.html">Tecnologia</a>
-<a href="/blog/ganhar-em-dolar.html">Guias</a>
-</nav>
-</div>
-</header>
+  <section class="container channels" aria-label="Canais editoriais">
+    <article><span></span><h2>Mercado Global</h2><p>Tendências de trabalho, renda internacional e competição global.</p></article><article><span></span><h2>Tecnologia</h2><p>IA, ferramentas digitais e produtividade aplicada ao mercado.</p></article><article><span></span><h2>Oportunidades</h2><p>Guias práticos para encontrar renda e vantagem no digital.</p></article><article><span></span><h2>Imóveis</h2><p>Leituras estratégicas sobre moradia, investimento e valorização.</p></article>
+  </section>
 
-<main class="container">
+  <section class="container editorial-grid">
+    <div>
+      <span class="section-label">Últimas análises</span>
+      <div class="story-list">
+        
+          <a href="/blog/inteligencia-artificial-freelancers-produtividade.html">
+            <span>Tecnologia</span>
+            <strong>IA já está criando vantagem competitiva para freelancers</strong>
+            <p>Ferramentas inteligentes aceleram entregas e mudam a forma como profissionais independentes competem.</p>
+          </a>
+          <a href="/blog/ganhar-em-dolar.html">
+            <span>Guias</span>
+            <strong>Como ganhar em dólar trabalhando online</strong>
+            <p>O caminho real para começar com estratégia, habilidade e consistência.</p>
+          </a>
+          <a href="/blog/freelancer-internacional.html">
+            <span>Freelancer</span>
+            <strong>Como começar como freelancer internacional</strong>
+            <p>Como sair do zero, criar presença profissional e buscar clientes fora do Brasil.</p>
+          </a>
+          <a href="/blog/brasileiros-renda-em-dolar.html">
+            <span>Mercado</span>
+            <strong>Nova tendência faz brasileiros migrarem para renda em dólar</strong>
+            <p>Uma mudança silenciosa está acontecendo na forma como brasileiros buscam proteger e ampliar renda.</p>
+          </a>
+          <a href="/blog/tecnologia-para-freelancer.html">
+            <span>Tecnologia</span>
+            <strong>Tecnologia para freelancers</strong>
+            <p>Ferramentas e processos para ganhar velocidade, organizar entregas e competir melhor.</p>
+          </a>
+          <a href="/blog/ingles-para-ganhar-em-dolar.html">
+            <span>Comunicação</span>
+            <strong>Você não precisa falar inglês perfeito</strong>
+            <p>Clareza, resposta rápida e posicionamento importam mais do que perfeição.</p>
+          </a>
+          <a href="/blog/brasileiros-migram-para-apartamentos-compactos.html">
+            <span>Imóveis</span>
+            <strong>A nova aposta dos brasileiros: apartamentos compactos com tecnologia</strong>
+            <p>Moradias menores, conectadas e bem localizadas ganham espaço entre consumidores urbanos.</p>
+          </a>
+      </div>
+    </div>
+    <aside class="most-read">
+      <span class="section-label">Mais lidas</span>
+      <a href="/blog/3-sites-pagar-mais-barato-e-lucrar.html"><em>01</em><strong>Os 3 sites onde podemos pagar mais barato e ainda lucrar</strong></a><a href="/blog/mercado-imobiliario-brasil-comprar-ou-investir-2026.html"><em>02</em><strong>2026 pode ser um dos momentos mais estratégicos para comprar imóvel</strong></a><a href="/blog/trabalho-online-home-office-milhoes.html"><em>03</em><strong>Milhões já trabalham online — e esse número só cresce</strong></a><a href="/blog/inteligencia-artificial-freelancers-produtividade.html"><em>04</em><strong>IA já está criando vantagem competitiva para freelancers</strong></a><a href="/blog/ganhar-em-dolar.html"><em>05</em><strong>Como ganhar em dólar trabalhando online</strong></a>
+    </aside>
+  </section>
 
-<!-- HERO -->
-<section class="hero">
-<a href="/blog/trabalho-remoto-internacional-crescimento.html">
-<h1>Empresas globais já contratam sem exigir localização</h1>
-<p>O trabalho remoto internacional cresce e muda a forma como profissionais acessam oportunidades no mundo.</p>
-</a>
-</section>
-
-<!-- GRID -->
-<section class="grid">
-
-<a href="/blog/trabalho-online-home-office-milhoes.html" class="card">
-<h3>Trabalho online já envolve milhões</h3>
-<p>Home office cresce como alternativa global.</p>
-</a>
-
-<a href="/blog/inteligencia-artificial-freelancers-produtividade.html" class="card">
-<h3>IA acelera freelancers</h3>
-<p>Produtividade virou vantagem competitiva.</p>
-</a>
-
-<a href="/blog/mercado-imobiliario-brasil-comprar-ou-investir-2026.html" class="card">
-<h3>2026 pode ser momento para comprar imóvel</h3>
-<p>Mercado imobiliário aquece.</p>
-</a>
-
-</section>
-
-<!-- FEED INFINITO -->
-<section class="feed">
-
-<a href="/blog/brasileiros-renda-em-dolar.html">
-<span>Mercado</span>
-<strong>Brasileiros buscam renda internacional</strong>
-<p>Uma mudança silenciosa está acontecendo no Brasil.</p>
-</a>
-
-<a href="/blog/freelancer-internacional.html">
-<span>Freelancer</span>
-<strong>Como começar como freelancer internacional</strong>
-<p>O caminho real para clientes fora do Brasil.</p>
-</a>
-
-<a href="/blog/tecnologia-para-freelancer.html">
-<span>Tecnologia</span>
-<strong>Tecnologia vira diferencial competitivo</strong>
-<p>Ferramentas aceleram resultados.</p>
-</a>
-
-<a href="/blog/ingles-para-ganhar-em-dolar.html">
-<span>Comunicação</span>
-<strong>Você não precisa falar inglês perfeito</strong>
-<p>Clareza vale mais que fluência.</p>
-</a>
-
-<a href="/blog/trabalho-remoto-internacional-crescimento.html">
-<span>Mercado</span>
-<strong>Trabalho remoto internacional cresce</strong>
-<p>Empresas contratam globalmente.</p>
-</a>
-
-<a href="/blog/inteligencia-artificial-freelancers-produtividade.html">
-<span>IA</span>
-<strong>IA cria vantagem competitiva</strong>
-<p>Quem usa tecnologia cresce mais rápido.</p>
-</a>
-
-<a href="/blog/mercado-imobiliario-brasil-comprar-ou-investir-2026.html">
-<span>Imóveis</span>
-<strong>Comprar imóvel em 2026</strong>
-<p>Momento estratégico para entrar no mercado.</p>
-</a>
-
-</section>
-
+  <section class="container newsletter">
+    <div>
+      <span class="kicker">Newsletter</span>
+      <h2>Receba o mapa das oportunidades globais.</h2>
+      <p>Uma curadoria objetiva sobre tecnologia, renda e movimentos de mercado.</p>
+    </div>
+    <a href="/blog/">Ler agora</a>
+  </section>
 </main>
 
-<footer class="footer container">
-<p>© 2026 TalkGlobal. Todos os direitos reservados.</p>
-<p>
-<a href="/privacy.html">Privacy</a> ·
-<a href="/terms.html">Terms</a>
-</p>
-</footer>
-
+    <footer class="footer container">
+      <div>
+        <strong>TalkGlobal</strong>
+        <p>Mercado global, tecnologia e novas formas de renda para brasileiros atentos ao mundo.</p>
+      </div>
+      <p><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p>
+    </footer>
 </body>
 </html>
