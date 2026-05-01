@@ -1,7 +1,152 @@
 {
-  "status": "pending",
-  "generatedAt": null,
-  "approvedAt": null,
-  "publishedAt": null,
-  "articles": []
+  "status": "published",
+  "generatedAt": "2026-05-01T04:00:22.829Z",
+  "approvedAt": "2026-05-01T04:03:25.591Z",
+  "publishedAt": "2026-05-01T04:05:53.898Z",
+  "articles": [
+    {
+      "title": "O mercado imobiliário começa a desenhar uma janela que poucos estão acompanhando",
+      "category": "Imóveis",
+      "description": "Juros, crédito e comportamento de compra recolocam imóveis no radar de quem pensa no longo prazo.",
+      "slug": "o-mercado-imobiliario-comeca-a-desenhar-uma-janela-que-poucos-estao-acompanhando",
+      "filename": "o-mercado-imobiliario-comeca-a-desenhar-uma-janela-que-poucos-estao-acompanhando.html",
+      "theme": "property",
+      "read": "5 min",
+      "date": "2026-05-01",
+      "sources": [
+        {
+          "title": "Juros altos e custo da construção pressionam mercado imobiliário e antecipam alta de até 20% nos preços, a... - TNH1",
+          "url": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxPNUpXMlllcXh3aHNDYmN2LVFfVjFRQlFlRkR3Y0pFRy1LUTNJRjRXNmJRR09HazJ2Nlp3WDdQS0ltamNGMFV0dkd3UjV6cldMM01pLXBUYlpJTkFMZmNqYUt4RTRLZXZPTzVYc01GQXdwRWgyU3RVZXgyLXNHV09reGZ0a3ZqN3ozT2lQY2xuRVdXTnR2WUZDQ3NRQTZ1Tk9JR2FZcUc3N1pONVRjX0JNXzRqS1JYel9kcFFuTEplWG9hOFlLSlQyR3Y4Y3VmYnV6NWxhZ1ZpZUJPV0pYQlJFUWxYUURDM3BfWFNB0gHrAUFVX3lxTE81SlcyWWVxeHdoc0NiY3YtUV9WMVFCUWVGRHdjSkVHLUtRM0lGNFc2YlFHT0drMnY2WndYN1BLSW1qY0YwVXR2R3dSNXpyV0wzTWktcFRiWklOQUxmY2phS3hFNEtldk9PNVhzTUZBd3BFaDJTdFVleDItc0dXT2t4ZnRrdmo3ejNPaVBjbG5FV1dOdHZZRkNDc1FBNnVOT0lHYVlxRzc3Wk41VGNfQk1fNGpLUlh6X2RwUW5MSmVYb2E4WUtKVDJHdjhjdWZidXo1bGFnVmllQk9XSlhCUkVRbFhRREMzcF9YU0E?oc=5",
+          "source": "TNH1",
+          "publishedAt": "Thu, 30 Apr 2026 19:12:03 GMT",
+          "summary": "Juros altos e custo da construção pressionam mercado imobiliário e antecipam alta de até 20% nos preços, a...&nbsp;&nbsp;TNH1"
+        },
+        {
+          "title": "Alugar ou comprar em BH em 2026: o que vale mais a pena para você - Estado de Minas",
+          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxNQk5MTjVuYmIyczB5VlU1MlNLQnFmZm9FQUFIcnVTVmJEbzV3NEpXc1BJVDY0RXo1aW84TENTdnlRbmdwTW5jS3FfZXVTQ2I0MXpFeEJ5cXlpRXBsSEQ3YTdkZU84WHYzanBUaDRxMTRsNkg3YVZvdzdTOFJLUnlTVnRSMnV5RFlDeTZ2UkloUWpNVG81UmhaU0I5RExmd3d0RTdpZHRfRWRlZ2dFRHBVTVNJZWhwMjDSAbwBQVVfeXFMTkprVWZXQ2xTbUxocExNMXZYdGp5anF0QlZ6VkdYbHRPVXdQU3RZT0NyS3hNOXFHdi1mU0o0OXM3cTFmWkpfeFVuVm5WdWhrMmktUnZramd0WTFDaWxuMU1aRGNYREpjMU9GYzlVUUhyZ1RLb1FvSDFWMUtVYldpbnh2WFlqOWE2NkEtX0xYaGNsSGdralNGWEo3TDdiRzJGaDVUVVdheWZrSkVvNUNlc3hJemd4ZGdzRG1JS3U?oc=5",
+          "source": "Estado de Minas",
+          "publishedAt": "Thu, 30 Apr 2026 19:43:00 GMT",
+          "summary": "Alugar ou comprar em BH em 2026: o que vale mais a pena para você&nbsp;&nbsp;Estado de Minas"
+        },
+        {
+          "title": "Possível queda dos juros pode reativar projetos e antecipar investimentos no mercado imobiliário ainda em 2026 - Tribuna do Sertão",
+          "url": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxOY2NLRGh1aDdKUGhraE41aUh3X2ZLb2pZTlpibWxaZi14ZnpvZHROUHdWNzBNNGlMdW5IU3I2aXJmOUhqcGI3VEdLenItZlRYYmktTkw4VmFwUVlZSWptUzdMOEE2VHR3X2w3QnJfSlpuRTg2Mk5BUGxkTFpGY3NjcmN2U0VHblFWVnR1eld3cWl5ak5iWFc3WGI4dHg5UlNUQTUxcTM4TFE0SkdzTTRVb0VOOGNmMWV4VUhrME04VEc5OXR1dExDTS1Zc25lWFgxMlZXWVdKbm1Gc1U2WkM5VU9pbFg1bjNOX1hkVG9teDBtTExhZVo3TnVZU0ZhQQ?oc=5",
+          "source": "Tribuna do Sertão",
+          "publishedAt": "Thu, 30 Apr 2026 13:53:00 GMT",
+          "summary": "Possível queda dos juros pode reativar projetos e antecipar investimentos no mercado imobiliário ainda em 2026&nbsp;&nbsp;Tribuna do Sertão"
+        },
+        {
+          "title": "Confira as moradias mais buscadas para alugar e o impacto do setor na gestão imobiliária - Tribuna do Agreste",
+          "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxPYjAtZHFQMFprTkZlTEtQcVNvcktTWWY4czZIaE8yUVNRNHU4NHkzNUhXbE5saTRSa1FmTzhjXzVPNUVYVWxJM3JsZlZROWlHNURRbnJUR2JjcFdLNUpoMkhRdGVLQ2dwNDZoRk1UZzRYVE1QcjNnMG9UMGVnZ3ZhTWNzQTJqcHRNVk5VOWxHalRzdmticFBNekRpUEtrOVZIeFAwT3ItT0JmYl9DQkJGbGRVY2h0RGwxWjEzaVVnTWVER21LRTcxd0hxUWZDTjFHampPY1R2TDRyUWRHRDVuSVVB?oc=5",
+          "source": "Tribuna do Agreste",
+          "publishedAt": "Thu, 30 Apr 2026 18:29:00 GMT",
+          "summary": "Confira as moradias mais buscadas para alugar e o impacto do setor na gestão imobiliária&nbsp;&nbsp;Tribuna do Agreste"
+        },
+        {
+          "title": "Casa própria mais distante? Veja 7 mitos sobre financiamento imobiliário - Jornal Opção",
+          "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxNU2NxNUFPRHlxbno2WGZJUXhOdklyeUtCbVdTa2RpX0Z5QmtyYnZhTXdSeXBSbnVNaDZ3OEp5aDk2aVhHc01ua3dvNWNtM3NrOXVvMndSQWpoQUp3OHctTldNVTdXcVpLOXdYeGdIY19TcVBkMGxWZFVrWUhZRmRodnhBai1KUkprSkhwSlZSY1Q0ZnJyZzBkZDBZNmYwNTdST2l4dHhETWM2TXVNbGFyS3A4T3QzalZCYXBRLUE1aklad3VEQm1iR0diTWNDMUktblE?oc=5",
+          "source": "Jornal Opção",
+          "publishedAt": "Wed, 29 Apr 2026 21:26:00 GMT",
+          "summary": "Casa própria mais distante? Veja 7 mitos sobre financiamento imobiliário&nbsp;&nbsp;Jornal Opção"
+        }
+      ],
+      "facts": [
+        {
+          "text": "TNH1: Juros altos e custo da construção pressionam mercado imobiliário e antecipam alta de até 20% nos preços, a...",
+          "source": "TNH1",
+          "url": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxPNUpXMlllcXh3aHNDYmN2LVFfVjFRQlFlRkR3Y0pFRy1LUTNJRjRXNmJRR09HazJ2Nlp3WDdQS0ltamNGMFV0dkd3UjV6cldMM01pLXBUYlpJTkFMZmNqYUt4RTRLZXZPTzVYc01GQXdwRWgyU3RVZXgyLXNHV09reGZ0a3ZqN3ozT2lQY2xuRVdXTnR2WUZDQ3NRQTZ1Tk9JR2FZcUc3N1pONVRjX0JNXzRqS1JYel9kcFFuTEplWG9hOFlLSlQyR3Y4Y3VmYnV6NWxhZ1ZpZUJPV0pYQlJFUWxYUURDM3BfWFNB0gHrAUFVX3lxTE81SlcyWWVxeHdoc0NiY3YtUV9WMVFCUWVGRHdjSkVHLUtRM0lGNFc2YlFHT0drMnY2WndYN1BLSW1qY0YwVXR2R3dSNXpyV0wzTWktcFRiWklOQUxmY2phS3hFNEtldk9PNVhzTUZBd3BFaDJTdFVleDItc0dXT2t4ZnRrdmo3ejNPaVBjbG5FV1dOdHZZRkNDc1FBNnVOT0lHYVlxRzc3Wk41VGNfQk1fNGpLUlh6X2RwUW5MSmVYb2E4WUtKVDJHdjhjdWZidXo1bGFnVmllQk9XSlhCUkVRbFhRREMzcF9YU0E?oc=5"
+        },
+        {
+          "text": "Tribuna do Sertão: Possível queda dos juros pode reativar projetos e antecipar investimentos no mercado imobiliário ainda em 2026 - Tribuna do Sertão.",
+          "source": "Tribuna do Sertão",
+          "url": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxOY2NLRGh1aDdKUGhraE41aUh3X2ZLb2pZTlpibWxaZi14ZnpvZHROUHdWNzBNNGlMdW5IU3I2aXJmOUhqcGI3VEdLenItZlRYYmktTkw4VmFwUVlZSWptUzdMOEE2VHR3X2w3QnJfSlpuRTg2Mk5BUGxkTFpGY3NjcmN2U0VHblFWVnR1eld3cWl5ak5iWFc3WGI4dHg5UlNUQTUxcTM4TFE0SkdzTTRVb0VOOGNmMWV4VUhrME04VEc5OXR1dExDTS1Zc25lWFgxMlZXWVdKbm1Gc1U2WkM5VU9pbFg1bjNOX1hkVG9teDBtTExhZVo3TnVZU0ZhQQ?oc=5"
+        },
+        {
+          "text": "Seu Crédito Digital: Caixa realiza leilões com mais de 1.000 imóveis; veja como participar - Seu Crédito Digital.",
+          "source": "Seu Crédito Digital",
+          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE03R1dwdzZlU0l4M0JhMTd0YUdjVEZSbXk1eTBTVnBGRmwxZ2w1OE1CRVozZ3JQWHpjbHp4U2xhcTYzUTZpMnNlcHBOUFVFcFBpbHB6Q2prMk5pWGVvNjc0ZXNWSEtjNHNrdThoMjc1a0NVdWUwdER3WGNraEs?oc=5"
+        },
+        {
+          "text": "Seu Crédito Digital: Novas regras mudam Minha Casa Minha Vida; veja quem entra - Seu Crédito Digital.",
+          "source": "Seu Crédito Digital",
+          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE5sNG5sZGJUR2F2VXo1bU94MF9Qc3otOTVwWWZGd05Ya3JSU183OWxqSFdOOHhqWXhTOEV3dkgwYWpSbVVsOWxKNDZJTGpjazNnc1JBT25rS1cydkZVbmlEb3QyeWJMamVaU2Vwdm1Ma3pfOWIya1NhUQ?oc=5"
+        },
+        {
+          "text": "Seu Crédito Digital: Novas regras do Minha Casa Minha Vida já valem; confira - Seu Crédito Digital.",
+          "source": "Seu Crédito Digital",
+          "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTFBpRE9Pa3JDWHJPYm1xOTdGRWtPTGhkaHJPbjdTSVppcjFXV3hSMWJTNlcxWHN6amRXOHk2V21xVmZRTTVQcGdkVE43UkM2ekIzajRRR3ZzZDd2SGFGcXY4ZExuaGJRU29GbVliNVZuM1RSeC1UeGd2RlF2TQ?oc=5"
+        }
+      ],
+      "markdown": "Juros, crédito e comportamento de compra recolocam imóveis no radar de quem pensa no longo prazo.\n\nO movimento ainda está em formação, mas já aparece em fontes recentes acompanhadas pela TalkGlobal nos últimos 3 dias. A leitura mais importante não é procurar promessa fácil: é entender onde tecnologia, mercado e comportamento começam a se encontrar.\n\n> A oportunidade costuma aparecer primeiro como mudança de comportamento, depois como manchete.\n\n## O que aconteceu\n\n- TNH1 publicou: **Juros altos e custo da construção pressionam mercado imobiliário e antecipam alta de até 20% nos preços, a... - TNH1**\n- Estado de Minas publicou: **Alugar ou comprar em BH em 2026: o que vale mais a pena para você - Estado de Minas**\n- Tribuna do Sertão publicou: **Possível queda dos juros pode reativar projetos e antecipar investimentos no mercado imobiliário ainda em 2026 - Tribuna do Sertão**\n\n## Dados e sinais concretos\n\n- TNH1: Juros altos e custo da construção pressionam mercado imobiliário e antecipam alta de até 20% nos preços, a...\n- Tribuna do Sertão: Possível queda dos juros pode reativar projetos e antecipar investimentos no mercado imobiliário ainda em 2026 - Tribuna do Sertão.\n- Seu Crédito Digital: Caixa realiza leilões com mais de 1.000 imóveis; veja como participar - Seu Crédito Digital.\n- Seu Crédito Digital: Novas regras mudam Minha Casa Minha Vida; veja quem entra - Seu Crédito Digital.\n- Seu Crédito Digital: Novas regras do Minha Casa Minha Vida já valem; confira - Seu Crédito Digital.\n\nEssas notícias apontam para um cenário em que decisões de trabalho, consumo e investimento estão cada vez mais conectadas a plataformas digitais, dados e alcance global.\n\n## Por que isso importa\n\nQuando um movimento aparece em mais de uma fonte, ele merece atenção. Não significa que toda pessoa deve agir imediatamente, mas indica que o mercado está testando novos caminhos.\n\nPara quem acompanha oportunidades digitais, o ponto central é observar três fatores:\n\n- se a tendência resolve um problema real;\n- se existe adoção por empresas, consumidores ou profissionais;\n- se há sinais de continuidade, e não apenas uma onda passageira.\n\n## O que observar agora\n\nO próximo passo é acompanhar dados, anúncios de empresas, mudanças regulatórias e comportamento de usuários. O risco está em transformar tendência em promessa; a vantagem está em estudar cedo e agir com critério.\n\n## Conclusão\n\nO mercado global está ficando mais rápido, mais digital e mais competitivo. Quem entende os sinais antes do consenso não precisa apostar no escuro: pode se preparar com mais contexto.\n\n## Fontes\n\n- TNH1: [Juros altos e custo da construção pressionam mercado imobiliário e antecipam alta de até 20% nos preços, a... - TNH1](https://news.google.com/rss/articles/CBMi6wFBVV95cUxPNUpXMlllcXh3aHNDYmN2LVFfVjFRQlFlRkR3Y0pFRy1LUTNJRjRXNmJRR09HazJ2Nlp3WDdQS0ltamNGMFV0dkd3UjV6cldMM01pLXBUYlpJTkFMZmNqYUt4RTRLZXZPTzVYc01GQXdwRWgyU3RVZXgyLXNHV09reGZ0a3ZqN3ozT2lQY2xuRVdXTnR2WUZDQ3NRQTZ1Tk9JR2FZcUc3N1pONVRjX0JNXzRqS1JYel9kcFFuTEplWG9hOFlLSlQyR3Y4Y3VmYnV6NWxhZ1ZpZUJPV0pYQlJFUWxYUURDM3BfWFNB0gHrAUFVX3lxTE81SlcyWWVxeHdoc0NiY3YtUV9WMVFCUWVGRHdjSkVHLUtRM0lGNFc2YlFHT0drMnY2WndYN1BLSW1qY0YwVXR2R3dSNXpyV0wzTWktcFRiWklOQUxmY2phS3hFNEtldk9PNVhzTUZBd3BFaDJTdFVleDItc0dXT2t4ZnRrdmo3ejNPaVBjbG5FV1dOdHZZRkNDc1FBNnVOT0lHYVlxRzc3Wk41VGNfQk1fNGpLUlh6X2RwUW5MSmVYb2E4WUtKVDJHdjhjdWZidXo1bGFnVmllQk9XSlhCUkVRbFhRREMzcF9YU0E?oc=5)\n- Estado de Minas: [Alugar ou comprar em BH em 2026: o que vale mais a pena para você - Estado de Minas](https://news.google.com/rss/articles/CBMitwFBVV95cUxNQk5MTjVuYmIyczB5VlU1MlNLQnFmZm9FQUFIcnVTVmJEbzV3NEpXc1BJVDY0RXo1aW84TENTdnlRbmdwTW5jS3FfZXVTQ2I0MXpFeEJ5cXlpRXBsSEQ3YTdkZU84WHYzanBUaDRxMTRsNkg3YVZvdzdTOFJLUnlTVnRSMnV5RFlDeTZ2UkloUWpNVG81UmhaU0I5RExmd3d0RTdpZHRfRWRlZ2dFRHBVTVNJZWhwMjDSAbwBQVVfeXFMTkprVWZXQ2xTbUxocExNMXZYdGp5anF0QlZ6VkdYbHRPVXdQU3RZT0NyS3hNOXFHdi1mU0o0OXM3cTFmWkpfeFVuVm5WdWhrMmktUnZramd0WTFDaWxuMU1aRGNYREpjMU9GYzlVUUhyZ1RLb1FvSDFWMUtVYldpbnh2WFlqOWE2NkEtX0xYaGNsSGdralNGWEo3TDdiRzJGaDVUVVdheWZrSkVvNUNlc3hJemd4ZGdzRG1JS3U?oc=5)\n- Tribuna do Sertão: [Possível queda dos juros pode reativar projetos e antecipar investimentos no mercado imobiliário ainda em 2026 - Tribuna do Sertão](https://news.google.com/rss/articles/CBMi_gFBVV95cUxOY2NLRGh1aDdKUGhraE41aUh3X2ZLb2pZTlpibWxaZi14ZnpvZHROUHdWNzBNNGlMdW5IU3I2aXJmOUhqcGI3VEdLenItZlRYYmktTkw4VmFwUVlZSWptUzdMOEE2VHR3X2w3QnJfSlpuRTg2Mk5BUGxkTFpGY3NjcmN2U0VHblFWVnR1eld3cWl5ak5iWFc3WGI4dHg5UlNUQTUxcTM4TFE0SkdzTTRVb0VOOGNmMWV4VUhrME04VEc5OXR1dExDTS1Zc25lWFgxMlZXWVdKbm1Gc1U2WkM5VU9pbFg1bjNOX1hkVG9teDBtTExhZVo3TnVZU0ZhQQ?oc=5)\n- Tribuna do Agreste: [Confira as moradias mais buscadas para alugar e o impacto do setor na gestão imobiliária - Tribuna do Agreste](https://news.google.com/rss/articles/CBMi4gFBVV95cUxPYjAtZHFQMFprTkZlTEtQcVNvcktTWWY4czZIaE8yUVNRNHU4NHkzNUhXbE5saTRSa1FmTzhjXzVPNUVYVWxJM3JsZlZROWlHNURRbnJUR2JjcFdLNUpoMkhRdGVLQ2dwNDZoRk1UZzRYVE1QcjNnMG9UMGVnZ3ZhTWNzQTJqcHRNVk5VOWxHalRzdmticFBNekRpUEtrOVZIeFAwT3ItT0JmYl9DQkJGbGRVY2h0RGwxWjEzaVVnTWVER21LRTcxd0hxUWZDTjFHampPY1R2TDRyUWRHRDVuSVVB?oc=5)\n- Jornal Opção: [Casa própria mais distante? Veja 7 mitos sobre financiamento imobiliário - Jornal Opção](https://news.google.com/rss/articles/CBMi0gFBVV95cUxNU2NxNUFPRHlxbno2WGZJUXhOdklyeUtCbVdTa2RpX0Z5QmtyYnZhTXdSeXBSbnVNaDZ3OEp5aDk2aVhHc01ua3dvNWNtM3NrOXVvMndSQWpoQUp3OHctTldNVTdXcVpLOXdYeGdIY19TcVBkMGxWZFVrWUhZRmRodnhBai1KUkprSkhwSlZSY1Q0ZnJyZzBkZDBZNmYwNTdST2l4dHhETWM2TXVNbGFyS3A4T3QzalZCYXBRLUE1aklad3VEQm1iR0diTWNDMUktblE?oc=5)\n",
+      "instagramCopy": "O mercado imobiliário começa a desenhar uma janela que poucos estão acompanhando\n\nJuros, crédito e comportamento de compra recolocam imóveis no radar de quem pensa no longo prazo.\n\nO ponto não é correr atrás de promessa fácil. É observar os sinais antes de eles virarem consenso.\n\nLeia a análise completa no TalkGlobal.\n\n#TalkGlobal #Tecnologia #MercadoGlobal #RendaOnline #OportunidadesDigitais",
+      "imagePrompt": "Crie uma imagem vertical 1080x1350 para Instagram, estilo notícia premium nível Forbes/Exame, layout limpo, moderno e editorial. Identidade TalkGlobal: azul #1e3a8a como base estrutural em ícones, linhas, interfaces e formas principais; verde #16a34a apenas para destaques de crescimento, dinheiro e pontos-chave. Fundo branco ou cinza muito claro com leve gradiente azul quase imperceptível. Título grande: \"O mercado imobiliário começa a desenhar uma janela que poucos estão acompanhando\". Subtítulo: \"Juros, crédito e comportamento de compra recolocam imóveis no radar de quem pensa no longo prazo.\". Elementos visuais: prédios modernos, chave, painel de dados imobiliários e gráfico de valorização. Minimalista, espaçamento amplo, tipografia forte, sem poluição visual e sem parecer anúncio."
+    },
+    {
+      "title": "O trabalho remoto global entra em uma nova fase — e a disputa por talentos mudou",
+      "category": "Mercado global",
+      "description": "Empresas e profissionais passam a disputar oportunidades em um mercado cada vez menos preso à localização.",
+      "slug": "o-trabalho-remoto-global-entra-em-uma-nova-fase-e-a-disputa-por-talentos-mudou-2",
+      "filename": "o-trabalho-remoto-global-entra-em-uma-nova-fase-e-a-disputa-por-talentos-mudou-2.html",
+      "theme": "remote",
+      "read": "5 min",
+      "date": "2026-05-01",
+      "sources": [
+        {
+          "title": "Quer ganhar em dólar? Busca por brasileiros no exterior cresce 53% e inglês é diferencial - Quero Bolsa",
+          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQWWt4bDktTHdHemgxVVVqQmt2Nkk4NWkwWUU3YVVaSE5aTHhrZUtKeVNvY1F0TGlOTzVaMV9XNXhzcHVlUnVjSHoxYVBOTkxheXYxNTRhZzdIbEM1T0dLUXhfUml6NXdWWGliNkkwYkF4QVVnN0FWOUZ1M282MTJWMjY1R2ZBdWJ1OGNkWENieVJ2dw?oc=5",
+          "source": "Quero Bolsa",
+          "publishedAt": "Wed, 29 Apr 2026 14:59:31 GMT",
+          "summary": "Quer ganhar em dólar? Busca por brasileiros no exterior cresce 53% e inglês é diferencial&nbsp;&nbsp;Quero Bolsa"
+        },
+        {
+          "title": "Como trabalhar para empresas do exterior sendo desenvolvedor no Brasil - Gazeta da Semana",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQNDhOREZtWXBvSjJxZk82bjRkVEZsQk1uVlAtOURTNWFFbTlBdV84Tl9IX3BsRks4VHZKTWJXa3E0UlotLTg0ejcwT2twV0lfemQzV3o0WE9ITmE5b0IwMEN1SmJzQTR6NlJkeW5fQkRvTUlOSW1RY1ZZYlBScDZxN01meGQ5YVg0T243TWpoYllZVjBmeUdkWE1TQ0o1RHhraFBnekxZeE9NNERSR2lRMDNLSDZidw?oc=5",
+          "source": "Gazeta da Semana",
+          "publishedAt": "Wed, 29 Apr 2026 14:09:58 GMT",
+          "summary": "Como trabalhar para empresas do exterior sendo desenvolvedor no Brasil&nbsp;&nbsp;Gazeta da Semana"
+        },
+        {
+          "title": "A integração da tecnologia financeira no setor bancário global: o trabalho de Marcelo Afonseca na estruturação financeira internacional - GazetaWeb",
+          "url": "https://news.google.com/rss/articles/CBMilwJBVV95cUxOWkJ1emxNQjJpa2owVEFHaGk5NWE2bVRnTlpBeWJucWo5UTNNSXpZcjlrS2tMREdrVHY3WnVLNHVEbTdQOWltWXpHM0tleUxiS0RhakZtRWx3UHpyM2pzdGF5YUt0OUJDalo0cGN5VjRrRkliRW5EVjhLSlN6eUl1TUVjNENHdmtpcVdMYlMxOFRuUzhtRVdXVEkxY1hjT1NfYzJVQUhQNGo4VF9Fc3ZZa2ZGT0t5NERJcF9HUGtWT1dEeWpGMGhHeTZXOWpHOV9Pb2o4dVNwQmQtblpHbDBNZEo0MlZGalotM0hlalV4bGUzb05VRUhMZG8zSXZFdkpqc3M4NDVKeHM2dTFzWUZEaEt5bGlJZm_SAZcCQVVfeXFMTlpCdXpsTUIyaWtqMFRBR2hpOTVhNm1UZ05aQXlibnFqOVEzTUl6WXI5a0trTERHa1R2N1p1SzR1RG03UDlpbVl6RzNLZXlMYktEYWpGbUVsd1B6cjNqc3RheWFLdDlCQ2paNHBjeVY0a0ZJYkVuRFY4S0pTenlJdU1FYzRDR3ZraXFXTGJTMThUblM4bUVXV1RJMWNYY09TX2MyVUFIUDRqOFRfRXN2WWtmRk9LeTRESXBfR1BrVk9XRHlqRjBoR3k2VzlqRzlfT29qOHVTcEJkLW5aR2wwTWRKNDJWRmpaLTNIZWpVeGxlM29OVUVITGRvM0l2RXZKanNzODQ1SnhzNnUxc1lGRGhLeWxpSWZv?oc=5",
+          "source": "GazetaWeb",
+          "publishedAt": "Thu, 30 Apr 2026 11:46:27 GMT",
+          "summary": "A integração da tecnologia financeira no setor bancário global: o trabalho de Marcelo Afonseca na estruturação financeira internacional&nbsp;&nbsp;GazetaWeb"
+        },
+        {
+          "title": "Com o avanço da IA, demissões no setor tech crescem 40% - TecMundo",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQMUI3UHZMbTFHSUV0Zmp0MnNDdFFkdGRBR19mczlCa3FaS3EtY1hSbVUtZFhrcFlEU1V1N211alc2cU83RFEzazZaX2JPOW5zaC1oeFRCdjNNanBXVjRXTHY5UUt5M3BWOW4yaklQLXAxMDdYN2c4TFU1Wlh0d25reFlkUFk1b3RsbGFsSkZSLWxYcGFBVXZMbFoyUlBaYU9JZ2c?oc=5",
+          "source": "TecMundo",
+          "publishedAt": "Wed, 29 Apr 2026 13:30:00 GMT",
+          "summary": "Com o avanço da IA, demissões no setor tech crescem 40%&nbsp;&nbsp;TecMundo"
+        },
+        {
+          "title": "Especialistas em \"ensinar\" máquinas a tomarem decisões inteligentes faturam R$ 25 mil no topo da tecnologia - Monitor do Mercado",
+          "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxPQkw2XzdfZ0tFbUVUblpRV2l4RGZZQTZkejhrZ19idnJaRml6eDkxOUZBQWJhVUZTSTRTZWxwSW1QcGRFc1VjakUxYmFLZGp1ZU1BeTJfMTBsR2pLd203NktDZk9RZVlFcEYzR0w3QXZTNi1PZTBrelBYQUx0OGZvSTE2SkttdzRQWm9EMUYxSm14anRnWGFYdGlpeVJ0dnBxcTloWGVRdTFuNmJPYXJNRGZMN2gxYkdEaE84WHJVYUd3M3pHSFluNXRqSGQtMkVIRDBHWVlWX0xxWUQ2X2RQcFY4SnIzbHIz?oc=5",
+          "source": "Monitor do Mercado",
+          "publishedAt": "Wed, 29 Apr 2026 19:06:00 GMT",
+          "summary": "Especialistas em \"ensinar\" máquinas a tomarem decisões inteligentes faturam R$ 25 mil no topo da tecnologia&nbsp;&nbsp;Monitor do Mercado"
+        }
+      ],
+      "facts": [
+        {
+          "text": "Quero Bolsa: Busca por brasileiros no exterior cresce 53% e inglês é diferencial - Quero Bolsa.",
+          "source": "Quero Bolsa",
+          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQWWt4bDktTHdHemgxVVVqQmt2Nkk4NWkwWUU3YVVaSE5aTHhrZUtKeVNvY1F0TGlOTzVaMV9XNXhzcHVlUnVjSHoxYVBOTkxheXYxNTRhZzdIbEM1T0dLUXhfUml6NXdWWGliNkkwYkF4QVVnN0FWOUZ1M282MTJWMjY1R2ZBdWJ1OGNkWENieVJ2dw?oc=5"
+        },
+        {
+          "text": "TecMundo: Com o avanço da IA, demissões no setor tech crescem 40% - TecMundo.",
+          "source": "TecMundo",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQMUI3UHZMbTFHSUV0Zmp0MnNDdFFkdGRBR19mczlCa3FaS3EtY1hSbVUtZFhrcFlEU1V1N211alc2cU83RFEzazZaX2JPOW5zaC1oeFRCdjNNanBXVjRXTHY5UUt5M3BWOW4yaklQLXAxMDdYN2c4TFU1Wlh0d25reFlkUFk1b3RsbGFsSkZSLWxYcGFBVXZMbFoyUlBaYU9JZ2c?oc=5"
+        },
+        {
+          "text": "Monitor do Mercado: Especialistas em \"ensinar\" máquinas a tomarem decisões inteligentes faturam R$ 25 mil no topo da tecnologia - Monitor do Mercado.",
+          "source": "Monitor do Mercado",
+          "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxPQkw2XzdfZ0tFbUVUblpRV2l4RGZZQTZkejhrZ19idnJaRml6eDkxOUZBQWJhVUZTSTRTZWxwSW1QcGRFc1VjakUxYmFLZGp1ZU1BeTJfMTBsR2pLd203NktDZk9RZVlFcEYzR0w3QXZTNi1PZTBrelBYQUx0OGZvSTE2SkttdzRQWm9EMUYxSm14anRnWGFYdGlpeVJ0dnBxcTloWGVRdTFuNmJPYXJNRGZMN2gxYkdEaE84WHJVYUd3M3pHSFluNXRqSGQtMkVIRDBHWVlWX0xxWUQ2X2RQcFY4SnIzbHIz?oc=5"
+        }
+      ],
+      "markdown": "Empresas e profissionais passam a disputar oportunidades em um mercado cada vez menos preso à localização.\n\nO movimento ainda está em formação, mas já aparece em fontes recentes acompanhadas pela TalkGlobal nos últimos 3 dias. A leitura mais importante não é procurar promessa fácil: é entender onde tecnologia, mercado e comportamento começam a se encontrar.\n\n> A oportunidade costuma aparecer primeiro como mudança de comportamento, depois como manchete.\n\n## O que aconteceu\n\n- Quero Bolsa publicou: **Quer ganhar em dólar? Busca por brasileiros no exterior cresce 53% e inglês é diferencial - Quero Bolsa**\n- Gazeta da Semana publicou: **Como trabalhar para empresas do exterior sendo desenvolvedor no Brasil - Gazeta da Semana**\n- GazetaWeb publicou: **A integração da tecnologia financeira no setor bancário global: o trabalho de Marcelo Afonseca na estruturação financeira internacional - GazetaWeb**\n\n## Dados e sinais concretos\n\n- Quero Bolsa: Busca por brasileiros no exterior cresce 53% e inglês é diferencial - Quero Bolsa.\n- TecMundo: Com o avanço da IA, demissões no setor tech crescem 40% - TecMundo.\n- Monitor do Mercado: Especialistas em \"ensinar\" máquinas a tomarem decisões inteligentes faturam R$ 25 mil no topo da tecnologia - Monitor do Mercado.\n\nEssas notícias apontam para um cenário em que decisões de trabalho, consumo e investimento estão cada vez mais conectadas a plataformas digitais, dados e alcance global.\n\n## Por que isso importa\n\nQuando um movimento aparece em mais de uma fonte, ele merece atenção. Não significa que toda pessoa deve agir imediatamente, mas indica que o mercado está testando novos caminhos.\n\nPara quem acompanha oportunidades digitais, o ponto central é observar três fatores:\n\n- se a tendência resolve um problema real;\n- se existe adoção por empresas, consumidores ou profissionais;\n- se há sinais de continuidade, e não apenas uma onda passageira.\n\n## O que observar agora\n\nO próximo passo é acompanhar dados, anúncios de empresas, mudanças regulatórias e comportamento de usuários. O risco está em transformar tendência em promessa; a vantagem está em estudar cedo e agir com critério.\n\n## Conclusão\n\nO mercado global está ficando mais rápido, mais digital e mais competitivo. Quem entende os sinais antes do consenso não precisa apostar no escuro: pode se preparar com mais contexto.\n\n## Fontes\n\n- Quero Bolsa: [Quer ganhar em dólar? Busca por brasileiros no exterior cresce 53% e inglês é diferencial - Quero Bolsa](https://news.google.com/rss/articles/CBMikgFBVV95cUxQWWt4bDktTHdHemgxVVVqQmt2Nkk4NWkwWUU3YVVaSE5aTHhrZUtKeVNvY1F0TGlOTzVaMV9XNXhzcHVlUnVjSHoxYVBOTkxheXYxNTRhZzdIbEM1T0dLUXhfUml6NXdWWGliNkkwYkF4QVVnN0FWOUZ1M282MTJWMjY1R2ZBdWJ1OGNkWENieVJ2dw?oc=5)\n- Gazeta da Semana: [Como trabalhar para empresas do exterior sendo desenvolvedor no Brasil - Gazeta da Semana](https://news.google.com/rss/articles/CBMitgFBVV95cUxQNDhOREZtWXBvSjJxZk82bjRkVEZsQk1uVlAtOURTNWFFbTlBdV84Tl9IX3BsRks4VHZKTWJXa3E0UlotLTg0ejcwT2twV0lfemQzV3o0WE9ITmE5b0IwMEN1SmJzQTR6NlJkeW5fQkRvTUlOSW1RY1ZZYlBScDZxN01meGQ5YVg0T243TWpoYllZVjBmeUdkWE1TQ0o1RHhraFBnekxZeE9NNERSR2lRMDNLSDZidw?oc=5)\n- GazetaWeb: [A integração da tecnologia financeira no setor bancário global: o trabalho de Marcelo Afonseca na estruturação financeira internacional - GazetaWeb](https://news.google.com/rss/articles/CBMilwJBVV95cUxOWkJ1emxNQjJpa2owVEFHaGk5NWE2bVRnTlpBeWJucWo5UTNNSXpZcjlrS2tMREdrVHY3WnVLNHVEbTdQOWltWXpHM0tleUxiS0RhakZtRWx3UHpyM2pzdGF5YUt0OUJDalo0cGN5VjRrRkliRW5EVjhLSlN6eUl1TUVjNENHdmtpcVdMYlMxOFRuUzhtRVdXVEkxY1hjT1NfYzJVQUhQNGo4VF9Fc3ZZa2ZGT0t5NERJcF9HUGtWT1dEeWpGMGhHeTZXOWpHOV9Pb2o4dVNwQmQtblpHbDBNZEo0MlZGalotM0hlalV4bGUzb05VRUhMZG8zSXZFdkpqc3M4NDVKeHM2dTFzWUZEaEt5bGlJZm_SAZcCQVVfeXFMTlpCdXpsTUIyaWtqMFRBR2hpOTVhNm1UZ05aQXlibnFqOVEzTUl6WXI5a0trTERHa1R2N1p1SzR1RG03UDlpbVl6RzNLZXlMYktEYWpGbUVsd1B6cjNqc3RheWFLdDlCQ2paNHBjeVY0a0ZJYkVuRFY4S0pTenlJdU1FYzRDR3ZraXFXTGJTMThUblM4bUVXV1RJMWNYY09TX2MyVUFIUDRqOFRfRXN2WWtmRk9LeTRESXBfR1BrVk9XRHlqRjBoR3k2VzlqRzlfT29qOHVTcEJkLW5aR2wwTWRKNDJWRmpaLTNIZWpVeGxlM29OVUVITGRvM0l2RXZKanNzODQ1SnhzNnUxc1lGRGhLeWxpSWZv?oc=5)\n- TecMundo: [Com o avanço da IA, demissões no setor tech crescem 40% - TecMundo](https://news.google.com/rss/articles/CBMiogFBVV95cUxQMUI3UHZMbTFHSUV0Zmp0MnNDdFFkdGRBR19mczlCa3FaS3EtY1hSbVUtZFhrcFlEU1V1N211alc2cU83RFEzazZaX2JPOW5zaC1oeFRCdjNNanBXVjRXTHY5UUt5M3BWOW4yaklQLXAxMDdYN2c4TFU1Wlh0d25reFlkUFk1b3RsbGFsSkZSLWxYcGFBVXZMbFoyUlBaYU9JZ2c?oc=5)\n- Monitor do Mercado: [Especialistas em \"ensinar\" máquinas a tomarem decisões inteligentes faturam R$ 25 mil no topo da tecnologia - Monitor do Mercado](https://news.google.com/rss/articles/CBMi6AFBVV95cUxPQkw2XzdfZ0tFbUVUblpRV2l4RGZZQTZkejhrZ19idnJaRml6eDkxOUZBQWJhVUZTSTRTZWxwSW1QcGRFc1VjakUxYmFLZGp1ZU1BeTJfMTBsR2pLd203NktDZk9RZVlFcEYzR0w3QXZTNi1PZTBrelBYQUx0OGZvSTE2SkttdzRQWm9EMUYxSm14anRnWGFYdGlpeVJ0dnBxcTloWGVRdTFuNmJPYXJNRGZMN2gxYkdEaE84WHJVYUd3M3pHSFluNXRqSGQtMkVIRDBHWVlWX0xxWUQ2X2RQcFY4SnIzbHIz?oc=5)\n",
+      "instagramCopy": "O trabalho remoto global entra em uma nova fase — e a disputa por talentos mudou\n\nEmpresas e profissionais passam a disputar oportunidades em um mercado cada vez menos preso à localização.\n\nO ponto não é correr atrás de promessa fácil. É observar os sinais antes de eles virarem consenso.\n\nLeia a análise completa no TalkGlobal.\n\n#TalkGlobal #Tecnologia #MercadoGlobal #RendaOnline #OportunidadesDigitais",
+      "imagePrompt": "Crie uma imagem vertical 1080x1350 para Instagram, estilo notícia premium nível Forbes/Exame, layout limpo, moderno e editorial. Identidade TalkGlobal: azul #1e3a8a como base estrutural em ícones, linhas, interfaces e formas principais; verde #16a34a apenas para destaques de crescimento, dinheiro e pontos-chave. Fundo branco ou cinza muito claro com leve gradiente azul quase imperceptível. Título grande: \"O trabalho remoto global entra em uma nova fase — e a disputa por talentos mudou\". Subtítulo: \"Empresas e profissionais passam a disputar oportunidades em um mercado cada vez menos preso à localização.\". Elementos visuais: notebook, pessoa trabalhando, mapa global discreto e gráfico de crescimento. Minimalista, espaçamento amplo, tipografia forte, sem poluição visual e sem parecer anúncio."
+    }
+  ]
 }
