@@ -1,0 +1,14 @@
+{
+  "name": "talkglobal-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "node automation/generateArticles.js",
+    "approve": "node automation/publishApprovedArticles.js --approve-only",
+    "publish": "node automation/publishApprovedArticles.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
