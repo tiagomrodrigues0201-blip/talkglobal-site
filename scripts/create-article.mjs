@@ -5,6 +5,37 @@ const siteUrl = "https://www.talkglobalapp.com";
 const today = new Date().toISOString().slice(0, 10);
 const adsenseScript = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7852370456334253"
      crossorigin="anonymous"></script>`;
+const adUnits = {
+  display: `<div class="ad-slot ad-slot-display" aria-label="Publicidade">
+  <span>Publicidade</span>
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-7852370456334253"
+       data-ad-slot="5879922379"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>`,
+  inArticle: `<div class="ad-slot ad-slot-in-article" aria-label="Publicidade">
+  <span>Publicidade</span>
+  <ins class="adsbygoogle"
+       style="display:block; text-align:center;"
+       data-ad-layout="in-article"
+       data-ad-format="fluid"
+       data-ad-client="ca-pub-7852370456334253"
+       data-ad-slot="9448691781"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>`,
+  multiplex: `<div class="ad-slot ad-slot-multiplex" aria-label="Publicidade">
+  <span>Publicidade</span>
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-format="autorelaxed"
+       data-ad-client="ca-pub-7852370456334253"
+       data-ad-slot="9973193556"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>`,
+};
 
 function usage() {
   console.log(`Uso:
@@ -280,6 +311,9 @@ ${nav()}
       ${posts.slice(1, 6).map((post, index) => `<a href="${post.link}"><em>${String(index + 1).padStart(2, "0")}</em><strong>${post.titulo}</strong></a>`).join("")}
     </aside>
   </section>
+  <section class="container home-ad">
+    ${adUnits.display}
+  </section>
   <section class="container newsletter">
     <div>
       <span class="kicker">Newsletter</span>
@@ -381,15 +415,18 @@ ${nav()}
         <li>Este conteúdo tem caráter informativo e não substitui análise financeira individual.</li>
       </ul>
     </section>
+    ${adUnits.inArticle}
     <div class="article-body">
       ${content}
     </div>
+    ${adUnits.display}
   </article>
   <aside class="article-sidebar">
     <div class="side-box">
       <span class="section-label">Relacionadas</span>
       ${related.map((item) => `<a href="${item.link}"><strong>${item.titulo}</strong><span>${item.categoria}</span></a>`).join("")}
     </div>
+    ${adUnits.multiplex}
   </aside>
 </main>
 ${footer()}
