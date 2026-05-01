@@ -1,7 +1,7 @@
 import { readdirSync, writeFileSync } from "node:fs";
 
 function loadSiteUrl() {
-  return process.env.SITE_URL || "https://www.talkglobalapp.com";
+  return process.env.SITE_URL || "https://talkglobalapp.com";
 }
 
 export function updateSitemap({

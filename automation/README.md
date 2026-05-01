@@ -25,7 +25,7 @@ Crie um arquivo `.env` com:
 ```env
 RESEND_API_KEY=sua_chave_resend
 APPROVAL_EMAIL=seu_email@dominio.com
-SITE_URL=https://www.talkglobalapp.com
+SITE_URL=https://talkglobalapp.com
 ```
 
 ## Comandos

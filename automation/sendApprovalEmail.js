@@ -52,7 +52,7 @@ export async function sendApprovalEmail(approval) {
 
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.APPROVAL_EMAIL;
-  const siteUrl = process.env.SITE_URL || "https://www.talkglobalapp.com";
+  const siteUrl = process.env.SITE_URL || "https://talkglobalapp.com";
 
   if (!apiKey || !to) {
     console.warn("Email não enviado: configure RESEND_API_KEY e APPROVAL_EMAIL no .env.");

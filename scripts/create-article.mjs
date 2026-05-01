@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-const siteUrl = "https://www.talkglobalapp.com";
+const siteUrl = "https://talkglobalapp.com";
 const today = new Date().toISOString().slice(0, 10);
 const adsenseScript = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7852370456334253"
      crossorigin="anonymous"></script>`;
