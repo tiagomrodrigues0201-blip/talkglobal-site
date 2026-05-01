@@ -1,5 +1,14 @@
 const posts = [
   {
+    "titulo": "Dia do Trabalhador em 2026: a dignidade na era da IA",
+    "categoria": "Trabalho",
+    "descricao": "Tecnologia, IA e renda global estão mudando o valor do trabalho — mas dignidade continua sendo o centro da conversa.",
+    "link": "/blog/dia-do-trabalhador-2026-futuro-do-trabalho.html",
+    "tempo": "6 min",
+    "date": "2026-05-01",
+    "theme": "remote"
+  },
+  {
     "titulo": "Empresas globais já contratam sem exigir localização",
     "categoria": "Mercado global",
     "descricao": "O trabalho remoto internacional cresce e muda a forma como profissionais acessam oportunidades no mundo.",
