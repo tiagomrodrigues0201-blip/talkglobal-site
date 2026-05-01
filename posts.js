@@ -1,19 +1,5 @@
 const posts = [
   {
-    "titulo": "O mercado imobiliário começa a desenhar uma janela que poucos estão acompanhando",
-    "categoria": "Imóveis",
-    "descricao": "Juros, crédito e comportamento de compra recolocam imóveis no radar de quem pensa no longo prazo.",
-    "link": "/blog/o-mercado-imobiliario-comeca-a-desenhar-uma-janela-que-poucos-estao-acompanhando.html",
-    "tempo": "5 min"
-  },
-  {
-    "titulo": "O trabalho remoto global entra em uma nova fase — e a disputa por talentos mudou",
-    "categoria": "Mercado global",
-    "descricao": "Empresas e profissionais passam a disputar oportunidades em um mercado cada vez menos preso à localização.",
-    "link": "/blog/o-trabalho-remoto-global-entra-em-uma-nova-fase-e-a-disputa-por-talentos-mudou-2.html",
-    "tempo": "5 min"
-  },
-  {
     "titulo": "Empresas globais já contratam sem exigir localização",
     "categoria": "Mercado global",
     "descricao": "O trabalho remoto internacional cresce e muda a forma como profissionais acessam oportunidades no mundo.",
