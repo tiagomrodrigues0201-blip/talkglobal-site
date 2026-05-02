@@ -218,6 +218,7 @@ function nav(active = "") {
     ["Renda", "/blog/ganhar-em-dolar.html"],
     ["Imóveis", "/blog/mercado-imobiliario-brasil-comprar-ou-investir-2026.html"],
     ["Blog", "/blog/"],
+    ["Kit", "/extensao.html"],
   ];
   return `
     <header class="topbar">
@@ -384,6 +385,14 @@ ${nav()}
   </section>
   <section class="container home-ad">
     ${adUnits.display}
+  </section>
+  <section class="container product-cta">
+    <div>
+      <span class="kicker">Kit TalkGlobal</span>
+      <h2>Venda e responda clientes em inglês com mais confiança.</h2>
+      <p>Um kit prático com guia, extensão, modelos de mensagens e produtos recomendados para transformar comunicação em inglês em oportunidade real.</p>
+    </div>
+    <a href="/extensao.html">Conhecer o kit</a>
   </section>
   <section class="container newsletter">
     <div>

@@ -56,6 +56,10 @@ a{color:inherit;text-decoration:none}
 .ad-slot-in-article{margin:28px 0;min-height:180px}
 .ad-slot-multiplex{margin-top:24px;min-height:260px}
 .article-sidebar .ad-slot{position:sticky;top:96px}
+.product-cta{margin:24px auto 10px;padding:32px;border:1px solid var(--blue-line);border-radius:28px;background:#fff;box-shadow:0 22px 60px rgba(30,58,138,.08);display:flex;align-items:center;justify-content:space-between;gap:24px}
+.product-cta h2{font-size:clamp(1.8rem,4vw,3rem);line-height:1;margin:12px 0;letter-spacing:-.04em}
+.product-cta p{color:var(--muted);margin:0;max-width:720px}
+.product-cta a{background:var(--green);color:#fff;border-radius:999px;padding:14px 22px;font-weight:950;white-space:nowrap}
 .newsletter{margin:34px auto 24px;padding:34px;border-radius:28px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:24px}
 .newsletter h2{font-size:clamp(1.8rem,4vw,3rem);line-height:1;margin:12px 0}
 .newsletter p{color:#dbeafe;margin:0}
@@ -131,8 +135,8 @@ a{color:inherit;text-decoration:none}
   .channels,.archive-grid{grid-template-columns:1fr}
   .story-list a{grid-template-columns:1fr}
   .story-list p{grid-column:auto}
-  .newsletter,.footer{display:block}
-  .newsletter a{display:inline-block;margin-top:20px}
+  .newsletter,.footer,.product-cta{display:block}
+  .newsletter a,.product-cta a{display:inline-block;margin-top:20px}
   .visual{width:100%;max-width:100%;min-height:300px}
   .visual-card{left:24px}
   .visual-device{right:16px;width:148px}
