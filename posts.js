@@ -1,5 +1,23 @@
 const posts = [
   {
+    "titulo": "O ranking dos bilionários virou um mapa do futuro",
+    "categoria": "Tecnologia",
+    "descricao": "IA, nuvem e plataformas digitais dominam a nova economia global.",
+    "link": "/blog/ranking-bilionarios-mapa-do-futuro.html",
+    "tempo": "5 min",
+    "date": "2026-05-04",
+    "theme": "money"
+  },
+  {
+    "titulo": "Bilionários da IA estão mostrando para onde o dinheiro está indo",
+    "categoria": "Mercado global",
+    "descricao": "Tecnologia, robótica e plataformas digitais estão redesenhando a riqueza global.",
+    "link": "/blog/bilionarios-ia-dinheiro-tecnologia.html",
+    "tempo": "5 min",
+    "date": "2026-05-04",
+    "theme": "tech"
+  },
+  {
     "titulo": "Dia do Trabalhador em 2026: a dignidade na era da IA",
     "categoria": "Trabalho",
     "descricao": "Tecnologia, IA e renda global estão mudando o valor do trabalho — mas dignidade continua sendo o centro da conversa.",
