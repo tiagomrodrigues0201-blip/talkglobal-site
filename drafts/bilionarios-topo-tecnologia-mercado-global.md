@@ -98,17 +98,10 @@ Quem acompanha essa mudança com atenção pode encontrar oportunidades menores,
 
 Os bilionários aparecem no topo da notícia. Mas a oportunidade pode estar no chão de fábrica digital de quem começa agora.
 
-## Fontes consultadas
-
-- [Forbes: The Top 10 Richest People In The World | May 2026](https://www.forbes.com/sites/forbeswealthteam/article/the-top-ten-richest-people-in-the-world/)
-- [Bloomberg Billionaires Index](https://www.bloomberg.com/billionaires/)
-- [Forbes: Forbes Wealth Team](https://www.forbes.com/sites/forbeswealthteam/)
-- [Forbes: World’s Billionaires](https://www.forbes.com/worlds-billionaires/)
-
 ## Copy para Instagram
 
 Todo mundo está falando dos bilionários. Mas a parte mais importante não é quem está no topo da lista — é o que a lista revela. Tecnologia, IA, nuvem, chips e plataformas digitais estão virando a base da nova economia. Para pequenos negócios e profissionais independentes, entender esse movimento pode ser mais útil do que apenas assistir de longe.
 
 ## Ideia de imagem
 
-Imagem vertical 1080x1350 para Instagram, estilo notícia premium nível Forbes/Exame, fundo claro, layout editorial moderno e sofisticado. Título grande: “O ranking dos bilionários virou um mapa do futuro”. Subtítulo: “Tecnologia, IA e plataformas digitais dominam a nova economia”. Usar elementos visuais de globo discreto, ranking financeiro, prédios corporativos minimalistas, chips, nuvem digital e gráficos sutis. Cores: branco, preto, azul #1e3a8a como base, verde #16a34a apenas em linhas de crescimento. Sem poluição visual, sem parecer anúncio.
+Imagem vertical 1080x1350 para Instagram, estilo notícia premium nível Forbes/Exame, fundo claro, layout editorial moderno e sofisticado. Título grande: “Bilionários viraram o mapa do futuro”. Subtítulo: “Tecnologia, IA e plataformas digitais dominam a nova economia”. Usar elementos visuais de globo discreto, ranking financeiro, prédios corporativos minimalistas, chips, nuvem digital e gráficos sutis. Cores: branco, preto, azul #1e3a8a como base, verde #16a34a apenas em linhas de crescimento. Sem poluição visual, sem parecer anúncio.

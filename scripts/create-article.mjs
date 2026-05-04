@@ -115,6 +115,8 @@ function stripSocialSections(markdown) {
   return markdown
     .replace(/(^|\n)## Copy para Instagram\n[\s\S]*?(?=\n## |$)/gi, "")
     .replace(/(^|\n)## Ideia de imagem\n[\s\S]*?(?=\n## |$)/gi, "")
+    .replace(/(^|\n)## Fontes consultadas\n[\s\S]*?(?=\n## |$)/gi, "")
+    .replace(/(^|\n)## Fonte consultada\n[\s\S]*?(?=\n## |$)/gi, "")
     .trim();
 }
 

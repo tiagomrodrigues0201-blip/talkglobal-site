@@ -79,15 +79,6 @@ Quando o capital global se desloca para IA, nuvem, robótica e plataformas digit
 
 Os bilionários aparecem nas manchetes. Mas a mudança real acontece no mercado que vem depois deles.
 
-## Fontes consultadas
-
-- [Forbes: The Top 10 Richest People In The World | May 2026](https://www.forbes.com/sites/forbeswealthteam/article/the-top-ten-richest-people-in-the-world/)
-- [Bloomberg Billionaires Index](https://www.bloomberg.com/billionaires/)
-- [Forbes: Inside Forbes’ 2026 Billionaires List](https://www.forbes.com/sites/chasewithorn/2026/03/10/2026-worlds-billionaires-list-facts-and-figures/)
-- [Forbes: Meet The 45 AI Newcomers To Forbes’ 2026 Billionaires List](https://www.forbes.com/sites/phoebeliu/2026/03/10/meet-the-45-ai-newcomers-to-forbes-2026-billionaires-list/)
-- [Bloomberg: Meta Acquires Robotics AI Company](https://www.bloomberg.com/news/articles/2026-05-01/meta-acquires-assured-robot-intelligence-to-help-build-humanoid-technology)
-- [Forbes: It’s 10PM. Do You Know Where Your AI Agents Are?](https://www.forbes.com/sites/the-prototype/2026/05/01/its-10pm-do-you-know-where-your-ai-agents-are/)
-
 ## Copy para Instagram
 
 Os bilionários estão ficando ainda mais ricos, mas a notícia importante não é só a fortuna. É o sinal que isso dá sobre o mercado: IA, nuvem, chips, robótica e plataformas digitais estão concentrando capital como poucas áreas hoje. Quem entende essa direção antes, se prepara melhor para trabalhar, vender e competir no novo mercado global.

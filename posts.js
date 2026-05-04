@@ -1,6 +1,6 @@
 const posts = [
   {
-    "titulo": "O ranking dos bilionários virou um mapa do futuro",
+    "titulo": "Bilionários viraram o mapa do futuro",
     "categoria": "Tecnologia",
     "descricao": "IA, nuvem e plataformas digitais dominam a nova economia global.",
     "link": "/blog/ranking-bilionarios-mapa-do-futuro.html",

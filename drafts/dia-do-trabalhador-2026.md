@@ -83,15 +83,6 @@ Mas a essência continua a mesma: trabalho digno é aquele que permite viver, ap
 
 A tecnologia pode ampliar oportunidades. Também pode aprofundar desigualdades. A diferença estará em como ela será usada — e em quem terá acesso às novas portas que estão se abrindo.
 
-## Fontes consultadas
-
-- [World Economic Forum: Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/digest/)
-- [International Labour Organization: Rethinking AI’s impact on the future of work](https://www.ilo.org/resource/article/rethinking-ai%E2%80%99s-impact-future-work)
-- [IMF: New Skills and AI Are Reshaping the Future of Work](https://www.imf.org/en/blogs/articles/2026/01/14/new-skills-and-ai-are-reshaping-the-future-of-work)
-- [Investopedia: How AI Could Eliminate 4 Million Jobs Annually Without Significantly Rattling the Labor Market](https://www.investopedia.com/how-ai-could-destroy-4-million-jobs-per-year-and-not-kill-the-labor-market-1776901536126-11956548)
-- [Washington Post: What Silicon Valley layoffs hide about the future of the job market](https://www.washingtonpost.com/technology/2026/05/01/ai-jobs-tech-layoffs-austerity/)
-- [Al Jazeera: May Day in the age of AI](https://www.aljazeera.com/opinions/2026/5/1/may-day-in-the-age-of-ai-the-new-war-on-workers)
-
 ## Copy para Instagram
 
 O Dia do Trabalhador em 2026 não é só sobre emprego. É sobre dignidade, adaptação e o direito de continuar relevante em um mercado que muda rápido demais. A IA pode abrir portas, mas também pode estreitar caminhos para quem não recebe formação, proteção e oportunidade real. O futuro do trabalho precisa ser tecnológico, sim — mas também humano.
