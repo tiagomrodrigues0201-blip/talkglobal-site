@@ -1,5 +1,32 @@
 const posts = [
   {
+    "titulo": "Ferramentas para começar a ganhar dinheiro online com mais organização",
+    "categoria": "Renda online",
+    "descricao": "Organização, comunicação e rotina fazem diferença antes mesmo da primeira venda online.",
+    "link": "/blog/ferramentas-para-ganhar-dinheiro-online.html",
+    "tempo": "5 min",
+    "date": "2026-05-05",
+    "theme": "money"
+  },
+  {
+    "titulo": "Setup home office produtivo: itens simples que melhoram sua rotina",
+    "categoria": "Trabalho online",
+    "descricao": "Cadeira, áudio, luz e organização podem deixar o trabalho remoto mais confortável e profissional.",
+    "link": "/blog/setup-home-office-produtivo.html",
+    "tempo": "5 min",
+    "date": "2026-05-05",
+    "theme": "remote"
+  },
+  {
+    "titulo": "Melhor notebook para trabalhar online: como escolher sem gastar errado",
+    "categoria": "Guias",
+    "descricao": "Um guia prático para comprar melhor e montar uma rotina de trabalho online sem desperdiçar dinheiro.",
+    "link": "/blog/melhor-notebook-trabalho-online.html",
+    "tempo": "6 min",
+    "date": "2026-05-05",
+    "theme": "tech"
+  },
+  {
     "titulo": "Bilionários viraram o mapa do futuro",
     "categoria": "Tecnologia",
     "descricao": "IA, nuvem e plataformas digitais dominam a nova economia global.",
