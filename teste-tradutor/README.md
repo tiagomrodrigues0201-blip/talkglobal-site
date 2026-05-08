@@ -9,7 +9,8 @@ Fluxo real implementado:
 - o backend extrai audio com FFmpeg;
 - a OpenAI transcreve o audio;
 - a OpenAI traduz preservando intencao, emocao, contexto e naturalidade;
-- o backend gera um arquivo `.srt` com timestamps;
+- o backend gera um arquivo `.srt` com timestamps para download;
+- o backend gera um `.ass` temporário para queimar legendas e watermark sem usar `drawtext`;
 - o FFmpeg renderiza o MP4 com legendas;
 - no plano free, o MP4 recebe watermark;
 - o SRT e o MP4 final sao salvos no Supabase Storage;

@@ -254,8 +254,17 @@ function toSrtTime(value) {
   const total = Math.max(0, Math.floor(value));
   const h = Math.floor(total / 3600).toString().padStart(2, '0');
   const m = Math.floor((total % 3600) / 60).toString().padStart(2, '0');
-  const s = Math.floor(total % 60).toString().padStart(2, '0');
-  return `${h}:${m}:${s},${ms}`;
+  const sec = Math.floor(total % 60).toString().padStart(2, '0');
+  return `${h}:${m}:${sec},${ms}`;
+}
+
+function toAssTime(value) {
+  const centiseconds = Math.max(0, Math.round((value % 1) * 100)).toString().padStart(2, '0');
+  const total = Math.max(0, Math.floor(value));
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60).toString().padStart(2, '0');
+  const sec = Math.floor(total % 60).toString().padStart(2, '0');
+  return `${h}:${m}:${sec}.${centiseconds}`;
 }
 
 function makeSrt(segments) {
@@ -266,21 +275,95 @@ function escapeFilterPath(filePath) {
   return filePath.replace(/\\/g, '/').replace(/:/g, '\\:').replace(/'/g, "\\'");
 }
 
-function captionStyle(style) {
-  if (style === 'TikTok Bold') return 'Fontsize=22,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=1,Outline=3,Shadow=1,Alignment=2,MarginV=42,Bold=1';
-  if (style === 'Cinema') return 'Fontsize=18,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=1,Outline=1,Shadow=1,Alignment=2,MarginV=36';
-  if (style === 'Anime') return 'Fontsize=20,PrimaryColour=&H00D7FEFF,OutlineColour=&H003B1D00,BorderStyle=1,Outline=2,Shadow=1,Alignment=2,MarginV=38,Bold=1';
-  if (style === 'Minimal') return 'Fontsize=18,PrimaryColour=&H00FFFFFF,OutlineColour=&H66000000,BorderStyle=1,Outline=1,Shadow=0,Alignment=2,MarginV=32';
-  return 'Fontsize=18,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=1,Outline=2,Shadow=1,Alignment=2,MarginV=34';
+function escapeAssText(text) {
+  return String(text || '')
+    .replace(/\\/g, '\\\\')
+    .replace(/\{/g, '\\{')
+    .replace(/\}/g, '\\}')
+    .replace(/\r?\n+/g, ' ')
+    .trim();
 }
 
-async function renderVideo(inputPath, srtPath, outputPath, style, watermark) {
-  const filters = [`subtitles='${escapeFilterPath(srtPath)}':force_style='${captionStyle(style)}'`];
-  if (watermark) {
-    filters.push("drawtext=text='Translated with TalkGlobal AI':x=w-tw-24:y=24:fontsize=18:fontcolor=white@0.82:box=1:boxcolor=black@0.34:boxborderw=10");
-  }
-  await execFileAsync(ffmpegPath, ['-y', '-i', inputPath, '-vf', filters.join(','), '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '23', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart', outputPath], { timeout: 240000 });
+function assStyle(style) {
+  const base = {
+    font: 'Arial',
+    size: 42,
+    color: '&H00FFFFFF',
+    outline: '&H00000000',
+    back: '&H99000000',
+    bold: 0,
+    italic: 0,
+    borderStyle: 1,
+    outlineWidth: 3,
+    shadow: 1,
+    alignment: 2,
+    marginV: 82
+  };
+  if (style === 'TikTok Bold') return { ...base, size: 54, bold: 1, outlineWidth: 5, shadow: 2, marginV: 96 };
+  if (style === 'Cinema') return { ...base, font: 'Georgia', size: 40, outlineWidth: 2, shadow: 1, marginV: 86 };
+  if (style === 'Anime') return { ...base, size: 46, color: '&H00D7FEFF', outline: '&H003B1D00', bold: 1, outlineWidth: 4, shadow: 2, marginV: 90 };
+  if (style === 'Minimal') return { ...base, size: 38, outline: '&H66000000', outlineWidth: 1, shadow: 0, marginV: 72 };
+  return base;
 }
+
+function styleLine(name, style) {
+  return `Style: ${[
+    name, style.font, style.size, style.color, '&H000000FF', style.outline, style.back,
+    style.bold, style.italic, 0, 0, 100, 100, 0, 0, style.borderStyle, style.outlineWidth,
+    style.shadow, style.alignment, 48, 48, style.marginV, 1
+  ].join(',')}`;
+}
+
+function makeAss(segments, style, watermark, durationSeconds) {
+  const caption = assStyle(style);
+  const watermarkStyle = {
+    font: 'Arial',
+    size: 28,
+    color: '&H22FFFFFF',
+    outline: '&H66000000',
+    back: '&H99000000',
+    bold: 1,
+    italic: 0,
+    borderStyle: 1,
+    outlineWidth: 1,
+    shadow: 0,
+    alignment: 9,
+    marginV: 34
+  };
+  const maxEnd = Math.max(durationSeconds || 0, ...segments.map((segment) => Number(segment.end) || 0), 1);
+  const events = segments.map((segment) => {
+    const start = toAssTime(segment.start || 0);
+    const end = toAssTime(segment.end || Math.max((segment.start || 0) + 3, 3));
+    return `Dialogue: 0,${start},${end},Caption,,0000,0000,0000,,${escapeAssText(segment.text)}`;
+  });
+  if (watermark) {
+    events.unshift(`Dialogue: 1,0:00:00.00,${toAssTime(maxEnd)},Watermark,,0000,0048,0000,,Translated with TalkGlobal AI`);
+  }
+  return [
+    '[Script Info]',
+    'ScriptType: v4.00+',
+    'ScaledBorderAndShadow: yes',
+    'WrapStyle: 2',
+    'PlayResX: 1080',
+    'PlayResY: 1920',
+    '',
+    '[V4+ Styles]',
+    'Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding',
+    styleLine('Caption', caption),
+    styleLine('Watermark', watermarkStyle),
+    '',
+    '[Events]',
+    'Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text',
+    ...events,
+    ''
+  ].join('\n');
+}
+
+async function renderVideo(inputPath, assPath, outputPath) {
+  const filter = `subtitles='${escapeFilterPath(assPath)}'`;
+  await execFileAsync(ffmpegPath, ['-y', '-i', inputPath, '-vf', filter, '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '23', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart', outputPath], { timeout: 240000 });
+}
+
 
 async function processStoredJob(jobId, options = {}) {
   const supabase = getSupabase();
@@ -303,6 +386,7 @@ async function processStoredJob(jobId, options = {}) {
   const inputPath = path.join(workdir, inputName);
   const audioPath = path.join(workdir, 'audio.mp3');
   const srtPath = path.join(workdir, 'translated.srt');
+  const assPath = path.join(workdir, 'translated.ass');
   const outputPath = path.join(workdir, 'translated.mp4');
   const srtStoragePath = `${jobId}/translated.srt`;
   const finalVideoStoragePath = `${jobId}/translated.mp4`;
@@ -336,12 +420,14 @@ async function processStoredJob(jobId, options = {}) {
 
     await updateJob(supabase, jobId, { status: 'generating_srt' });
     const srt = makeSrt(translatedSegments);
+    const ass = makeAss(translatedSegments, captionStyleValue, hasWatermark, duration);
     fs.writeFileSync(srtPath, srt, 'utf8');
+    fs.writeFileSync(assPath, ass, 'utf8');
     const uploadSrt = await supabase.storage.from(bucket).upload(srtStoragePath, Buffer.from(srt, 'utf8'), { contentType: 'application/x-subrip; charset=utf-8', upsert: true });
     if (uploadSrt.error) throw new Error(`Erro ao salvar SRT: ${uploadSrt.error.message}`);
 
     await updateJob(supabase, jobId, { status: 'rendering', srt_path: srtStoragePath });
-    await renderVideo(inputPath, srtPath, outputPath, captionStyleValue, hasWatermark);
+    await renderVideo(inputPath, assPath, outputPath);
     const uploadFinal = await supabase.storage.from(bucket).upload(finalVideoStoragePath, fs.readFileSync(outputPath), { contentType: 'video/mp4', upsert: true });
     if (uploadFinal.error) throw new Error(`Erro ao salvar MP4 final: ${uploadFinal.error.message}`);
 
