@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Translated with TalkGlobal AI | Traduza vídeos com legendas naturais</title>
+  <meta name="description" content="Traduza vídeos com legendas naturais, contexto preservado, estilos de legenda, SRT para download e fluxo preparado para exportar MP4." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="theme-color" content="#050816" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="TalkGlobal" />
+  <meta property="og:title" content="Translated with TalkGlobal AI" />
+  <meta property="og:description" content="Envie um vídeo e gere uma versão legendada com tradução natural." />
+  <meta property="og:url" content="https://talkglobalapp.com/teste-tradutor/" />
+  <meta property="og:image" content="https://talkglobalapp.com/icon128.png" />
+  <link rel="canonical" href="https://talkglobalapp.com/teste-tradutor/" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="stylesheet" href="/teste-tradutor/styles.css" />
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7852370456334253" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="ambient" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="TalkGlobal">
+      <img src="/icon48.png" alt="" width="34" height="34" />
+      <span>TalkGlobal</span>
+    </a>
+    <nav aria-label="Navegação de teste">
+      <a href="#upload">Upload</a>
+      <a href="#demo">Prévia</a>
+      <a href="#arquitetura">Arquitetura</a>
+    </nav>
+    <a class="nav-cta" href="#upload">Testar grátis</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">Translated with TalkGlobal AI</span>
+        <h1>Traduza qualquer vídeo com legendas naturais em segundos.</h1>
+        <p>Envie um vídeo, escolha o idioma e receba uma versão legendada com tradução natural, contexto e intenção preservados.</p>
+        <div class="hero-actions">
+          <a class="primary-action" href="#upload">Testar grátis agora</a>
+          <a class="secondary-action" href="#demo">Ver fluxo</a>
+        </div>
+        <p class="legal-note">Use apenas vídeos que você possui ou tem permissão para processar.</p>
+      </div>
+
+      <aside class="hero-card" aria-label="Resumo da ferramenta">
+        <div class="video-shell">
+          <div class="video-top"><span></span><span></span><span></span><b>AI subtitle render</b></div>
+          <div class="fake-frame">
+            <div class="wave"></div>
+            <div class="caption-preview">“I did not mean that literally.”</div>
+            <div class="caption-preview translated">“Eu não quis dizer isso ao pé da letra.”</div>
+          </div>
+        </div>
+        <div class="metrics">
+          <article><strong>8</strong><span>idiomas iniciais</span></article>
+          <article><strong>SRT</strong><span>download pronto</span></article>
+          <article><strong>5</strong><span>estilos de legenda</span></article>
+        </div>
+      </aside>
+    </section>
+
+    <section class="panel upload-panel" id="upload">
+      <div class="section-head">
+        <span class="eyebrow">MVP de validação</span>
+        <h2>Envie um vídeo e simule a tradução natural.</h2>
+        <p>Nesta primeira versão, o navegador valida o arquivo, gera uma prévia e cria um SRT de exemplo. O render MP4 definitivo fica preparado para backend com OpenAI, FFmpeg e Supabase.</p>
+      </div>
+
+      <div class="workflow">
+        <form class="uploader" data-form>
+          <label class="dropzone" for="videoFile" data-dropzone>
+            <input id="videoFile" name="video" type="file" accept="video/mp4,video/quicktime,video/webm" />
+            <span class="drop-icon">↑</span>
+            <strong>Enviar vídeo</strong>
+            <small>MP4, MOV ou WEBM. Limite grátis: até 150 MB e 3 minutos.</small>
+          </label>
+
+          <div class="form-grid">
+            <label>Idioma original
+              <select name="sourceLanguage" id="sourceLanguage">
+                <option value="auto">Detectar automaticamente</option>
+                <option value="pt">Português</option>
+                <option value="en">Inglês</option>
+                <option value="es">Espanhol</option>
+                <option value="fr">Francês</option>
+                <option value="it">Italiano</option>
+                <option value="de">Alemão</option>
+                <option value="ja">Japonês</option>
+                <option value="ko">Coreano</option>
+              </select>
+            </label>
+            <label>Idioma final
+              <select name="targetLanguage" id="targetLanguage">
+                <option value="pt">Português</option>
+                <option value="en">Inglês</option>
+                <option value="es">Espanhol</option>
+                <option value="fr">Francês</option>
+                <option value="it">Italiano</option>
+                <option value="de">Alemão</option>
+                <option value="ja">Japonês</option>
+                <option value="ko">Coreano</option>
+              </select>
+            </label>
+          </div>
+
+          <fieldset class="style-picker" aria-label="Estilo de legenda">
+            <legend>Estilo de legenda</legend>
+            <label><input type="radio" name="captionStyle" value="Clean" checked /> Clean</label>
+            <label><input type="radio" name="captionStyle" value="TikTok Bold" /> TikTok Bold</label>
+            <label><input type="radio" name="captionStyle" value="Cinema" /> Cinema</label>
+            <label><input type="radio" name="captionStyle" value="Anime" /> Anime</label>
+            <label><input type="radio" name="captionStyle" value="Minimal" /> Minimal</label>
+          </fieldset>
+
+          <div class="plan-toggle" role="group" aria-label="Plano">
+            <button type="button" class="active" data-plan="free">Free com watermark</button>
+            <button type="button" data-plan="premium">Preview Premium</button>
+          </div>
+
+          <button class="generate" type="submit">Gerar tradução</button>
+          <p class="mini-disclaimer">O plano grátis mantém watermark: “Translated with TalkGlobal AI”.</p>
+        </form>
+
+        <aside class="preview" id="demo">
+          <div class="preview-video" data-preview>
+            <div class="empty-state">
+              <strong>Preview do vídeo</strong>
+              <span>Seu arquivo aparece aqui depois do upload.</span>
+            </div>
+          </div>
+          <div class="progress-card">
+            <div class="progress-row"><span data-stage>Esperando upload</span><b data-percent>0%</b></div>
+            <div class="progress-bar"><i data-progress></i></div>
+            <ol class="steps">
+              <li data-step="upload">Upload seguro</li>
+              <li data-step="transcribe">Transcrição</li>
+              <li data-step="translate">Tradução natural</li>
+              <li data-step="subtitle">Legenda sincronizada</li>
+              <li data-step="export">Exportação</li>
+            </ol>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="panel result-panel" data-results hidden>
+      <div class="section-head">
+        <span class="eyebrow">Resultado</span>
+        <h2>Sua tradução está pronta para revisar.</h2>
+        <p>Baixe o SRT gerado, revise a prévia e crie novas versões por idioma ou estilo.</p>
+      </div>
+      <div class="result-grid">
+        <article class="result-card">
+          <small>Arquivo</small>
+          <strong data-file-name>video.mp4</strong>
+          <span data-file-meta>Processado no modo free</span>
+        </article>
+        <article class="result-card">
+          <small>Idioma final</small>
+          <strong data-target-label>Português</strong>
+          <span data-style-label>Legenda Clean</span>
+        </article>
+        <article class="result-card watermark-card">
+          <small>Watermark</small>
+          <strong data-watermark>Translated with TalkGlobal AI</strong>
+          <span>Removível no premium.</span>
+        </article>
+      </div>
+      <div class="download-actions">
+        <button type="button" data-download-srt>Baixar SRT</button>
+        <button type="button" data-download-mp4>Baixar MP4 demo</button>
+        <button type="button" data-another-language>Traduzir para outro idioma</button>
+        <button type="button" data-another-style>Gerar outro estilo</button>
+        <button type="button" data-short="tiktok">Criar versão TikTok/Reels</button>
+        <button type="button" data-short="shorts">Criar versão YouTube Shorts</button>
+      </div>
+      <div class="srt-box">
+        <div><strong>Prévia do SRT</strong><button type="button" data-copy-srt>Copiar</button></div>
+        <pre data-srt-preview></pre>
+      </div>
+    </section>
+
+    <section class="section-grid">
+      <article class="panel mini-panel">
+        <span class="eyebrow">Free</span>
+        <h2>Teste sem fricção.</h2>
+        <ul>
+          <li>Vários testes permitidos</li>
+          <li>Watermark no vídeo final</li>
+          <li>Limite de duração</li>
+          <li>Fila normal</li>
+          <li>Export básico</li>
+        </ul>
+      </article>
+      <article class="panel mini-panel premium">
+        <span class="eyebrow">Premium</span>
+        <h2>Para publicar de verdade.</h2>
+        <ul>
+          <li>Remover watermark</li>
+          <li>Vídeos maiores</li>
+          <li>Export HD</li>
+          <li>Prioridade</li>
+          <li>Histórico salvo</li>
+          <li>Futuramente: dublagem IA</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="panel architecture" id="arquitetura">
+      <div class="section-head">
+        <span class="eyebrow">Base técnica</span>
+        <h2>Preparado para processamento real.</h2>
+        <p>O MVP isola a experiência e deixa pontos claros para integrar transcrição, tradução natural, SRT, watermark e renderização MP4.</p>
+      </div>
+      <div class="architecture-grid">
+        <article><strong>1. Supabase Storage</strong><span>Upload do arquivo original, URL assinada e histórico por usuário.</span></article>
+        <article><strong>2. Fila de processamento</strong><span>Job assíncrono com status: uploaded, transcribing, translating, rendering, completed ou failed.</span></article>
+        <article><strong>3. OpenAI</strong><span>Transcrição do áudio e tradução adaptada por intenção, emoção, contexto e cultura.</span></article>
+        <article><strong>4. FFmpeg</strong><span>Burn-in de legendas, watermark free e export MP4/HD.</span></article>
+        <article><strong>5. Stripe</strong><span>Bloqueio de remover watermark, HD, vídeos longos, prioridade e histórico premium.</span></article>
+        <article><strong>6. Retenção</strong><span>Reprocessar idioma, trocar estilo, baixar SRT e gerar versões para Reels/Shorts.</span></article>
+      </div>
+      <a class="secondary-action" href="/blog/">Futuro canal editorial</a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <strong>TalkGlobal</strong>
+    <span>Ferramentas para aproximar pessoas, culturas e oportunidades por meio da linguagem.</span>
+  </footer>
+
+  <script src="/teste-tradutor/app.js" defer></script>
+</body>
+</html>
