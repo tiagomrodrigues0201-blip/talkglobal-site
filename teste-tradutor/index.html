@@ -28,7 +28,7 @@
     </a>
     <nav aria-label="Navegação de teste">
       <a href="#upload">Upload</a>
-      <a href="#demo">Prévia</a>
+      <a href="#preview">Prévia</a>
       <a href="#arquitetura">Arquitetura</a>
     </nav>
     <a class="nav-cta" href="#upload">Testar grátis</a>
@@ -42,7 +42,7 @@
         <p>Envie um vídeo, escolha o idioma e receba uma versão legendada com tradução natural, contexto e intenção preservados.</p>
         <div class="hero-actions">
           <a class="primary-action" href="#upload">Testar grátis agora</a>
-          <a class="secondary-action" href="#demo">Ver fluxo</a>
+          <a class="secondary-action" href="#preview">Ver fluxo</a>
         </div>
         <p class="legal-note">Use apenas vídeos que você possui ou tem permissão para processar.</p>
       </div>
@@ -66,9 +66,9 @@
 
     <section class="panel upload-panel" id="upload">
       <div class="section-head">
-        <span class="eyebrow">MVP de validação</span>
-        <h2>Envie um vídeo e simule a tradução natural.</h2>
-        <p>Nesta primeira versão, o navegador valida o arquivo, gera uma prévia e cria um SRT de exemplo. O render MP4 definitivo fica preparado para backend com OpenAI, FFmpeg e Supabase.</p>
+        <span class="eyebrow">Tradução de vídeo</span>
+        <h2>Envie um vídeo e gere a tradução real.</h2>
+        <p>O vídeo é enviado para processamento real: upload seguro, transcrição, tradução natural, geração de SRT e renderização do MP4 legendado.</p>
       </div>
 
       <div class="workflow">
@@ -77,7 +77,7 @@
             <input id="videoFile" name="video" type="file" accept="video/mp4,video/quicktime,video/webm" />
             <span class="drop-icon">↑</span>
             <strong>Enviar vídeo</strong>
-            <small>MP4, MOV ou WEBM. Limite grátis: até 150 MB e 3 minutos.</small>
+            <small>MP4, MOV ou WEBM. Limite inicial: até 50 MB e 90 segundos.</small>
           </label>
 
           <div class="form-grid">
@@ -126,7 +126,7 @@
           <p class="mini-disclaimer">O plano grátis mantém watermark: “Translated with TalkGlobal AI”.</p>
         </form>
 
-        <aside class="preview" id="demo">
+        <aside class="preview" id="preview">
           <div class="preview-video" data-preview>
             <div class="empty-state">
               <strong>Preview do vídeo</strong>
@@ -134,14 +134,15 @@
             </div>
           </div>
           <div class="progress-card">
-            <div class="progress-row"><span data-stage>Esperando upload</span><b data-percent>0%</b></div>
+            <div class="progress-row"><span data-stage>Esperando upload</span><b data-percent>Status real</b></div>
             <div class="progress-bar"><i data-progress></i></div>
             <ol class="steps">
-              <li data-step="upload">Upload seguro</li>
-              <li data-step="transcribe">Transcrição</li>
-              <li data-step="translate">Tradução natural</li>
-              <li data-step="subtitle">Legenda sincronizada</li>
-              <li data-step="export">Exportação</li>
+              <li data-step="created">Upload direto</li>
+              <li data-step="uploaded">Arquivo recebido</li>
+              <li data-step="transcribing">Transcrição</li>
+              <li data-step="translating">Tradução natural</li>
+              <li data-step="generating_srt">SRT sincronizado</li>
+              <li data-step="rendering">Renderização</li>
             </ol>
           </div>
         </aside>
@@ -151,8 +152,8 @@
     <section class="panel result-panel" data-results hidden>
       <div class="section-head">
         <span class="eyebrow">Resultado</span>
-        <h2>Sua tradução está pronta para revisar.</h2>
-        <p>Baixe o SRT gerado, revise a prévia e crie novas versões por idioma ou estilo.</p>
+        <h2>Sua tradução está pronta.</h2>
+        <p>Baixe o SRT real, revise a legenda e salve o MP4 final processado pelo TalkGlobal.</p>
       </div>
       <div class="result-grid">
         <article class="result-card">
@@ -173,7 +174,7 @@
       </div>
       <div class="download-actions">
         <button type="button" data-download-srt>Baixar SRT</button>
-        <button type="button" data-download-mp4>Baixar MP4 demo</button>
+        <button type="button" data-download-mp4>Baixar MP4 legendado</button>
         <button type="button" data-another-language>Traduzir para outro idioma</button>
         <button type="button" data-another-style>Gerar outro estilo</button>
         <button type="button" data-short="tiktok">Criar versão TikTok/Reels</button>
@@ -215,17 +216,17 @@
       <div class="section-head">
         <span class="eyebrow">Base técnica</span>
         <h2>Preparado para processamento real.</h2>
-        <p>O MVP isola a experiência e deixa pontos claros para integrar transcrição, tradução natural, SRT, watermark e renderização MP4.</p>
+        <p>A ferramenta usa upload direto no Supabase Storage e prepara a evolução para worker dedicado com FFmpeg, OpenAI e fila assíncrona.</p>
       </div>
       <div class="architecture-grid">
         <article><strong>1. Supabase Storage</strong><span>Upload do arquivo original, URL assinada e histórico por usuário.</span></article>
-        <article><strong>2. Fila de processamento</strong><span>Job assíncrono com status: uploaded, transcribing, translating, rendering, completed ou failed.</span></article>
+        <article><strong>2. Fila de processamento</strong><span>Job assíncrono com status: created, uploaded, transcribing, translating, rendering, completed ou failed.</span></article>
         <article><strong>3. OpenAI</strong><span>Transcrição do áudio e tradução adaptada por intenção, emoção, contexto e cultura.</span></article>
         <article><strong>4. FFmpeg</strong><span>Burn-in de legendas, watermark free e export MP4/HD.</span></article>
         <article><strong>5. Stripe</strong><span>Bloqueio de remover watermark, HD, vídeos longos, prioridade e histórico premium.</span></article>
         <article><strong>6. Retenção</strong><span>Reprocessar idioma, trocar estilo, baixar SRT e gerar versões para Reels/Shorts.</span></article>
       </div>
-      <a class="secondary-action" href="/blog/">Futuro canal editorial</a>
+      <a class="secondary-action" href="/blog/">Blog TalkGlobal</a>
     </section>
   </main>
 
@@ -234,6 +235,7 @@
     <span>Ferramentas para aproximar pessoas, culturas e oportunidades por meio da linguagem.</span>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="/teste-tradutor/app.js" defer></script>
 </body>
 </html>

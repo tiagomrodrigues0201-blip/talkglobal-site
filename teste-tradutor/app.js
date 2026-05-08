@@ -1,24 +1,29 @@
 (() => {
-  const MAX_FREE_BYTES = 150 * 1024 * 1024;
-  const MAX_FREE_SECONDS = 180;
+  const MAX_FREE_BYTES = 50 * 1024 * 1024;
+  const MAX_FREE_SECONDS = 90;
   const ACCEPTED = ['video/mp4', 'video/quicktime', 'video/webm'];
   const languages = { auto: 'Detectado automaticamente', pt: 'Português', en: 'Inglês', es: 'Espanhol', fr: 'Francês', it: 'Italiano', de: 'Alemão', ja: 'Japonês', ko: 'Coreano' };
-  const sampleLines = {
-    pt: ['A ideia principal não é traduzir palavra por palavra.', 'É preservar intenção, emoção e contexto.', 'Assim o vídeo soa natural para quem assiste.'],
-    en: ['The goal is not to translate word by word.', 'It is to preserve intent, emotion, and context.', 'That is how the video feels natural to the viewer.'],
-    es: ['La idea no es traducir palabra por palabra.', 'Es preservar intención, emoción y contexto.', 'Así el video suena natural para quien lo ve.'],
-    fr: ['Le but n’est pas de traduire mot à mot.', 'Il faut préserver l’intention, l’émotion et le contexte.', 'C’est comme ça que la vidéo paraît naturelle.'],
-    it: ['L’obiettivo non è tradurre parola per parola.', 'È preservare intenzione, emozione e contesto.', 'Così il video risulta naturale per chi lo guarda.'],
-    de: ['Es geht nicht darum, Wort für Wort zu übersetzen.', 'Es geht darum, Absicht, Emotion und Kontext zu bewahren.', 'So wirkt das Video für Zuschauer natürlich.'],
-    ja: ['大切なのは、言葉を一語ずつ置き換えることではありません。', '意図、感情、文脈を保つことです。', 'だから視聴者に自然に伝わります。'],
-    ko: ['핵심은 단어를 하나씩 바꾸는 것이 아닙니다.', '의도와 감정, 맥락을 살리는 것입니다.', '그래야 시청자에게 자연스럽게 전달됩니다.']
+  const statusLabels = {
+    created: 'Job criado. Enviando vídeo direto para o Supabase Storage...',
+    uploaded: 'Upload concluído. Preparando processamento...',
+    transcribing: 'Transcrevendo o áudio com IA...',
+    translating: 'Traduzindo com contexto e naturalidade...',
+    generating_srt: 'Gerando SRT sincronizado...',
+    rendering: 'Aplicando legendas e watermark no MP4...',
+    completed: 'Tradução concluída.',
+    failed: 'O processamento falhou.'
   };
+  const statusOrder = ['created', 'uploaded', 'transcribing', 'translating', 'generating_srt', 'rendering', 'completed'];
 
   let currentFile = null;
   let currentObjectUrl = '';
-  let currentSrt = '';
   let selectedPlan = 'free';
   let currentDuration = 0;
+  let currentJobId = '';
+  let currentSrt = '';
+  let currentVideoUrl = '';
+  let currentSrtUrl = '';
+  let pollTimer = null;
 
   const $ = (selector) => document.querySelector(selector);
   const $$ = (selector) => Array.from(document.querySelectorAll(selector));
@@ -28,26 +33,28 @@
   const dropzone = $('[data-dropzone]');
   const preview = $('[data-preview]');
   const results = $('[data-results]');
+  const generateButton = $('.generate');
 
-  function setProgress(percent, stage, activeStep) {
-    $('[data-percent]').textContent = `${percent}%`;
-    $('[data-stage]').textContent = stage;
-    $('[data-progress]').style.width = `${percent}%`;
+  function setRealStatus(status, message) {
+    const index = Math.max(0, statusOrder.indexOf(status));
+    const percent = status === 'failed' ? 100 : Math.round(((index + 1) / statusOrder.length) * 100);
+    $('[data-percent]').textContent = status || 'Status real';
+    $('[data-stage]').textContent = message || statusLabels[status] || 'Processando...';
+    $('[data-stage]').style.color = status === 'failed' ? 'var(--danger)' : '';
+    $('[data-progress]').style.width = status === 'failed' ? '100%' : `${percent}%`;
     $$('[data-step]').forEach((step) => {
       const key = step.dataset.step;
-      step.classList.toggle('active', key === activeStep);
-      if (['upload', 'transcribe', 'translate', 'subtitle', 'export'].indexOf(key) < ['upload', 'transcribe', 'translate', 'subtitle', 'export'].indexOf(activeStep)) {
-        step.classList.add('done');
-      }
-      if (percent === 0) step.classList.remove('active', 'done');
-      if (percent === 100) step.classList.add('done');
+      const stepIndex = statusOrder.indexOf(key);
+      step.classList.toggle('active', key === status);
+      step.classList.toggle('done', stepIndex >= 0 && stepIndex < index);
+      if (status === 'completed') step.classList.add('done');
     });
   }
 
   function showError(message) {
-    setProgress(0, message, 'upload');
-    $('[data-stage]').style.color = 'var(--danger)';
-    setTimeout(() => { $('[data-stage]').style.color = ''; }, 2600);
+    setRealStatus('failed', message);
+    generateButton.disabled = false;
+    generateButton.textContent = 'Gerar tradução';
   }
 
   function formatSize(bytes) {
@@ -64,55 +71,23 @@
   function validateFile(file) {
     if (!file) return 'Selecione um vídeo para continuar.';
     if (!ACCEPTED.includes(file.type)) return 'Formato não aceito. Use MP4, MOV ou WEBM.';
-    if (selectedPlan === 'free' && file.size > MAX_FREE_BYTES) return 'No plano grátis, use arquivos de até 150 MB.';
+    if (selectedPlan === 'free' && file.size > MAX_FREE_BYTES) return 'No plano grátis, use vídeos de até 50 MB nesta fase.';
     return '';
   }
 
   function previewFile(file) {
     if (currentObjectUrl) URL.revokeObjectURL(currentObjectUrl);
     currentObjectUrl = URL.createObjectURL(file);
-    preview.innerHTML = `<video src="${currentObjectUrl}" controls playsinline></video><div class="watermark">Translated with TalkGlobal AI</div><div class="live-caption" data-live-caption>Gerando legenda natural...</div>`;
+    preview.innerHTML = `<video src="${currentObjectUrl}" controls playsinline></video><div class="watermark">Translated with TalkGlobal AI</div><div class="live-caption" data-live-caption>O resultado real aparecerá após o processamento.</div>`;
     const video = preview.querySelector('video');
     video.addEventListener('loadedmetadata', () => {
       currentDuration = video.duration || 0;
       if (selectedPlan === 'free' && currentDuration > MAX_FREE_SECONDS) {
-        showError('No plano grátis, use vídeos de até 3 minutos.');
+        showError('No plano grátis, use vídeos de até 90 segundos nesta primeira versão.');
       } else {
-        setProgress(18, `Arquivo pronto: ${formatSize(file.size)} • ${formatDuration(currentDuration)}`, 'upload');
+        setRealStatus('created', `Arquivo pronto: ${formatSize(file.size)} • ${formatDuration(currentDuration)}`);
       }
     });
-  }
-
-  function makeSrt(target) {
-    const lines = sampleLines[target] || sampleLines.pt;
-    const total = Math.max(18, Math.min(currentDuration || 24, 42));
-    const chunk = Math.max(4, Math.floor(total / lines.length));
-    return lines.map((text, index) => {
-      const start = index * chunk;
-      const end = index === lines.length - 1 ? total : start + chunk;
-      return `${index + 1}\n${toTime(start)} --> ${toTime(end)}\n${text}\n`;
-    }).join('\n');
-  }
-
-  function toTime(value) {
-    const h = Math.floor(value / 3600).toString().padStart(2, '0');
-    const m = Math.floor((value % 3600) / 60).toString().padStart(2, '0');
-    const s = Math.floor(value % 60).toString().padStart(2, '0');
-    return `${h}:${m}:${s},000`;
-  }
-
-  async function simulateProcessing(data) {
-    const stages = [
-      [32, 'Enviando arquivo com segurança...', 'upload'],
-      [48, 'Extraindo áudio e preparando transcrição...', 'transcribe'],
-      [66, 'Adaptando intenção, emoção e contexto...', 'translate'],
-      [84, `Aplicando estilo ${data.captionStyle}...`, 'subtitle'],
-      [100, selectedPlan === 'free' ? 'Export demo com watermark pronto.' : 'Export premium simulado pronto.', 'export']
-    ];
-    for (const [percent, label, step] of stages) {
-      await new Promise((resolve) => setTimeout(resolve, 520));
-      setProgress(percent, label, step);
-    }
   }
 
   function applyCaptionStyle(style) {
@@ -125,36 +100,107 @@
     if (style === 'Minimal') caption.classList.add('minimal');
   }
 
+  function getFormValues() {
+    return {
+      sourceLanguage: $('#sourceLanguage').value,
+      targetLanguage: $('#targetLanguage').value,
+      captionStyle: document.querySelector('input[name="captionStyle"]:checked')?.value || 'Clean',
+      plan: selectedPlan
+    };
+  }
+
+  async function createJob(data) {
+    const response = await fetch('/api/translate-video?action=create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        fileName: currentFile.name,
+        fileSize: currentFile.size,
+        fileType: currentFile.type,
+        sourceLanguage: data.sourceLanguage,
+        targetLanguage: data.targetLanguage,
+        captionStyle: data.captionStyle,
+        plan: selectedPlan
+      })
+    });
+    const json = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(json.error || 'Não foi possível criar o job.');
+    if (!json.upload?.supabaseUrl || !json.upload?.anonKey || !json.upload?.token) throw new Error('Backend não retornou dados de upload direto.');
+    return json;
+  }
+
+  async function uploadDirectToSupabase(job) {
+    if (!window.supabase?.createClient) throw new Error('Cliente Supabase não carregou no navegador.');
+    setRealStatus('created', 'Enviando vídeo direto para o Supabase Storage...');
+    const client = window.supabase.createClient(job.upload.supabaseUrl, job.upload.anonKey, {
+      auth: { persistSession: false, autoRefreshToken: false }
+    });
+    const { error } = await client.storage
+      .from(job.upload.bucket)
+      .uploadToSignedUrl(job.upload.path || job.storagePath, job.upload.token, currentFile, {
+        contentType: currentFile.type,
+        upsert: true
+      });
+    if (error) throw new Error(`Erro no upload direto para Supabase: ${error.message}`);
+    setRealStatus('uploaded', 'Upload direto concluído. Iniciando processamento...');
+  }
+
+  async function startJob(jobId, data) {
+    const response = await fetch('/api/translate-video?action=start', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ jobId, ...data, plan: selectedPlan })
+    });
+    const json = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(json.error || 'Erro ao iniciar processamento.');
+    return json;
+  }
+
+  async function pollJob(jobId) {
+    const response = await fetch(`/api/translate-video?jobId=${encodeURIComponent(jobId)}`, { cache: 'no-store' });
+    const json = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(json.error || 'Não foi possível consultar o job.');
+    setRealStatus(json.status, json.error || statusLabels[json.status]);
+    if (json.status === 'completed') {
+      clearInterval(pollTimer);
+      renderResult(json);
+    }
+    if (json.status === 'failed') {
+      clearInterval(pollTimer);
+      showError(json.error || 'O processamento falhou.');
+    }
+  }
+
+  function startPolling(jobId) {
+    clearInterval(pollTimer);
+    pollTimer = setInterval(() => pollJob(jobId).catch((error) => showError(error.message)), 1800);
+  }
+
   function renderResult(data) {
-    currentSrt = makeSrt(data.targetLanguage);
-    const caption = $('[data-live-caption]');
-    if (caption) caption.textContent = (sampleLines[data.targetLanguage] || sampleLines.pt)[0];
-    applyCaptionStyle(data.captionStyle);
-    $('[data-file-name]').textContent = currentFile.name;
-    $('[data-file-meta]').textContent = `${formatSize(currentFile.size)} • ${formatDuration(currentDuration)} • ${selectedPlan}`;
-    $('[data-target-label]').textContent = languages[data.targetLanguage];
-    $('[data-style-label]').textContent = `Legenda ${data.captionStyle}`;
+    currentSrt = data.srt || currentSrt;
+    currentVideoUrl = data.videoUrl || currentVideoUrl;
+    currentSrtUrl = data.srtUrl || currentSrtUrl;
+    $('[data-file-name]').textContent = currentFile?.name || 'video.mp4';
+    $('[data-file-meta]').textContent = `${currentFile ? formatSize(currentFile.size) : ''} • ${formatDuration(currentDuration)} • ${selectedPlan}`;
+    $('[data-target-label]').textContent = languages[$('#targetLanguage').value] || $('#targetLanguage').value;
+    $('[data-style-label]').textContent = `Legenda ${document.querySelector('input[name="captionStyle"]:checked')?.value || 'Clean'}`;
     $('[data-watermark]').textContent = selectedPlan === 'free' ? 'Translated with TalkGlobal AI' : 'Sem watermark no premium';
-    $('[data-srt-preview]').textContent = currentSrt;
+    $('[data-srt-preview]').textContent = currentSrt || 'SRT gerado. Use o botão de download para baixar.';
+    const caption = $('[data-live-caption]');
+    if (caption) caption.textContent = 'Vídeo processado com legenda real.';
+    applyCaptionStyle(document.querySelector('input[name="captionStyle"]:checked')?.value || 'Clean');
     results.hidden = false;
+    generateButton.disabled = false;
+    generateButton.textContent = 'Gerar tradução';
     results.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  function downloadText(filename, text) {
-    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
+  function openDownload(url, label) {
+    if (!url) return showError(`${label} ainda não está disponível.`);
     const a = document.createElement('a');
     a.href = url;
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  function downloadCurrentVideo() {
-    if (!currentFile || !currentObjectUrl) return showError('Envie um vídeo antes de baixar o MP4 demo.');
-    const a = document.createElement('a');
-    a.href = currentObjectUrl;
-    a.download = `talkglobal-demo-${currentFile.name}`;
+    a.download = '';
+    a.rel = 'noopener';
     a.click();
   }
 
@@ -163,6 +209,11 @@
     const error = validateFile(file);
     if (error) return showError(error);
     currentFile = file;
+    currentJobId = '';
+    currentSrt = '';
+    currentVideoUrl = '';
+    currentSrtUrl = '';
+    results.hidden = true;
     previewFile(file);
   });
 
@@ -193,23 +244,36 @@
     event.preventDefault();
     const error = validateFile(currentFile);
     if (error) return showError(error);
-    if (selectedPlan === 'free' && currentDuration > MAX_FREE_SECONDS) return showError('No plano grátis, use vídeos de até 3 minutos.');
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-    await simulateProcessing(data);
-    renderResult(data);
+    if (selectedPlan === 'free' && currentDuration > MAX_FREE_SECONDS) return showError('No plano grátis, use vídeos de até 90 segundos nesta primeira versão.');
+    const data = getFormValues();
+    try {
+      generateButton.disabled = true;
+      generateButton.textContent = 'Processando...';
+      setRealStatus('created', 'Criando job no backend...');
+      const job = await createJob(data);
+      currentJobId = job.jobId;
+      startPolling(currentJobId);
+      await uploadDirectToSupabase(job);
+      const result = await startJob(currentJobId, data);
+      clearInterval(pollTimer);
+      setRealStatus(result.status, statusLabels[result.status]);
+      renderResult(result);
+    } catch (error) {
+      clearInterval(pollTimer);
+      showError(error.message);
+    }
   });
 
-  $('[data-download-srt]').addEventListener('click', () => downloadText('translated-with-talkglobal-ai.srt', currentSrt || makeSrt($('#targetLanguage').value)));
-  $('[data-download-mp4]').addEventListener('click', downloadCurrentVideo);
+  $('[data-download-srt]').addEventListener('click', () => openDownload(currentSrtUrl, 'SRT real'));
+  $('[data-download-mp4]').addEventListener('click', () => openDownload(currentVideoUrl, 'MP4 legendado'));
   $('[data-copy-srt]').addEventListener('click', async () => {
     await navigator.clipboard.writeText(currentSrt || $('[data-srt-preview]').textContent || '');
     $('[data-copy-srt]').textContent = 'Copiado';
     setTimeout(() => { $('[data-copy-srt]').textContent = 'Copiar'; }, 1400);
   });
   $('[data-another-language]').addEventListener('click', () => $('#targetLanguage').focus());
-  $('[data-another-style]').addEventListener('click', () => document.querySelector('input[name="captionStyle"]:not(:checked)').focus());
+  $('[data-another-style]').addEventListener('click', () => document.querySelector('input[name="captionStyle"]:not(:checked)')?.focus());
   $$('[data-short]').forEach((button) => button.addEventListener('click', () => {
-    setProgress(100, button.dataset.short === 'tiktok' ? 'Versão vertical 9:16 preparada para a próxima etapa.' : 'Versão Shorts preparada para a próxima etapa.', 'export');
+    setRealStatus('completed', button.dataset.short === 'tiktok' ? 'Use o MP4 baixado para criar uma versão vertical no editor.' : 'Use o MP4 baixado para publicar em Shorts.');
   }));
 })();
