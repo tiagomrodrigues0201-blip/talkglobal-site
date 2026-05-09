@@ -5,6 +5,7 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { createClient } from '@supabase/supabase-js';
 import OpenAI from 'openai';
+import WebSocket from 'ws';
 
 const execFileAsync = promisify(execFile);
 const POLL_INTERVAL_MS = Number(process.env.WORKER_POLL_INTERVAL_MS || 5000);
@@ -31,7 +32,8 @@ function requireEnv(name) {
 }
 
 const supabase = createClient(requireEnv('SUPABASE_URL'), requireEnv('SUPABASE_SERVICE_ROLE_KEY'), {
-  auth: { persistSession: false, autoRefreshToken: false }
+  auth: { persistSession: false, autoRefreshToken: false },
+  realtime: { transport: WebSocket }
 });
 const openai = new OpenAI({ apiKey: requireEnv('OPENAI_API_KEY') });
 
