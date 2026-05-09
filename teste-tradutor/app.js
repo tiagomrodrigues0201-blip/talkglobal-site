@@ -100,14 +100,16 @@
     if (style === 'Minimal') caption.classList.add('minimal');
   }
 
-  function renderFinalVideoPreview(videoUrl) {
+  function renderFinalVideoPreview(videoUrl, firstCaptionStart = 0, firstCaptionText = '') {
     preview.innerHTML = `
       <video src="${videoUrl}" controls playsinline preload="metadata" data-final-video></video>
       <div class="final-badge">MP4 final renderizado</div>
+      <div class="preview-proof">Pulando para a primeira legenda: ${firstCaptionText ? firstCaptionText.replace(/[<>&]/g, '') : 'legenda gerada'}</div>
     `;
     const video = preview.querySelector('[data-final-video]');
     video.addEventListener('loadedmetadata', () => {
-      video.currentTime = Math.min(0.25, Math.max(0, (video.duration || 1) / 10));
+      const target = Math.max(0, Number(firstCaptionStart || 0) + 0.12);
+      video.currentTime = Math.min(target, Math.max(0, (video.duration || target + 1) - 0.25));
     }, { once: true });
   }
 
@@ -201,7 +203,7 @@
     $('[data-style-label]').textContent = `Legenda ${document.querySelector('input[name="captionStyle"]:checked')?.value || 'Clean'}`;
     $('[data-watermark]').textContent = selectedPlan === 'free' ? 'Translated with TalkGlobal AI' : 'Sem watermark no premium';
     $('[data-srt-preview]').textContent = currentSrt || 'SRT gerado. Use o botão de download para baixar.';
-    renderFinalVideoPreview(currentVideoUrl);
+    renderFinalVideoPreview(currentVideoUrl, data.firstCaptionStart || 0, data.firstCaptionText || '');
     results.hidden = false;
     generateButton.disabled = false;
     generateButton.textContent = 'Gerar tradução';

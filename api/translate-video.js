@@ -177,9 +177,11 @@ async function readJob(request, response) {
   const job = await getJobRow(supabase, jobId);
   const result = { ok: true, jobId, status: job.status, error: job.error_message || null };
   if (job.status === 'completed') {
+    const srt = await downloadText(supabase, bucket, job.srt_path);
     result.srtUrl = await signedUrl(supabase, bucket, job.srt_path);
     result.videoUrl = await signedUrl(supabase, bucket, job.rendered_video_path);
-    result.srt = await downloadText(supabase, bucket, job.srt_path);
+    result.srt = srt;
+    Object.assign(result, firstCaptionFromSrt(srt));
   }
   return response.status(200).json(result);
 }
@@ -291,6 +293,25 @@ function makeSrt(segments) {
   return segments.map((segment, index) => `${index + 1}\n${toSrtTime(segment.start)} --> ${toSrtTime(segment.end)}\n${segment.text.replace(/\n+/g, ' ')}\n`).join('\n');
 }
 
+function firstCaptionFromSegments(segments) {
+  const first = Array.isArray(segments) ? segments.find((segment) => String(segment.text || '').trim()) : null;
+  if (!first) return { firstCaptionStart: 0, firstCaptionText: '' };
+  return {
+    firstCaptionStart: Math.max(0, Number(first.start) || 0),
+    firstCaptionText: String(first.text || '').trim()
+  };
+}
+
+function firstCaptionFromSrt(srt) {
+  const match = String(srt || '').match(/(\d{2}):(\d{2}):(\d{2}),(\d{3})\s+-->[\s\S]*?\n([^\n]+)/);
+  if (!match) return { firstCaptionStart: 0, firstCaptionText: '' };
+  const [, h, m, sec, ms, text] = match;
+  return {
+    firstCaptionStart: Number(h) * 3600 + Number(m) * 60 + Number(sec) + Number(ms) / 1000,
+    firstCaptionText: String(text || '').trim()
+  };
+}
+
 function escapeFilterPath(filePath) {
   return filePath.replace(/\\/g, '/').replace(/:/g, '\\:').replace(/'/g, "\\'");
 }
@@ -335,7 +356,7 @@ function assStyle(style, video = {}) {
     borderStyle: 3,
     outlineWidth: 2,
     shadow: 0,
-    alignment: 2,
+    alignment: 5,
     marginV: baseMargin
   };
   if (style === 'TikTok Bold') return { ...base, size: Math.round(baseSize * 1.18), bold: 1, outlineWidth: 3, marginV: Math.round(baseMargin * 1.08) };
@@ -564,7 +585,7 @@ async function processStoredJob(jobId, options = {}) {
     const videoUrl = await signedUrl(supabase, bucket, renderedVideoStoragePath);
     const srtUrl = await signedUrl(supabase, bucket, srtStoragePath);
     if (!videoUrl || !srtUrl) throw new Error('Não foi possível gerar URLs assinadas para os arquivos finais.');
-    return { ok: true, jobId, status: 'completed', videoUrl, srtUrl, srt };
+    return { ok: true, jobId, status: 'completed', videoUrl, srtUrl, srt, ...firstCaptionFromSegments(translatedSegments) };
   } catch (error) {
     await updateJob(supabase, jobId, { status: 'failed', error_message: error.message }).catch(() => {});
     throw error;
