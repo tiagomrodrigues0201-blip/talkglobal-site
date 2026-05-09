@@ -192,15 +192,34 @@ async function downloadStorageFile(supabase, bucket, filePath, outputPath) {
   return buffer.length;
 }
 
-async function getDuration(inputPath) {
-  if (!ffprobePath) return null;
+async function getVideoInfo(inputPath) {
+  const fallback = { duration: null, width: 1080, height: 1920 };
+  if (!ffprobePath) return fallback;
   try {
-    const { stdout } = await execFileAsync(ffprobePath, ['-v', 'error', '-show_entries', 'format=duration', '-of', 'default=nk=1:nw=1', inputPath], { timeout: 15000 });
-    const value = Number.parseFloat(stdout.trim());
-    return Number.isFinite(value) ? Math.round(value) : null;
+    const { stdout } = await execFileAsync(ffprobePath, [
+      '-v', 'error',
+      '-select_streams', 'v:0',
+      '-show_entries', 'stream=width,height:format=duration',
+      '-of', 'json',
+      inputPath
+    ], { timeout: 15000 });
+    const parsed = JSON.parse(stdout || '{}');
+    const stream = Array.isArray(parsed.streams) ? parsed.streams[0] : null;
+    const duration = Number.parseFloat(parsed.format?.duration);
+    const width = Number(stream?.width);
+    const height = Number(stream?.height);
+    return {
+      duration: Number.isFinite(duration) ? Math.round(duration) : null,
+      width: Number.isFinite(width) && width > 0 ? width : fallback.width,
+      height: Number.isFinite(height) && height > 0 ? height : fallback.height
+    };
   } catch {
-    return null;
+    return fallback;
   }
+}
+
+async function getDuration(inputPath) {
+  return (await getVideoInfo(inputPath)).duration;
 }
 
 async function extractAudio(inputPath, audioPath) {
@@ -276,34 +295,53 @@ function escapeFilterPath(filePath) {
   return filePath.replace(/\\/g, '/').replace(/:/g, '\\:').replace(/'/g, "\\'");
 }
 
+function wrapAssText(text, maxChars = 34) {
+  const words = String(text || '').replace(/\r?\n+/g, ' ').trim().split(/\s+/).filter(Boolean);
+  const lines = [];
+  let line = '';
+  for (const word of words) {
+    const next = line ? `${line} ${word}` : word;
+    if (next.length > maxChars && line) {
+      lines.push(line);
+      line = word;
+    } else {
+      line = next;
+    }
+  }
+  if (line) lines.push(line);
+  return lines.slice(0, 3).join('\\N');
+}
+
 function escapeAssText(text) {
-  return String(text || '')
-    .replace(/\\/g, '\\\\')
-    .replace(/\{/g, '\\{')
-    .replace(/\}/g, '\\}')
-    .replace(/\r?\n+/g, ' ')
+  return wrapAssText(text)
+    .replace(/\\(?!N)/g, '\\\\')
+    .replace(/\{/g, '')
+    .replace(/\}/g, '')
     .trim();
 }
 
-function assStyle(style) {
+function assStyle(style, video = {}) {
+  const shortSide = Math.max(360, Math.min(Number(video.width) || 1080, Number(video.height) || 1920));
+  const baseSize = Math.max(28, Math.round(shortSide * 0.052));
+  const baseMargin = Math.max(32, Math.round((Number(video.height) || 1920) * 0.075));
   const base = {
     font: 'Arial',
-    size: 42,
+    size: baseSize,
     color: '&H00FFFFFF',
     outline: '&H00000000',
-    back: '&H99000000',
-    bold: 0,
+    back: '&HAA000000',
+    bold: 1,
     italic: 0,
-    borderStyle: 1,
-    outlineWidth: 3,
-    shadow: 1,
+    borderStyle: 3,
+    outlineWidth: 2,
+    shadow: 0,
     alignment: 2,
-    marginV: 82
+    marginV: baseMargin
   };
-  if (style === 'TikTok Bold') return { ...base, size: 54, bold: 1, outlineWidth: 5, shadow: 2, marginV: 96 };
-  if (style === 'Cinema') return { ...base, font: 'Georgia', size: 40, outlineWidth: 2, shadow: 1, marginV: 86 };
-  if (style === 'Anime') return { ...base, size: 46, color: '&H00D7FEFF', outline: '&H003B1D00', bold: 1, outlineWidth: 4, shadow: 2, marginV: 90 };
-  if (style === 'Minimal') return { ...base, size: 38, outline: '&H66000000', outlineWidth: 1, shadow: 0, marginV: 72 };
+  if (style === 'TikTok Bold') return { ...base, size: Math.round(baseSize * 1.18), bold: 1, outlineWidth: 3, marginV: Math.round(baseMargin * 1.08) };
+  if (style === 'Cinema') return { ...base, font: 'Georgia', size: Math.round(baseSize * 0.94), outlineWidth: 1, marginV: Math.round(baseMargin * 0.9) };
+  if (style === 'Anime') return { ...base, size: Math.round(baseSize * 1.08), color: '&H00D7FEFF', outline: '&H003B1D00', bold: 1, outlineWidth: 3 };
+  if (style === 'Minimal') return { ...base, size: Math.round(baseSize * 0.9), back: '&H66000000', outlineWidth: 1, shadow: 0, marginV: Math.round(baseMargin * 0.78) };
   return base;
 }
 
@@ -315,11 +353,13 @@ function styleLine(name, style) {
   ].join(',')}`;
 }
 
-function makeAss(segments, style, watermark, durationSeconds) {
-  const caption = assStyle(style);
+function makeAss(segments, style, watermark, durationSeconds, video = {}) {
+  const width = Math.max(360, Number(video.width) || 1080);
+  const height = Math.max(360, Number(video.height) || 1920);
+  const caption = assStyle(style, { width, height });
   const watermarkStyle = {
     font: 'Arial',
-    size: 28,
+    size: Math.max(18, Math.round(Math.min(width, height) * 0.028)),
     color: '&H22FFFFFF',
     outline: '&H66000000',
     back: '&H99000000',
@@ -328,8 +368,8 @@ function makeAss(segments, style, watermark, durationSeconds) {
     borderStyle: 1,
     outlineWidth: 1,
     shadow: 0,
-    alignment: 9,
-    marginV: 34
+    alignment: 8,
+    marginV: Math.max(18, Math.round(height * 0.035))
   };
   const maxEnd = Math.max(durationSeconds || 0, ...segments.map((segment) => Number(segment.end) || 0), 1);
   const events = segments.map((segment) => {
@@ -344,9 +384,9 @@ function makeAss(segments, style, watermark, durationSeconds) {
     '[Script Info]',
     'ScriptType: v4.00+',
     'ScaledBorderAndShadow: yes',
-    'WrapStyle: 2',
-    'PlayResX: 1080',
-    'PlayResY: 1920',
+    'WrapStyle: 0',
+    `PlayResX: ${width}`,
+    `PlayResY: ${height}`,
     '',
     '[V4+ Styles]',
     'Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding',
@@ -369,10 +409,12 @@ function ffmpegCommandForLog(args) {
 
 async function runFfmpeg(args, timeout = 240000) {
   const command = ffmpegCommandForLog(args);
+  console.info('talkglobal-ffmpeg-command', { command });
   try {
     const result = await execFileAsync(ffmpegPath, args, { timeout });
     return { command, stdout: result.stdout || '', stderr: result.stderr || '' };
   } catch (error) {
+    console.error('talkglobal-ffmpeg-failed', { command, stderr: error.stderr || '', message: error.message });
     error.message = `FFmpeg falhou: ${error.message}`;
     error.ffmpegCommand = command;
     error.ffmpegStderr = error.stderr || '';
@@ -385,7 +427,7 @@ async function renderVideo(inputPath, assPath, outputPath) {
     throw new Error('Arquivo ASS de legendas não foi criado corretamente.');
   }
 
-  const filter = `subtitles=filename='${escapeFilterPath(assPath)}'`;
+  const filter = `subtitles=${escapeFilterPath(assPath)}`;
   const args = [
     '-y',
     '-i', inputPath,
@@ -432,7 +474,8 @@ async function processStoredJob(jobId, options = {}) {
 
   try {
     const downloadedBytes = await downloadStorageFile(supabase, bucket, originalVideoPath, inputPath);
-    const duration = await getDuration(inputPath);
+    const videoInfo = await getVideoInfo(inputPath);
+    const duration = videoInfo.duration;
     const maxSeconds = Number(process.env.MAX_FREE_VIDEO_SECONDS || 90);
     if (plan !== 'premium' && duration && duration > maxSeconds) {
       throw new Error(`No plano grátis, use vídeos de até ${maxSeconds} segundos.`);
@@ -459,7 +502,7 @@ async function processStoredJob(jobId, options = {}) {
 
     await updateJob(supabase, jobId, { status: 'generating_srt' });
     const srt = makeSrt(translatedSegments);
-    const ass = makeAss(translatedSegments, captionStyleValue, hasWatermark, duration);
+    const ass = makeAss(translatedSegments, captionStyleValue, hasWatermark, duration, videoInfo);
     fs.writeFileSync(srtPath, srt, 'utf8');
     fs.writeFileSync(assPath, ass, 'utf8');
     const uploadSrt = await supabase.storage.from(bucket).upload(srtStoragePath, Buffer.from(srt, 'utf8'), { contentType: 'application/x-subrip; charset=utf-8', upsert: true });
@@ -484,6 +527,8 @@ async function processStoredJob(jobId, options = {}) {
       srtPath,
       assPath,
       outputVideoPath: outputPath,
+      videoWidth: videoInfo.width,
+      videoHeight: videoInfo.height,
       renderedFileExists,
       renderedFileSize,
       ffmpegCommand: renderResult.command,
