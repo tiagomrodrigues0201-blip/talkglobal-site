@@ -270,6 +270,11 @@
       startPolling(currentJobId);
       await uploadDirectToSupabase(job);
       const result = await startJob(currentJobId, data);
+      if (result.queued || result.status === 'uploaded') {
+        setRealStatus('uploaded', result.message || statusLabels.uploaded);
+        generateButton.textContent = 'Processando no worker...';
+        return;
+      }
       clearInterval(pollTimer);
       setRealStatus(result.status, statusLabels[result.status]);
       renderResult(result);

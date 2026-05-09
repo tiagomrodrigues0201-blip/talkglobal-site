@@ -730,6 +730,23 @@ async function processStoredJob(jobId, options = {}) {
   }
 }
 
+
+async function latestJobs(request, response) {
+  const supabase = getSupabase();
+  const { data, error } = await supabase
+    .from('video_translation_jobs')
+    .select('id,status,original_video_path,original_file_path,srt_path,rendered_video_path,error_message,created_at')
+    .order('created_at', { ascending: false })
+    .limit(5);
+  if (error) throw new Error(`Erro ao buscar últimos jobs: ${error.message}`);
+  return response.status(200).json({
+    ok: true,
+    table: 'public.video_translation_jobs',
+    count: data?.length || 0,
+    jobs: data || []
+  });
+}
+
 async function startJob(request, response) {
   const body = await parseJsonBody(request);
   const jobId = body.jobId;
@@ -751,13 +768,23 @@ async function startJob(request, response) {
     error_message: null
   });
 
+  const queuedJob = await getJobRow(supabase, jobId);
+  console.info('talkglobal-job-queued', {
+    jobId,
+    table: 'public.video_translation_jobs',
+    storedStatus: queuedJob.status,
+    processor: process.env.VIDEO_PROCESSOR || 'inline',
+    bucket: process.env.SUPABASE_STORAGE_BUCKET || 'video-translations'
+  });
+
   // Em produção com Railway, deixe VIDEO_PROCESSOR=worker na Vercel.
   // Assim a Vercel só coloca o job na fila e o worker-video faz FFmpeg/OpenAI.
   if ((process.env.VIDEO_PROCESSOR || '').toLowerCase() === 'worker') {
     return response.status(202).json({
       ok: true,
       jobId,
-      status: 'uploaded',
+      status: queuedJob.status,
+      storedStatus: queuedJob.status,
       queued: true,
       message: 'Vídeo enviado para a fila de processamento.'
     });
@@ -776,7 +803,9 @@ export default async function handler(request, response) {
   try {
     if (request.method === 'GET') {
       const url = new URL(request.url, `https://${request.headers.host || 'talkglobalapp.com'}`);
-      if (url.searchParams.get('action') === 'debug') return await debugJob(request, response);
+      const action = url.searchParams.get('action');
+      if (action === 'debug') return await debugJob(request, response);
+      if (action === 'latest') return await latestJobs(request, response);
       return await readJob(request, response);
     }
     if (request.method !== 'POST') {

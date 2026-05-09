@@ -72,15 +72,35 @@ async function updateDiagnostics(jobId, diagnostics) {
 }
 
 async function claimNextJob() {
+  const lookup = {
+    table: 'public.video_translation_jobs',
+    status: 'uploaded',
+    bucket: BUCKET,
+    timestamp: new Date().toISOString()
+  };
+  console.info('checking jobs...', lookup);
+
   const { data, error } = await supabase
     .from('video_translation_jobs')
     .select('*')
     .eq('status', 'uploaded')
     .order('created_at', { ascending: true })
-    .limit(1);
+    .limit(5);
   if (error) throw new Error(`Erro ao buscar jobs: ${error.message}`);
-  const job = data?.[0];
-  if (!job) return null;
+
+  console.info('jobs found:', data?.length || 0);
+  if (!data?.length) {
+    console.info('no jobs found', lookup);
+    return null;
+  }
+
+  const job = data[0];
+  console.info('job found', {
+    jobId: job.id,
+    status: job.status,
+    originalVideoPath: job.original_video_path || job.original_file_path,
+    createdAt: job.created_at
+  });
 
   const attempts = Number(job.render_attempts || 0);
   if (attempts >= MAX_ATTEMPTS) {
@@ -96,7 +116,11 @@ async function claimNextJob() {
     .select('*')
     .single();
 
-  if (claimError || !claimed) return null;
+  if (claimError || !claimed) {
+    console.warn('claim skipped', { jobId: job.id, error: claimError?.message || 'Job já foi pego por outro processo.' });
+    return null;
+  }
+  console.info('job claimed', { jobId: claimed.id, status: claimed.status, attempts: attempts + 1 });
   return claimed;
 }
 
