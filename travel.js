@@ -15,9 +15,9 @@ const COPY = {
 };
 
 const PARTNER_LINKS = {
-  flights: 'https://www.aviasales.com/?marker=SEU_MARKER_TRAVELPAYOUTS',
-  hotels: 'https://www.hotellook.com/?marker=SEU_MARKER_TRAVELPAYOUTS',
-  packages: '#'
+  flights: 'https://www.google.com/search?q=',
+  hotels: 'https://www.google.com/search?q=',
+  documents: 'https://www.google.com/search?q='
 };
 
 const form = document.getElementById('travelForm');
@@ -45,8 +45,14 @@ function buildPlan(data) {
 }
 
 function partnerLinks(origin, destination) {
-  const search = encodeURIComponent(origin + ' ' + destination);
-  return [{ label: 'Comparar voos', href: PARTNER_LINKS.flights + '&utm_source=talkglobal&q=' + search }, { label: 'Buscar hotéis', href: PARTNER_LINKS.hotels + '&utm_source=talkglobal&q=' + search }, { label: 'Pacotes em breve', href: PARTNER_LINKS.packages }];
+  const route = encodeURIComponent('voos de ' + origin + ' para ' + destination);
+  const hotels = encodeURIComponent('hotéis em ' + destination + ' melhores bairros');
+  const documents = encodeURIComponent('documentos visto viagem ' + destination);
+  return [
+    { label: 'Pesquisar voos', href: PARTNER_LINKS.flights + route },
+    { label: 'Pesquisar hotéis', href: PARTNER_LINKS.hotels + hotels },
+    { label: 'Ver documentos oficiais', href: PARTNER_LINKS.documents + documents }
+  ];
 }
 
 function renderPlan(plan) {
@@ -63,17 +69,28 @@ function renderPlan(plan) {
     '<article class="result-card"><h3>' + c.documents + '</h3><p>' + escapeHtml(plan.profile.visa) + '</p></article>' +
     '<article class="result-card feature"><h3>' + c.itinerary + '</h3><div class="timeline">' + plan.itinerary.map(item => '<div class="day"><strong>' + item.day + '</strong><span>' + escapeHtml(item.text) + '</span></div>').join('') + '</div></article>' +
     '<article class="result-card"><h3>' + c.phrases + '</h3><div class="phrase-list">' + plan.profile.phrases.map(item => '<div class="phrase"><b>' + escapeHtml(item) + '</b><span>Use em transporte, hotel, lojas e restaurantes.</span></div>').join('') + '</div></article>' +
-    '<article class="result-card"><h3>' + c.partners + '</h3><p>Use como ponto de partida e confirme tudo no parceiro antes da compra.</p><div class="partner-links">' + links.map(link => '<a href="' + link.href + '" rel="nofollow sponsored noopener" target="_blank">' + escapeHtml(link.label) + ' <span>↗</span></a>').join('') + '</div></article></div>' +
-    '<div class="premium-card"><div><strong>' + c.premium + '</strong><p>' + c.premiumText + '</p></div><a href="/contato.html">Quero ser avisado</a></div><p class="travel-note">' + c.save + '. Esta versão usa estimativas e placeholders de afiliados. Com as chaves de API, a busca pode consultar parceiros reais e salvar o histórico no Supabase.</p>';
+    '<article class="result-card"><h3>' + c.partners + '</h3><p>Use como ponto de partida e confirme valores, documentos e disponibilidade antes da compra.</p><div class="partner-links">' + links.map(link => '<a href="' + link.href + '" rel="nofollow noopener" target="_blank">' + escapeHtml(link.label) + ' <span>↗</span></a>').join('') + '</div></article></div>' +
+    '<div class="premium-card"><div><strong>' + c.premium + '</strong><p>' + c.premiumText + '</p></div><a href="/contato.html">Quero ser avisado</a></div><p class="travel-note">' + c.save + '. As estimativas ajudam no planejamento inicial. Confirme preços, documentos e regras de entrada em fontes oficiais e parceiros antes de comprar.</p>';
   results.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 async function saveSearch(plan) {
   const payload = { origin: plan.origin, destination: plan.destination, budget: plan.budget, start_date: plan.startDate || null, end_date: plan.endDate || null, travel_style: plan.style, output_language: plan.language, travelers: plan.travelers, estimated_cost: { total_brl: plan.total, days: plan.days }, result: plan };
-  const existing = JSON.parse(localStorage.getItem('talkglobal_travel_searches') || '[]');
-  existing.unshift({ ...payload, created_at: new Date().toISOString() });
-  localStorage.setItem('talkglobal_travel_searches', JSON.stringify(existing.slice(0, 20)));
-  try { await fetch('/api/travel-search', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); } catch (error) { console.info('Travel search saved locally. API not configured yet.'); }
+
+  try {
+    const existing = JSON.parse(localStorage.getItem('talkglobal_travel_searches') || '[]');
+    existing.unshift({ ...payload, created_at: new Date().toISOString() });
+    localStorage.setItem('talkglobal_travel_searches', JSON.stringify(existing.slice(0, 20)));
+  } catch (error) {
+    console.info('Historico local indisponivel neste navegador.');
+  }
+
+  try {
+    const response = await fetch('/api/travel-search', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    if (!response.ok) console.info('Busca mantida no navegador. API respondeu sem salvar.');
+  } catch (error) {
+    console.info('Busca mantida no navegador. API indisponivel no momento.');
+  }
 }
 
 form?.addEventListener('submit', async (event) => { event.preventDefault(); const data = Object.fromEntries(new FormData(form).entries()); loading.classList.add('is-visible'); results.classList.remove('is-visible'); await new Promise(resolve => setTimeout(resolve, 850)); const plan = buildPlan(data); await saveSearch(plan); loading.classList.remove('is-visible'); renderPlan(plan); });
