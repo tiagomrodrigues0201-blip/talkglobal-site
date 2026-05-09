@@ -24,6 +24,9 @@
   let currentVideoUrl = '';
   let currentSrtUrl = '';
   let pollTimer = null;
+  let reuseSourceJobId = '';
+  let reuseMode = '';
+  let lastResultMeta = null;
 
   const $ = (selector) => document.querySelector(selector);
   const $$ = (selector) => Array.from(document.querySelectorAll(selector));
@@ -52,9 +55,46 @@
   }
 
   function showError(message) {
+    setNotice(message, 'error');
     setRealStatus('failed', message);
     generateButton.disabled = false;
     generateButton.textContent = 'Gerar tradução';
+  }
+
+
+  function setNotice(message, type = 'info') {
+    let notice = document.querySelector('[data-action-notice]');
+    if (!notice) {
+      notice = document.createElement('div');
+      notice.dataset.actionNotice = 'true';
+      notice.className = 'action-notice';
+      form.insertAdjacentElement('beforebegin', notice);
+    }
+    notice.textContent = message || '';
+    notice.hidden = !message;
+    notice.classList.toggle('error', type === 'error');
+  }
+
+  function showComingSoon(feature) {
+    window.alert('Essa função estará disponível em breve.');
+    setNotice(`${feature} estará disponível em breve. Assim que entrar, o botão já vai gerar o arquivo final automaticamente.`, 'info');
+    setRealStatus('completed', `${feature} estará disponível em breve.`);
+  }
+
+  function prepareReuse(mode) {
+    if (!currentJobId) return showError('Gere uma tradução primeiro para reaproveitar o vídeo original.');
+    reuseSourceJobId = currentJobId;
+    reuseMode = mode;
+    results.hidden = true;
+    setNotice(mode === 'language'
+      ? 'Escolha o novo idioma final e clique em Gerar tradução. O mesmo vídeo original será reaproveitado.'
+      : 'Escolha outro estilo de legenda e clique em Gerar tradução. O mesmo vídeo original será reaproveitado.', 'info');
+    setRealStatus('uploaded', mode === 'language' ? 'Vídeo original preservado. Escolha outro idioma.' : 'Vídeo original preservado. Escolha outro estilo.');
+    generateButton.disabled = false;
+    generateButton.textContent = mode === 'language' ? 'Gerar novo idioma' : 'Gerar novo estilo';
+    if (mode === 'language') $('#targetLanguage').focus();
+    else document.querySelector('input[name="captionStyle"]:not(:checked)')?.focus();
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   function formatSize(bytes) {
@@ -169,6 +209,18 @@
     return json;
   }
 
+
+  async function cloneJob(sourceJobId, data) {
+    const response = await fetch('/api/translate-video?action=clone', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sourceJobId, ...data, plan: selectedPlan })
+    });
+    const json = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(json.error || 'Erro ao criar novo processamento com o mesmo vídeo.');
+    return json;
+  }
+
   async function pollJob(jobId) {
     const response = await fetch(`/api/translate-video?jobId=${encodeURIComponent(jobId)}`, { cache: 'no-store' });
     const json = await response.json().catch(() => ({}));
@@ -193,12 +245,13 @@
     currentSrt = data.srt || currentSrt;
     currentVideoUrl = data.videoUrl || '';
     currentSrtUrl = data.srtUrl || '';
+    lastResultMeta = data;
     if (!currentVideoUrl || !currentSrtUrl) {
       showError('Arquivos finais ainda não estão disponíveis. Gere novamente ou aguarde o processamento concluir.');
       return;
     }
-    $('[data-file-name]').textContent = currentFile?.name || 'video.mp4';
-    $('[data-file-meta]').textContent = `${currentFile ? formatSize(currentFile.size) : ''} • ${formatDuration(currentDuration)} • ${selectedPlan}`;
+    $('[data-file-name]').textContent = currentFile?.name || data.fileName || 'video.mp4';
+    $('[data-file-meta]').textContent = `${currentFile ? formatSize(currentFile.size) : 'vídeo reaproveitado'} • ${currentDuration ? formatDuration(currentDuration) : 'processado'} • ${selectedPlan}`;
     $('[data-target-label]').textContent = languages[$('#targetLanguage').value] || $('#targetLanguage').value;
     $('[data-style-label]').textContent = `Legenda ${document.querySelector('input[name="captionStyle"]:checked')?.value || 'Clean'}`;
     $('[data-watermark]').textContent = selectedPlan === 'free' ? 'Translated with TalkGlobal AI' : 'Sem watermark no premium';
@@ -229,6 +282,9 @@
     currentVideoUrl = '';
     currentSrtUrl = '';
     results.hidden = true;
+    reuseSourceJobId = '';
+    reuseMode = '';
+    setNotice('');
     previewFile(file);
   });
 
@@ -257,13 +313,30 @@
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const error = validateFile(currentFile);
-    if (error) return showError(error);
-    if (selectedPlan === 'free' && currentDuration > MAX_FREE_SECONDS) return showError('No plano grátis, use vídeos de até 90 segundos nesta primeira versão.');
     const data = getFormValues();
     try {
       generateButton.disabled = true;
       generateButton.textContent = 'Processando...';
+      setNotice('');
+
+      if (reuseSourceJobId) {
+        setRealStatus('uploaded', reuseMode === 'language' ? 'Criando nova tradução com o mesmo vídeo...' : 'Criando novo estilo com o mesmo vídeo...');
+        const job = await cloneJob(reuseSourceJobId, data);
+        currentJobId = job.jobId;
+        reuseSourceJobId = '';
+        reuseMode = '';
+        startPolling(currentJobId);
+        generateButton.textContent = 'Processando no worker...';
+        if (job.queued || job.status === 'uploaded') return;
+        clearInterval(pollTimer);
+        setRealStatus(job.status, statusLabels[job.status]);
+        renderResult(job);
+        return;
+      }
+
+      const error = validateFile(currentFile);
+      if (error) return showError(error);
+      if (selectedPlan === 'free' && currentDuration > MAX_FREE_SECONDS) return showError('No plano grátis, use vídeos de até 90 segundos nesta primeira versão.');
       setRealStatus('created', 'Criando job no backend...');
       const job = await createJob(data);
       currentJobId = job.jobId;
@@ -295,9 +368,9 @@
     $('[data-copy-srt]').textContent = 'Copiado';
     setTimeout(() => { $('[data-copy-srt]').textContent = 'Copiar'; }, 1400);
   });
-  $('[data-another-language]').addEventListener('click', () => $('#targetLanguage').focus());
-  $('[data-another-style]').addEventListener('click', () => document.querySelector('input[name="captionStyle"]:not(:checked)')?.focus());
+  $('[data-another-language]').addEventListener('click', () => prepareReuse('language'));
+  $('[data-another-style]').addEventListener('click', () => prepareReuse('style'));
   $$('[data-short]').forEach((button) => button.addEventListener('click', () => {
-    setRealStatus('completed', button.dataset.short === 'tiktok' ? 'Use o MP4 baixado para criar uma versão vertical no editor.' : 'Use o MP4 baixado para publicar em Shorts.');
+    showComingSoon(button.dataset.short === 'tiktok' ? 'Criar versão TikTok/Reels' : 'Criar versão YouTube Shorts');
   }));
 })();

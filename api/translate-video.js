@@ -731,6 +731,72 @@ async function processStoredJob(jobId, options = {}) {
 }
 
 
+
+async function cloneJob(request, response) {
+  const body = await parseJsonBody(request);
+  const sourceJobId = body.sourceJobId || body.jobId;
+  if (!sourceJobId) return response.status(400).json({ error: 'sourceJobId é obrigatório' });
+
+  const supabase = getSupabase();
+  const source = await getJobRow(supabase, sourceJobId);
+  const originalPath = source.original_video_path || source.original_file_path;
+  if (!originalPath) return response.status(400).json({ error: 'Job original não possui vídeo para reaproveitar.' });
+
+  const jobId = randomUUID();
+  const now = new Date().toISOString();
+  const plan = body.plan === 'premium' ? 'premium' : (source.plan === 'premium' ? 'premium' : 'free');
+  const row = {
+    id: jobId,
+    user_id: source.user_id || null,
+    original_file_path: originalPath,
+    original_video_path: originalPath,
+    original_file_name: source.original_file_name || 'video.mp4',
+    original_language: body.sourceLanguage || source.original_language || 'auto',
+    target_language: body.targetLanguage || source.target_language || 'pt',
+    caption_style: body.captionStyle || source.caption_style || 'Clean',
+    status: 'uploaded',
+    file_size_bytes: source.file_size_bytes || null,
+    plan,
+    has_watermark: plan !== 'premium',
+    is_hd: false,
+    priority: plan === 'premium' ? 'high' : 'normal',
+    error_message: null,
+    created_at: now,
+    updated_at: now
+  };
+
+  const { error } = await supabase.from('video_translation_jobs').insert(row);
+  if (error) throw new Error(`Erro ao criar novo job com o mesmo vídeo: ${error.message}`);
+
+  console.info('talkglobal-job-cloned', {
+    sourceJobId,
+    jobId,
+    table: 'public.video_translation_jobs',
+    status: 'uploaded',
+    originalPath,
+    targetLanguage: row.target_language,
+    captionStyle: row.caption_style
+  });
+
+  if ((process.env.VIDEO_PROCESSOR || '').toLowerCase() !== 'worker') {
+    try {
+      const result = await processStoredJob(jobId, row);
+      return response.status(200).json(result);
+    } catch (error) {
+      return response.status(500).json({ ok: false, jobId, status: 'failed', error: error.message });
+    }
+  }
+
+  return response.status(202).json({
+    ok: true,
+    jobId,
+    status: 'uploaded',
+    queued: true,
+    reusedOriginal: true,
+    message: 'Novo job criado usando o mesmo vídeo original.'
+  });
+}
+
 async function latestJobs(request, response) {
   const supabase = getSupabase();
   const { data, error } = await supabase
@@ -819,6 +885,7 @@ export default async function handler(request, response) {
       const action = url.searchParams.get('action');
       if (action === 'create') return await createJob(request, response);
       if (action === 'start') return await startJob(request, response);
+      if (action === 'clone') return await cloneJob(request, response);
     }
     if (contentType.includes('multipart/form-data')) {
       return response.status(413).json({
