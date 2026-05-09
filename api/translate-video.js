@@ -751,9 +751,19 @@ async function startJob(request, response) {
     error_message: null
   });
 
-  // Fase 2: trocar esta chamada direta por uma fila/worker externo
-  // em Railway, Render, Fly.io ou Google Cloud Run. A Vercel deve
-  // continuar apenas com site e APIs leves; FFmpeg fica no worker.
+  // Em produção com Railway, deixe VIDEO_PROCESSOR=worker na Vercel.
+  // Assim a Vercel só coloca o job na fila e o worker-video faz FFmpeg/OpenAI.
+  if ((process.env.VIDEO_PROCESSOR || '').toLowerCase() === 'worker') {
+    return response.status(202).json({
+      ok: true,
+      jobId,
+      status: 'uploaded',
+      queued: true,
+      message: 'Vídeo enviado para a fila de processamento.'
+    });
+  }
+
+  // Fallback local: processa direto na API apenas quando VIDEO_PROCESSOR não é worker.
   try {
     const result = await processStoredJob(jobId, body);
     return response.status(200).json(result);

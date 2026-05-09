@@ -1,0 +1,16 @@
+{
+  "name": "talkglobal-video-worker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node worker.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.105.4",
+    "openai": "^6.37.0"
+  }
+}

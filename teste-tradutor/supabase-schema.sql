@@ -41,6 +41,7 @@ alter table public.video_translation_jobs add column if not exists rendered_file
 alter table public.video_translation_jobs add column if not exists original_file_size bigint;
 alter table public.video_translation_jobs add column if not exists rendered_different_from_original boolean;
 alter table public.video_translation_jobs add column if not exists debug_payload jsonb;
+alter table public.video_translation_jobs add column if not exists render_attempts integer not null default 0;
 update public.video_translation_jobs
 set original_video_path = coalesce(original_video_path, original_file_path)
 where original_video_path is null;

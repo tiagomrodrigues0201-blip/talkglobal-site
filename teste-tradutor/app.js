@@ -281,6 +281,10 @@
 
   $('[data-download-srt]').addEventListener('click', () => openDownload(currentSrtUrl, 'SRT real'));
   $('[data-download-mp4]').addEventListener('click', () => openDownload(currentVideoUrl, 'MP4 legendado'));
+  $('[data-open-debug]').addEventListener('click', () => {
+    if (!currentJobId) return showError('Job ainda não disponível. Gere uma tradução primeiro.');
+    window.open(`/api/translate-video?action=debug&jobId=${encodeURIComponent(currentJobId)}`, '_blank', 'noopener');
+  });
   $('[data-copy-srt]').addEventListener('click', async () => {
     await navigator.clipboard.writeText(currentSrt || $('[data-srt-preview]').textContent || '');
     $('[data-copy-srt]').textContent = 'Copiado';
