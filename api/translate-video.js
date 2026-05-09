@@ -360,16 +360,16 @@ function makeAss(segments, style, watermark, durationSeconds, video = {}) {
   const watermarkStyle = {
     font: 'Arial',
     size: Math.max(18, Math.round(Math.min(width, height) * 0.028)),
-    color: '&H22FFFFFF',
-    outline: '&H66000000',
-    back: '&H99000000',
+    color: '&H00FFFFFF',
+    outline: '&H00000000',
+    back: '&HAA000000',
     bold: 1,
     italic: 0,
     borderStyle: 1,
     outlineWidth: 1,
     shadow: 0,
     alignment: 8,
-    marginV: Math.max(18, Math.round(height * 0.035))
+    marginV: Math.max(20, Math.round(height * 0.045))
   };
   const maxEnd = Math.max(durationSeconds || 0, ...segments.map((segment) => Number(segment.end) || 0), 1);
   const events = segments.map((segment) => {
@@ -427,9 +427,10 @@ async function renderVideo(inputPath, assPath, outputPath) {
     throw new Error('Arquivo ASS de legendas não foi criado corretamente.');
   }
 
-  const filter = `subtitles=${escapeFilterPath(assPath)}`;
+  const filter = `ass=${escapeFilterPath(assPath)}`;
   const args = [
     '-y',
+    '-loglevel', 'verbose',
     '-i', inputPath,
     '-vf', filter,
     '-c:v', 'libx264',
@@ -518,8 +519,8 @@ async function processStoredJob(jobId, options = {}) {
     const renderedIsSeparateFile = Boolean(outputRealPath && outputRealPath !== inputRealPath);
     const renderedDiffersFromOriginal = renderedFileExists && renderedFileSize > 0 && !fs.readFileSync(outputPath).equals(fs.readFileSync(inputPath));
 
-    const filterWasApplied = Boolean(renderResult?.filter?.includes('subtitles=') && renderResult.filter.includes('translated.ass'));
-    const ffmpegSubtitleLogDetected = /Parsed_subtitles|libass|subtitles/i.test(renderResult?.stderr || '');
+    const filterWasApplied = Boolean(renderResult?.filter?.includes('ass=') && renderResult.filter.includes('translated.ass'));
+    const ffmpegSubtitleLogDetected = /Parsed_ass|libass|Event at|ass/i.test(renderResult?.stderr || '');
 
     console.info('talkglobal-video-render', {
       jobId,
@@ -533,12 +534,14 @@ async function processStoredJob(jobId, options = {}) {
       renderedFileSize,
       ffmpegCommand: renderResult.command,
       ffmpegFilter: renderResult.filter,
+      assPreview: ass.slice(0, 900),
+      ffmpegStderrTail: String(renderResult.stderr || '').slice(-1800),
       filterWasApplied,
       ffmpegSubtitleLogDetected
     });
 
     if (!filterWasApplied || !ffmpegSubtitleLogDetected) {
-      throw new Error('FFmpeg não confirmou a aplicação do filtro de legendas. O MP4 final não será liberado.');
+      throw new Error('FFmpeg não confirmou a aplicação do filtro ASS de legendas. O MP4 final não será liberado.');
     }
     if (!renderedFileExists || renderedFileSize <= 0) {
       throw new Error('FFmpeg não gerou um MP4 renderizado válido.');

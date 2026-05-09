@@ -100,6 +100,17 @@
     if (style === 'Minimal') caption.classList.add('minimal');
   }
 
+  function renderFinalVideoPreview(videoUrl) {
+    preview.innerHTML = `
+      <video src="${videoUrl}" controls playsinline preload="metadata" data-final-video></video>
+      <div class="final-badge">MP4 final renderizado</div>
+    `;
+    const video = preview.querySelector('[data-final-video]');
+    video.addEventListener('loadedmetadata', () => {
+      video.currentTime = Math.min(0.25, Math.max(0, (video.duration || 1) / 10));
+    }, { once: true });
+  }
+
   function getFormValues() {
     return {
       sourceLanguage: $('#sourceLanguage').value,
@@ -190,13 +201,11 @@
     $('[data-style-label]').textContent = `Legenda ${document.querySelector('input[name="captionStyle"]:checked')?.value || 'Clean'}`;
     $('[data-watermark]').textContent = selectedPlan === 'free' ? 'Translated with TalkGlobal AI' : 'Sem watermark no premium';
     $('[data-srt-preview]').textContent = currentSrt || 'SRT gerado. Use o botão de download para baixar.';
-    const caption = $('[data-live-caption]');
-    if (caption) caption.textContent = 'Vídeo processado com legenda real.';
-    applyCaptionStyle(document.querySelector('input[name="captionStyle"]:checked')?.value || 'Clean');
+    renderFinalVideoPreview(currentVideoUrl);
     results.hidden = false;
     generateButton.disabled = false;
     generateButton.textContent = 'Gerar tradução';
-    results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    preview.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   function openDownload(url, label) {
