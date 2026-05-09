@@ -14,6 +14,7 @@ Fluxo real implementado:
 - o FFmpeg renderiza o MP4 com legendas;
 - no plano free, o MP4 recebe watermark;
 - o SRT e o MP4 final sao salvos no Supabase Storage;
+- o download do MP4 usa apenas `rendered_video_path`, nunca o arquivo original;
 - a pagina consulta o status real do job e mostra downloads quando finalizado.
 
 Arquivos principais:

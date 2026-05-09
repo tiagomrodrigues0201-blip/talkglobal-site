@@ -5,12 +5,14 @@ create table if not exists public.video_translation_jobs (
   id uuid primary key default gen_random_uuid(),
   user_id uuid references auth.users(id) on delete set null,
   original_file_path text not null,
+  original_video_path text,
   original_file_name text,
   original_language text default 'auto',
   target_language text not null,
   caption_style text not null default 'Clean',
   status text not null default 'created' check (status in ('created','uploaded','transcribing','translating','generating_srt','rendering','completed','failed')),
   final_video_path text,
+  rendered_video_path text,
   srt_path text,
   duration_seconds integer,
   file_size_bytes bigint,
@@ -23,6 +25,16 @@ create table if not exists public.video_translation_jobs (
   updated_at timestamptz not null default now()
 );
 
+-- Migração segura para separar video original, SRT e MP4 renderizado.
+alter table public.video_translation_jobs add column if not exists original_video_path text;
+alter table public.video_translation_jobs add column if not exists rendered_video_path text;
+update public.video_translation_jobs
+set original_video_path = coalesce(original_video_path, original_file_path)
+where original_video_path is null;
+update public.video_translation_jobs
+set rendered_video_path = coalesce(rendered_video_path, final_video_path)
+where rendered_video_path is null and final_video_path is not null;
+
 -- Migração segura para quem já criou a tabela antes do status created.
 alter table public.video_translation_jobs alter column status set default 'created';
 alter table public.video_translation_jobs drop constraint if exists video_translation_jobs_status_check;
@@ -30,6 +42,9 @@ alter table public.video_translation_jobs add constraint video_translation_jobs_
   check (status in ('created','uploaded','transcribing','translating','generating_srt','rendering','completed','failed'));
 
 alter table public.video_translation_jobs enable row level security;
+
+drop policy if exists "Users can view own video jobs" on public.video_translation_jobs;
+drop policy if exists "Users can create own video jobs" on public.video_translation_jobs;
 
 create policy "Users can view own video jobs"
 on public.video_translation_jobs for select

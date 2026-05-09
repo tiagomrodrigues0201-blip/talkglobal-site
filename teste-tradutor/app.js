@@ -178,8 +178,12 @@
 
   function renderResult(data) {
     currentSrt = data.srt || currentSrt;
-    currentVideoUrl = data.videoUrl || currentVideoUrl;
-    currentSrtUrl = data.srtUrl || currentSrtUrl;
+    currentVideoUrl = data.videoUrl || '';
+    currentSrtUrl = data.srtUrl || '';
+    if (!currentVideoUrl || !currentSrtUrl) {
+      showError('Arquivos finais ainda não estão disponíveis. Gere novamente ou aguarde o processamento concluir.');
+      return;
+    }
     $('[data-file-name]').textContent = currentFile?.name || 'video.mp4';
     $('[data-file-meta]').textContent = `${currentFile ? formatSize(currentFile.size) : ''} • ${formatDuration(currentDuration)} • ${selectedPlan}`;
     $('[data-target-label]').textContent = languages[$('#targetLanguage').value] || $('#targetLanguage').value;

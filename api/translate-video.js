@@ -99,6 +99,7 @@ async function createJob(request, response) {
     id: jobId,
     user_id: null,
     original_file_path: originalPath,
+    original_video_path: originalPath,
     original_file_name: fileName,
     original_language: body.sourceLanguage || 'auto',
     target_language: body.targetLanguage || 'pt',
@@ -177,7 +178,7 @@ async function readJob(request, response) {
   const result = { ok: true, jobId, status: job.status, error: job.error_message || null };
   if (job.status === 'completed') {
     result.srtUrl = await signedUrl(supabase, bucket, job.srt_path);
-    result.videoUrl = await signedUrl(supabase, bucket, job.final_video_path);
+    result.videoUrl = await signedUrl(supabase, bucket, job.rendered_video_path);
     result.srt = await downloadText(supabase, bucket, job.srt_path);
   }
   return response.status(200).json(result);
@@ -359,9 +360,46 @@ function makeAss(segments, style, watermark, durationSeconds) {
   ].join('\n');
 }
 
+function ffmpegCommandForLog(args) {
+  return [ffmpegPath, ...args].map((part) => {
+    const value = String(part);
+    return /\s/.test(value) ? JSON.stringify(value) : value;
+  }).join(' ');
+}
+
+async function runFfmpeg(args, timeout = 240000) {
+  const command = ffmpegCommandForLog(args);
+  try {
+    const result = await execFileAsync(ffmpegPath, args, { timeout });
+    return { command, stdout: result.stdout || '', stderr: result.stderr || '' };
+  } catch (error) {
+    error.message = `FFmpeg falhou: ${error.message}`;
+    error.ffmpegCommand = command;
+    error.ffmpegStderr = error.stderr || '';
+    throw error;
+  }
+}
+
 async function renderVideo(inputPath, assPath, outputPath) {
-  const filter = `subtitles='${escapeFilterPath(assPath)}'`;
-  await execFileAsync(ffmpegPath, ['-y', '-i', inputPath, '-vf', filter, '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '23', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart', outputPath], { timeout: 240000 });
+  if (!fs.existsSync(assPath) || fs.statSync(assPath).size <= 0) {
+    throw new Error('Arquivo ASS de legendas não foi criado corretamente.');
+  }
+
+  const filter = `subtitles=filename='${escapeFilterPath(assPath)}'`;
+  const args = [
+    '-y',
+    '-i', inputPath,
+    '-vf', filter,
+    '-c:v', 'libx264',
+    '-preset', 'veryfast',
+    '-crf', '23',
+    '-c:a', 'aac',
+    '-b:a', '128k',
+    '-movflags', '+faststart',
+    outputPath
+  ];
+  const result = await runFfmpeg(args, 240000);
+  return { ...result, filter };
 }
 
 
@@ -378,7 +416,8 @@ async function processStoredJob(jobId, options = {}) {
   const hasWatermark = plan !== 'premium';
 
   if (!jobId) throw new Error('jobId é obrigatório');
-  if (!job.original_file_path) throw new Error('Arquivo original não encontrado no job.');
+  const originalVideoPath = job.original_video_path || job.original_file_path;
+  if (!originalVideoPath) throw new Error('Arquivo original não encontrado no job.');
   if (!ffmpegPath) throw new Error('FFmpeg não está disponível no backend.');
 
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), `talkglobal-${jobId}-`));
@@ -389,10 +428,10 @@ async function processStoredJob(jobId, options = {}) {
   const assPath = path.join(workdir, 'translated.ass');
   const outputPath = path.join(workdir, 'translated.mp4');
   const srtStoragePath = `${jobId}/translated.srt`;
-  const finalVideoStoragePath = `${jobId}/translated.mp4`;
+  const renderedVideoStoragePath = `${jobId}/translated.mp4`;
 
   try {
-    const downloadedBytes = await downloadStorageFile(supabase, bucket, job.original_file_path, inputPath);
+    const downloadedBytes = await downloadStorageFile(supabase, bucket, originalVideoPath, inputPath);
     const duration = await getDuration(inputPath);
     const maxSeconds = Number(process.env.MAX_FREE_VIDEO_SECONDS || 90);
     if (plan !== 'premium' && duration && duration > maxSeconds) {
@@ -427,13 +466,56 @@ async function processStoredJob(jobId, options = {}) {
     if (uploadSrt.error) throw new Error(`Erro ao salvar SRT: ${uploadSrt.error.message}`);
 
     await updateJob(supabase, jobId, { status: 'rendering', srt_path: srtStoragePath });
-    await renderVideo(inputPath, assPath, outputPath);
-    const uploadFinal = await supabase.storage.from(bucket).upload(finalVideoStoragePath, fs.readFileSync(outputPath), { contentType: 'video/mp4', upsert: true });
-    if (uploadFinal.error) throw new Error(`Erro ao salvar MP4 final: ${uploadFinal.error.message}`);
+    const renderResult = await renderVideo(inputPath, assPath, outputPath);
 
-    await updateJob(supabase, jobId, { status: 'completed', final_video_path: finalVideoStoragePath, srt_path: srtStoragePath, error_message: null });
-    const videoUrl = await signedUrl(supabase, bucket, finalVideoStoragePath);
+    const renderedFileExists = fs.existsSync(outputPath);
+    const renderedFileSize = renderedFileExists ? fs.statSync(outputPath).size : 0;
+    const inputRealPath = fs.realpathSync(inputPath);
+    const outputRealPath = renderedFileExists ? fs.realpathSync(outputPath) : '';
+    const renderedIsSeparateFile = Boolean(outputRealPath && outputRealPath !== inputRealPath);
+    const renderedDiffersFromOriginal = renderedFileExists && renderedFileSize > 0 && !fs.readFileSync(outputPath).equals(fs.readFileSync(inputPath));
+
+    const filterWasApplied = Boolean(renderResult?.filter?.includes('subtitles=') && renderResult.filter.includes('translated.ass'));
+    const ffmpegSubtitleLogDetected = /Parsed_subtitles|libass|subtitles/i.test(renderResult?.stderr || '');
+
+    console.info('talkglobal-video-render', {
+      jobId,
+      inputVideoPath: inputPath,
+      srtPath,
+      assPath,
+      outputVideoPath: outputPath,
+      renderedFileExists,
+      renderedFileSize,
+      ffmpegCommand: renderResult.command,
+      ffmpegFilter: renderResult.filter,
+      filterWasApplied,
+      ffmpegSubtitleLogDetected
+    });
+
+    if (!filterWasApplied || !ffmpegSubtitleLogDetected) {
+      throw new Error('FFmpeg não confirmou a aplicação do filtro de legendas. O MP4 final não será liberado.');
+    }
+    if (!renderedFileExists || renderedFileSize <= 0) {
+      throw new Error('FFmpeg não gerou um MP4 renderizado válido.');
+    }
+    if (!renderedIsSeparateFile || !renderedDiffersFromOriginal) {
+      throw new Error('O MP4 renderizado não é diferente do vídeo original.');
+    }
+
+    const renderedBuffer = fs.readFileSync(outputPath);
+    const uploadFinal = await supabase.storage.from(bucket).upload(renderedVideoStoragePath, renderedBuffer, { contentType: 'video/mp4', upsert: true });
+    if (uploadFinal.error) throw new Error(`Erro ao salvar MP4 renderizado: ${uploadFinal.error.message}`);
+
+    await updateJob(supabase, jobId, {
+      status: 'completed',
+      rendered_video_path: renderedVideoStoragePath,
+      final_video_path: renderedVideoStoragePath,
+      srt_path: srtStoragePath,
+      error_message: null
+    });
+    const videoUrl = await signedUrl(supabase, bucket, renderedVideoStoragePath);
     const srtUrl = await signedUrl(supabase, bucket, srtStoragePath);
+    if (!videoUrl || !srtUrl) throw new Error('Não foi possível gerar URLs assinadas para os arquivos finais.');
     return { ok: true, jobId, status: 'completed', videoUrl, srtUrl, srt };
   } catch (error) {
     await updateJob(supabase, jobId, { status: 'failed', error_message: error.message }).catch(() => {});
