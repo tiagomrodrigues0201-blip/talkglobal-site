@@ -316,6 +316,10 @@ function escapeFilterPath(filePath) {
   return filePath.replace(/\\/g, '/').replace(/:/g, '\\:').replace(/'/g, "\\'");
 }
 
+function escapeSubtitlesPath(filePath) {
+  return filePath.replace(/\\/g, '/').replace(/:/g, '\\:').replace(/'/g, "\\'");
+}
+
 function wrapAssText(text, maxChars = 34) {
   const words = String(text || '').replace(/\r?\n+/g, ' ').trim().split(/\s+/).filter(Boolean);
   const lines = [];
@@ -448,7 +452,7 @@ async function renderVideo(inputPath, assPath, outputPath) {
     throw new Error('Arquivo ASS de legendas não foi criado corretamente.');
   }
 
-  const filter = `ass=${escapeFilterPath(assPath)}`;
+  const filter = `subtitles=${escapeSubtitlesPath(assPath)}`;
   const args = [
     '-y',
     '-loglevel', 'verbose',
@@ -540,8 +544,10 @@ async function processStoredJob(jobId, options = {}) {
     const renderedIsSeparateFile = Boolean(outputRealPath && outputRealPath !== inputRealPath);
     const renderedDiffersFromOriginal = renderedFileExists && renderedFileSize > 0 && !fs.readFileSync(outputPath).equals(fs.readFileSync(inputPath));
 
-    const filterWasApplied = Boolean(renderResult?.filter?.includes('ass=') && renderResult.filter.includes('translated.ass'));
-    const ffmpegSubtitleLogDetected = /Parsed_ass|libass|Event at|ass/i.test(renderResult?.stderr || '');
+    const stderr = String(renderResult?.stderr || '');
+    const filterWasApplied = Boolean(renderResult?.filter?.includes('subtitles=') && renderResult.filter.includes('translated.ass'));
+    const ffmpegSubtitleLogDetected = /Parsed_subtitles_\d+|Using font provider|fontselect|Added subtitle file/i.test(stderr);
+    const ffmpegSubtitleFailureDetected = /No such filter|Unable to open|Error initializing filter|Error while processing the decoded data|Invalid argument/i.test(stderr);
 
     console.info('talkglobal-video-render', {
       jobId,
@@ -556,13 +562,14 @@ async function processStoredJob(jobId, options = {}) {
       ffmpegCommand: renderResult.command,
       ffmpegFilter: renderResult.filter,
       assPreview: ass.slice(0, 900),
-      ffmpegStderrTail: String(renderResult.stderr || '').slice(-1800),
+      ffmpegStderrTail: stderr.slice(-2400),
       filterWasApplied,
-      ffmpegSubtitleLogDetected
+      ffmpegSubtitleLogDetected,
+      ffmpegSubtitleFailureDetected
     });
 
-    if (!filterWasApplied || !ffmpegSubtitleLogDetected) {
-      throw new Error('FFmpeg não confirmou a aplicação do filtro ASS de legendas. O MP4 final não será liberado.');
+    if (!filterWasApplied || !ffmpegSubtitleLogDetected || ffmpegSubtitleFailureDetected) {
+      throw new Error('FFmpeg não confirmou a aplicação real do filtro subtitles/ASS. O MP4 final não será liberado.');
     }
     if (!renderedFileExists || renderedFileSize <= 0) {
       throw new Error('FFmpeg não gerou um MP4 renderizado válido.');
