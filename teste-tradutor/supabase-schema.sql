@@ -28,6 +28,19 @@ create table if not exists public.video_translation_jobs (
 -- Migração segura para separar video original, SRT e MP4 renderizado.
 alter table public.video_translation_jobs add column if not exists original_video_path text;
 alter table public.video_translation_jobs add column if not exists rendered_video_path text;
+
+-- Diagnóstico de renderização FFmpeg/ASS. Execute também esta migração
+-- para habilitar o endpoint /api/translate-video?action=debug&jobId=...
+alter table public.video_translation_jobs add column if not exists ass_path text;
+alter table public.video_translation_jobs add column if not exists ffmpeg_command text;
+alter table public.video_translation_jobs add column if not exists ffmpeg_exit_code integer;
+alter table public.video_translation_jobs add column if not exists ffmpeg_stderr_tail text;
+alter table public.video_translation_jobs add column if not exists ffmpeg_subtitle_log_detected boolean;
+alter table public.video_translation_jobs add column if not exists ffmpeg_subtitle_failure_detected boolean;
+alter table public.video_translation_jobs add column if not exists rendered_file_size bigint;
+alter table public.video_translation_jobs add column if not exists original_file_size bigint;
+alter table public.video_translation_jobs add column if not exists rendered_different_from_original boolean;
+alter table public.video_translation_jobs add column if not exists debug_payload jsonb;
 update public.video_translation_jobs
 set original_video_path = coalesce(original_video_path, original_file_path)
 where original_video_path is null;

@@ -168,6 +168,72 @@ async function downloadText(supabase, bucket, filePath) {
   return await data.text();
 }
 
+async function objectSize(supabase, bucket, filePath) {
+  if (!filePath) return 0;
+  const { data, error } = await supabase.storage.from(bucket).download(filePath);
+  if (error || !data) return 0;
+  return Number(data.size || 0);
+}
+
+async function updateJobDiagnostics(supabase, jobId, diagnostics) {
+  const payload = {
+    ass_path: diagnostics.assPath || null,
+    ffmpeg_command: diagnostics.ffmpegCommand || null,
+    ffmpeg_exit_code: diagnostics.ffmpegExitCode ?? null,
+    ffmpeg_stderr_tail: diagnostics.ffmpegStderrTail || '',
+    ffmpeg_subtitle_log_detected: Boolean(diagnostics.ffmpegSubtitleLogDetected),
+    ffmpeg_subtitle_failure_detected: Boolean(diagnostics.ffmpegSubtitleFailureDetected),
+    rendered_file_size: diagnostics.renderedFileSize || 0,
+    original_file_size: diagnostics.originalFileSize || 0,
+    rendered_different_from_original: Boolean(diagnostics.renderedDifferentFromOriginal),
+    debug_payload: diagnostics
+  };
+  const { error } = await supabase.from('video_translation_jobs').update({ ...payload, updated_at: new Date().toISOString() }).eq('id', jobId);
+  if (error) console.warn('talkglobal-debug-update-skipped', { jobId, message: error.message });
+}
+
+async function debugJob(request, response) {
+  const url = new URL(request.url, `https://${request.headers.host || 'talkglobalapp.com'}`);
+  const jobId = url.searchParams.get('jobId');
+  if (!jobId) return response.status(400).json({ error: 'jobId é obrigatório' });
+  const supabase = getSupabase();
+  const bucket = getBucket();
+  const job = await getJobRow(supabase, jobId);
+  const debug = job.debug_payload || {};
+  const assPath = job.ass_path || debug.assPath || `${jobId}/translated.ass`;
+  const srtPath = job.srt_path || debug.srtPath || `${jobId}/translated.srt`;
+  const renderedPath = job.rendered_video_path || job.final_video_path || null;
+  const originalPath = job.original_video_path || job.original_file_path || null;
+  const [assContent, srtContent, renderedSignedUrl, renderedStorageSize, originalStorageSize] = await Promise.all([
+    downloadText(supabase, bucket, assPath),
+    downloadText(supabase, bucket, srtPath),
+    signedUrl(supabase, bucket, renderedPath),
+    objectSize(supabase, bucket, renderedPath),
+    objectSize(supabase, bucket, originalPath)
+  ]);
+  return response.status(200).json({
+    ok: true,
+    jobId,
+    status: job.status,
+    original_video_path: originalPath,
+    rendered_video_path: renderedPath,
+    srt_path: srtPath,
+    ass_path: assPath,
+    ffmpegCommand: job.ffmpeg_command || debug.ffmpegCommand || null,
+    ffmpegExitCode: job.ffmpeg_exit_code ?? debug.ffmpegExitCode ?? null,
+    ffmpegStderrTail: job.ffmpeg_stderr_tail || debug.ffmpegStderrTail || '',
+    ffmpegSubtitleLogDetected: job.ffmpeg_subtitle_log_detected ?? debug.ffmpegSubtitleLogDetected ?? false,
+    ffmpegSubtitleFailureDetected: job.ffmpeg_subtitle_failure_detected ?? debug.ffmpegSubtitleFailureDetected ?? false,
+    renderedFileSize: job.rendered_file_size || debug.renderedFileSize || renderedStorageSize || 0,
+    originalFileSize: job.original_file_size || debug.originalFileSize || job.file_size_bytes || originalStorageSize || 0,
+    renderedDifferentFromOriginal: job.rendered_different_from_original ?? debug.renderedDifferentFromOriginal ?? null,
+    renderedSignedUrl,
+    assContentPreview: assContent.slice(0, 2200),
+    srtContentPreview: srtContent.slice(0, 2200),
+    error_message: job.error_message || null
+  });
+}
+
 async function readJob(request, response) {
   const url = new URL(request.url, `https://${request.headers.host || 'talkglobalapp.com'}`);
   const jobId = url.searchParams.get('jobId');
@@ -425,6 +491,30 @@ function makeAss(segments, style, watermark, durationSeconds, video = {}) {
   ].join('\n');
 }
 
+function makeDebugAss(durationSeconds, video = {}) {
+  const width = Math.max(360, Number(video.width) || 1080);
+  const height = Math.max(360, Number(video.height) || 1920);
+  const end = toAssTime(Math.max(Number(durationSeconds) || 0, 3));
+  const size = Math.max(42, Math.round(Math.min(width, height) * 0.09));
+  return [
+    '[Script Info]',
+    'ScriptType: v4.00+',
+    'ScaledBorderAndShadow: yes',
+    'WrapStyle: 0',
+    `PlayResX: ${width}`,
+    `PlayResY: ${height}`,
+    '',
+    '[V4+ Styles]',
+    'Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding',
+    `Style: Debug,Arial,${size},&H00FFFFFF,&H000000FF,&H00000000,&H99000000,1,0,0,0,100,100,0,0,3,4,0,2,40,40,80,1`,
+    '',
+    '[Events]',
+    'Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text',
+    `Dialogue: 0,0:00:00.00,${end},Debug,,0000,0000,0000,,TESTE LEGENDA TALKGLOBAL`,
+    ''
+  ].join('\n');
+}
+
 function ffmpegCommandForLog(args) {
   return [ffmpegPath, ...args].map((part) => {
     const value = String(part);
@@ -437,11 +527,13 @@ async function runFfmpeg(args, timeout = 240000) {
   console.info('talkglobal-ffmpeg-command', { command });
   try {
     const result = await execFileAsync(ffmpegPath, args, { timeout });
-    return { command, stdout: result.stdout || '', stderr: result.stderr || '' };
+    return { command, exitCode: 0, stdout: result.stdout || '', stderr: result.stderr || '' };
   } catch (error) {
-    console.error('talkglobal-ffmpeg-failed', { command, stderr: error.stderr || '', message: error.message });
+    const exitCode = typeof error.code === 'number' ? error.code : 1;
+    console.error('talkglobal-ffmpeg-failed', { command, exitCode, stderr: error.stderr || '', message: error.message });
     error.message = `FFmpeg falhou: ${error.message}`;
     error.ffmpegCommand = command;
+    error.ffmpegExitCode = exitCode;
     error.ffmpegStderr = error.stderr || '';
     throw error;
   }
@@ -528,14 +620,41 @@ async function processStoredJob(jobId, options = {}) {
 
     await updateJob(supabase, jobId, { status: 'generating_srt' });
     const srt = makeSrt(translatedSegments);
-    const ass = makeAss(translatedSegments, captionStyleValue, hasWatermark, duration, videoInfo);
+    // Diagnóstico temporário: se esta legenda gigante não aparecer, o problema é FFmpeg/filtro/path na Vercel.
+    // Depois do teste, voltamos para makeAss(translatedSegments, captionStyleValue, hasWatermark, duration, videoInfo).
+    const ass = makeDebugAss(duration, videoInfo);
     fs.writeFileSync(srtPath, srt, 'utf8');
     fs.writeFileSync(assPath, ass, 'utf8');
+    const assStoragePath = `${jobId}/translated.ass`;
     const uploadSrt = await supabase.storage.from(bucket).upload(srtStoragePath, Buffer.from(srt, 'utf8'), { contentType: 'application/x-subrip; charset=utf-8', upsert: true });
     if (uploadSrt.error) throw new Error(`Erro ao salvar SRT: ${uploadSrt.error.message}`);
+    const uploadAss = await supabase.storage.from(bucket).upload(assStoragePath, Buffer.from(ass, 'utf8'), { contentType: 'text/plain; charset=utf-8', upsert: true });
+    if (uploadAss.error) throw new Error(`Erro ao salvar ASS: ${uploadAss.error.message}`);
 
-    await updateJob(supabase, jobId, { status: 'rendering', srt_path: srtStoragePath });
-    const renderResult = await renderVideo(inputPath, assPath, outputPath);
+    await updateJob(supabase, jobId, { status: 'rendering', srt_path: srtStoragePath }).catch(() => {});
+    let renderResult;
+    try {
+      renderResult = await renderVideo(inputPath, assPath, outputPath);
+    } catch (error) {
+      await updateJobDiagnostics(supabase, jobId, {
+        jobId,
+        originalVideoPath,
+        srtPath: srtStoragePath,
+        assPath: assStoragePath,
+        renderedVideoPath: renderedVideoStoragePath,
+        originalFileSize: downloadedBytes,
+        renderedFileSize: fs.existsSync(outputPath) ? fs.statSync(outputPath).size : 0,
+        renderedDifferentFromOriginal: false,
+        ffmpegCommand: error.ffmpegCommand || null,
+        ffmpegExitCode: error.ffmpegExitCode ?? 1,
+        ffmpegStderrTail: String(error.ffmpegStderr || error.message || '').slice(-3000),
+        ffmpegSubtitleLogDetected: false,
+        ffmpegSubtitleFailureDetected: true,
+        assPreview: ass.slice(0, 1200),
+        srtPreview: srt.slice(0, 1200)
+      });
+      throw error;
+    }
 
     const renderedFileExists = fs.existsSync(outputPath);
     const renderedFileSize = renderedFileExists ? fs.statSync(outputPath).size : 0;
@@ -546,36 +665,45 @@ async function processStoredJob(jobId, options = {}) {
 
     const stderr = String(renderResult?.stderr || '');
     const filterWasApplied = Boolean(renderResult?.filter?.includes('subtitles=') && renderResult.filter.includes('translated.ass'));
-    const ffmpegSubtitleLogDetected = /Parsed_subtitles_\d+|Using font provider|fontselect|Added subtitle file/i.test(stderr);
+    const ffmpegSubtitleLogDetected = /Parsed_subtitles_\d+|Using font provider|fontselect|Added subtitle file|fontselect:/i.test(stderr);
     const ffmpegSubtitleFailureDetected = /No such filter|Unable to open|Error initializing filter|Error while processing the decoded data|Invalid argument/i.test(stderr);
-
-    console.info('talkglobal-video-render', {
+    const debugDiagnostics = {
       jobId,
       inputVideoPath: inputPath,
-      srtPath,
-      assPath,
+      originalVideoPath,
+      srtPath: srtStoragePath,
+      assPath: assStoragePath,
       outputVideoPath: outputPath,
+      renderedVideoPath: renderedVideoStoragePath,
       videoWidth: videoInfo.width,
       videoHeight: videoInfo.height,
       renderedFileExists,
       renderedFileSize,
+      originalFileSize: downloadedBytes,
+      renderedDifferentFromOriginal: renderedDiffersFromOriginal,
       ffmpegCommand: renderResult.command,
+      ffmpegExitCode: renderResult.exitCode,
       ffmpegFilter: renderResult.filter,
-      assPreview: ass.slice(0, 900),
-      ffmpegStderrTail: stderr.slice(-2400),
+      assPreview: ass.slice(0, 1200),
+      srtPreview: srt.slice(0, 1200),
+      ffmpegStderrTail: stderr.slice(-3000),
       filterWasApplied,
       ffmpegSubtitleLogDetected,
       ffmpegSubtitleFailureDetected
-    });
+    };
 
-    if (!filterWasApplied || !ffmpegSubtitleLogDetected || ffmpegSubtitleFailureDetected) {
-      throw new Error('FFmpeg não confirmou a aplicação real do filtro subtitles/ASS. O MP4 final não será liberado.');
-    }
-    if (!renderedFileExists || renderedFileSize <= 0) {
-      throw new Error('FFmpeg não gerou um MP4 renderizado válido.');
-    }
-    if (!renderedIsSeparateFile || !renderedDiffersFromOriginal) {
-      throw new Error('O MP4 renderizado não é diferente do vídeo original.');
+    console.info('talkglobal-video-render', debugDiagnostics);
+    await updateJobDiagnostics(supabase, jobId, debugDiagnostics);
+
+    const validationFailures = [];
+    if (renderResult.exitCode !== 0) validationFailures.push('FFmpeg exitCode diferente de 0');
+    if (!renderedFileExists) validationFailures.push('MP4 renderizado não foi criado');
+    if (renderedFileSize <= 0) validationFailures.push('MP4 renderizado está vazio');
+    if (!renderedDiffersFromOriginal) validationFailures.push('MP4 renderizado não difere do original');
+    if (!filterWasApplied || !ffmpegSubtitleLogDetected) validationFailures.push('FFmpeg não confirmou o filtro subtitles/ASS');
+    if (ffmpegSubtitleFailureDetected) validationFailures.push('FFmpeg registrou falha no filtro de legenda');
+    if (validationFailures.length) {
+      throw new Error(`Renderização inválida: ${validationFailures.join('; ')}.`);
     }
 
     const renderedBuffer = fs.readFileSync(outputPath);
@@ -589,6 +717,7 @@ async function processStoredJob(jobId, options = {}) {
       srt_path: srtStoragePath,
       error_message: null
     });
+    await updateJobDiagnostics(supabase, jobId, { ...debugDiagnostics, assPath: assStoragePath });
     const videoUrl = await signedUrl(supabase, bucket, renderedVideoStoragePath);
     const srtUrl = await signedUrl(supabase, bucket, srtStoragePath);
     if (!videoUrl || !srtUrl) throw new Error('Não foi possível gerar URLs assinadas para os arquivos finais.');
@@ -635,7 +764,11 @@ async function startJob(request, response) {
 
 export default async function handler(request, response) {
   try {
-    if (request.method === 'GET') return await readJob(request, response);
+    if (request.method === 'GET') {
+      const url = new URL(request.url, `https://${request.headers.host || 'talkglobalapp.com'}`);
+      if (url.searchParams.get('action') === 'debug') return await debugJob(request, response);
+      return await readJob(request, response);
+    }
     if (request.method !== 'POST') {
       response.setHeader('Allow', 'GET, POST');
       return response.status(405).json({ error: 'Method not allowed' });
