@@ -1,5 +1,23 @@
 const posts = [
   {
+    "titulo": "Ganhar dinheiro no YouTube em 2026: os 3 caminhos mais reais para monetizar",
+    "categoria": "Renda online",
+    "descricao": "Monetizar no YouTube não depende de uma única fonte: anúncios, afiliados, produtos e comunidade formam o jogo real.",
+    "link": "/blog/ganhar-dinheiro-youtube-2026-3-caminhos.html",
+    "tempo": "6 min",
+    "date": "2026-05-10",
+    "theme": "money"
+  },
+  {
+    "titulo": "A nova fase da IA: modelos começam a ser testados antes de chegar ao público",
+    "categoria": "Tecnologia",
+    "descricao": "A corrida da inteligência artificial está deixando de ser só velocidade: testes, segurança e avaliações independentes entram no centro do jogo.",
+    "link": "/blog/nova-fase-ia-testes-antes-do-lancamento.html",
+    "tempo": "5 min",
+    "date": "2026-05-10",
+    "theme": "tech"
+  },
+  {
     "titulo": "Ferramentas para começar a ganhar dinheiro online com mais organização",
     "categoria": "Renda online",
     "descricao": "Organização, comunicação e rotina fazem diferença antes mesmo da primeira venda online.",
