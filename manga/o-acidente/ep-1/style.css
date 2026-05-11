@@ -1,0 +1,373 @@
+:root {
+  --background: #050505;
+  --surface: #0d0d0d;
+  --text: #ffffff;
+  --muted: #b8b8b8;
+  --accent: #8b0000;
+  --max-page-width: 960px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+  font: inherit;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 20px;
+  background: rgba(5, 5, 5, 0.94);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.title-block {
+  width: min(100%, var(--max-page-width));
+  margin: 0;
+}
+
+.title-block p,
+.title-block h1 {
+  margin: 0;
+}
+
+.title-block p {
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title-block h1 {
+  font-size: clamp(1.15rem, 3vw, 1.75rem);
+  line-height: 1.15;
+}
+
+.reader-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.mode-toggle,
+.back-to-top,
+.book-nav {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: var(--text);
+  background: rgba(13, 13, 13, 0.92);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.mode-toggle {
+  border-radius: 999px;
+  padding: 9px 13px;
+}
+
+.page-status {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.reader-container {
+  width: 100%;
+  padding: 18px 14px 80px;
+}
+
+.manga-reader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.manga-page {
+  width: min(100%, var(--max-page-width));
+  margin: 0;
+}
+
+.manga-page img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.manga-page img:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.manga-page.is-missing {
+  display: grid;
+  min-height: 160px;
+  place-items: center;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  color: var(--muted);
+  background: var(--surface);
+  text-align: center;
+}
+
+.book-reader {
+  position: relative;
+  display: grid;
+  min-height: calc(100vh - 94px);
+  place-items: center;
+  padding: 10px 54px 52px;
+}
+
+.book-reader[hidden],
+.manga-reader[hidden] {
+  display: none;
+}
+
+.book-page {
+  display: grid;
+  width: 100%;
+  height: calc(100vh - 160px);
+  min-height: 420px;
+  margin: 0;
+  place-items: center;
+  perspective: 1200px;
+}
+
+.book-image {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  cursor: pointer;
+  transform-origin: center left;
+}
+
+.book-image.turn-next {
+  animation: turnNext 260ms ease;
+}
+
+.book-image.turn-prev {
+  animation: turnPrev 260ms ease;
+}
+
+@keyframes turnNext {
+  0% {
+    transform: rotateY(0deg) translateX(0);
+    opacity: 1;
+  }
+  45% {
+    transform: rotateY(-12deg) translateX(-10px);
+    opacity: 0.72;
+  }
+  100% {
+    transform: rotateY(0deg) translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes turnPrev {
+  0% {
+    transform: rotateY(0deg) translateX(0);
+    opacity: 1;
+  }
+  45% {
+    transform: rotateY(12deg) translateX(10px);
+    opacity: 0.72;
+  }
+  100% {
+    transform: rotateY(0deg) translateX(0);
+    opacity: 1;
+  }
+}
+
+.book-nav {
+  position: fixed;
+  top: 50%;
+  z-index: 12;
+  display: grid;
+  width: 44px;
+  height: 70px;
+  place-items: center;
+  border-radius: 999px;
+  font-size: 2.2rem;
+  line-height: 1;
+  transform: translateY(-50%);
+}
+
+.book-prev {
+  left: 18px;
+}
+
+.book-next {
+  right: 18px;
+}
+
+.book-nav:disabled {
+  cursor: not-allowed;
+  opacity: 0.32;
+}
+
+.book-footer {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  z-index: 12;
+  transform: translateX(-50%);
+}
+
+.book-counter {
+  display: inline-flex;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  padding: 8px 13px;
+  color: var(--muted);
+  background: rgba(13, 13, 13, 0.92);
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.continue-card {
+  display: grid;
+  width: min(100%, var(--max-page-width));
+  min-height: 280px;
+  place-items: center;
+  align-content: center;
+  gap: 10px;
+  margin-top: 18px;
+  border-top: 1px solid rgba(139, 0, 0, 0.64);
+  border-bottom: 1px solid rgba(139, 0, 0, 0.64);
+  color: var(--text);
+  background: #080808;
+  text-align: center;
+}
+
+.continue-card p,
+.continue-card strong,
+.continue-card span {
+  margin: 0;
+}
+
+.continue-card p,
+.continue-card span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.continue-card strong {
+  font-size: clamp(2.6rem, 9vw, 6rem);
+  line-height: 0.9;
+}
+
+.back-to-top {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 20;
+  border-radius: 999px;
+  padding: 10px 14px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.back-to-top.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (max-width: 720px) {
+  .site-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 14px;
+  }
+
+  .reader-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .reader-container {
+    padding: 12px 0 72px;
+  }
+
+  .manga-reader {
+    gap: 8px;
+  }
+
+  .manga-page {
+    width: 100%;
+  }
+
+  .back-to-top {
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .book-reader {
+    min-height: calc(100vh - 124px);
+    padding: 6px 0 54px;
+  }
+
+  .book-page {
+    height: calc(100vh - 190px);
+    min-height: 360px;
+  }
+
+  .book-nav {
+    top: auto;
+    bottom: 12px;
+    width: 48px;
+    height: 48px;
+    font-size: 1.8rem;
+    transform: none;
+  }
+
+  .book-prev {
+    left: 12px;
+  }
+
+  .book-next {
+    right: 12px;
+  }
+
+  .book-footer {
+    bottom: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

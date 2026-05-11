@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Leitor vertical do mangá autoral EP 1 — O Acidente.">
+  <title>EP 1 — O Acidente | Mangá autoral</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header" id="topo">
+    <div class="title-block">
+      <p>Mangá autoral</p>
+      <h1>EP 1 — O Acidente</h1>
+    </div>
+    <div class="reader-actions" aria-label="Controles de leitura">
+      <button class="mode-toggle" type="button" aria-pressed="false">Modo livro</button>
+      <span class="page-status" aria-live="polite">Vertical</span>
+    </div>
+  </header>
+
+  <main class="reader-container">
+    <section class="manga-reader" id="manga-reader" aria-label="Leitor de mangá"></section>
+
+    <section class="book-reader" id="book-reader" aria-label="Leitor em modo livro" hidden>
+      <button class="book-nav book-prev" type="button" aria-label="Página anterior">‹</button>
+      <figure class="book-page">
+        <img class="book-image" alt="Página 1">
+      </figure>
+      <button class="book-nav book-next" type="button" aria-label="Próxima página">›</button>
+      <div class="book-footer">
+        <span class="book-counter">Página 1 / 1</span>
+      </div>
+    </section>
+  </main>
+
+  <button class="back-to-top" type="button" aria-label="Voltar ao topo">Topo</button>
+
+  <script src="page-manifest.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
