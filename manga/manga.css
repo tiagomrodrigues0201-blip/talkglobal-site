@@ -313,6 +313,7 @@ a { color: inherit; text-decoration: none; }
 .social-button.discord { border-color: rgba(139,0,0,.72); background: linear-gradient(135deg, rgba(139,0,0,.36), rgba(8,6,5,.7)); }
 .social-button.instagram { border-color: rgba(168,134,61,.48); }
 .social-button.tiktok { border-color: rgba(255,255,255,.18); }
+.social-button.youtube { border-color: rgba(179,19,32,.62); background: linear-gradient(135deg, rgba(179,19,32,.22), rgba(8,6,5,.72)); }
 .social-button.large { min-height: 58px; padding-inline: 22px; }
 .social-button:hover {
   transform: translateY(-3px);
@@ -330,7 +331,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .forbidden-image::before {
-  content: attr(data-src);
+  content: attr(data-label);
   position: absolute;
   inset: 0;
   display: flex;
@@ -345,11 +346,14 @@ a { color: inherit; text-decoration: none; }
   text-align: center;
   text-transform: uppercase;
   background:
-    linear-gradient(180deg, rgba(0,0,0,.16), rgba(0,0,0,.62)),
-    radial-gradient(circle at 52% 20%, rgba(255,255,255,.26), transparent 8rem),
-    repeating-linear-gradient(90deg, rgba(255,255,255,.09) 0 1px, transparent 1px 10px),
-    linear-gradient(135deg, #efefef 0%, #747474 34%, #0b0b0b 68%, #000 100%);
-  filter: grayscale(1) contrast(1.18);
+    linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.72)),
+    radial-gradient(circle at 52% 20%, rgba(255,255,255,.18), transparent 10rem),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.055) 0 1px, transparent 1px 10px),
+    var(--image),
+    linear-gradient(135deg, #1a1713 0%, #050505 68%, #000 100%);
+  background-size: cover, cover, auto, cover, cover;
+  background-position: center, center, center, center, center;
+  filter: contrast(1.04) saturate(.92);
   transition: transform .6s ease, filter .6s ease;
 }
 
@@ -368,7 +372,7 @@ a { color: inherit; text-decoration: none; }
 
 .forbidden-image:hover::before {
   transform: scale(1.035);
-  filter: grayscale(1) contrast(1.3);
+  filter: contrast(1.1) saturate(.96);
 }
 
 .image-mark {
@@ -1048,4 +1052,30 @@ a { color: inherit; text-decoration: none; }
     transform: scale(0.92);
     transform-origin: right bottom;
   }
+}
+
+
+/* Official HESIDIO image presence */
+.forbidden-image .diagonal-mark {
+  width: min(42%, 220px);
+  aspect-ratio: 1;
+  color: transparent;
+  background: url("/public/manga/logo.png") center / contain no-repeat;
+  opacity: .24;
+  filter: drop-shadow(0 0 28px rgba(139,0,0,.42));
+}
+
+.hero-bg .diagonal-mark {
+  width: min(34vw, 390px);
+  opacity: .18;
+}
+
+.portrait .diagonal-mark,
+.episode-cover .diagonal-mark {
+  width: min(54%, 170px);
+  opacity: .3;
+}
+
+.forbidden-image::before {
+  text-shadow: 0 2px 12px rgba(0,0,0,.92);
 }
