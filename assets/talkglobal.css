@@ -109,9 +109,10 @@ img { display: block; max-width: 100%; }
 }
 
 .brand img {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  border-radius: 0;
   box-shadow: 0 0 24px rgba(141,17,24,.44);
 }
 

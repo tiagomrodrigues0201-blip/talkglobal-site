@@ -112,12 +112,15 @@ a { color: inherit; text-decoration: none; }
   text-transform: uppercase;
 }
 
-.brand-mark {
-  width: 13px;
-  height: 34px;
-  background: linear-gradient(180deg, var(--paper), var(--red));
-  clip-path: polygon(0 0, 100% 12%, 64% 100%, 0 84%);
-  filter: drop-shadow(0 0 18px rgba(139,0,0,.7));
+.brand-logo {
+  width: 48px;
+  height: 48px;
+  display: block;
+  flex: 0 0 auto;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 0 18px rgba(139,0,0,.55))
+    drop-shadow(0 0 2px rgba(244,230,199,.32));
 }
 
 .site-topbar nav {
