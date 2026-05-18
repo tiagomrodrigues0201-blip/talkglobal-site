@@ -9,6 +9,8 @@ type WatermarkedImageProps = {
   variant?: WatermarkVariant;
   objectFit?: "cover" | "contain";
   loading?: "eager" | "lazy";
+  classification?: string;
+  archiveCode?: string;
 };
 
 const variantClass: Record<WatermarkVariant, string> = {
@@ -25,6 +27,8 @@ export default function WatermarkedImage({
   variant = "default",
   objectFit = "cover",
   loading = "lazy",
+  classification = "ARQUIVO RESTRITO",
+  archiveCode = "HG-000",
 }: WatermarkedImageProps) {
   return (
     <figure
@@ -53,6 +57,12 @@ export default function WatermarkedImage({
       <span className="watermarked-image__corner" aria-hidden="true">
         <strong>HESIDIO</strong>
         <small>@hesidio</small>
+      </span>
+      <span className="watermarked-image__seal" aria-hidden="true">
+        {classification}
+      </span>
+      <span className="watermarked-image__code" aria-hidden="true">
+        {archiveCode} // HESIDIO // @hesidio
       </span>
     </figure>
   );

@@ -1418,3 +1418,665 @@ body::after {
     width: auto;
   }
 }
+
+/* HESIDIO art direction refinement: recovered forbidden archive */
+:root {
+  --archive-red: #6f0d12;
+  --archive-red-soft: rgba(111, 13, 18, .56);
+  --archive-paper: rgba(173, 151, 107, .08);
+  --archive-line: rgba(207, 184, 137, .14);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: #e8deca;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(112, 13, 18, .18), transparent 22rem),
+    radial-gradient(circle at 84% 8%, rgba(176, 151, 98, .08), transparent 20rem),
+    linear-gradient(180deg, #000 0%, #060302 38%, #020101 100%);
+}
+
+body::before {
+  opacity: .42;
+  background:
+    radial-gradient(circle at 18% 24%, rgba(189,163,112,.12), transparent 10rem),
+    radial-gradient(circle at 72% 62%, rgba(111,13,18,.16), transparent 18rem),
+    repeating-linear-gradient(96deg, rgba(233,217,179,.018) 0 1px, transparent 1px 19px);
+}
+
+body::after {
+  background:
+    radial-gradient(ellipse at center, transparent 24%, rgba(0,0,0,.82) 100%),
+    linear-gradient(90deg, rgba(0,0,0,.28), transparent 18%, transparent 82%, rgba(0,0,0,.42)),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.022) 0 1px, transparent 1px 6px);
+  opacity: .72;
+}
+
+.archive-grain {
+  opacity: .28;
+}
+
+.archive-grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 11% 21%, rgba(211,185,128,.11) 0 1px, transparent 2px),
+    radial-gradient(circle at 72% 44%, rgba(111,13,18,.16) 0 1px, transparent 3px),
+    radial-gradient(circle at 52% 81%, rgba(255,255,255,.08) 0 1px, transparent 2px);
+  background-size: 220px 240px, 310px 280px, 170px 190px;
+  mix-blend-mode: screen;
+  animation: dustDrift 28s linear infinite;
+}
+
+.topbar {
+  backdrop-filter: blur(10px);
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.94), rgba(4,1,1,.76)),
+    repeating-linear-gradient(90deg, transparent 0 92px, rgba(210,184,133,.025) 92px 93px);
+}
+
+.brand {
+  font-size: .82rem;
+}
+
+.menu {
+  font-size: .63rem;
+  gap: 14px;
+}
+
+.restricted-hero {
+  min-height: 100svh;
+  padding: 98px 0 64px;
+  background:
+    radial-gradient(circle at 50% 52%, rgba(111,13,18,.22), transparent 20rem),
+    linear-gradient(180deg, #000 0%, #050101 56%, #010101 100%);
+}
+
+.restricted-hero::before {
+  background:
+    radial-gradient(circle at 50% 48%, rgba(111,13,18,.16), transparent 13rem),
+    rgba(0,0,0,.68);
+  animation-duration: 2.8s;
+}
+
+.restricted-hero::after {
+  bottom: 22px;
+  font-size: .56rem;
+  color: rgba(207,184,137,.36);
+}
+
+.hero-evidence {
+  opacity: .64;
+}
+
+.hero-evidence img {
+  object-position: 48% 31%;
+  filter: grayscale(.22) sepia(.12) saturate(.34) contrast(1.18) brightness(.22);
+  transform: scale(1.16);
+  animation: forbiddenDrift 34s ease-in-out infinite alternate;
+}
+
+.hero-evidence::after,
+.watermarked-image::after {
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.98), rgba(0,0,0,.74) 30%, rgba(0,0,0,.62) 58%, rgba(0,0,0,.96)),
+    linear-gradient(180deg, rgba(0,0,0,.82), rgba(0,0,0,.18) 42%, rgba(0,0,0,.92)),
+    radial-gradient(circle at 50% 46%, rgba(111,13,18,.28), transparent 20rem),
+    repeating-linear-gradient(116deg, rgba(233,217,179,.038) 0 1px, transparent 1px 18px);
+}
+
+.hero-burn::before,
+.hero-burn::after {
+  content: "";
+  position: absolute;
+  inset: -18%;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 48% 52%, rgba(177,154,109,.08), transparent 17rem),
+    radial-gradient(ellipse at 60% 46%, rgba(111,13,18,.16), transparent 20rem);
+  filter: blur(24px);
+  opacity: .54;
+  animation: smokeVeil 22s ease-in-out infinite alternate;
+}
+
+.hero-burn::after {
+  animation-delay: -9s;
+  transform: rotate(7deg);
+  opacity: .32;
+}
+
+.hero-inner {
+  top: 86px;
+  min-height: calc(100svh - 86px);
+}
+
+.hero-copy {
+  width: min(100% - 48px, 920px);
+  max-width: 920px;
+}
+
+.opening-mark {
+  margin-bottom: 18px;
+  font-size: .64rem;
+  letter-spacing: .34em;
+}
+
+.seal,
+.kicker {
+  font-size: .62rem;
+  letter-spacing: .18em;
+}
+
+.hero-copy h1 {
+  margin: 20px auto 12px;
+  font-size: 6rem;
+  line-height: .86;
+  letter-spacing: .04em;
+  text-indent: .04em;
+  text-shadow:
+    0 0 14px rgba(255,235,196,.13),
+    0 0 42px rgba(111,13,18,.42),
+    0 18px 70px #000;
+}
+
+.hero-subtitle {
+  font-size: 1.38rem;
+  color: rgba(216,198,157,.88);
+}
+
+.hero-line {
+  max-width: 560px;
+  margin-top: 18px;
+  color: rgba(246, 237, 215, .9);
+  font-family: Georgia, "Times New Roman", ui-serif, serif;
+  font-size: 1.92rem;
+  font-weight: 760;
+  line-height: 1.08;
+  letter-spacing: .01em;
+  text-shadow: 0 0 18px rgba(111,13,18,.32), 0 14px 52px #000;
+}
+
+.status-badge {
+  margin-top: 22px;
+  font-size: .68rem;
+}
+
+.hero-publisher {
+  margin-top: 18px;
+  font-size: .95rem;
+  color: rgba(216,198,157,.68);
+}
+
+.hero-actions {
+  margin-top: 32px;
+  gap: 12px;
+}
+
+.button,
+.social-links a {
+  min-height: 44px;
+  padding: 13px 18px;
+  font-size: .66rem;
+  letter-spacing: .12em;
+}
+
+.studio-section,
+.fragments-section,
+.characters-section,
+.helicon-section,
+.season-section,
+.community-section {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 14% 18%, rgba(111,13,18,.11), transparent 20rem),
+    linear-gradient(180deg, rgba(0,0,0,.36), rgba(2,1,1,.72)),
+    repeating-linear-gradient(90deg, transparent 0 104px, rgba(207,184,137,.026) 104px 105px);
+}
+
+.studio-section > .container,
+.fragments-section > .container,
+.characters-section > .container,
+.helicon-section > .container,
+.season-section > .container,
+.community-section > .container,
+.site-footer {
+  position: relative;
+  z-index: 4;
+}
+
+.studio-section::before,
+.fragments-section::before,
+.characters-section::before,
+.helicon-section::before,
+.season-section::before,
+.community-section::before {
+  content: "LOG // HESIDIO // MEMORIA PARCIAL // ACESSO RESTRITO";
+  position: absolute;
+  left: max(18px, calc((100vw - var(--max)) / 2));
+  top: 22px;
+  color: rgba(207,184,137,.18);
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: .58rem;
+  letter-spacing: .18em;
+  white-space: nowrap;
+}
+
+.section-copy h2,
+.section-head h2,
+.relic-copy h2,
+.community-inner h2 {
+  max-width: 850px;
+  font-size: 2.35rem;
+  line-height: 1.08;
+  letter-spacing: .01em;
+  text-transform: none;
+}
+
+.section-head p,
+.section-copy p,
+.relic-copy p,
+.community-inner p {
+  max-width: 650px;
+  font-size: 1rem;
+  line-height: 1.72;
+  color: rgba(232,222,202,.68);
+}
+
+.confidential-grid article,
+.relic-grid article,
+.episode-stack a {
+  border-color: rgba(207,184,137,.16);
+  background:
+    linear-gradient(145deg, rgba(173,151,107,.07), rgba(111,13,18,.06)),
+    radial-gradient(circle at 16% 12%, rgba(207,184,137,.06), transparent 8rem),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0 1px, transparent 1px 7px),
+    rgba(5,3,2,.92);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.72), 0 20px 70px rgba(0,0,0,.42);
+}
+
+.confidential-grid h3 {
+  font-size: 1.08rem;
+}
+
+.fragment-layout {
+  gap: 18px;
+}
+
+.fragment-panel {
+  min-height: 520px;
+  border-color: rgba(207,184,137,.17);
+  background: #030101;
+}
+
+.fragment-panel.wide {
+  min-height: 650px;
+}
+
+.fragment-panel::after {
+  content: attr(data-classification) " // " attr(data-code);
+  position: absolute;
+  z-index: 12;
+  top: 18px;
+  right: 18px;
+  max-width: 70%;
+  padding: 7px 10px;
+  border: 1px solid rgba(111,13,18,.55);
+  color: rgba(232,222,202,.58);
+  background: rgba(0,0,0,.58);
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: .58rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+
+.fragment-panel > div {
+  padding: 22px;
+  background:
+    linear-gradient(180deg, transparent, rgba(0,0,0,.78)),
+    linear-gradient(90deg, rgba(111,13,18,.24), transparent);
+}
+
+.fragment-panel h3 {
+  max-width: 26rem;
+  font-size: 1.65rem;
+  line-height: 1.05;
+}
+
+.fragment-panel p {
+  max-width: 23rem;
+  margin: 8px 0 0;
+  color: rgba(232,222,202,.58);
+  font-size: .86rem;
+  line-height: 1.55;
+}
+
+.watermarked-image {
+  background:
+    linear-gradient(135deg, rgba(207,184,137,.06), transparent),
+    #020101;
+}
+
+.watermarked-image img {
+  user-select: none;
+  filter: grayscale(.18) sepia(.14) saturate(.32) contrast(1.2) brightness(.29);
+  transform: scale(1.12);
+}
+
+.watermarked-image::before {
+  content: "CONFIDENCIAL // HESIDIO // @hesidio";
+  top: 12px;
+  left: 12px;
+  color: rgba(232,222,202,.52);
+  border-color: rgba(111,13,18,.62);
+  background: rgba(0,0,0,.54);
+}
+
+.watermarked-image__corner {
+  right: 14px;
+  bottom: 14px;
+  color: rgba(245,245,245,.3);
+  text-shadow: 0 2px 14px #000, 0 0 18px rgba(111,13,18,.42);
+}
+
+.watermarked-image__diagonal {
+  opacity: 1;
+  color: rgba(245,245,245,.12);
+  font-size: 9rem;
+  transform: translate(-50%, -50%) rotate(-23deg);
+}
+
+.watermarked-image__pattern {
+  color: rgba(245,245,245,.07);
+  font-size: .94rem;
+  line-height: 4.9rem;
+}
+
+.watermarked-image__seal,
+.watermarked-image__code {
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+  font-family: "Courier New", ui-monospace, monospace;
+  text-transform: uppercase;
+}
+
+.watermarked-image__seal {
+  left: 14px;
+  bottom: 16px;
+  padding: 6px 9px;
+  border: 1px solid rgba(111,13,18,.52);
+  color: rgba(232,222,202,.46);
+  background: rgba(0,0,0,.5);
+  font-size: .56rem;
+  font-weight: 900;
+  letter-spacing: .14em;
+}
+
+.watermarked-image__code {
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  transform-origin: center;
+  color: rgba(232,222,202,.18);
+  font-size: .54rem;
+  letter-spacing: .16em;
+}
+
+.fragment-panel .watermarked-image img,
+.character-cards .watermarked-image img {
+  filter: grayscale(.22) sepia(.18) saturate(.28) contrast(1.3) brightness(.24);
+}
+
+.fragment-panel:hover .watermarked-image img,
+.character-cards article:hover .watermarked-image img {
+  filter: grayscale(.12) sepia(.12) saturate(.42) contrast(1.32) brightness(.31);
+}
+
+.character-cards {
+  gap: 18px;
+}
+
+.character-cards article {
+  min-height: 470px;
+  border-color: rgba(207,184,137,.16);
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.72)),
+    rgba(3,1,1,.94);
+}
+
+.character-cards .watermarked-image {
+  height: 100%;
+}
+
+.character-cards .watermarked-image img {
+  object-position: 50% 22%;
+  transform: scale(1.24);
+}
+
+.character-card--ren .watermarked-image img {
+  object-position: 48% 18%;
+}
+
+.character-card--airi .watermarked-image img {
+  object-position: 50% 28%;
+  filter: grayscale(.06) sepia(.16) saturate(.42) contrast(1.1) brightness(.36);
+}
+
+.character-card--izaya .watermarked-image img {
+  object-position: 50% 14%;
+  filter: grayscale(.35) sepia(.12) saturate(.18) contrast(1.42) brightness(.22);
+}
+
+.character-card--ban .watermarked-image img {
+  object-position: 50% 18%;
+  filter: grayscale(.16) sepia(.2) saturate(.34) contrast(1.36) brightness(.25);
+}
+
+.character-cards article::before {
+  width: 168px;
+  padding: 10px;
+  border-color: rgba(207,184,137,.15);
+  color: rgba(232,222,202,.58);
+  font-size: .56rem;
+  content: "[STATUS]\A INCOMPLETO\A\A[AMEAÇA]\A NÃO MEDIDA\A\A[SINAL]\A " attr(data-signal);
+}
+
+.character-cards article::after {
+  content: attr(data-file) " // REGISTRO PARCIAL";
+  position: absolute;
+  z-index: 12;
+  left: 18px;
+  top: 18px;
+  color: rgba(232,222,202,.42);
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: .55rem;
+  font-weight: 900;
+  letter-spacing: .16em;
+}
+
+.character-card--airi::before {
+  border-color: rgba(207,184,137,.24);
+  color: rgba(232,222,202,.72);
+  background: rgba(31,19,15,.6);
+  content: "[STATUS]\A HUMANA\A\A[AMEAÇA]\A INDEFINIDA\A\A[ÚLTIMO REGISTRO]\A CHORO BAIXO";
+}
+
+.character-card--ren::before {
+  content: "[STATUS]\A SILENCIOSO\A\A[AMEAÇA]\A DESCONHECIDA\A\A[ÚLTIMO REGISTRO]\A VENTO ZERO";
+}
+
+.character-card--izaya::before {
+  color: rgba(255,218,218,.58);
+  border-color: rgba(111,13,18,.38);
+  content: "[STATUS]\A PROIBIDO\A\A[AMEAÇA]\A ILEGÍVEL\A\A[ÚLTIMO REGISTRO]\A SEM TOQUE";
+}
+
+.character-card--ban::before {
+  content: "[STATUS]\A RINDO\A\A[AMEAÇA]\A IMPOSSÍVEL\A\A[ÚLTIMO REGISTRO]\A FALHA";
+}
+
+.character-cards small {
+  font-size: .62rem;
+  color: rgba(207,184,137,.7);
+}
+
+.character-cards h3 {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.character-cards p {
+  max-width: 28rem;
+  font-size: .92rem;
+  line-height: 1.55;
+}
+
+.episode-stack a {
+  min-height: 126px;
+  padding: 22px 24px;
+}
+
+.episode-stack a strong {
+  font-size: 1.34rem;
+  line-height: 1.08;
+}
+
+.relic-grid article {
+  min-height: 124px;
+}
+
+.community-inner h2 {
+  max-width: 620px;
+}
+
+.studio-section,
+.fragments-section,
+.characters-section,
+.helicon-section,
+.season-section,
+.community-section {
+  scroll-margin-top: 96px;
+}
+
+@keyframes smokeVeil {
+  0% { opacity: .22; transform: translate3d(-2%, 1%, 0) scale(1); }
+  50% { opacity: .5; transform: translate3d(1%, -1%, 0) scale(1.04); }
+  100% { opacity: .28; transform: translate3d(2%, 2%, 0) scale(1.08); }
+}
+
+@keyframes dustDrift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-80px, -120px, 0); }
+}
+
+@media (max-width: 1060px) {
+  .hero-copy h1 {
+    font-size: 4.9rem;
+  }
+
+  .hero-line {
+    font-size: 1.72rem;
+  }
+
+  .section-copy h2,
+  .section-head h2,
+  .relic-copy h2,
+  .community-inner h2 {
+    font-size: 2.08rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .nav {
+    min-height: 74px;
+  }
+
+  .brand {
+    font-size: .68rem;
+  }
+
+  .restricted-hero {
+    padding-top: 80px;
+  }
+
+  .hero-inner {
+    top: 74px;
+    min-height: calc(100svh - 74px);
+  }
+
+  .hero-copy {
+    width: min(100% - 34px, 360px);
+    padding-top: 0;
+  }
+
+  .hero-copy h1 {
+    font-size: 3.05rem;
+    line-height: .88;
+  }
+
+  .hero-subtitle {
+    font-size: 1.05rem;
+  }
+
+  .hero-line {
+    max-width: 17rem;
+    font-size: 1.34rem;
+    font-weight: 760;
+  }
+
+  .hero-actions {
+    margin-top: 28px;
+  }
+
+  .button,
+  .social-links a {
+    font-size: .62rem;
+  }
+
+  .section-copy h2,
+  .section-head h2,
+  .relic-copy h2,
+  .community-inner h2 {
+    font-size: 1.74rem;
+    line-height: 1.12;
+  }
+
+  .fragment-panel,
+  .fragment-panel.wide {
+    min-height: 420px;
+  }
+
+  .fragment-panel::after {
+    left: 14px;
+    right: 14px;
+    max-width: none;
+    font-size: .5rem;
+  }
+
+  .fragment-panel h3 {
+    font-size: 1.32rem;
+  }
+
+  .character-cards article {
+    min-height: 430px;
+  }
+
+  .character-cards article::before {
+    top: 42px;
+    font-size: .5rem;
+  }
+
+  .character-cards h3 {
+    font-size: 1.75rem;
+  }
+
+  .watermarked-image__diagonal {
+    font-size: 5.8rem;
+  }
+}
