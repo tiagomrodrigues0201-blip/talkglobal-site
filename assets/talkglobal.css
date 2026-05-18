@@ -1419,6 +1419,178 @@ body::after {
   }
 }
 
+/* Navigation and readability pass */
+.restricted-hero {
+  display: block;
+  min-height: auto;
+  padding: 96px 0 54px;
+}
+
+.hero-inner {
+  position: relative;
+  top: auto;
+  min-height: auto;
+  padding: 78px 0 46px;
+}
+
+.hero-copy {
+  transform: none;
+}
+
+.hero-actions {
+  margin-bottom: 0;
+}
+
+.menu,
+.button,
+.social-links a,
+.watermarked-image::before,
+.watermarked-image__code,
+.watermarked-image__seal,
+.character-cards article::before,
+.character-cards article::after,
+.episode-stack span,
+.episode-stack em,
+.kicker,
+.seal {
+  letter-spacing: .075em;
+  word-spacing: .08em;
+}
+
+.menu {
+  gap: 18px;
+}
+
+.watermarked-image::before {
+  max-width: min(74%, 310px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.character-cards .watermarked-image::before {
+  content: "HESIDIO // @hesidio";
+  max-width: 190px;
+  font-size: .5rem;
+  letter-spacing: .06em;
+}
+
+.character-cards article::before {
+  top: 22px;
+  right: 22px;
+  width: 172px;
+  font-size: .54rem;
+  line-height: 1.45;
+}
+
+.character-cards article.character-card--ren::before {
+  content: "[STATUS]\A HUMANO\A\A[AMEAÇA]\A NÃO MEDIDA\A\A[ÚLTIMO REGISTRO]\A MONTE HÉLICON";
+}
+
+.character-cards article.character-card--airi::before {
+  content: "[STATUS]\A HUMANA\A\A[AMEAÇA]\A INDEFINIDA\A\A[ÚLTIMO REGISTRO]\A SOBREVIVEU";
+}
+
+.character-cards article.character-card--izaya::before {
+  content: "[STATUS]\A PROIBIDO\A\A[AMEAÇA]\A ILEGÍVEL\A\A[ÚLTIMO REGISTRO]\A SEM TOQUE";
+}
+
+.character-cards article.character-card--ban::before {
+  content: "[STATUS]\A INSTÁVEL\A\A[AMEAÇA]\A IMPOSSÍVEL\A\A[ÚLTIMO REGISTRO]\A AMIGO ANTIGO";
+}
+
+.character-cards article::after {
+  max-width: 220px;
+  white-space: nowrap;
+}
+
+.character-cards article {
+  min-height: 440px;
+}
+
+.character-cards h3 {
+  margin-bottom: 8px;
+}
+
+.character-cards p {
+  max-width: 34rem;
+  font-size: .88rem;
+}
+
+.character-card--ren .watermarked-image img {
+  object-position: 50% 20%;
+  filter: grayscale(.16) sepia(.1) saturate(.28) contrast(1.18) brightness(.3);
+}
+
+.episode-stack {
+  gap: 12px;
+}
+
+.episode-stack a {
+  min-height: 98px;
+  padding: 18px 22px;
+  transform: none;
+}
+
+.episode-stack a:nth-child(even) {
+  transform: none;
+}
+
+.episode-stack a strong {
+  font-size: 1.18rem;
+}
+
+.episode-stack em {
+  margin-top: 10px;
+  font-size: .62rem;
+}
+
+@media (max-width: 1060px) {
+  .restricted-hero {
+    padding-top: 88px;
+  }
+
+  .hero-inner {
+    padding: 58px 0 34px;
+  }
+}
+
+@media (max-width: 720px) {
+  .restricted-hero {
+    min-height: auto;
+    padding-top: 72px;
+  }
+
+  .hero-inner {
+    top: auto;
+    min-height: auto;
+    padding: 44px 0 30px;
+  }
+
+  .character-cards article::before {
+    top: 46px;
+    right: 14px;
+    left: auto;
+    width: 158px;
+    max-width: calc(100% - 28px);
+  }
+
+  .character-cards article::after {
+    left: 14px;
+    top: 16px;
+    font-size: .48rem;
+  }
+
+  .character-cards .watermarked-image::before {
+    top: 92px;
+    max-width: 150px;
+  }
+
+  .episode-stack a {
+    min-height: 92px;
+  }
+}
+
 /* HESIDIO art direction refinement: recovered forbidden archive */
 :root {
   --archive-red: #6f0d12;
@@ -2078,5 +2250,315 @@ body::after {
 
   .watermarked-image__diagonal {
     font-size: 5.8rem;
+  }
+}
+
+/* Final usability override: readable archive, not empty darkness */
+.restricted-hero {
+  display: block;
+  min-height: auto;
+  padding: 92px 0 46px;
+}
+
+.hero-inner {
+  position: relative;
+  top: auto;
+  min-height: auto;
+  padding: 64px 0 38px;
+  z-index: 8;
+}
+
+.hero-copy {
+  transform: none;
+}
+
+.menu,
+.button,
+.social-links a,
+.watermarked-image::before,
+.watermarked-image__code,
+.watermarked-image__seal,
+.character-cards article::before,
+.character-cards article::after,
+.episode-stack span,
+.episode-stack em,
+.kicker,
+.seal {
+  letter-spacing: .07em;
+  word-spacing: .08em;
+}
+
+.menu {
+  gap: 18px;
+}
+
+.watermarked-image::before {
+  max-width: min(74%, 310px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.character-cards .watermarked-image::before {
+  content: "HESIDIO // @hesidio";
+  max-width: 190px;
+  font-size: .5rem;
+}
+
+.character-cards article.character-card--ren::before {
+  content: "[STATUS]\A HUMANO\A\A[AMEAÇA]\A NÃO MEDIDA\A\A[ÚLTIMO REGISTRO]\A MONTE HÉLICON";
+}
+
+.character-cards article.character-card--airi::before {
+  content: "[STATUS]\A HUMANA\A\A[AMEAÇA]\A INDEFINIDA\A\A[ÚLTIMO REGISTRO]\A SOBREVIVEU";
+}
+
+.character-cards article.character-card--izaya::before {
+  content: "[STATUS]\A PROIBIDO\A\A[AMEAÇA]\A ILEGÍVEL\A\A[ÚLTIMO REGISTRO]\A SEM TOQUE";
+}
+
+.character-cards article.character-card--ban::before {
+  content: "[STATUS]\A INSTÁVEL\A\A[AMEAÇA]\A IMPOSSÍVEL\A\A[ÚLTIMO REGISTRO]\A AMIGO ANTIGO";
+}
+
+.character-cards article::before {
+  top: 22px;
+  right: 22px;
+  width: 172px;
+  font-size: .54rem;
+  line-height: 1.45;
+}
+
+.character-cards article::after {
+  max-width: 220px;
+  white-space: nowrap;
+}
+
+.character-cards article {
+  min-height: 440px;
+}
+
+.character-cards p {
+  max-width: 34rem;
+  font-size: .88rem;
+}
+
+.character-card--ren .watermarked-image img {
+  object-position: 50% 20%;
+  filter: grayscale(.16) sepia(.1) saturate(.28) contrast(1.18) brightness(.3);
+}
+
+.episode-stack {
+  gap: 12px;
+}
+
+.episode-stack a,
+.episode-stack a:nth-child(even) {
+  min-height: 98px;
+  padding: 18px 22px;
+  transform: none;
+}
+
+.episode-stack a strong {
+  font-size: 1.18rem;
+}
+
+.episode-stack em {
+  margin-top: 10px;
+  font-size: .62rem;
+}
+
+@media (max-width: 1060px) {
+  .restricted-hero {
+    padding-top: 82px;
+  }
+
+  .hero-inner {
+    top: auto;
+    min-height: auto;
+    padding: 50px 0 32px;
+  }
+}
+
+@media (max-width: 720px) {
+  .restricted-hero {
+    min-height: auto;
+    padding-top: 70px;
+  }
+
+  .hero-inner {
+    top: auto;
+    min-height: auto;
+    padding: 38px 0 28px;
+  }
+
+  .character-cards article::before {
+    top: 46px;
+    right: 14px;
+    left: auto;
+    width: 158px;
+    max-width: calc(100% - 28px);
+  }
+
+  .character-cards article::after {
+    left: 14px;
+    top: 16px;
+    font-size: .48rem;
+  }
+
+  .character-cards .watermarked-image::before {
+    top: 92px;
+    max-width: 150px;
+  }
+}
+
+/* Critical archive layout fix: hero image must behave as classified background */
+.restricted-hero {
+  min-height: min(820px, 92svh);
+  padding: 92px 0 56px;
+  display: flex;
+  align-items: center;
+}
+
+.hero-evidence {
+  position: absolute;
+  inset: 0;
+  z-index: -4;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.hero-evidence img {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: min(100% - 40px, var(--max));
+  max-width: var(--max);
+  margin-inline: auto;
+  padding: 42px 0 28px;
+}
+
+.hero-copy {
+  width: min(100%, 780px);
+  max-width: 780px;
+  margin: 0;
+  text-align: left;
+}
+
+.hero-copy h1 {
+  font-size: clamp(4.25rem, 9.2vw, 8.4rem);
+  letter-spacing: .025em;
+  text-indent: 0;
+}
+
+.hero-line {
+  max-width: 440px;
+  font-size: clamp(1.38rem, 2.2vw, 2.1rem);
+  font-weight: 820;
+}
+
+.hero-publisher {
+  max-width: 480px;
+}
+
+.character-cards .watermarked-image__diagonal {
+  font-size: clamp(4.8rem, 11vw, 8rem);
+  color: rgba(245,245,245,.078);
+}
+
+.character-cards .watermarked-image__pattern {
+  color: rgba(245,245,245,.042);
+  font-size: .76rem;
+  line-height: 4.8rem;
+}
+
+.character-cards .watermarked-image::before {
+  top: 14px;
+  max-width: 165px;
+  padding: 5px 8px;
+  letter-spacing: .05em;
+  word-spacing: .12em;
+}
+
+.character-cards article::after {
+  top: 43px;
+  left: 20px;
+  max-width: 220px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(207,184,137,.12);
+  letter-spacing: .1em;
+  word-spacing: .14em;
+}
+
+.season-section > .container.season-layout {
+  align-items: flex-start !important;
+}
+
+.season-section > .container.season-layout .section-copy {
+  position: sticky;
+  top: 126px;
+}
+
+@media (max-width: 1060px) {
+  .restricted-hero {
+    min-height: auto;
+    padding: 86px 0 44px;
+  }
+
+  .hero-copy {
+    max-width: 680px;
+  }
+
+  .season-section > .container.season-layout .section-copy {
+    position: static;
+  }
+}
+
+@media (max-width: 720px) {
+  .restricted-hero {
+    padding: 86px 0 36px;
+  }
+
+  .hero-inner {
+    width: min(100% - 30px, var(--max));
+    padding: 34px 0 22px;
+  }
+
+  .hero-copy {
+    width: 100%;
+    text-align: left;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(2.95rem, 13.6vw, 3.92rem);
+    white-space: nowrap;
+  }
+
+  .hero-line {
+    margin-inline: 0;
+    max-width: 18rem;
+  }
+
+  .hero-publisher {
+    max-width: min(100%, 20rem);
+    margin-inline: 0;
+    font-size: .86rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+
+  .hero-actions {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .button {
+    width: 100%;
+    min-width: 0;
   }
 }
