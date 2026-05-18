@@ -2,7 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://talkglobalapp.com/</loc>
-    <lastmod>2026-05-09</lastmod>
+    <lastmod>2026-05-18</lastmod>
+  </url>
+
+  <url>
+    <loc>https://talkglobalapp.com/manga/</loc>
+    <lastmod>2026-05-18</lastmod>
   </url>
 
   <url>
@@ -12,17 +17,17 @@
 
   <url>
     <loc>https://talkglobalapp.com/sobre.html</loc>
-    <lastmod>2026-05-07</lastmod>
+    <lastmod>2026-05-18</lastmod>
   </url>
 
   <url>
     <loc>https://talkglobalapp.com/politica-editorial.html</loc>
-    <lastmod>2026-05-07</lastmod>
+    <lastmod>2026-05-18</lastmod>
   </url>
 
   <url>
     <loc>https://talkglobalapp.com/contato.html</loc>
-    <lastmod>2026-05-07</lastmod>
+    <lastmod>2026-05-18</lastmod>
   </url>
 
   <url>
@@ -67,17 +72,17 @@
 
   <url>
     <loc>https://talkglobalapp.com/blog/freelancer-internacional.html</loc>
-    <lastmod>2026-05-07</lastmod>
+    <lastmod>2026-05-18</lastmod>
   </url>
 
   <url>
     <loc>https://talkglobalapp.com/blog/ganhar-em-dolar.html</loc>
-    <lastmod>2026-05-07</lastmod>
+    <lastmod>2026-05-18</lastmod>
   </url>
 
   <url>
     <loc>https://talkglobalapp.com/blog/ingles-para-ganhar-em-dolar.html</loc>
-    <lastmod>2026-05-07</lastmod>
+    <lastmod>2026-05-18</lastmod>
   </url>
 
   <url>
@@ -107,7 +112,7 @@
 
   <url>
     <loc>https://talkglobalapp.com/blog/tecnologia-para-freelancer.html</loc>
-    <lastmod>2026-05-07</lastmod>
+    <lastmod>2026-05-18</lastmod>
   </url>
 
   <url>
@@ -142,21 +147,11 @@
 
   <url>
     <loc>https://talkglobalapp.com/privacy.html</loc>
-    <lastmod>2026-05-07</lastmod>
+    <lastmod>2026-05-18</lastmod>
   </url>
 
   <url>
     <loc>https://talkglobalapp.com/terms.html</loc>
-    <lastmod>2026-05-07</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/manga/</loc>
-    <lastmod>2026-05-11</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/manga/o-acidente/ep-1/</loc>
-    <lastmod>2026-05-11</lastmod>
+    <lastmod>2026-05-18</lastmod>
   </url>
 </urlset>
