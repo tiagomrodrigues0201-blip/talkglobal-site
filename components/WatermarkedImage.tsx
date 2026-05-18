@@ -7,21 +7,15 @@ type WatermarkedImageProps = {
   alt: string;
   className?: string;
   variant?: WatermarkVariant;
-  showCornerMark?: boolean;
-  showDiagonalMark?: boolean;
-  showPatternMark?: boolean;
   objectFit?: "cover" | "contain";
+  loading?: "eager" | "lazy";
 };
 
-const variantDefaults: Record<WatermarkVariant, {
-  showCornerMark: boolean;
-  showDiagonalMark: boolean;
-  showPatternMark: boolean;
-}> = {
-  default: { showCornerMark: true, showDiagonalMark: false, showPatternMark: false },
-  subtle: { showCornerMark: true, showDiagonalMark: false, showPatternMark: false },
-  hero: { showCornerMark: true, showDiagonalMark: true, showPatternMark: false },
-  page: { showCornerMark: true, showDiagonalMark: true, showPatternMark: true },
+const variantClass: Record<WatermarkVariant, string> = {
+  default: "watermarked-image--default",
+  subtle: "watermarked-image--subtle",
+  hero: "watermarked-image--hero",
+  page: "watermarked-image--page",
 };
 
 export default function WatermarkedImage({
@@ -29,49 +23,37 @@ export default function WatermarkedImage({
   alt,
   className = "",
   variant = "default",
-  showCornerMark,
-  showDiagonalMark,
-  showPatternMark,
   objectFit = "cover",
+  loading = "lazy",
 }: WatermarkedImageProps) {
-  const defaults = variantDefaults[variant];
-  const corner = showCornerMark ?? defaults.showCornerMark;
-  const diagonal = showDiagonalMark ?? defaults.showDiagonalMark;
-  const pattern = showPatternMark ?? defaults.showPatternMark;
-
   return (
     <figure
       className={[
         "watermarked-image",
-        `watermarked-image--${variant}`,
+        variantClass[variant],
         objectFit === "contain" ? "watermarked-image--contain" : "watermarked-image--cover",
         className,
       ].filter(Boolean).join(" ")}
       onContextMenu={(event) => event.preventDefault()}
+      aria-label={alt}
     >
       <img
         src={src}
         alt={alt}
         draggable={false}
-        loading="lazy"
+        loading={loading}
         decoding="async"
       />
-      {pattern && (
-        <span className="watermarked-image__pattern" aria-hidden="true">
-          HESIDIO · @hesidio
-        </span>
-      )}
-      {diagonal && (
-        <span className="watermarked-image__diagonal" aria-hidden="true">
-          HESIDIO
-        </span>
-      )}
-      {corner && (
-        <span className="watermarked-image__corner" aria-hidden="true">
-          <strong>HESIDIO</strong>
-          <small>@hesidio</small>
-        </span>
-      )}
+      <span className="watermarked-image__pattern" aria-hidden="true">
+        HESIDIO · @hesidio
+      </span>
+      <span className="watermarked-image__diagonal" aria-hidden="true">
+        HESIDIO
+      </span>
+      <span className="watermarked-image__corner" aria-hidden="true">
+        <strong>HESIDIO</strong>
+        <small>@hesidio</small>
+      </span>
     </figure>
   );
 }
