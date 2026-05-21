@@ -7,6 +7,7 @@ const siteRoot = "/Users/tiago/Desktop/Site";
 const publicRoot = join(siteRoot, "public/manga/episodios");
 const pageRoot = join(siteRoot, "manga/episodios");
 const previewCount = 3;
+const stripePaymentLink = "https://buy.stripe.com/bJe3cngII4bjcMdaJ5a7C02";
 const releasedEpisodes = new Set(
   (process.env.HESIDIO_RELEASED_EPISODES || "")
     .split(",")
@@ -158,7 +159,7 @@ function lockedPage(number, slug, previews) {
     ? "Registro premium da Temporada I. O conteúdo permanece selado no arquivo oficial de HESIDIO."
     : "Registro semanal da Temporada I. Nome, descrição e páginas completas permanecem ocultos até a data de liberação.";
   const action = number >= 6
-    ? `<a class="reader-button" href="/manga/#temporada-premium">Acessar Temporada I - R$9,90</a>`
+    ? `<a class="reader-button" href="${stripePaymentLink}" target="_blank" rel="noopener" data-stripe-price="price_1TZMJF0eQzdLGiHCBHIkJp9p">Acessar Temporada I - R$9,90</a>`
     : `<a class="reader-button" href="/manga/#episodios">Voltar ao calendário de liberação</a>`;
   return `${head(title, description, `/manga/episodios/${slug}/`)}
 <body class="hesidio-reader-page">
