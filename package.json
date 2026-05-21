@@ -7,7 +7,8 @@
     "generate": "node automation/generateArticles.js",
     "approve": "node automation/publishApprovedArticles.js --approve-only",
     "publish": "node automation/publishApprovedArticles.js",
-    "sync-social": "node scripts/sync-social.mjs"
+    "sync-social": "node scripts/sync-social.mjs",
+    "build:hesidio": "node scripts/build-hesidio-episodes.mjs"
   },
   "engines": {
     "node": ">=18"

@@ -141,10 +141,10 @@ a { color: inherit; text-decoration: none; }
 
 .hero {
   position: relative;
-  min-height: 100svh;
+  min-height: min(780px, 88svh);
   display: flex;
-  align-items: flex-end;
-  padding: 112px max(18px, calc((100vw - var(--max)) / 2)) 72px;
+  align-items: center;
+  padding: 104px max(18px, calc((100vw - var(--max)) / 2)) 54px;
   overflow: hidden;
   border-bottom: 1px solid var(--line-red);
 }
@@ -683,6 +683,174 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.45;
 }
 
+.launch-countdown {
+  width: fit-content;
+  margin: 22px 0 0;
+  padding: 13px 16px;
+  border: 1px solid rgba(168,134,61,.28);
+  background:
+    linear-gradient(90deg, rgba(139,0,0,.16), transparent),
+    rgba(0,0,0,.48);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.025);
+  color: rgba(244,238,226,.62);
+  font-family: Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .13em;
+}
+
+.launch-countdown span {
+  display: block;
+  font-size: .62rem;
+  font-weight: 900;
+}
+
+.launch-countdown strong {
+  display: block;
+  margin-top: 5px;
+  color: var(--text);
+  font-size: clamp(1rem, 2vw, 1.45rem);
+  letter-spacing: .06em;
+}
+
+.episode-grid--schedule {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.episode-grid--schedule .episode-card {
+  position: relative;
+  min-height: 220px;
+  display: grid;
+  align-content: space-between;
+  padding: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(216,199,163,.16);
+  background:
+    linear-gradient(110deg, rgba(23,19,14,.94), rgba(7,5,4,.94)),
+    repeating-linear-gradient(0deg, transparent 0 18px, rgba(244,238,226,.03) 19px 20px);
+  box-shadow: 0 20px 64px rgba(0,0,0,.34);
+  transform: skewX(-1.6deg);
+  transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+}
+
+.episode-grid--schedule .episode-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 12% 14%, rgba(139,0,0,.22), transparent 12rem),
+    linear-gradient(90deg, rgba(168,134,61,.08), transparent 40%);
+  opacity: .66;
+  pointer-events: none;
+}
+
+.episode-grid--schedule .episode-card:hover {
+  transform: translateY(-4px) skewX(-1.6deg);
+  border-color: rgba(168,134,61,.42);
+  box-shadow: 0 28px 80px rgba(0,0,0,.52), 0 0 36px rgba(139,0,0,.08);
+}
+
+.episode-grid--schedule .episode-card small,
+.episode-grid--schedule .episode-card h3,
+.episode-grid--schedule .episode-card p,
+.episode-grid--schedule .episode-card strong {
+  position: relative;
+  z-index: 2;
+}
+
+.episode-grid--schedule .episode-card small {
+  color: var(--gold);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .72rem;
+  font-weight: 950;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.episode-grid--schedule .episode-card h3 {
+  min-height: auto;
+  margin: 24px 0 8px;
+  color: var(--text);
+  font-size: clamp(1.35rem, 2.2vw, 1.9rem);
+  line-height: 1.05;
+}
+
+.episode-grid--schedule .episode-card strong {
+  width: fit-content;
+  margin-top: 18px;
+  padding: 8px 11px;
+  border: 1px solid rgba(139,0,0,.58);
+  color: #f7dfb7;
+  background: rgba(139,0,0,.18);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .72rem;
+  font-weight: 950;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.episode-grid--schedule .episode-card.is-premium {
+  border-color: rgba(139,0,0,.3);
+}
+
+.premium-section {
+  position: relative;
+}
+
+.premium-pass {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, .36fr);
+  gap: clamp(22px, 5vw, 64px);
+  align-items: center;
+  padding: clamp(28px, 6vw, 62px);
+  border: 1px solid rgba(139,0,0,.42);
+  background:
+    radial-gradient(circle at 82% 12%, rgba(139,0,0,.24), transparent 20rem),
+    linear-gradient(135deg, rgba(16,10,8,.95), rgba(3,3,3,.94));
+  box-shadow: 0 40px 120px rgba(0,0,0,.58), inset 0 0 0 1px rgba(255,255,255,.025);
+}
+
+.premium-pass h2 {
+  margin: 18px 0 12px;
+  font-size: clamp(2rem, 4.4vw, 4rem);
+  line-height: 1;
+}
+
+.premium-pass p {
+  max-width: 720px;
+  color: rgba(244,238,226,.64);
+}
+
+.premium-offer {
+  border: 1px solid rgba(168,134,61,.28);
+  padding: 24px;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 18px, rgba(244,238,226,.035) 19px 20px),
+    rgba(0,0,0,.34);
+}
+
+.premium-offer small {
+  color: var(--gold);
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 950;
+  letter-spacing: .16em;
+}
+
+.premium-offer > strong {
+  display: block;
+  margin: 8px 0 18px;
+  color: var(--text);
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: .95;
+}
+
+.premium-offer p {
+  margin: 14px 0 0;
+  color: rgba(244,238,226,.48);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .78rem;
+}
+
 .final-call {
   width: min(100% - 32px, var(--max));
   margin: 42px auto;
@@ -777,36 +945,57 @@ a { color: inherit; text-decoration: none; }
   .site-topbar {
     width: calc(100% - 24px);
     min-height: auto;
-    padding: 14px 0;
+    padding: 12px 0 10px;
     align-items: flex-start;
     flex-direction: column;
   }
   .site-topbar nav {
     width: 100%;
     overflow-x: auto;
-    gap: 14px;
-    padding-bottom: 2px;
+    overscroll-behavior-x: contain;
+    gap: 18px;
+    padding: 4px 0 6px;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+  .site-topbar nav::-webkit-scrollbar {
+    display: none;
   }
   .hero {
-    min-height: 100svh;
-    padding: 128px 14px 48px;
+    min-height: auto;
+    padding: 142px 14px 42px;
   }
   .hero h1 {
     max-width: 94vw;
     margin-bottom: 18px;
-    font-size: clamp(3.35rem, 18vw, 5.1rem);
+    font-size: clamp(3rem, 16vw, 4.35rem);
     line-height: .92;
     letter-spacing: .018em;
     transform: scaleX(.9);
   }
   .memory-line {
-    font-size: clamp(2rem, 12vw, 3.25rem);
+    max-width: min(100%, 9.5em);
+    font-size: clamp(1.95rem, 11vw, 2.7rem);
+    letter-spacing: 0;
   }
   .release-note {
     width: 100%;
     align-items: flex-start;
     flex-direction: column;
     gap: 5px;
+  }
+  .episode-grid--schedule {
+    grid-template-columns: 1fr;
+  }
+  .episode-grid--schedule .episode-card {
+    min-height: 190px;
+    transform: none;
+  }
+  .episode-grid--schedule .episode-card:hover {
+    transform: translateY(-3px);
+  }
+  .premium-pass {
+    grid-template-columns: 1fr;
   }
   .hero-actions,
   .community-actions {

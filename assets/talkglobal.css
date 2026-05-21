@@ -2538,6 +2538,8 @@ body::after {
   font-size: clamp(4.25rem, 9.2vw, 8.4rem);
   letter-spacing: .025em;
   text-indent: 0;
+  opacity: 1;
+  animation: titleGlitch 7s steps(1,end) infinite;
 }
 
 .hero-line {
@@ -2644,5 +2646,104 @@ body::after {
   .button {
     width: 100%;
     min-width: 0;
+  }
+}
+
+/* HESIDIO weekly launch system */
+.launch-countdown {
+  width: fit-content;
+  margin: 22px 0 0;
+  padding: 13px 16px;
+  border: 1px solid rgba(207,184,137,.26);
+  background:
+    linear-gradient(90deg, rgba(130,14,22,.18), transparent),
+    rgba(0,0,0,.42);
+  color: rgba(240,230,209,.66);
+  font-family: var(--font-ui, Arial, Helvetica, sans-serif);
+  text-transform: uppercase;
+  letter-spacing: .13em;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.025), 0 18px 50px rgba(0,0,0,.24);
+}
+
+.launch-countdown span {
+  display: block;
+  font-size: .62rem;
+  font-weight: 900;
+}
+
+.launch-countdown strong {
+  display: block;
+  margin-top: 5px;
+  color: var(--text, #f7efe2);
+  font-size: clamp(1rem, 2vw, 1.45rem);
+  letter-spacing: .06em;
+}
+
+.premium-section {
+  position: relative;
+  padding: clamp(38px, 7vw, 92px) 0;
+}
+
+.premium-pass {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, .36fr);
+  gap: clamp(22px, 5vw, 64px);
+  align-items: center;
+  padding: clamp(28px, 6vw, 62px);
+  border: 1px solid rgba(130,14,22,.42);
+  background:
+    radial-gradient(circle at 82% 12%, rgba(130,14,22,.24), transparent 20rem),
+    linear-gradient(135deg, rgba(18,12,9,.95), rgba(3,3,3,.94));
+  box-shadow: 0 40px 120px rgba(0,0,0,.58), inset 0 0 0 1px rgba(255,255,255,.025);
+}
+
+.premium-pass h2 {
+  margin: 18px 0 12px;
+  font-size: clamp(2rem, 4.4vw, 4rem);
+  line-height: 1;
+}
+
+.premium-pass p {
+  max-width: 720px;
+  color: rgba(240,230,209,.64);
+}
+
+.premium-offer {
+  border: 1px solid rgba(207,184,137,.28);
+  padding: 24px;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 18px, rgba(240,230,209,.035) 19px 20px),
+    rgba(0,0,0,.34);
+}
+
+.premium-offer small {
+  color: var(--gold, #cfb889);
+  font-family: var(--font-ui, Arial, Helvetica, sans-serif);
+  font-weight: 950;
+  letter-spacing: .16em;
+}
+
+.premium-offer > strong {
+  display: block;
+  margin: 8px 0 18px;
+  color: var(--text, #f7efe2);
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: .95;
+}
+
+.premium-offer p {
+  margin: 14px 0 0;
+  color: rgba(240,230,209,.48);
+  font-family: var(--font-ui, Arial, Helvetica, sans-serif);
+  font-size: .78rem;
+}
+
+@media (max-width: 720px) {
+  .launch-countdown {
+    width: 100%;
+  }
+
+  .premium-pass {
+    grid-template-columns: 1fr;
   }
 }

@@ -1,0 +1,233 @@
+:root {
+  --reader-bg: #020202;
+  --reader-paper: #f1e5c8;
+  --reader-muted: rgba(241, 229, 200, .62);
+  --reader-line: rgba(143, 19, 24, .34);
+  --reader-gold: #c9a866;
+  --reader-red: #891116;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; background: var(--reader-bg); }
+body.hesidio-reader-page {
+  margin: 0;
+  background:
+    radial-gradient(circle at 50% 0, rgba(112, 13, 19, .22), transparent 34rem),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.022) 0 1px, transparent 1px 7px),
+    #020202;
+  color: var(--reader-paper);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.reader-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px clamp(14px, 3vw, 34px);
+  border-bottom: 1px solid var(--reader-line);
+  background: rgba(0,0,0,.86);
+  backdrop-filter: blur(18px);
+}
+
+.reader-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--reader-paper);
+  text-decoration: none;
+  font-weight: 950;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.reader-brand img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 18px rgba(137, 17, 22, .5));
+}
+
+.reader-nav {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.reader-nav a,
+.reader-button {
+  border: 1px solid rgba(201,168,102,.32);
+  background: rgba(18, 12, 10, .74);
+  color: var(--reader-paper);
+  padding: 10px 12px;
+  font: 850 .68rem/1 "Courier New", monospace;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.reader-nav a:hover,
+.reader-button:hover {
+  border-color: rgba(137,17,22,.8);
+  background: rgba(97, 11, 16, .5);
+}
+
+.reader-shell {
+  width: min(100%, 1040px);
+  margin: 0 auto;
+  padding: clamp(24px, 4vw, 54px) clamp(8px, 3vw, 28px) 72px;
+}
+
+.reader-intro {
+  max-width: 760px;
+  margin: 0 auto 28px;
+  text-align: center;
+}
+
+.reader-intro small {
+  color: var(--reader-gold);
+  font: 900 .72rem/1 "Courier New", monospace;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.reader-intro h1 {
+  margin: 12px 0 10px;
+  font-family: Georgia, serif;
+  font-size: clamp(2.2rem, 6vw, 5rem);
+  line-height: .96;
+  letter-spacing: .01em;
+}
+
+.reader-intro p {
+  color: var(--reader-muted);
+  font-size: clamp(1rem, 1.8vw, 1.18rem);
+}
+
+.manga-page {
+  position: relative;
+  margin: 0 auto 12px;
+  background: #030303;
+  border: 1px solid rgba(201,168,102,.14);
+  box-shadow: 0 20px 80px rgba(0,0,0,.5);
+  overflow: hidden;
+}
+
+.manga-page img {
+  width: 100%;
+  height: auto;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.manga-page::before {
+  content: "HESIDIO · @hesidio   HESIDIO · @hesidio   HESIDIO · @hesidio";
+  position: absolute;
+  inset: -20%;
+  color: rgba(255,255,255,.04);
+  font: 900 clamp(1rem, 2.6vw, 2.2rem)/2 "Courier New", monospace;
+  letter-spacing: .22em;
+  transform: rotate(-24deg);
+  pointer-events: none;
+  white-space: pre-wrap;
+}
+
+.manga-page::after {
+  content: "HESIDIO";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  color: rgba(255,255,255,.06);
+  font: 950 clamp(3.8rem, 13vw, 10rem)/1 Georgia, serif;
+  transform: translate(-50%, -50%) rotate(-25deg);
+  pointer-events: none;
+}
+
+.page-mark {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  color: rgba(255,255,255,.28);
+  text-align: right;
+  text-shadow: 0 3px 10px #000;
+  pointer-events: none;
+}
+
+.page-mark strong {
+  display: block;
+  font: 900 .78rem/1 Georgia, serif;
+  letter-spacing: .18em;
+}
+
+.page-mark small {
+  font: 800 .58rem/1 "Courier New", monospace;
+  letter-spacing: .12em;
+}
+
+.locked-reader {
+  min-height: 70vh;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+}
+
+.locked-box {
+  width: min(760px, 100%);
+  border: 1px solid rgba(137,17,22,.48);
+  background:
+    linear-gradient(135deg, rgba(137,17,22,.15), rgba(0,0,0,.72)),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 8px);
+  padding: clamp(24px, 5vw, 52px);
+  box-shadow: 0 30px 100px rgba(0,0,0,.58);
+}
+
+.locked-box span {
+  color: var(--reader-gold);
+  font: 900 .76rem/1 "Courier New", monospace;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.locked-box h1 {
+  margin: 16px 0 12px;
+  font-family: Georgia, serif;
+  font-size: clamp(2rem, 5vw, 4.4rem);
+}
+
+.locked-box p {
+  color: var(--reader-muted);
+  line-height: 1.7;
+}
+
+.preview-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 24px 0;
+  filter: blur(3px);
+  opacity: .55;
+  pointer-events: none;
+}
+
+.preview-strip img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border: 1px solid rgba(201,168,102,.16);
+}
+
+@media (max-width: 760px) {
+  .reader-topbar { align-items: flex-start; flex-direction: column; }
+  .reader-nav { justify-content: flex-start; }
+  .reader-brand { font-size: .72rem; }
+  .reader-shell { padding-inline: 0; }
+  .reader-intro { padding-inline: 16px; }
+  .manga-page { border-inline: 0; margin-bottom: 6px; }
+  .preview-strip { grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+}
