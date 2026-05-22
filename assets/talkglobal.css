@@ -362,6 +362,7 @@ img { display: block; max-width: 100%; }
 
 .studio-section,
 .fragments-section,
+.forbidden-archives-section,
 .characters-section,
 .helicon-section,
 .season-section,
@@ -573,6 +574,120 @@ img { display: block; max-width: 100%; }
   font-family: Georgia, "Times New Roman", ui-serif, serif;
   font-size: clamp(1.5rem, 2.4vw, 2.55rem);
   line-height: 1.04;
+}
+
+.forbidden-archives-section {
+  padding: 86px 0 74px;
+  background:
+    radial-gradient(circle at 86% 18%, rgba(141,17,24,.18), transparent 24rem),
+    linear-gradient(180deg, #050202, #020101 58%, #070302);
+  border-top: 1px solid rgba(216,198,157,.12);
+  border-bottom: 1px solid rgba(141,17,24,.24);
+}
+
+.archive-post-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.archive-post-card {
+  position: relative;
+  min-height: 305px;
+  overflow: hidden;
+  border: 1px solid rgba(216,198,157,.18);
+  background:
+    linear-gradient(135deg, rgba(216,198,157,.08), transparent 44%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.024) 0 1px, transparent 1px 8px),
+    rgba(15,10,7,.82);
+  box-shadow: inset 0 0 44px rgba(0,0,0,.38);
+}
+
+.archive-post-card::before,
+.archive-post-card::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.archive-post-card::before {
+  inset: 13px;
+  border: 1px solid rgba(216,198,157,.12);
+}
+
+.archive-post-card::after {
+  right: -54px;
+  bottom: 24px;
+  width: 230px;
+  height: 62px;
+  border: 2px solid rgba(141,17,24,.44);
+  transform: rotate(-13deg);
+  background: linear-gradient(90deg, transparent, rgba(141,17,24,.12), transparent);
+}
+
+.archive-post-card a {
+  position: relative;
+  z-index: 2;
+  min-height: inherit;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+}
+
+.archive-stamp {
+  align-self: flex-start;
+  border: 1px solid rgba(141,17,24,.54);
+  padding: 6px 9px;
+  color: #eadbc0;
+  background: rgba(141,17,24,.12);
+  font-size: .64rem;
+  font-weight: 950;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  transform: rotate(-2deg);
+}
+
+.archive-post-card small {
+  margin-top: 26px;
+  color: var(--gold);
+  font-size: .66rem;
+  font-weight: 950;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.archive-post-card h3 {
+  margin: 12px 0 0;
+  max-width: 440px;
+  color: #fff6e6;
+  font-family: Georgia, "Times New Roman", ui-serif, serif;
+  font-size: clamp(1.55rem, 2.2vw, 2.2rem);
+  line-height: 1.02;
+}
+
+.archive-post-card p {
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: .98rem;
+}
+
+.archive-post-card em {
+  margin-top: auto;
+  padding-top: 22px;
+  color: rgba(244,238,226,.72);
+  font-style: normal;
+  font-size: .66rem;
+  font-weight: 950;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+.archive-post-card:hover {
+  border-color: rgba(184,148,75,.38);
+  background:
+    linear-gradient(135deg, rgba(141,17,24,.14), transparent 48%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 1px, transparent 1px 8px),
+    rgba(15,10,7,.92);
 }
 
 .watermarked-image {
@@ -865,6 +980,86 @@ img { display: block; max-width: 100%; }
 
 .site-footer nav a { color: var(--gold); }
 
+.archive-entry-page {
+  min-height: 100svh;
+}
+
+.archive-entry {
+  position: relative;
+  z-index: 5;
+  padding: 112px 0 76px;
+}
+
+.archive-back {
+  display: inline-flex;
+  margin-bottom: 34px;
+  border: 1px solid rgba(216,198,157,.2);
+  padding: 10px 13px;
+  color: var(--gold);
+  font-size: .68rem;
+  font-weight: 950;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  background: rgba(5,2,2,.58);
+}
+
+.archive-entry article {
+  max-width: 980px;
+  border: 1px solid rgba(216,198,157,.18);
+  background:
+    radial-gradient(circle at 86% 12%, rgba(141,17,24,.16), transparent 19rem),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.024) 0 1px, transparent 1px 8px),
+    rgba(12,8,6,.86);
+  box-shadow: 0 28px 90px rgba(0,0,0,.42), inset 0 0 64px rgba(0,0,0,.28);
+  padding: clamp(24px, 5vw, 52px);
+}
+
+.archive-entry header {
+  max-width: 760px;
+}
+
+.archive-entry h1 {
+  margin: 18px 0 16px;
+  color: #fff6e6;
+  font-family: Georgia, "Times New Roman", ui-serif, serif;
+  font-size: clamp(2.45rem, 7vw, 5.2rem);
+  line-height: .94;
+  letter-spacing: -.035em;
+}
+
+.archive-entry header p,
+.archive-entry section p {
+  color: var(--muted);
+  font-size: 1.06rem;
+}
+
+.featured-evidence {
+  height: min(64vw, 620px);
+  min-height: 340px;
+  margin: 34px 0;
+  border: 1px solid rgba(216,198,157,.16);
+}
+
+.archive-entry h2 {
+  margin: 0 0 14px;
+  color: var(--gold);
+  font-size: .82rem;
+  font-weight: 950;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.archive-entry blockquote {
+  margin: 24px 0;
+  border-left: 2px solid rgba(141,17,24,.78);
+  padding: 16px 0 16px 22px;
+  color: #fff6e6;
+  font-family: Georgia, "Times New Roman", ui-serif, serif;
+  font-size: clamp(1.55rem, 3.2vw, 2.6rem);
+  line-height: 1.08;
+  background: linear-gradient(90deg, rgba(141,17,24,.12), transparent);
+}
+
 @keyframes emberRise {
   0% { transform: translate3d(0, 0, 0); opacity: 0; }
   10% { opacity: .76; }
@@ -908,6 +1103,7 @@ img { display: block; max-width: 100%; }
   .fragment-layout { grid-template-columns: 1fr 1fr; }
   .fragment-panel.wide { grid-column: 1 / -1; }
   .character-cards,
+  .archive-post-grid,
   .confidential-grid,
   .approval-article-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .community-inner { display: block; }
@@ -940,6 +1136,7 @@ img { display: block; max-width: 100%; }
   .classified-card { display: none; }
   .studio-section,
   .fragments-section,
+  .forbidden-archives-section,
   .characters-section,
   .helicon-section,
   .season-section,
@@ -955,9 +1152,13 @@ img { display: block; max-width: 100%; }
   }
   .confidential-grid,
   .fragment-layout,
+  .archive-post-grid,
   .approval-article-grid,
   .character-cards {
     grid-template-columns: 1fr;
+  }
+  .archive-post-card {
+    min-height: 285px;
   }
   .fragment-panel,
   .fragment-panel.wide {
