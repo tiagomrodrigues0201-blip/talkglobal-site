@@ -458,6 +458,31 @@ img { display: block; max-width: 100%; }
   padding: 150px 0 84px;
 }
 
+.info-page {
+  position: relative;
+  z-index: 5;
+  padding-top: 142px;
+  padding-bottom: 84px;
+  overflow-x: hidden;
+}
+
+.info-page .archive-hero h1 {
+  font-size: clamp(2.2rem, 5vw, 4.45rem);
+}
+
+.info-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.info-page p,
+.info-page h1,
+.info-page h2 {
+  overflow-wrap: anywhere;
+}
+
 .archive-hero {
   max-width: 920px;
   margin-bottom: 34px;
@@ -1278,12 +1303,28 @@ img { display: block; max-width: 100%; }
     padding-top: 118px;
   }
 
+  .info-page {
+    padding-top: 118px;
+    padding-bottom: 64px;
+  }
+
+  .info-page .archive-hero h1 {
+    font-size: clamp(1.6rem, 8vw, 2rem);
+    line-height: 1.08;
+    max-width: 18ch;
+  }
+
   .archive-hero h1 {
     max-width: 100%;
     font-size: clamp(1.72rem, 8.8vw, 2.12rem);
     line-height: 1.08;
     word-break: break-word;
     overflow-wrap: anywhere;
+  }
+
+  .info-page .archive-hero h1 {
+    font-size: clamp(1.48rem, 7.7vw, 1.9rem);
+    max-width: 17ch;
   }
 
   .archive-hero p {
