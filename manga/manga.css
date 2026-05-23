@@ -1048,6 +1048,146 @@ a { color: inherit; text-decoration: none; }
   }
 }
 
+/* Pre-launch readability pass: keep the forbidden archive mood, but make /manga easier to scan. */
+.site-topbar {
+  min-height: 64px;
+}
+
+.brand {
+  font-size: .68rem;
+  letter-spacing: .14em;
+}
+
+.brand-logo {
+  width: 40px;
+  height: 40px;
+}
+
+.site-topbar nav {
+  gap: clamp(10px, 1.5vw, 18px);
+  font-size: .66rem;
+  letter-spacing: .09em;
+}
+
+.hero {
+  min-height: min(720px, 84svh);
+  padding-top: 92px;
+}
+
+.hero-copy {
+  max-width: 760px;
+}
+
+.hero h1 {
+  font-size: clamp(3.55rem, 8vw, 7.2rem);
+  line-height: .92;
+}
+
+.memory-line {
+  max-width: 620px;
+  font-size: clamp(1.35rem, 2.8vw, 2.8rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.section-head h2,
+.helicon-section h2,
+.final-call h2 {
+  font-size: clamp(2rem, 4.8vw, 4.65rem);
+  line-height: 1;
+  letter-spacing: -.025em;
+}
+
+.archive-section {
+  padding-block: 70px;
+}
+
+.character-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.character-grid article {
+  min-height: 350px;
+}
+
+.portrait {
+  min-height: 205px;
+}
+
+.episode-grid--schedule {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.episode-grid--schedule .episode-card {
+  min-height: 176px;
+  padding: 20px;
+  transform: none;
+}
+
+.episode-grid--schedule .episode-card:hover {
+  transform: translateY(-3px);
+}
+
+.episode-grid--schedule .episode-card h3 {
+  margin-top: 18px;
+  font-size: clamp(1.14rem, 1.5vw, 1.42rem);
+}
+
+.episode-grid--schedule .episode-card p {
+  font-size: .82rem;
+}
+
+@media (max-width: 1080px) {
+  .character-grid,
+  .episode-grid--schedule {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .site-topbar {
+    width: 100%;
+    padding: 10px 14px;
+    border-bottom-color: rgba(216,199,163,.18);
+  }
+
+  .site-topbar nav {
+    gap: 14px;
+    font-size: .62rem;
+  }
+
+  .hero {
+    padding-top: 132px;
+    padding-bottom: 36px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.8rem, 14vw, 3.65rem);
+  }
+
+  .memory-line {
+    width: min(100%, 19rem);
+    max-width: 100%;
+    font-size: clamp(1.18rem, 6.2vw, 1.72rem);
+    overflow-wrap: normal;
+  }
+
+  .section-head h2,
+  .helicon-section h2,
+  .final-call h2 {
+    font-size: clamp(1.85rem, 9vw, 3rem);
+  }
+
+  .character-grid,
+  .episode-grid--schedule {
+    grid-template-columns: 1fr;
+  }
+
+  .episode-grid--schedule .episode-card {
+    min-height: 156px;
+  }
+}
+
 
 /* HESIDIO automatic watermark system */
 .forbidden-image,
