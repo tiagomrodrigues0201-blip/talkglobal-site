@@ -64,6 +64,7 @@ body.hesidio-reader-page {
   font: 900 .62rem/1 "Courier New", monospace;
   letter-spacing: .14em;
   text-transform: uppercase;
+  cursor: pointer;
 }
 
 .reader-nav {
@@ -125,6 +126,30 @@ body.hesidio-reader-page {
   color: var(--reader-muted);
   font-size: clamp(1rem, 1.8vw, 1.18rem);
   overflow-wrap: anywhere;
+}
+
+.reader-book-controls {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  max-width: 760px;
+  margin: 0 auto 18px;
+  padding: 0 16px;
+}
+
+.reader-book-controls span {
+  min-width: 130px;
+  color: var(--reader-gold);
+  font: 900 .68rem/1.2 "Courier New", monospace;
+  letter-spacing: .12em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.reader-button:disabled {
+  opacity: .38;
+  cursor: not-allowed;
 }
 
 .manga-page {
@@ -189,6 +214,37 @@ body.hesidio-reader-page {
 .page-mark small {
   font: 800 .58rem/1 "Courier New", monospace;
   letter-spacing: .12em;
+}
+
+.book-mode {
+  min-height: 100vh;
+}
+
+.book-mode .reader-shell {
+  width: min(100%, 920px);
+  padding-top: clamp(18px, 3vw, 34px);
+}
+
+.book-mode .reader-intro {
+  margin-bottom: 18px;
+}
+
+.book-mode .reader-intro h1 {
+  font-size: clamp(1.9rem, 4vw, 3.5rem);
+}
+
+.book-mode .reader-book-controls {
+  display: flex;
+}
+
+.book-mode .manga-page {
+  display: none;
+  width: min(100%, 820px);
+  margin-bottom: 0;
+}
+
+.book-mode .manga-page.is-active {
+  display: block;
 }
 
 .locked-reader {
@@ -270,7 +326,18 @@ body.hesidio-reader-page {
   .reader-brand { font-size: .72rem; }
   .reader-shell { padding-inline: 0; }
   .reader-intro { padding-inline: 16px; }
+  .reader-book-controls {
+    display: none;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .book-mode .reader-book-controls { display: grid; }
+  .reader-book-controls span {
+    min-width: 0;
+    order: -1;
+  }
   .manga-page { border-inline: 0; margin-bottom: 6px; }
+  .book-mode .manga-page { border-inline: 0; }
   .locked-reader { padding: 16px; place-items: start center; }
   .locked-box { max-width: calc(100vw - 32px); padding: 22px 18px; overflow: hidden; }
   .locked-box h1 { font-size: clamp(1.82rem, 9vw, 2.55rem); }

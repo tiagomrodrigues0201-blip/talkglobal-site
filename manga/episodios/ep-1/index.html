@@ -21,7 +21,7 @@
 <body class="hesidio-reader-page">
   <header class="reader-topbar">
     <a class="reader-brand" href="/manga/"><img src="/public/studios/hesidio-logo-site.png" alt="">HESIDIO</a>
-    <span class="reader-mode" aria-current="page">Modo leitor</span>
+    <button class="reader-mode" type="button" aria-pressed="false" data-reader-toggle>Modo livro</button>
     <nav class="reader-nav" aria-label="Navegação do leitor">
       <a href="/manga/">Anterior</a>
       <a href="/manga/#episodios">Temporada I</a>
@@ -32,6 +32,11 @@
     <section class="reader-intro">
       <small>Temporada I / EP 01 / 23.05.2026</small>
       <h1>O Acidente</h1>
+    </section>
+    <section class="reader-book-controls" aria-label="Controles do modo livro">
+      <button class="reader-button" type="button" data-reader-prev>Anterior</button>
+      <span data-reader-status>Página 1 de 32</span>
+      <button class="reader-button" type="button" data-reader-next>Próxima</button>
     </section>
     <figure class="manga-page" oncontextmenu="return false"><img src="/public/manga/episodios/ep-1/images/001.png" alt="HESIDIO EP 01 - página 001" draggable="false" loading="eager" decoding="async"><span class="page-mark"><strong>HESIDIO</strong><small>@hesidio</small></span></figure>
     <figure class="manga-page" oncontextmenu="return false"><img src="/public/manga/episodios/ep-1/images/002.png" alt="HESIDIO EP 01 - página 002" draggable="false" loading="eager" decoding="async"><span class="page-mark"><strong>HESIDIO</strong><small>@hesidio</small></span></figure>
@@ -76,6 +81,51 @@
     document.querySelectorAll("img").forEach((img) => {
       img.draggable = false;
     });
+    const body = document.body;
+    const pages = Array.from(document.querySelectorAll(".manga-page"));
+    const toggle = document.querySelector("[data-reader-toggle]");
+    const previous = document.querySelector("[data-reader-prev]");
+    const next = document.querySelector("[data-reader-next]");
+    const status = document.querySelector("[data-reader-status]");
+    let pageIndex = 0;
+    let bookMode = localStorage.getItem("hesidioReaderMode") === "book";
+
+    function updatePage() {
+      pages.forEach((page, index) => {
+        page.classList.toggle("is-active", index === pageIndex);
+      });
+      status.textContent = `Página ${pageIndex + 1} de ${pages.length}`;
+      previous.disabled = pageIndex === 0;
+      next.disabled = pageIndex === pages.length - 1;
+    }
+
+    function applyReaderMode() {
+      body.classList.toggle("book-mode", bookMode);
+      toggle.textContent = bookMode ? "Leitura vertical" : "Modo livro";
+      toggle.setAttribute("aria-pressed", String(bookMode));
+      localStorage.setItem("hesidioReaderMode", bookMode ? "book" : "vertical");
+      updatePage();
+      if (bookMode) window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function goToPage(index) {
+      pageIndex = Math.min(Math.max(index, 0), pages.length - 1);
+      updatePage();
+      if (bookMode) window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    toggle.addEventListener("click", () => {
+      bookMode = !bookMode;
+      applyReaderMode();
+    });
+    previous.addEventListener("click", () => goToPage(pageIndex - 1));
+    next.addEventListener("click", () => goToPage(pageIndex + 1));
+    document.addEventListener("keydown", (event) => {
+      if (!bookMode) return;
+      if (event.key === "ArrowLeft") goToPage(pageIndex - 1);
+      if (event.key === "ArrowRight") goToPage(pageIndex + 1);
+    });
+    applyReaderMode();
   </script>
 </body>
 </html>
