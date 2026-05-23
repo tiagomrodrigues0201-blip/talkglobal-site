@@ -8,6 +8,10 @@ const publicRoot = join(siteRoot, "public/manga/episodios");
 const pageRoot = join(siteRoot, "manga/episodios");
 const previewCount = 3;
 const stripePaymentLink = "https://buy.stripe.com/bJe3cngII4bjcMdaJ5a7C02";
+const blockedImagePatterns = [
+  /999-character-file-ren\.(png|jpe?g|webp)$/i,
+  /hayato/i,
+];
 const releasedEpisodes = new Set(
   (process.env.HESIDIO_RELEASED_EPISODES || "")
     .split(",")
@@ -71,7 +75,10 @@ for (let number = 1; number <= 11; number++) {
   mkdirSync(episodePageDir, { recursive: true });
 
   const sourceImages = existsSync(sourceDir)
-    ? readdirSync(sourceDir).filter((file) => /\.(png|jpe?g|webp)$/i.test(file)).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+    ? readdirSync(sourceDir)
+      .filter((file) => /\.(png|jpe?g|webp)$/i.test(file))
+      .filter((file) => !blockedImagePatterns.some((pattern) => pattern.test(file)))
+      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
     : [];
 
   const isReleased = releasedEpisodes.has(number);
@@ -136,12 +143,17 @@ function freePage(number, slug, images) {
   const description = descriptions[number];
   return `${head(title, description, `/manga/episodios/${slug}/`)}
 <body class="hesidio-reader-page">
-  ${topbar(number)}
+  ${topbar(number, true)}
   <main class="reader-shell">
     <section class="reader-intro">
       <small>Registro gratuito / Temporada I</small>
       <h1>${escapeHtml(titles[number])}</h1>
       <p>${escapeHtml(description)}</p>
+    </section>
+    <section class="reader-book-controls" aria-label="Controles do modo livro">
+      <button class="reader-button" type="button" data-reader-prev>Anterior</button>
+      <span data-reader-status>Página 1 de ${images.length}</span>
+      <button class="reader-button" type="button" data-reader-next>Próxima</button>
     </section>
     ${images.map((src, index) => `<figure class="manga-page" oncontextmenu="return false">
       <img src="${src}" alt="HESIDIO EP ${String(number).padStart(2, "0")} - página ${String(index + 1).padStart(3, "0")}" draggable="false" loading="${index < 2 ? "eager" : "lazy"}" decoding="async">
@@ -178,11 +190,12 @@ function lockedPage(number, slug, previews) {
 </html>`;
 }
 
-function topbar(number) {
+function topbar(number, includeReaderMode = false) {
   const prev = number > 1 ? `/manga/episodios/ep-${number - 1}/` : "/manga/";
   const next = number < 11 ? `/manga/episodios/ep-${number + 1}/` : "/manga/";
   return `<header class="reader-topbar">
     <a class="reader-brand" href="/manga/"><img src="/public/studios/hesidio-logo-site.png" alt="">HESIDIO</a>
+    ${includeReaderMode ? `<button class="reader-mode" type="button" aria-pressed="false" data-reader-toggle>Modo livro</button>` : ""}
     <nav class="reader-nav" aria-label="Navegação do leitor">
       <a href="${prev}">Anterior</a>
       <a href="/manga/#episodios">Temporada I</a>
@@ -199,6 +212,53 @@ function readerGuard() {
     document.querySelectorAll("img").forEach((img) => {
       img.draggable = false;
     });
+    const body = document.body;
+    const pages = Array.from(document.querySelectorAll(".manga-page"));
+    const toggle = document.querySelector("[data-reader-toggle]");
+    const previous = document.querySelector("[data-reader-prev]");
+    const next = document.querySelector("[data-reader-next]");
+    const status = document.querySelector("[data-reader-status]");
+    let pageIndex = 0;
+    let bookMode = localStorage.getItem("hesidioReaderMode") === "book";
+
+    if (toggle && previous && next && status && pages.length) {
+      function updatePage() {
+        pages.forEach((page, index) => {
+          page.classList.toggle("is-active", index === pageIndex);
+        });
+        status.textContent = \`Página \${pageIndex + 1} de \${pages.length}\`;
+        previous.disabled = pageIndex === 0;
+        next.disabled = pageIndex === pages.length - 1;
+      }
+
+      function applyReaderMode() {
+        body.classList.toggle("book-mode", bookMode);
+        toggle.textContent = bookMode ? "Leitura vertical" : "Modo livro";
+        toggle.setAttribute("aria-pressed", String(bookMode));
+        localStorage.setItem("hesidioReaderMode", bookMode ? "book" : "vertical");
+        updatePage();
+        if (bookMode) window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function goToPage(index) {
+        pageIndex = Math.min(Math.max(index, 0), pages.length - 1);
+        updatePage();
+        if (bookMode) window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      toggle.addEventListener("click", () => {
+        bookMode = !bookMode;
+        applyReaderMode();
+      });
+      previous.addEventListener("click", () => goToPage(pageIndex - 1));
+      next.addEventListener("click", () => goToPage(pageIndex + 1));
+      document.addEventListener("keydown", (event) => {
+        if (!bookMode) return;
+        if (event.key === "ArrowLeft") goToPage(pageIndex - 1);
+        if (event.key === "ArrowRight") goToPage(pageIndex + 1);
+      });
+      applyReaderMode();
+    }
   </script>`;
 }
 
