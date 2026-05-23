@@ -55,6 +55,17 @@ body.hesidio-reader-page {
   filter: drop-shadow(0 0 18px rgba(137, 17, 22, .5));
 }
 
+.reader-mode {
+  margin-right: auto;
+  border: 1px solid rgba(201,168,102,.26);
+  background: rgba(137,17,22,.18);
+  color: var(--reader-gold);
+  padding: 8px 10px;
+  font: 900 .62rem/1 "Courier New", monospace;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
 .reader-nav {
   display: flex;
   gap: 10px;
@@ -254,6 +265,7 @@ body.hesidio-reader-page {
 
 @media (max-width: 760px) {
   .reader-topbar { align-items: flex-start; flex-direction: column; }
+  .reader-mode { margin-right: 0; }
   .reader-nav { justify-content: flex-start; }
   .reader-brand { font-size: .72rem; }
   .reader-shell { padding-inline: 0; }
