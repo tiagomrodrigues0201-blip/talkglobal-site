@@ -14,6 +14,289 @@
   --max: 1220px;
 }
 
+/* EP1 visual unlock: focused interaction without adding a separate game flow. */
+.helicon-unlock-section .section-head {
+  margin-bottom: 28px;
+}
+
+.unlock-archive {
+  display: grid;
+  gap: 18px;
+}
+
+.unlock-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+  min-height: 520px;
+  border: 1px solid rgba(207,184,137,.16);
+  background:
+    radial-gradient(circle at 18% 16%, rgba(111,13,18,.2), transparent 22rem),
+    linear-gradient(135deg, rgba(3,1,1,.98), rgba(10,3,3,.92));
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.76), 0 28px 90px rgba(0,0,0,.46);
+  overflow: hidden;
+}
+
+.unlock-stage::before {
+  content: "VISUAL RELEASE // EPISODIO 1 // HESIDIO";
+  position: absolute;
+  z-index: 5;
+  top: 18px;
+  left: 18px;
+  padding: 7px 9px;
+  border: 1px solid rgba(111,13,18,.58);
+  background: rgba(0,0,0,.62);
+  color: rgba(232,222,202,.6);
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: .58rem;
+  font-weight: 900;
+  letter-spacing: .14em;
+}
+
+.unlock-preview {
+  min-height: 520px;
+  border: 0;
+}
+
+.unlock-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  filter: grayscale(.04) sepia(.1) saturate(.9) contrast(1.08) brightness(.92);
+  transform: scale(1.02);
+  transition: transform .8s ease, filter .8s ease;
+}
+
+.unlock-preview::after {
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.08), transparent 46%, rgba(0,0,0,.2)),
+    linear-gradient(180deg, rgba(0,0,0,.1), transparent 52%, rgba(0,0,0,.18)),
+    radial-gradient(circle at 50% 45%, rgba(111,13,18,.06), transparent 20rem) !important;
+}
+
+.unlock-preview img {
+  object-position: center top;
+  filter: grayscale(0) sepia(.04) saturate(1.18) contrast(1.12) brightness(1.18) !important;
+  transform: scale(1.02) !important;
+}
+
+.unlock-archive.is-changing .unlock-preview img {
+  animation: fragmentReveal .7s ease both;
+}
+
+.unlock-terminal {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  gap: 14px;
+  padding: 34px;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.38), rgba(0,0,0,.92) 34%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 8px);
+}
+
+.unlock-terminal span,
+.unlock-progress span,
+.unlock-card span,
+.unlock-card em {
+  font-family: "Courier New", ui-monospace, monospace;
+  font-weight: 900;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.unlock-terminal span {
+  color: rgba(207,184,137,.72);
+  font-size: .66rem;
+}
+
+.unlock-terminal h3 {
+  max-width: 23rem;
+  margin: 0;
+  color: var(--ivory);
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  line-height: 1.03;
+}
+
+.unlock-terminal p {
+  max-width: 24rem;
+  margin: 0;
+  color: rgba(232,222,202,.66);
+  font-size: .96rem;
+  line-height: 1.66;
+}
+
+.unlock-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.unlock-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.unlock-card {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  min-height: 142px;
+  padding: 18px;
+  border: 1px solid rgba(207,184,137,.15);
+  background:
+    linear-gradient(145deg, rgba(173,151,107,.07), rgba(111,13,18,.08)),
+    rgba(5,3,2,.9);
+  color: rgba(232,222,202,.72);
+  text-align: left;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.68);
+  transition: transform .24s ease, border-color .24s ease, background .24s ease;
+}
+
+.unlock-card::after {
+  content: "";
+  position: absolute;
+  inset: auto 18px 16px 18px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(111,13,18,.8), transparent);
+  opacity: .45;
+}
+
+.unlock-card:hover,
+.unlock-card:focus-visible,
+.unlock-card.is-active {
+  transform: translateY(-3px);
+  border-color: rgba(207,184,137,.38);
+  background:
+    radial-gradient(circle at 18% 12%, rgba(207,184,137,.11), transparent 8rem),
+    linear-gradient(145deg, rgba(173,151,107,.1), rgba(111,13,18,.14)),
+    rgba(7,3,2,.95);
+}
+
+.unlock-card span {
+  color: rgba(111,13,18,.95);
+  font-size: .66rem;
+}
+
+.unlock-card strong {
+  color: var(--ivory);
+  font-family: var(--serif);
+  font-size: 1.36rem;
+  line-height: 1.05;
+}
+
+.unlock-card em {
+  color: rgba(207,184,137,.54);
+  font-size: .56rem;
+  font-style: normal;
+}
+
+.unlock-card.is-opened em {
+  color: rgba(207,184,137,.86);
+}
+
+.unlock-progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 14px;
+  border: 1px solid rgba(207,184,137,.12);
+  background: rgba(0,0,0,.34);
+}
+
+.unlock-progress span {
+  color: rgba(232,222,202,.52);
+  font-size: .56rem;
+}
+
+.unlock-progress strong {
+  color: var(--gold);
+  font-family: "Courier New", ui-monospace, monospace;
+  letter-spacing: .12em;
+}
+
+@keyframes fragmentReveal {
+  0% {
+    opacity: .42;
+    filter: grayscale(.7) sepia(.2) saturate(.28) contrast(1.45) brightness(.36);
+    transform: scale(1.08);
+  }
+  42% {
+    opacity: .92;
+    filter: grayscale(.12) sepia(.28) saturate(.9) contrast(1.35) brightness(.88);
+  }
+  100% {
+    opacity: 1;
+    filter: grayscale(.04) sepia(.1) saturate(.9) contrast(1.08) brightness(.92);
+    transform: scale(1.02);
+  }
+}
+
+@media (max-width: 940px) {
+  .unlock-stage {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .unlock-preview {
+    min-height: 430px;
+  }
+
+  .unlock-terminal {
+    padding: 24px;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.92)),
+      repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 8px);
+  }
+}
+
+@media (max-width: 720px) {
+  .helicon-unlock-section .section-head h2 {
+    max-width: calc(100vw - 32px);
+    font-size: clamp(1.9rem, 10vw, 2.35rem);
+    line-height: 1.02;
+    overflow-wrap: break-word;
+  }
+
+  .helicon-unlock-section .section-head p {
+    max-width: calc(100vw - 32px);
+  }
+
+  .unlock-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .unlock-preview {
+    min-height: 330px;
+  }
+
+  .unlock-stage::before {
+    right: 14px;
+    left: 14px;
+    font-size: .5rem;
+  }
+
+  .unlock-terminal h3 {
+    font-size: 1.72rem;
+  }
+
+  .unlock-terminal p {
+    font-size: .9rem;
+  }
+
+  .unlock-card {
+    min-height: 118px;
+  }
+}
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; background: var(--bg); }
 body {
@@ -3633,4 +3916,17 @@ body::after {
   .hesidio-news-cta .button {
     width: 100%;
   }
+}
+
+.unlock-preview::after {
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.08), transparent 46%, rgba(0,0,0,.2)),
+    linear-gradient(180deg, rgba(0,0,0,.1), transparent 52%, rgba(0,0,0,.18)),
+    radial-gradient(circle at 50% 45%, rgba(111,13,18,.06), transparent 20rem) !important;
+}
+
+.unlock-preview img {
+  object-position: center top;
+  filter: grayscale(0) sepia(.04) saturate(1.18) contrast(1.12) brightness(1.18) !important;
+  transform: scale(1.02) !important;
 }
