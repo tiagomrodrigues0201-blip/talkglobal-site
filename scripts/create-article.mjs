@@ -139,13 +139,15 @@ function writeSocialKit(post, kit = {}) {
 
 function readPosts() {
   const source = readFileSync("posts.js", "utf8");
-  const match = source.match(/const posts = (\[[\s\S]*?\]);/);
+  const match = source.match(/(?:const posts|window\.TALKGLOBAL_POSTS) = (\[[\s\S]*?\]);/);
   if (!match) throw new Error("Nao consegui ler posts.js.");
   return JSON.parse(match[1]);
 }
 
 function writePosts(posts) {
-  writeFileSync("posts.js", `const posts = ${JSON.stringify(posts, null, 2)};\n`);
+  const source = readFileSync("posts.js", "utf8");
+  const variableName = source.includes("window.TALKGLOBAL_POSTS") ? "window.TALKGLOBAL_POSTS" : "const posts";
+  writeFileSync("posts.js", `${variableName} = ${JSON.stringify(posts, null, 2)};\n`);
 }
 
 function inferTheme(post) {

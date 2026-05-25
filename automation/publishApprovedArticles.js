@@ -81,6 +81,8 @@ function publish() {
     descricao: article.description,
     link: `/blog/${article.filename}`,
     tempo: article.read || "5 min",
+    date: article.date,
+    theme: article.theme,
   })));
   updateSitemap();
 
