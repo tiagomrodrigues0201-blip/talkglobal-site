@@ -2798,11 +2798,13 @@ body::after {
 
 .character-card--ren .watermarked-image img {
   object-position: 48% 18%;
+  transform: scale(1.04);
 }
 
 .character-card--airi .watermarked-image img {
   object-position: 50% 28%;
   filter: grayscale(.06) sepia(.16) saturate(.42) contrast(1.1) brightness(.36);
+  transform: scale(1.04);
 }
 
 .character-card--izaya .watermarked-image img {
@@ -2872,6 +2874,24 @@ body::after {
   max-width: 28rem;
   font-size: .92rem;
   line-height: 1.55;
+}
+
+.watermarked-image--soft-center .watermarked-image__center {
+  position: absolute;
+  z-index: 8;
+  top: 50%;
+  left: 50%;
+  pointer-events: none;
+  color: rgba(245,245,245,.1);
+  font-family: Georgia, "Times New Roman", ui-serif, serif;
+  font-size: clamp(4.2rem, 9vw, 8rem);
+  font-weight: 950;
+  letter-spacing: .12em;
+  line-height: 1;
+  text-shadow: 0 0 22px rgba(0,0,0,.72);
+  transform: translate(-50%, -50%);
+  user-select: none;
+  white-space: nowrap;
 }
 
 .episode-stack a {
