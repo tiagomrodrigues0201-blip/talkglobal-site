@@ -3569,8 +3569,8 @@ body::after {
   width: min(100% - 40px, var(--max));
   margin-inline: auto;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
-  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 300px);
+  gap: clamp(18px, 2vw, 28px);
   align-items: start;
   padding-top: clamp(108px, 11vw, 148px);
 }
@@ -3589,9 +3589,9 @@ body::after {
 
 .hesidio-news-header {
   display: grid;
-  grid-template-columns: minmax(0, .88fr) minmax(330px, .64fr);
-  gap: clamp(24px, 4vw, 54px);
-  align-items: center;
+  grid-template-columns: minmax(360px, .9fr) minmax(300px, .56fr);
+  gap: clamp(28px, 3.2vw, 48px);
+  align-items: start;
 }
 
 .hesidio-news-header > * {
@@ -3606,26 +3606,26 @@ body::after {
 
 .hesidio-news-header h1 {
   width: 100%;
-  max-width: 12ch;
+  max-width: 15ch;
   margin: 18px 0 16px;
   color: #fff2db;
   font-family: Georgia, "Times New Roman", ui-serif, serif;
-  font-size: clamp(2.15rem, 3.8vw, 4.4rem);
-  line-height: 1;
+  font-size: clamp(2.45rem, 3.25vw, 3.85rem);
+  line-height: 1.04;
   letter-spacing: 0;
   white-space: normal;
   word-break: normal;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
   text-shadow: 0 16px 70px #000, 0 0 26px rgba(139,17,24,.32);
 }
 
 .hesidio-news-header > div > p {
   width: 100%;
-  max-width: 34ch;
+  max-width: 38ch;
   color: rgba(240,230,209,.74);
   font-size: clamp(1.05rem, 1.45vw, 1.24rem);
   white-space: normal;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
 }
 
 .hesidio-news-header .breadcrumb,
@@ -3651,7 +3651,7 @@ body::after {
 
 .hesidio-news-hero {
   position: relative;
-  min-height: min(74vw, 820px);
+  min-height: clamp(460px, 52vw, 680px);
   margin: 0;
   overflow: hidden;
   border: 1px solid rgba(216,198,157,.2);
@@ -3676,14 +3676,7 @@ body::after {
 }
 
 .hesidio-news-hero::after {
-  content: "HESIDIO // LANÇAMENTO OFICIAL // ARQUIVO ABERTO À MEIA-NOITE";
-  inset: auto 18px 54px;
-  z-index: 3;
-  border-top: 1px solid rgba(240,230,209,.25);
-  padding-top: 10px;
-  color: rgba(240,230,209,.72);
-  font: 900 .62rem/1.45 "Courier New", ui-monospace, monospace;
-  letter-spacing: .16em;
+  display: none;
 }
 
 .hesidio-news-hero img {
@@ -3691,7 +3684,7 @@ body::after {
   height: 100%;
   min-height: inherit;
   object-fit: cover;
-  object-position: center;
+  object-position: center top;
   user-select: none;
   -webkit-user-drag: none;
   filter: contrast(1.08) saturate(.9);
@@ -3699,13 +3692,11 @@ body::after {
 
 .hesidio-news-hero figcaption {
   position: absolute;
-  inset: auto 18px 16px;
-  z-index: 4;
-  margin: 0;
-  color: rgba(255,245,225,.82);
-  font-size: .82rem;
-  line-height: 1.35;
-  text-shadow: 0 4px 18px #000;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 .hesidio-news-alert {
