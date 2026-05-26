@@ -510,7 +510,7 @@ a { color: inherit; text-decoration: none; }
 
 .character-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 14px;
 }
 
@@ -533,6 +533,24 @@ a { color: inherit; text-decoration: none; }
   margin: 0;
   color: var(--muted);
   font-size: .94rem;
+}
+
+.character-grid a {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.character-open {
+  border-color: rgba(168,134,61,.34);
+}
+
+.character-sealed {
+  opacity: .72;
+}
+
+.character-sealed .portrait::before {
+  filter: grayscale(.9) brightness(.32) contrast(1.2);
 }
 
 .helicon-section {
@@ -942,6 +960,10 @@ a { color: inherit; text-decoration: none; }
 }
 
 @media (max-width: 760px) {
+  body {
+    overflow-x: hidden;
+  }
+
   .site-topbar {
     width: calc(100% - 24px);
     min-height: auto;
@@ -964,6 +986,12 @@ a { color: inherit; text-decoration: none; }
   .hero {
     min-height: auto;
     padding: 142px 14px 42px;
+  }
+  .hero-copy,
+  .pretitle,
+  .launch-countdown {
+    max-width: calc(100vw - 32px);
+    overflow-wrap: break-word;
   }
   .hero h1 {
     max-width: 94vw;
@@ -1026,7 +1054,16 @@ a { color: inherit; text-decoration: none; }
   .section-head h2,
   .helicon-section h2,
   .final-call h2 {
-    font-size: clamp(2.6rem, 15vw, 4.2rem);
+    max-width: calc(100vw - 32px);
+    font-size: clamp(1.85rem, 9.5vw, 2.55rem);
+    line-height: .98;
+    letter-spacing: 0;
+    overflow-wrap: break-word;
+  }
+  .section-head p,
+  .helicon-section p,
+  .final-call p {
+    max-width: calc(100vw - 32px);
   }
   .forbidden-image,
   .fragment-card .forbidden-image {

@@ -1,202 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://talkglobalapp.com/</loc>
-    <lastmod>2026-05-22</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/arquivos-proibidos/arquivo-001/</loc>
-    <lastmod>2026-05-22</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/arquivos-proibidos/arquivo-002/</loc>
-    <lastmod>2026-05-22</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/arquivos-proibidos/arquivo-003/</loc>
-    <lastmod>2026-05-22</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/arquivos-proibidos/arquivo-004/</loc>
-    <lastmod>2026-05-22</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/arquivos-proibidos/arquivo-005/</loc>
-    <lastmod>2026-05-22</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/arquivos-proibidos/arquivo-006/</loc>
-    <lastmod>2026-05-22</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/manga/</loc>
-    <lastmod>2026-05-20</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/manga/episodios/ep-1/</loc>
-    <lastmod>2026-05-20</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/manga/episodios/ep-2/</loc>
-    <lastmod>2026-05-20</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/manga/episodios/ep-3/</loc>
-    <lastmod>2026-05-20</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/manga/episodios/ep-4/</loc>
-    <lastmod>2026-05-20</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/manga/episodios/ep-5/</loc>
-    <lastmod>2026-05-20</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/manga/episodios/ep-6/</loc>
-    <lastmod>2026-05-20</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/manga/episodios/ep-7/</loc>
-    <lastmod>2026-05-20</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/manga/episodios/ep-8/</loc>
-    <lastmod>2026-05-20</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/manga/episodios/ep-9/</loc>
-    <lastmod>2026-05-20</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/manga/episodios/ep-10/</loc>
-    <lastmod>2026-05-20</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/manga/episodios/ep-11/</loc>
-    <lastmod>2026-05-20</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/blog/</loc>
-    <lastmod>2026-05-29</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/sobre.html</loc>
-    <lastmod>2026-05-18</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/politica-editorial.html</loc>
-    <lastmod>2026-05-18</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/contato.html</loc>
-    <lastmod>2026-05-18</lastmod>
-  </url>
-
-
-  <url>
-    <loc>https://talkglobalapp.com/blog/hesidio-manga-dark-fantasy-lancamento-episodio-1.html</loc>
-    <lastmod>2026-05-22</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/blog/hesidio-mundo-esqueceu-memoria-identidade.html</loc>
-    <lastmod>2026-05-23</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/blog/hesidio-ren-hazama-escolha-salvar.html</loc>
-    <lastmod>2026-05-24</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/blog/hesidio-dois-querem-salvar-o-mundo.html</loc>
-    <lastmod>2026-05-25</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/blog/hesidio-zenkai-sofrimento-inevitavel-humanidade.html</loc>
-    <lastmod>2026-05-26</lastmod>
-  </url>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <url>
-    <loc>https://talkglobalapp.com/teste-tradutor/</loc>
-    <lastmod>2026-05-09</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/viral.html</loc>
-    <lastmod>2026-05-09</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/travel.html</loc>
-    <lastmod>2026-05-09</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/extensao.html</loc>
-    <lastmod>2026-05-09</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/privacy.html</loc>
-    <lastmod>2026-05-18</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/terms.html</loc>
-    <lastmod>2026-05-18</lastmod>
-  </url>
-
-  <url>
-    <loc>https://talkglobalapp.com/copyright.html</loc>
-    <lastmod>2026-05-20</lastmod>
-  </url>
+  <url><loc>https://talkglobalapp.com/</loc><lastmod>2026-05-26</lastmod></url>
+  <url><loc>https://talkglobalapp.com/hesidio/</loc><lastmod>2026-05-26</lastmod></url>
+  <url><loc>https://talkglobalapp.com/manga/</loc><lastmod>2026-05-26</lastmod></url>
+  <url><loc>https://talkglobalapp.com/manga/episodios/ep-1/</loc><lastmod>2026-05-23</lastmod></url>
+  <url><loc>https://talkglobalapp.com/manga/episodios/ep-2/</loc><lastmod>2026-05-26</lastmod></url>
+  <url><loc>https://talkglobalapp.com/manga/episodios/ep-3/</loc><lastmod>2026-05-26</lastmod></url>
+  <url><loc>https://talkglobalapp.com/manga/episodios/ep-4/</loc><lastmod>2026-05-26</lastmod></url>
+  <url><loc>https://talkglobalapp.com/manga/episodios/ep-5/</loc><lastmod>2026-05-26</lastmod></url>
+  <url><loc>https://talkglobalapp.com/manga/episodios/ep-6/</loc><lastmod>2026-05-26</lastmod></url>
+  <url><loc>https://talkglobalapp.com/manga/episodios/ep-7/</loc><lastmod>2026-05-26</lastmod></url>
+  <url><loc>https://talkglobalapp.com/manga/episodios/ep-8/</loc><lastmod>2026-05-26</lastmod></url>
+  <url><loc>https://talkglobalapp.com/manga/episodios/ep-9/</loc><lastmod>2026-05-26</lastmod></url>
+  <url><loc>https://talkglobalapp.com/manga/episodios/ep-10/</loc><lastmod>2026-05-26</lastmod></url>
+  <url><loc>https://talkglobalapp.com/manga/episodios/ep-11/</loc><lastmod>2026-05-26</lastmod></url>
+  <url><loc>https://talkglobalapp.com/personagens/ren-hazama/</loc><lastmod>2026-05-26</lastmod></url>
+  <url><loc>https://talkglobalapp.com/personagens/airi-kurohana/</loc><lastmod>2026-05-26</lastmod></url>
+  <url><loc>https://talkglobalapp.com/monte-helicon/</loc><lastmod>2026-05-26</lastmod></url>
+  <url><loc>https://talkglobalapp.com/arquivos-proibidos/</loc><lastmod>2026-05-26</lastmod></url>
+  <url><loc>https://talkglobalapp.com/arquivos-proibidos/arquivo-001/</loc><lastmod>2026-05-26</lastmod></url>
+  <url><loc>https://talkglobalapp.com/arquivos-proibidos/arquivo-002/</loc><lastmod>2026-05-22</lastmod></url>
+  <url><loc>https://talkglobalapp.com/arquivos-proibidos/arquivo-003/</loc><lastmod>2026-05-22</lastmod></url>
+  <url><loc>https://talkglobalapp.com/arquivos-proibidos/arquivo-004/</loc><lastmod>2026-05-22</lastmod></url>
+  <url><loc>https://talkglobalapp.com/arquivos-proibidos/arquivo-005/</loc><lastmod>2026-05-22</lastmod></url>
+  <url><loc>https://talkglobalapp.com/arquivos-proibidos/arquivo-006/</loc><lastmod>2026-05-22</lastmod></url>
+  <url><loc>https://talkglobalapp.com/blog/</loc><lastmod>2026-05-26</lastmod></url>
+  <url><loc>https://talkglobalapp.com/blog/hesidio-manga-dark-fantasy-lancamento-episodio-1.html</loc><lastmod>2026-05-23</lastmod></url>
+  <url><loc>https://talkglobalapp.com/blog/hesidio-mundo-esqueceu-memoria-identidade.html</loc><lastmod>2026-05-23</lastmod></url>
+  <url><loc>https://talkglobalapp.com/blog/hesidio-ren-hazama-escolha-salvar.html</loc><lastmod>2026-05-24</lastmod></url>
+  <url><loc>https://talkglobalapp.com/blog/hesidio-dois-querem-salvar-o-mundo.html</loc><lastmod>2026-05-25</lastmod></url>
+  <url><loc>https://talkglobalapp.com/blog/hesidio-zenkai-sofrimento-inevitavel-humanidade.html</loc><lastmod>2026-05-26</lastmod></url>
+  <url><loc>https://talkglobalapp.com/sobre.html</loc><lastmod>2026-05-26</lastmod></url>
+  <url><loc>https://talkglobalapp.com/politica-editorial.html</loc><lastmod>2026-05-18</lastmod></url>
+  <url><loc>https://talkglobalapp.com/contato.html</loc><lastmod>2026-05-18</lastmod></url>
+  <url><loc>https://talkglobalapp.com/privacy.html</loc><lastmod>2026-05-18</lastmod></url>
+  <url><loc>https://talkglobalapp.com/terms.html</loc><lastmod>2026-05-18</lastmod></url>
+  <url><loc>https://talkglobalapp.com/copyright.html</loc><lastmod>2026-05-20</lastmod></url>
 </urlset>

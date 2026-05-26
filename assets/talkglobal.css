@@ -81,6 +81,34 @@
   transform: scale(1.02) !important;
 }
 
+.universe-hub .featured-evidence {
+  margin: 0 0 28px;
+  min-height: min(74vw, 720px);
+}
+
+.hub-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 26px;
+}
+
+.hub-links .archive-card {
+  min-height: 210px;
+  text-decoration: none;
+}
+
+.hub-links .archive-card h2 {
+  font-size: clamp(1.25rem, 2vw, 1.72rem);
+  line-height: 1.12;
+}
+
+@media (max-width: 880px) {
+  .hub-links {
+    grid-template-columns: 1fr;
+  }
+}
+
 .unlock-archive.is-changing .unlock-preview img {
   animation: fragmentReveal .7s ease both;
 }
