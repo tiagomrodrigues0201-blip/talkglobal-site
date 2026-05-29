@@ -69,7 +69,31 @@
     <figure class="manga-page" oncontextmenu="return false"><img src="/public/manga/episodios/ep-1/images/029.png" alt="HESIDIO EP 01 - página 029" draggable="false" loading="lazy" decoding="async"><span class="page-mark"><strong>HESIDIO</strong><small>@hesidio</small></span></figure>
     <figure class="manga-page" oncontextmenu="return false"><img src="/public/manga/episodios/ep-1/images/030.png" alt="HESIDIO EP 01 - página 030" draggable="false" loading="lazy" decoding="async"><span class="page-mark"><strong>HESIDIO</strong><small>@hesidio</small></span></figure>
     <figure class="manga-page" oncontextmenu="return false"><img src="/public/manga/episodios/ep-1/images/031.png" alt="HESIDIO EP 01 - página 031" draggable="false" loading="lazy" decoding="async"><span class="page-mark"><strong>HESIDIO</strong><small>@hesidio</small></span></figure>
+    <section class="episode-comments" id="comentarios" data-episode-comments="ep-1" aria-label="Comentários do episódio">
+      <span>Registro dos leitores</span>
+      <h2>Comentários do Arquivo</h2>
+      <p>Entre no cofre para deixar seu registro sobre este episódio.</p>
+      <div class="comment-auth-warning" data-comments-logged-out>
+        <p>Você precisa estar logado para comentar. O arquivo aceita registros apenas de leitores reconhecidos.</p>
+        <a href="/cartas/">Entrar pelo cofre</a>
+      </div>
+      <div data-comments-logged-in hidden>
+        <form class="comment-form" data-comment-form>
+          <textarea data-comment-content maxlength="500" placeholder="Escreva seu registro sobre este episódio..." aria-label="Comentário sobre o episódio"></textarea>
+          <div class="comment-form-footer">
+            <span class="comment-counter" data-comment-counter>0/500</span>
+            <button type="submit">Publicar comentário</button>
+          </div>
+        </form>
+      </div>
+      <p class="comment-status" data-comment-status></p>
+      <div class="comment-list" data-comment-list>
+        <p class="comments-empty">Consultando registros do arquivo...</p>
+      </div>
+    </section>
   </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="/assets/hesidio-comments.js" defer></script>
   <script>
     document.addEventListener("contextmenu", (event) => {
       if (event.target && event.target.tagName === "IMG") event.preventDefault();
