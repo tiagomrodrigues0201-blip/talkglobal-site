@@ -216,7 +216,7 @@ function bindLogin() {
     const { error } = await state.client.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${window.location.origin}/cartas/`
+        emailRedirectTo: 'https://talkglobalapp.com/cartas'
       }
     });
 
