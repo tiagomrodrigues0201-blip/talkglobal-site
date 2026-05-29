@@ -28,6 +28,14 @@
 
   const getElement = (selector) => state.root?.querySelector(selector);
 
+  function withTimeout(promise, message, timeoutMs = 12000) {
+    let timer;
+    const timeout = new Promise((_, reject) => {
+      timer = window.setTimeout(() => reject(new Error(message)), timeoutMs);
+    });
+    return Promise.race([promise, timeout]).finally(() => window.clearTimeout(timer));
+  }
+
   function setStatus(message, type = "neutral") {
     const status = getElement(selectors.status);
     if (!status) return;
@@ -90,17 +98,28 @@
       list.innerHTML = '<p class="comments-empty">Consultando registros do arquivo...</p>';
     }
 
-    const { data, error } = await state.client
-      .from("episode_comments")
-      .select("id, episode_slug, user_id, user_email, content, created_at")
-      .eq("episode_slug", state.episodeSlug)
-      .eq("is_hidden", false)
-      .order("created_at", { ascending: false })
-      .limit(50);
+    let data = [];
+    try {
+      const result = await withTimeout(
+        state.client
+          .from("episode_comments")
+          .select("id, episode_slug, user_id, user_email, content, created_at")
+          .eq("episode_slug", state.episodeSlug)
+          .eq("is_hidden", false)
+          .order("created_at", { ascending: false })
+          .limit(50),
+        "A consulta demorou demais. Recarregue o episódio em alguns segundos."
+      );
 
-    if (error) {
-      if (list) list.innerHTML = '<p class="comments-empty">Os comentários ainda não estão disponíveis neste arquivo.</p>';
-      setStatus(error.message, "error");
+      if (result.error) {
+        if (list) list.innerHTML = '<p class="comments-empty">Os comentários ainda não estão disponíveis neste arquivo.</p>';
+        setStatus(result.error.message, "error");
+        return;
+      }
+      data = result.data || [];
+    } catch (error) {
+      if (list) list.innerHTML = '<p class="comments-empty">Não foi possível consultar os registros agora.</p>';
+      setStatus(error.message || "Comentários indisponíveis.", "error");
       return;
     }
 
@@ -131,16 +150,30 @@
       return;
     }
 
+    const submitButton = event.submitter || getElement(`${selectors.form} button[type="submit"]`);
+    if (submitButton) submitButton.disabled = true;
     setStatus("Gravando registro no arquivo...", "neutral");
-    const { error } = await state.client.from("episode_comments").insert({
-      episode_slug: state.episodeSlug,
-      user_id: state.session.user.id,
-      user_email: state.session.user.email || "",
-      content
-    });
+
+    let error = null;
+    try {
+      const result = await withTimeout(
+        state.client.from("episode_comments").insert({
+          episode_slug: state.episodeSlug,
+          user_id: state.session.user.id,
+          user_email: state.session.user.email || "",
+          content
+        }),
+        "A gravação demorou demais. Recarregue a página e tente novamente."
+      );
+      error = result.error;
+    } catch (caughtError) {
+      error = caughtError;
+    } finally {
+      if (submitButton) submitButton.disabled = false;
+    }
 
     if (error) {
-      setStatus(error.message, "error");
+      setStatus(error.message || "Não foi possível publicar o registro.", "error");
       return;
     }
 
@@ -153,13 +186,22 @@
   async function deleteComment(id) {
     if (!state.client || !state.session?.user || !id) return;
     setStatus("Removendo registro...", "neutral");
-    const { error } = await state.client
-      .from("episode_comments")
-      .delete()
-      .eq("id", id);
+    let error = null;
+    try {
+      const result = await withTimeout(
+        state.client
+          .from("episode_comments")
+          .delete()
+          .eq("id", id),
+        "A remoção demorou demais. Tente novamente em alguns segundos."
+      );
+      error = result.error;
+    } catch (caughtError) {
+      error = caughtError;
+    }
 
     if (error) {
-      setStatus(error.message, "error");
+      setStatus(error.message || "Não foi possível remover o registro.", "error");
       return;
     }
 
