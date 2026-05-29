@@ -1,6 +1,17 @@
 import { createClient } from '@supabase/supabase-js';
 
 const FIRST_GIFT_SLUG = 'ren_natal';
+const FIRST_GIFT_CARD = {
+  id: null,
+  slug: 'ren_natal',
+  title: 'Ren Natal',
+  character: 'Ren Hazama',
+  rarity: 'Especial',
+  release_type: 'weekly_gift',
+  week: 1,
+  image_path: '/public/cards/ren_natal.png',
+  active: true
+};
 
 function sendJson(response, statusCode, payload) {
   response.statusCode = statusCode;
@@ -87,6 +98,14 @@ async function listCards(request, response) {
     .order('created_at', { ascending: true });
 
   if (cardsError) {
+    if (String(cardsError.message || '').includes("public.cards")) {
+      return sendJson(response, 200, {
+        ok: true,
+        authenticated: Boolean(user),
+        setupRequired: true,
+        cards: [normalizeCard(FIRST_GIFT_CARD, new Set())]
+      });
+    }
     return sendJson(response, 500, { ok: false, error: 'cards_unavailable', message: cardsError.message });
   }
 
@@ -129,6 +148,13 @@ async function claimCard(request, response) {
     .single();
 
   if (cardError || !card) {
+    if (String(cardError?.message || '').includes("public.cards")) {
+      return sendJson(response, 503, {
+        ok: false,
+        error: 'setup_required',
+        message: 'O cofre está publicado, mas as tabelas de cartas ainda precisam ser ativadas no Supabase.'
+      });
+    }
     return sendJson(response, 404, { ok: false, error: 'card_not_found' });
   }
 

@@ -155,7 +155,7 @@ async function claimFirstGift() {
 async function refreshAfterAuth() {
   setAuthUi();
   if (state.session) {
-    await claimFirstGift();
+    await claimFirstGift().catch((error) => setStatus(error.message, 'error'));
   }
   await loadCards();
 }
