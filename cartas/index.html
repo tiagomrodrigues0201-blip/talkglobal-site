@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cartas Colecionáveis HESIDIO — Cofre Restrito</title>
-<meta name="description" content="Cofre oficial de cartas colecionáveis de HESIDIO. Faça login para desbloquear o presente semanal Ren Natal e acompanhar futuros registros especiais.">
+<meta name="description" content="Cofre oficial de cartas colecionáveis de HESIDIO. Faça login para desbloquear a carta atual do arquivo." data-hesidio-state-content="currentCardMetaDescription">
 <link rel="canonical" href="https://talkglobalapp.com/cartas/">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="author" content="TalkGlobal Studios">
@@ -13,12 +13,12 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="TalkGlobal Studios">
 <meta property="og:title" content="Cartas Colecionáveis HESIDIO — Cofre Restrito">
-<meta property="og:description" content="Entre no cofre oficial de HESIDIO e desbloqueie a primeira carta colecionável: Ren Natal.">
+<meta property="og:description" content="Entre no cofre oficial de HESIDIO e desbloqueie a carta colecionável atual." data-hesidio-state-content="currentCardMetaDescription">
 <meta property="og:url" content="https://talkglobalapp.com/cartas/">
-<meta property="og:image" content="https://talkglobalapp.com/public/cards/ren_natal.png">
+<meta property="og:image" content="https://talkglobalapp.com/public/cards/ren_natal.png" data-hesidio-state-content="currentCardImageAbsolute">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Cartas Colecionáveis HESIDIO — Cofre Restrito">
-<meta name="twitter:description" content="Entre no cofre oficial de HESIDIO e desbloqueie a primeira carta colecionável: Ren Natal.">
+<meta name="twitter:description" content="Entre no cofre oficial de HESIDIO e desbloqueie a carta colecionável atual." data-hesidio-state-content="currentCardMetaDescription">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="apple-touch-icon" href="/public/studios/hesidio-logo-site.png">
@@ -56,7 +56,7 @@
           <span class="kicker">COFRE RESTRITO</span>
           <h1>Cartas colecionáveis HESIDIO.</h1>
           <p>Registros guardados em silêncio. O cofre abre apenas para quem atravessa a porta certa.</p>
-          <p>Faça login e receba o primeiro presente semanal: <strong>Ren Natal</strong>.</p>
+          <p>Faça login e receba o presente semanal atual: <strong data-hesidio-state-text="currentCardTitle">Ren Natal</strong>.</p>
         </div>
 
         <aside class="cards-auth-panel" aria-label="Acesso ao cofre">
@@ -77,8 +77,8 @@
     <section class="cards-collection-section" aria-label="Cartas disponíveis">
       <div class="container">
         <div class="section-head compact">
-          <span class="kicker">PRESENTE SEMANAL // SEMANA 1</span>
-          <h2>Ren Natal</h2>
+          <span class="kicker">PRESENTE SEMANAL // ARQUIVO ATUAL</span>
+          <h2 data-hesidio-state-text="currentCardTitle">Ren Natal</h2>
           <p>Uma carta especial de Ren Hazama, liberada automaticamente para leitores logados. A próxima carta ficará para outro arquivo.</p>
         </div>
         <div class="cards-grid" data-card-grid>
@@ -125,7 +125,7 @@
       </figure>
       <section class="card-modal__content">
         <span>REGISTRO DESBLOQUEADO</span>
-        <h2 id="card-modal-title" data-card-modal-title>Ren Natal</h2>
+        <h2 id="card-modal-title" data-card-modal-title data-hesidio-state-text="currentCardTitle">Ren Natal</h2>
         <dl>
           <div><dt>Personagem</dt><dd data-card-modal-character>Ren Hazama</dd></div>
           <div><dt>Raridade</dt><dd data-card-modal-rarity>Especial</dd></div>
@@ -155,6 +155,7 @@
     </nav>
   </footer>
 
+  <script src="/assets/hesidio-site-state.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script src="/assets/hesidio-cards.js" defer></script>
 </body>

@@ -1,13 +1,15 @@
-const FIRST_GIFT_SLUG = 'ren_natal';
-const UNLOCK_MESSAGE = 'Você desbloqueou uma carta colecionável: Ren Natal.';
+const SITE_STATE = window.HESIDIO_SITE_STATE || {};
+const FIRST_GIFT_SLUG = SITE_STATE.currentCardSlug || 'ren_natal';
+const FIRST_GIFT_TITLE = SITE_STATE.currentCardTitle || 'Ren Natal';
+const UNLOCK_MESSAGE = `Você desbloqueou uma carta colecionável: ${FIRST_GIFT_TITLE}.`;
 const DEFAULT_CARDS = [{
-  slug: 'ren_natal',
-  title: 'Ren Natal',
+  slug: FIRST_GIFT_SLUG,
+  title: FIRST_GIFT_TITLE,
   character: 'Ren Hazama',
   rarity: 'Especial',
   release_type: 'weekly_gift',
   week: 1,
-  image_path: '/public/cards/ren_natal.png',
+  image_path: SITE_STATE.getValue ? SITE_STATE.getValue('currentCardImage') : '/public/cards/ren_natal.png',
   description: 'Um presente do cofre HESIDIO. Ren Hazama aparece preservado como lembrança de uma noite que não pertence totalmente ao arquivo.',
   active: true,
   owned: false
@@ -85,7 +87,7 @@ function escapeHtml(value) {
 
 function getCardDescription(card) {
   if (card.description) return card.description;
-  if (card.slug === 'ren_natal') {
+  if (card.slug === FIRST_GIFT_SLUG) {
     return 'Um presente do cofre HESIDIO. Ren Hazama aparece preservado como lembrança de uma noite que não pertence totalmente ao arquivo.';
   }
   return 'Registro visual preservado no cofre HESIDIO. O arquivo mantém a descrição incompleta.';
@@ -115,7 +117,7 @@ function cardMarkup(card) {
       <div class="collectible-card__body">
         <span>${stateLabel} // Semana ${escapeHtml(card.week)}</span>
         <h2>${owned ? escapeHtml(card.title) : 'Registro lacrado'}</h2>
-        <p>${owned ? `${escapeHtml(card.character)} · Raridade ${escapeHtml(card.rarity)}` : 'Faça login para receber o primeiro presente semanal do arquivo HESIDIO.'}</p>
+        <p>${owned ? `${escapeHtml(card.character)} · Raridade ${escapeHtml(card.rarity)}` : 'Faça login para receber o presente semanal atual do arquivo HESIDIO.'}</p>
         <small>${card.release_type === 'weekly_gift' ? 'Presente semanal' : 'Arquivo especial'}</small>
       </div>
     </${wrapperTag}>

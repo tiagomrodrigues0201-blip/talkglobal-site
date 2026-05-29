@@ -1,33 +1,15 @@
 (() => {
-  const launchAt = new Date("2026-05-23T00:00:00-03:00").getTime();
-  const countdown = document.querySelector("[data-countdown]");
   const status = document.querySelector("[data-launch-status]");
   const readButtons = document.querySelectorAll("[data-episode-one-link]");
   const checkoutButtons = document.querySelectorAll("[data-hesidio-checkout]");
+  const siteState = window.HESIDIO_SITE_STATE;
 
-  function pad(value) {
-    return String(Math.max(0, value)).padStart(2, "0");
-  }
-
-  function tick() {
-    const distance = launchAt - Date.now();
-    if (!countdown || !status) return;
-
-    if (distance <= 0) {
-      countdown.textContent = "EPISÓDIO 2 DISPONÍVEL";
-      status.textContent = "EPISÓDIO 2 DISPONÍVEL";
-      readButtons.forEach((button) => {
-        button.textContent = "Ler Episódio 2";
-        button.setAttribute("href", "/manga/episodios/ep-2/");
-      });
-      return;
-    }
-
-    const days = Math.floor(distance / 86400000);
-    const hours = Math.floor((distance % 86400000) / 3600000);
-    const minutes = Math.floor((distance % 3600000) / 60000);
-    const seconds = Math.floor((distance % 60000) / 1000);
-    countdown.textContent = `${pad(days)}d ${pad(hours)}h ${pad(minutes)}min ${pad(seconds)}s`;
+  if (siteState) {
+    if (status) status.textContent = siteState.getValue("currentEpisodeStatusLabel");
+    readButtons.forEach((button) => {
+      button.textContent = siteState.getValue("currentEpisodeButtonText");
+      button.setAttribute("href", siteState.currentEpisodeUrl);
+    });
   }
 
   checkoutButtons.forEach((button) => {
@@ -48,6 +30,4 @@
     });
   });
 
-  tick();
-  setInterval(tick, 1000);
 })();
