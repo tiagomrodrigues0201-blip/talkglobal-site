@@ -178,7 +178,7 @@ async function initSupabase() {
   }
 
   if (!config.configured) {
-    setStatus('O Auth separado das cartas HESIDIO ainda precisa ser configurado.', 'error');
+    setStatus('Supabase Auth ainda precisa ser configurado para liberar o cofre de cartas.', 'error');
     state.cards = DEFAULT_CARDS;
     renderCards();
     return;

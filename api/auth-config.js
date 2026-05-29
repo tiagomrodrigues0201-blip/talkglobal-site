@@ -11,14 +11,14 @@ export default function handler(request, response) {
     return sendJson(response, 405, { ok: false, error: 'method_not_allowed' });
   }
 
-  const supabaseUrl = process.env.HESIDIO_SUPABASE_URL || '';
-  const anonKey = process.env.HESIDIO_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_HESIDIO_SUPABASE_ANON_KEY || '';
+  const supabaseUrl = process.env.SUPABASE_URL || '';
+  const anonKey = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
   if (!supabaseUrl || !anonKey) {
     return sendJson(response, 200, {
       ok: true,
       configured: false,
-      message: 'Supabase Auth das cartas ainda precisa de HESIDIO_SUPABASE_URL e HESIDIO_SUPABASE_ANON_KEY.'
+      message: 'Supabase Auth ainda precisa de SUPABASE_URL e SUPABASE_ANON_KEY.'
     });
   }
 
