@@ -12,6 +12,14 @@
   ],
   "routes": [
     {
+      "src": "/api/auth-config/?",
+      "dest": "/api/auth-config.js"
+    },
+    {
+      "src": "/api/cards/?",
+      "dest": "/api/cards.js"
+    },
+    {
       "src": "/manga/?",
       "dest": "/manga/index.html"
     },
