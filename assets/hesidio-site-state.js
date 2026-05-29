@@ -11,8 +11,8 @@
     nextEpisodeNumber: 3,
     nextEpisodeDate: "06/06/2026",
     episodes: [
-      { number: 1, date: "23/05/2026", title: "O Acidente", url: "/manga/episodios/ep-1/", status: "DISPONÍVEL" },
-      { number: 2, date: "30/05/2026", title: "A Garota que Sobreviveu", url: "/manga/episodios/ep-2/", status: "DISPONÍVEL" },
+      { number: 1, date: "23/05/2026", title: "O Acidente", url: "/manga/episodios/ep-1/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-1/images/001.png", coverAlt: "Capa do Episódio 1 de HESIDIO" },
+      { number: 2, date: "30/05/2026", title: "A Garota que Sobreviveu", url: "/manga/episodios/ep-2/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-2/images/001.png", coverAlt: "Capa do Episódio 2 de HESIDIO" },
       { number: 3, date: "06/06/2026", title: "Registro selado", url: "/manga/episodios/ep-3/", status: "SELADO" },
       { number: 4, date: "13/06/2026", title: "Registro selado", url: "/manga/episodios/ep-4/", status: "SELADO" },
       { number: 5, date: "20/06/2026", title: "Registro selado", url: "/manga/episodios/ep-5/", status: "SELADO" },
@@ -22,6 +22,32 @@
       { number: 9, date: "18/07/2026", title: "Arquivo restrito", url: "/manga/episodios/ep-9/", status: "RESTRITO", premium: true },
       { number: 10, date: "25/07/2026", title: "Arquivo restrito", url: "/manga/episodios/ep-10/", status: "RESTRITO", premium: true },
       { number: 11, date: "01/08/2026", title: "Arquivo restrito", url: "/manga/episodios/ep-11/", status: "RESTRITO", premium: true }
+    ],
+    releasedCharacters: [
+      {
+        slug: "ren-hazama",
+        name: "Ren Hazama",
+        url: "/personagens/ren-hazama/",
+        image: "/public/studios/ren-dossie.png",
+        imageAlt: "Dossiê visual oficial de Ren Hazama em HESIDIO",
+        summary: "Silencioso, ferido e perigoso sem querer ser.",
+        fullSummary: "Silencioso, ferido e perigoso sem querer ser. O arquivo só confirma que algo nele responde antes das palavras.",
+        file: "REN-01",
+        signal: "SILÊNCIO",
+        episodeNumber: 1
+      },
+      {
+        slug: "airi-kurohana",
+        name: "Airi Kurohana",
+        url: "/personagens/airi-kurohana/",
+        image: "/public/studios/airi-dossie.png",
+        imageAlt: "Dossiê visual oficial de Airi Kurohana em HESIDIO",
+        summary: "Humana, perdida e emocionalmente viva.",
+        fullSummary: "Humana demais para um mundo que começa a falhar. Sua presença preserva calor onde tudo parece perder forma.",
+        file: "AIR-02",
+        signal: "HUMANO",
+        episodeNumber: 1
+      }
     ]
   };
 
@@ -80,6 +106,9 @@
     return "Nome e descrição permanecem ocultos.";
   };
 
+  const releasedEpisodes = () => state.episodes.filter((episode) => episode.number <= state.currentEpisodeNumber && episode.coverImage);
+  const releasedCharacters = () => state.releasedCharacters.filter((character) => character.episodeNumber <= state.currentEpisodeNumber);
+
   const renderStack = (target) => {
     target.innerHTML = state.episodes.map((episode) => `
       <a href="${escapeHtml(episode.url)}">
@@ -101,6 +130,66 @@
     `).join("");
   };
 
+  const renderEpisodeCovers = (target) => {
+    target.innerHTML = releasedEpisodes().map((episode) => `
+      <a class="released-cover-card" href="${escapeHtml(episode.url)}">
+        <figure class="watermarked-image watermarked-image--page watermarked-image--soft-center" oncontextmenu="return false">
+          <img src="${escapeHtml(episode.coverImage)}" alt="${escapeHtml(episode.coverAlt || `Capa do EP ${padEpisode(episode.number)} de HESIDIO`)}" draggable="false" loading="lazy" decoding="async">
+          <span class="watermarked-image__pattern" aria-hidden="true">HESIDIO · @hesidio</span>
+          <span class="watermarked-image__diagonal" aria-hidden="true">HESIDIO</span>
+          <span class="watermarked-image__corner" aria-hidden="true"><strong>HESIDIO</strong><small>@hesidio</small></span>
+        </figure>
+        <small>EP ${padEpisode(episode.number)}</small>
+        <h3>${escapeHtml(episode.title)}</h3>
+        <p>${escapeHtml(episodeCopy(episode))}</p>
+      </a>
+    `).join("");
+  };
+
+  const renderCharacters = (target) => {
+    const layout = target.dataset.hesidioCharacters || "hub";
+    target.innerHTML = releasedCharacters().map((character) => {
+      if (layout === "manga") {
+        return `
+          <article class="character-open">
+            <a href="${escapeHtml(character.url)}">
+              <div class="portrait forbidden-image wm-subtle" data-src="${escapeHtml(character.image)}" data-label="DOSSIÊ LIBERADO" style="--image: url('${escapeHtml(character.image)}')"><span class="image-mark">HESIDIO</span><span class="diagonal-mark" aria-hidden="true">HESIDIO</span><span class="pattern-mark" aria-hidden="true">HESIDIO · @hesidio</span></div>
+              <small>Arquivo público</small>
+              <h3>${escapeHtml(character.name)}</h3>
+              <p>${escapeHtml(character.summary)}</p>
+            </a>
+          </article>
+        `;
+      }
+
+      if (layout === "home") {
+        return `
+          <article class="character-card character-card--${escapeHtml(character.slug.split("-")[0])}" data-file="${escapeHtml(character.file)}" data-signal="${escapeHtml(character.signal)}">
+            <figure class="watermarked-image watermarked-image--page watermarked-image--soft-center" oncontextmenu="return false"><img src="${escapeHtml(character.image)}" alt="${escapeHtml(character.imageAlt)}" draggable="false" loading="lazy" decoding="async"><span class="watermarked-image__center" aria-hidden="true">HESIDIO</span><span class="watermarked-image__corner" aria-hidden="true"><strong>HESIDIO</strong><small>@hesidio</small></span></figure>
+            <small>Dossiê liberado pelo arquivo oficial</small>
+            <h3>${escapeHtml(character.name)}</h3>
+            <p>${escapeHtml(character.fullSummary)}</p>
+          </article>
+        `;
+      }
+
+      return `
+        <a class="hub-character-card" href="${escapeHtml(character.url)}">
+          <figure class="watermarked-image watermarked-image--page watermarked-image--soft-center" oncontextmenu="return false">
+            <img src="${escapeHtml(character.image)}" alt="${escapeHtml(character.imageAlt)}" draggable="false" loading="lazy" decoding="async">
+            <span class="watermarked-image__center" aria-hidden="true">DOSSIÊ LIBERADO</span>
+            <span class="watermarked-image__pattern" aria-hidden="true">HESIDIO · @hesidio</span>
+            <span class="watermarked-image__diagonal" aria-hidden="true">HESIDIO</span>
+            <span class="watermarked-image__corner" aria-hidden="true"><strong>HESIDIO</strong><small>@hesidio</small></span>
+          </figure>
+          <small>Arquivo público</small>
+          <h3>${escapeHtml(character.name)}</h3>
+          <p>${escapeHtml(character.summary)}</p>
+        </a>
+      `;
+    }).join("");
+  };
+
   function applySiteState() {
     document.querySelectorAll("[data-hesidio-state-text]").forEach((element) => {
       element.textContent = getValue(element.dataset.hesidioStateText);
@@ -118,6 +207,9 @@
       if (element.dataset.hesidioEpisodes === "cards") renderCards(element);
       if (element.dataset.hesidioEpisodes === "stack") renderStack(element);
     });
+
+    document.querySelectorAll("[data-hesidio-episode-covers]").forEach(renderEpisodeCovers);
+    document.querySelectorAll("[data-hesidio-characters]").forEach(renderCharacters);
   }
 
   window.HESIDIO_SITE_STATE = Object.freeze({
