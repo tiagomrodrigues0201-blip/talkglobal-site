@@ -14,11 +14,11 @@
     if (!countdown || !status) return;
 
     if (distance <= 0) {
-      countdown.textContent = "EPISÓDIO 1 DISPONÍVEL";
-      status.textContent = "EPISÓDIO 1 DISPONÍVEL";
+      countdown.textContent = "EPISÓDIO 2 DISPONÍVEL";
+      status.textContent = "EPISÓDIO 2 DISPONÍVEL";
       readButtons.forEach((button) => {
-        button.textContent = "Ler Episódio 1";
-        button.setAttribute("href", "/manga/episodios/ep-1/");
+        button.textContent = "Ler Episódio 2";
+        button.setAttribute("href", "/manga/episodios/ep-2/");
       });
       return;
     }

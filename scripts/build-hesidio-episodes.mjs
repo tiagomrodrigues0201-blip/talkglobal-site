@@ -13,7 +13,7 @@ const blockedImagePatterns = [
   /hayato/i,
 ];
 const releasedEpisodes = new Set(
-  (process.env.HESIDIO_RELEASED_EPISODES || "")
+  (process.env.HESIDIO_RELEASED_EPISODES || "1,2")
     .split(",")
     .map((value) => Number(value.trim()))
     .filter(Boolean)
@@ -35,7 +35,7 @@ const titles = {
 
 const descriptions = {
   1: "O primeiro registro público de HESIDIO. Uma ruptura começa antes que alguém consiga nomeá-la.",
-  2: "Registro semanal da Temporada I. Nome e descrição permanecem ocultos até a data de liberação.",
+  2: "O segundo registro público de HESIDIO. A sobrevivência deixa de parecer uma resposta simples.",
   3: "Registro semanal da Temporada I. Nome e descrição permanecem ocultos até a data de liberação.",
   4: "Registro semanal da Temporada I. Nome e descrição permanecem ocultos até a data de liberação.",
   5: "Registro semanal da Temporada I. Nome e descrição permanecem ocultos até a data de liberação.",
