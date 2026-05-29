@@ -81,6 +81,411 @@
   transform: scale(1.02) !important;
 }
 
+@media (max-width: 920px) {
+  .cards-vault-page {
+    overflow-x: hidden;
+  }
+
+  .cards-vault-page .container {
+    width: calc(100vw - 28px);
+    max-width: calc(100vw - 28px);
+  }
+
+  .cards-vault-page .cards-vault-layout,
+  .cards-vault-page .cards-auth-panel,
+  .cards-vault-page .collectible-card,
+  .cards-vault-page .cards-grid {
+    min-width: 0;
+  }
+
+  .cards-vault-page .cards-vault-copy h1 {
+    max-width: 100%;
+    font-size: clamp(2.2rem, 9.8vw, 3.6rem);
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .cards-vault-page .cards-vault-copy p,
+  .cards-vault-page .section-head p,
+  .cards-vault-page .cards-auth-status {
+    width: auto;
+    max-width: min(100%, 28ch);
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  .cards-vault-page .cards-collection-section .section-head,
+  .cards-vault-page .section-head.compact {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 10px;
+    text-align: left;
+  }
+
+  .cards-vault-page .cards-collection-section .section-head h2 {
+    font-size: clamp(2.2rem, 11vw, 3.2rem);
+  }
+}
+
+@media (max-width: 920px) {
+  .cards-vault-page {
+    overflow-x: hidden;
+  }
+
+  .cards-vault-page .cards-vault-copy h1 {
+    max-width: 100%;
+    font-size: clamp(2.2rem, 9.8vw, 3.6rem);
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .cards-vault-page .cards-vault-copy p,
+  .cards-vault-page .cards-auth-status {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .cards-vault-page .cards-collection-section .section-head,
+  .cards-vault-page .section-head.compact {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 10px;
+    text-align: left;
+  }
+
+  .cards-vault-page .cards-collection-section .section-head h2 {
+    font-size: clamp(2.2rem, 11vw, 3.2rem);
+  }
+}
+
+/* HESIDIO collectible vault */
+.cards-vault-page {
+  background:
+    radial-gradient(circle at 70% 8%, rgba(120, 12, 18, .16), transparent 26rem),
+    linear-gradient(180deg, #050202 0%, #090303 46%, #020101 100%);
+}
+
+.cards-vault-page [hidden] {
+  display: none !important;
+}
+
+.cards-vault-hero {
+  padding: clamp(120px, 13vw, 170px) 0 clamp(54px, 8vw, 96px);
+  border-bottom: 1px solid rgba(139,17,24,.32);
+}
+
+.cards-vault-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(320px, .62fr);
+  gap: clamp(24px, 5vw, 72px);
+  align-items: end;
+}
+
+.cards-vault-copy {
+  max-width: 780px;
+}
+
+.cards-vault-copy h1 {
+  margin: 16px 0 18px;
+  color: var(--ivory, #fff3df);
+  font-family: var(--serif, Georgia, "Times New Roman", ui-serif, serif);
+  font-size: clamp(3.15rem, 8vw, 8.4rem);
+  line-height: .9;
+  letter-spacing: 0;
+}
+
+.cards-vault-copy p {
+  max-width: 640px;
+  margin: 0 0 16px;
+  color: rgba(232,222,202,.74);
+  font-size: clamp(1.02rem, 1.35vw, 1.22rem);
+  line-height: 1.66;
+}
+
+.cards-vault-copy strong {
+  color: #fff2d9;
+}
+
+.cards-auth-panel {
+  display: grid;
+  gap: 14px;
+  padding: clamp(20px, 3vw, 32px);
+  border: 1px solid rgba(216,198,157,.18);
+  background:
+    linear-gradient(145deg, rgba(139,17,24,.16), transparent 54%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 8px),
+    rgba(7,4,3,.82);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.72), 0 24px 70px rgba(0,0,0,.36);
+}
+
+.cards-auth-panel > span,
+.cards-auth-panel label,
+.cards-auth-status,
+.collectible-card__body span,
+.collectible-card__body small,
+.cards-rule-grid span {
+  font-family: "Courier New", ui-monospace, monospace;
+  font-weight: 900;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.cards-auth-panel > span {
+  color: var(--gold, #b8944b);
+  font-size: .68rem;
+}
+
+.cards-auth-panel h2 {
+  margin: 0;
+  color: var(--ivory, #fff3df);
+  font-family: var(--serif, Georgia, "Times New Roman", ui-serif, serif);
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  line-height: 1.02;
+}
+
+.cards-auth-panel p {
+  margin: 0;
+  color: rgba(232,222,202,.68);
+  line-height: 1.55;
+}
+
+.cards-auth-panel form {
+  display: grid;
+  gap: 10px;
+}
+
+.cards-auth-panel label {
+  color: rgba(232,222,202,.56);
+  font-size: .6rem;
+}
+
+.cards-auth-panel input {
+  width: 100%;
+  border: 1px solid rgba(216,198,157,.2);
+  border-radius: 0;
+  padding: 14px 13px;
+  background: rgba(0,0,0,.48);
+  color: var(--ivory, #fff3df);
+  font: inherit;
+}
+
+.cards-auth-panel input:focus {
+  outline: 2px solid rgba(184,148,75,.42);
+  outline-offset: 2px;
+}
+
+.cards-auth-panel .button {
+  width: 100%;
+}
+
+.cards-auth-status {
+  min-height: 1.4em;
+  color: rgba(232,222,202,.54) !important;
+  font-size: .64rem;
+}
+
+.cards-auth-status[data-state="success"] {
+  color: #d8c69d !important;
+}
+
+.cards-auth-status[data-state="error"] {
+  color: #ffb4b4 !important;
+}
+
+.cards-collection-section,
+.cards-rules-section {
+  padding: clamp(48px, 7vw, 90px) 0;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.collectible-card {
+  position: relative;
+  display: grid;
+  gap: 0;
+  min-height: 100%;
+  border: 1px solid rgba(216,198,157,.16);
+  background:
+    linear-gradient(145deg, rgba(216,198,157,.07), rgba(139,17,24,.09)),
+    rgba(5,3,2,.82);
+  overflow: hidden;
+}
+
+.collectible-card::before {
+  content: "HESIDIO // CARD ARCHIVE";
+  position: absolute;
+  z-index: 3;
+  top: 12px;
+  left: 12px;
+  padding: 7px 9px;
+  border: 1px solid rgba(139,17,24,.42);
+  background: rgba(0,0,0,.62);
+  color: rgba(232,222,202,.58);
+  font: 900 .56rem/1 "Courier New", ui-monospace, monospace;
+  letter-spacing: .13em;
+}
+
+.collectible-card__frame {
+  padding: 16px 16px 0;
+}
+
+.collectible-card__image {
+  aspect-ratio: 3 / 4.18;
+  width: 100%;
+  border-color: rgba(216,198,157,.13);
+  background: #030101;
+}
+
+.collectible-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.collectible-card.is-locked .collectible-card__image img {
+  filter: grayscale(.88) brightness(.36) contrast(1.2);
+}
+
+.collectible-card.is-locked .collectible-card__image::after {
+  content: "ACESSO LACRADO";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle, rgba(0,0,0,.04), rgba(0,0,0,.72)),
+    repeating-linear-gradient(-12deg, rgba(216,198,157,.05) 0 1px, transparent 1px 11px);
+  color: rgba(232,222,202,.64);
+  font: 900 .82rem/1 "Courier New", ui-monospace, monospace;
+  letter-spacing: .18em;
+  text-align: center;
+}
+
+.collectible-card.is-owned {
+  border-color: rgba(184,148,75,.42);
+  box-shadow: 0 24px 80px rgba(0,0,0,.34), inset 0 0 0 1px rgba(184,148,75,.1);
+}
+
+.collectible-card__body {
+  display: grid;
+  gap: 8px;
+  padding: 18px 16px 20px;
+}
+
+.collectible-card__body span,
+.collectible-card__body small {
+  color: var(--gold, #b8944b);
+  font-size: .62rem;
+}
+
+.collectible-card__body h2 {
+  margin: 0;
+  color: var(--ivory, #fff3df);
+  font-family: var(--serif, Georgia, "Times New Roman", ui-serif, serif);
+  font-size: clamp(1.5rem, 2.4vw, 2.2rem);
+  line-height: 1.02;
+}
+
+.collectible-card__body p {
+  margin: 0;
+  color: rgba(232,222,202,.66);
+  line-height: 1.55;
+}
+
+.cards-rule-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.cards-rule-grid article {
+  display: grid;
+  gap: 9px;
+  padding: 20px;
+  border: 1px solid rgba(216,198,157,.14);
+  background: rgba(0,0,0,.3);
+}
+
+.cards-rule-grid span {
+  color: rgba(139,17,24,.9);
+  font-size: .64rem;
+}
+
+.cards-rule-grid strong {
+  color: var(--ivory, #fff3df);
+  font-family: var(--serif, Georgia, "Times New Roman", ui-serif, serif);
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
+
+.cards-rule-grid p {
+  margin: 0;
+  color: rgba(232,222,202,.62);
+  line-height: 1.58;
+}
+
+.cards-unlock-toast {
+  position: fixed;
+  z-index: 60;
+  right: 18px;
+  bottom: 18px;
+  max-width: min(420px, calc(100vw - 36px));
+  border: 1px solid rgba(184,148,75,.44);
+  padding: 16px 18px;
+  background:
+    linear-gradient(135deg, rgba(139,17,24,.22), transparent 58%),
+    rgba(3,1,1,.94);
+  color: #fff2d9;
+  font-weight: 800;
+  line-height: 1.4;
+  box-shadow: 0 18px 70px rgba(0,0,0,.48);
+}
+
+@media (max-width: 920px) {
+  .cards-vault-page {
+    overflow-x: hidden;
+  }
+
+  .cards-vault-layout,
+  .cards-grid,
+  .cards-rule-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cards-vault-copy,
+  .cards-vault-copy h1,
+  .cards-vault-copy p,
+  .cards-auth-panel,
+  .cards-collection-section .section-head {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .cards-vault-copy h1 {
+    font-size: clamp(2.55rem, 12vw, 4rem);
+    overflow-wrap: anywhere;
+  }
+
+  .cards-collection-section .section-head {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .cards-collection-section .section-head h2 {
+    font-size: clamp(2.2rem, 12vw, 3.4rem);
+  }
+}
+
 .universe-hub .featured-evidence {
   margin: 0 0 28px;
   min-height: min(74vw, 720px);
@@ -3968,4 +4373,36 @@ body::after {
   object-position: center top;
   filter: grayscale(0) sepia(.04) saturate(1.18) contrast(1.12) brightness(1.18) !important;
   transform: scale(1.02) !important;
+}
+
+@media (max-width: 920px) {
+  .cards-vault-page {
+    overflow-x: hidden;
+  }
+
+  .cards-vault-page .cards-vault-copy h1 {
+    max-width: 100%;
+    font-size: clamp(2.2rem, 9.8vw, 3.6rem);
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .cards-vault-page .cards-vault-copy p,
+  .cards-vault-page .cards-auth-status {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .cards-vault-page .cards-collection-section .section-head,
+  .cards-vault-page .section-head.compact {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 10px;
+    text-align: left;
+  }
+
+  .cards-vault-page .cards-collection-section .section-head h2 {
+    font-size: clamp(2.2rem, 11vw, 3.2rem);
+  }
 }
