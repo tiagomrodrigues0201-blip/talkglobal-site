@@ -114,6 +114,29 @@
     </section>
   </main>
 
+  <div class="card-modal" hidden data-card-modal role="dialog" aria-modal="true" aria-labelledby="card-modal-title">
+    <div class="card-modal__panel">
+      <button class="card-modal__close" type="button" aria-label="Fechar visualização da carta" data-card-modal-close>Fechar</button>
+      <figure class="watermarked-image card-modal__image" oncontextmenu="return false">
+        <img src="/public/cards/ren_natal.png" alt="" draggable="false" decoding="async" data-card-modal-image>
+        <span class="watermarked-image__pattern" aria-hidden="true">HESIDIO · @hesidio</span>
+        <span class="watermarked-image__diagonal" aria-hidden="true">HESIDIO</span>
+        <span class="watermarked-image__corner" aria-hidden="true"><strong>HESIDIO</strong><small>@hesidio</small></span>
+      </figure>
+      <section class="card-modal__content">
+        <span>REGISTRO DESBLOQUEADO</span>
+        <h2 id="card-modal-title" data-card-modal-title>Ren Natal</h2>
+        <dl>
+          <div><dt>Personagem</dt><dd data-card-modal-character>Ren Hazama</dd></div>
+          <div><dt>Raridade</dt><dd data-card-modal-rarity>Especial</dd></div>
+          <div><dt>Semana</dt><dd data-card-modal-week>Semana 1</dd></div>
+        </dl>
+        <p data-card-modal-description>Um presente do cofre HESIDIO.</p>
+        <a class="button primary" href="/public/cards/ren_natal.png" download="ren_natal.png" data-card-modal-download>Baixar carta</a>
+      </section>
+    </div>
+  </div>
+
   <div class="cards-unlock-toast" hidden data-card-toast role="status" aria-live="polite"></div>
 
   <footer class="footer container site-footer">

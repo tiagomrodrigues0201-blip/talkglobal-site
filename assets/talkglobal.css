@@ -317,6 +317,15 @@
   overflow: hidden;
 }
 
+button.collectible-card {
+  width: 100%;
+  border-radius: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
 .collectible-card::before {
   content: "HESIDIO // CARD ARCHIVE";
   position: absolute;
@@ -373,6 +382,18 @@
 .collectible-card.is-owned {
   border-color: rgba(184,148,75,.42);
   box-shadow: 0 24px 80px rgba(0,0,0,.34), inset 0 0 0 1px rgba(184,148,75,.1);
+}
+
+.collectible-card.is-owned:hover,
+.collectible-card.is-owned:focus-visible {
+  transform: translateY(-4px);
+  border-color: rgba(216,198,157,.56);
+  box-shadow: 0 30px 90px rgba(0,0,0,.42), 0 0 0 1px rgba(184,148,75,.16);
+}
+
+.collectible-card.is-owned:focus-visible {
+  outline: 2px solid rgba(184,148,75,.62);
+  outline-offset: 4px;
 }
 
 .collectible-card__body {
@@ -450,6 +471,141 @@
   box-shadow: 0 18px 70px rgba(0,0,0,.48);
 }
 
+.has-card-modal {
+  overflow: hidden;
+}
+
+.card-modal {
+  position: fixed;
+  z-index: 80;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(14px, 3vw, 34px);
+  background:
+    radial-gradient(circle at 50% 18%, rgba(139,17,24,.24), transparent 24rem),
+    rgba(0,0,0,.82);
+  backdrop-filter: blur(10px);
+}
+
+.card-modal[hidden] {
+  display: none !important;
+}
+
+.card-modal__panel {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(260px, 460px) minmax(280px, 440px);
+  gap: clamp(18px, 4vw, 42px);
+  width: min(100%, 1040px);
+  max-height: min(92vh, 900px);
+  overflow: auto;
+  border: 1px solid rgba(216,198,157,.24);
+  background:
+    radial-gradient(circle at 8% 8%, rgba(184,148,75,.08), transparent 18rem),
+    linear-gradient(145deg, rgba(139,17,24,.14), transparent 46%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.024) 0 1px, transparent 1px 8px),
+    #050202;
+  padding: clamp(18px, 3vw, 34px);
+  box-shadow: 0 40px 120px rgba(0,0,0,.66), inset 0 0 0 1px rgba(0,0,0,.78);
+}
+
+.card-modal__close {
+  position: absolute;
+  z-index: 3;
+  top: 14px;
+  right: 14px;
+  border: 1px solid rgba(216,198,157,.2);
+  padding: 10px 12px;
+  background: rgba(0,0,0,.64);
+  color: rgba(232,222,202,.72);
+  font: 900 .62rem/1 "Courier New", ui-monospace, monospace;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.card-modal__close:hover,
+.card-modal__close:focus-visible {
+  border-color: rgba(184,148,75,.58);
+  color: #fff2d9;
+  outline: none;
+}
+
+.card-modal__image {
+  width: 100%;
+  min-height: 0;
+  aspect-ratio: 3 / 4.18;
+  background: #020101;
+  border-color: rgba(216,198,157,.18);
+}
+
+.card-modal__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.card-modal__content {
+  align-self: end;
+  display: grid;
+  gap: 16px;
+  padding-block: 30px 4px;
+}
+
+.card-modal__content > span,
+.card-modal__content dt {
+  color: var(--gold, #b8944b);
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: .64rem;
+  font-weight: 900;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.card-modal__content h2 {
+  margin: 0;
+  color: var(--ivory, #fff3df);
+  font-family: var(--serif, Georgia, "Times New Roman", ui-serif, serif);
+  font-size: clamp(2.5rem, 5vw, 5.2rem);
+  line-height: .95;
+}
+
+.card-modal__content dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+
+.card-modal__content dl div {
+  display: grid;
+  gap: 6px;
+  border: 1px solid rgba(216,198,157,.12);
+  padding: 12px;
+  background: rgba(0,0,0,.28);
+}
+
+.card-modal__content dd {
+  margin: 0;
+  color: rgba(255,242,217,.86);
+  font-weight: 800;
+}
+
+.card-modal__content p {
+  max-width: 36rem;
+  margin: 0;
+  color: rgba(232,222,202,.72);
+  font-size: 1.02rem;
+  line-height: 1.66;
+}
+
+.card-modal__content .button {
+  width: fit-content;
+}
+
 @media (max-width: 920px) {
   .cards-vault-page {
     overflow-x: hidden;
@@ -483,6 +639,22 @@
 
   .cards-collection-section .section-head h2 {
     font-size: clamp(2.2rem, 12vw, 3.4rem);
+  }
+
+  .card-modal__panel {
+    grid-template-columns: 1fr;
+  }
+
+  .card-modal__content {
+    padding-block: 0 4px;
+  }
+
+  .card-modal__content dl {
+    grid-template-columns: 1fr;
+  }
+
+  .card-modal__content .button {
+    width: 100%;
   }
 }
 
