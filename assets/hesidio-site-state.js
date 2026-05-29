@@ -135,6 +135,7 @@
       <a class="released-cover-card" href="${escapeHtml(episode.url)}">
         <figure class="watermarked-image watermarked-image--page watermarked-image--soft-center" oncontextmenu="return false">
           <img src="${escapeHtml(episode.coverImage)}" alt="${escapeHtml(episode.coverAlt || `Capa do EP ${padEpisode(episode.number)} de HESIDIO`)}" draggable="false" loading="lazy" decoding="async">
+          <span class="watermarked-image__center" aria-hidden="true">HESIDIO</span>
           <span class="watermarked-image__pattern" aria-hidden="true">HESIDIO · @hesidio</span>
           <span class="watermarked-image__diagonal" aria-hidden="true">HESIDIO</span>
           <span class="watermarked-image__corner" aria-hidden="true"><strong>HESIDIO</strong><small>@hesidio</small></span>
