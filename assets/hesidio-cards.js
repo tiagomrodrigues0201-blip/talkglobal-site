@@ -116,18 +116,25 @@ function getDownloadName(card) {
 
 function cardMarkup(card) {
   const owned = Boolean(card.owned);
+  const living = owned && Boolean(card.living_card);
   const imagePath = card.image_path || '/public/cards/ren_natal.png';
   const stateLabel = owned ? 'Desbloqueada' : 'Bloqueada';
   const wrapperTag = owned ? 'button' : 'article';
   const actionAttrs = owned ? `type="button" data-card-open="${escapeHtml(card.slug)}" aria-label="Abrir carta ${escapeHtml(card.title)}"` : '';
 
   return `
-    <${wrapperTag} class="collectible-card ${owned ? 'is-owned' : 'is-locked'}" ${actionAttrs}>
+    <${wrapperTag} class="collectible-card ${owned ? 'is-owned' : 'is-locked'} ${living ? 'has-living-card' : ''}" ${actionAttrs}>
       <div class="collectible-card__frame">
-        <figure class="watermarked-image collectible-card__image" oncontextmenu="return false">
+        <figure class="watermarked-image collectible-card__image ${living ? 'is-living-card' : ''}" ${living ? `data-living-effect="${escapeHtml(card.living_effect || '')}"` : ''} oncontextmenu="return false">
           <img src="${escapeHtml(imagePath)}" alt="${owned ? `${escapeHtml(card.title)}, carta colecionável de ${escapeHtml(card.character)}` : 'Carta colecionável bloqueada de HESIDIO'}" draggable="false" loading="lazy" decoding="async">
           <span class="watermarked-image__pattern" aria-hidden="true">HESIDIO · @hesidio</span>
           <span class="watermarked-image__diagonal" aria-hidden="true">HESIDIO</span>
+          ${living ? `
+          <span class="card-living-layer card-living-layer--helion" aria-hidden="true"></span>
+          <span class="card-living-layer card-living-layer--snow" aria-hidden="true"></span>
+          <span class="card-living-layer card-living-layer--embers" aria-hidden="true"></span>
+          <span class="card-living-layer card-living-layer--winter" aria-hidden="true"></span>
+          ` : ''}
           <span class="watermarked-image__corner" aria-hidden="true"><strong>HESIDIO</strong><small>@hesidio</small></span>
         </figure>
       </div>
@@ -135,7 +142,7 @@ function cardMarkup(card) {
         <span>${stateLabel} // Semana ${escapeHtml(card.week)}</span>
         <h2>${owned ? escapeHtml(card.title) : 'Registro lacrado'}</h2>
         <p>${owned ? `${escapeHtml(card.character)} · Raridade ${escapeHtml(card.rarity)}` : 'Faça login para receber o presente semanal atual do arquivo HESIDIO.'}</p>
-        <small>${card.release_type === 'weekly_gift' ? 'Presente semanal' : 'Arquivo especial'}</small>
+        <small>${living ? 'Carta viva · toque para ampliar' : card.release_type === 'weekly_gift' ? 'Presente semanal' : 'Arquivo especial'}</small>
       </div>
     </${wrapperTag}>
   `;

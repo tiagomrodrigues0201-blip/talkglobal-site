@@ -6,10 +6,10 @@
     currentEpisodeStatus: "DISPONÍVEL",
     currentCardSlug: "ren_natal",
     currentCardTitle: "Ren Natal",
-    latestArticleTitle: "HESIDIO: quando o mundo começa a esquecer a si mesmo",
-    latestArticleUrl: "/blog/hesidio-mundo-esqueceu-memoria-identidade.html",
-    weeklyArticleEnabled: false,
-    weeklyArticleStatus: "OFFLINE / RASCUNHO",
+    latestArticleTitle: "Por Que Berserk Continua Sendo o Maior Mangá Dark Fantasy Já Criado?",
+    latestArticleUrl: "/artigos/por-que-berserk-continua-sendo-o-maior-dark-fantasy/",
+    weeklyArticleEnabled: true,
+    weeklyArticleStatus: "ARTIGO DA SEMANA",
     weeklyArticleTitle: "Por Que Berserk Continua Sendo o Maior Mangá Dark Fantasy Já Criado?",
     weeklyArticleUrl: "/artigos/por-que-berserk-continua-sendo-o-maior-dark-fantasy/",
     weeklyArticleImage: "/articles/berserk-dark-fantasy-cover.webp",
@@ -209,6 +209,14 @@
 
     document.querySelectorAll("[data-hesidio-state-content]").forEach((element) => {
       element.setAttribute("content", getValue(element.dataset.hesidioStateContent));
+    });
+
+    document.querySelectorAll("[data-hesidio-state-src]").forEach((element) => {
+      element.setAttribute("src", getValue(element.dataset.hesidioStateSrc));
+    });
+
+    document.querySelectorAll("[data-hesidio-state-alt]").forEach((element) => {
+      element.setAttribute("alt", getValue(element.dataset.hesidioStateAlt));
     });
 
     document.querySelectorAll("[data-hesidio-episodes]").forEach((element) => {
