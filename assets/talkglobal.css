@@ -617,6 +617,106 @@ button.collectible-card {
   -webkit-user-drag: none;
 }
 
+.card-living-layer {
+  display: none;
+}
+
+.card-modal__image.is-living-card {
+  isolation: isolate;
+  box-shadow:
+    0 18px 80px rgba(0,0,0,.5),
+    0 0 0 1px rgba(184,148,75,.16),
+    0 0 44px rgba(111,13,18,.18);
+}
+
+.card-modal__image.is-living-card .card-living-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: block;
+  pointer-events: none;
+}
+
+.card-modal__image.is-living-card .card-living-layer--helion {
+  z-index: 5;
+  opacity: .28;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(circle at 22% 76%, rgba(111,13,18,.34), transparent 26%),
+    radial-gradient(circle at 70% 28%, rgba(36,35,42,.38), transparent 31%),
+    radial-gradient(circle at 48% 52%, rgba(139,17,24,.2), transparent 34%);
+  filter: blur(16px);
+  transform: scale(1.08);
+  animation: cardHelionSmoke 18s ease-in-out infinite alternate;
+}
+
+.card-modal__image.is-living-card .card-living-layer--snow {
+  opacity: .42;
+  background-image:
+    radial-gradient(circle, rgba(232,236,238,.62) 0 1px, transparent 1.5px),
+    radial-gradient(circle, rgba(232,236,238,.34) 0 1px, transparent 1.6px);
+  background-size: 78px 98px, 124px 148px;
+  background-position: 0 -100px, 34px -160px;
+  animation: cardSnowFall 24s linear infinite;
+}
+
+.card-modal__image.is-living-card .card-living-layer--embers {
+  opacity: .55;
+  mix-blend-mode: screen;
+  background-image:
+    radial-gradient(circle at 18% 72%, rgba(183,26,32,.72) 0 1px, transparent 2.5px),
+    radial-gradient(circle at 72% 36%, rgba(139,17,24,.62) 0 1px, transparent 2px),
+    radial-gradient(circle at 56% 84%, rgba(184,148,75,.34) 0 1px, transparent 2.4px);
+  animation: cardRedSparks 7.5s ease-in-out infinite;
+}
+
+.card-modal__image.is-living-card .card-living-layer--winter {
+  opacity: .3;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(circle at 28% 20%, rgba(216,198,157,.26) 0 1px, transparent 2.2px),
+    radial-gradient(circle at 82% 64%, rgba(232,222,202,.2) 0 1px, transparent 2.4px),
+    radial-gradient(circle at 64% 12%, rgba(122,28,32,.18) 0 1px, transparent 2.4px);
+  animation: cardWinterGlints 11s ease-in-out infinite;
+}
+
+@keyframes cardSnowFall {
+  from { background-position: 0 -100px, 34px -160px; }
+  to { background-position: 18px 520px, -20px 620px; }
+}
+
+@keyframes cardHelionSmoke {
+  from {
+    opacity: .18;
+    transform: translate3d(-2%, 1%, 0) scale(1.08);
+  }
+  to {
+    opacity: .34;
+    transform: translate3d(3%, -2%, 0) scale(1.13);
+  }
+}
+
+@keyframes cardRedSparks {
+  0%, 100% {
+    opacity: .2;
+    transform: translateY(4px);
+  }
+  42% {
+    opacity: .66;
+    transform: translateY(-4px);
+  }
+  72% {
+    opacity: .32;
+    transform: translateY(-1px);
+  }
+}
+
+@keyframes cardWinterGlints {
+  0%, 100% { opacity: .14; }
+  35% { opacity: .38; }
+  68% { opacity: .22; }
+}
+
 .card-modal__content {
   align-self: end;
   display: grid;
@@ -724,6 +824,12 @@ button.collectible-card {
 
   .card-modal__content .button {
     width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-modal__image.is-living-card .card-living-layer {
+    animation: none;
   }
 }
 
@@ -4436,6 +4542,24 @@ body::after {
   font-weight: 850;
 }
 
+.hesidio-weekly-article .hesidio-news-header {
+  grid-template-columns: 1fr;
+}
+
+.hesidio-weekly-article .hesidio-news-header h1 {
+  max-width: 18ch;
+  font-size: clamp(2.65rem, 4.55vw, 5.6rem);
+}
+
+.hesidio-weekly-article .hesidio-news-header > div > p {
+  max-width: 58ch;
+}
+
+.hesidio-weekly-article .hesidio-news-hero {
+  width: 100%;
+  max-width: 100%;
+}
+
 .hesidio-news-hero {
   position: relative;
   min-height: clamp(460px, 52vw, 680px);
@@ -4475,6 +4599,41 @@ body::after {
   user-select: none;
   -webkit-user-drag: none;
   filter: contrast(1.08) saturate(.9);
+}
+
+.hesidio-news-hero--landscape {
+  min-height: 0;
+  aspect-ratio: 1200 / 630;
+}
+
+.hesidio-news-hero--landscape img {
+  min-height: 0;
+  object-position: center;
+}
+
+.hesidio-news-article .hesidio-news-hero::before,
+.hesidio-news-article .hesidio-news-hero .watermarked-image__diagonal,
+.hesidio-news-article .hesidio-news-hero .watermarked-image__pattern {
+  display: none;
+}
+
+.hesidio-news-article .hesidio-news-hero .watermarked-image__corner {
+  right: 18px;
+  bottom: 16px;
+  color: rgba(255,246,226,.64);
+  font-family: Georgia, "Times New Roman", ui-serif, serif;
+  opacity: .78;
+  text-shadow: 0 2px 12px rgba(0,0,0,.92);
+}
+
+.hesidio-news-article .hesidio-news-hero .watermarked-image__corner strong {
+  font-size: clamp(.62rem, 1.1vw, .82rem);
+  letter-spacing: .18em;
+}
+
+.hesidio-news-article .hesidio-news-hero .watermarked-image__corner small {
+  font-size: clamp(.54rem, .9vw, .68rem);
+  letter-spacing: .08em;
 }
 
 .hesidio-news-hero figcaption {
@@ -4649,6 +4808,11 @@ body::after {
     width: min(100%, 620px);
     min-height: min(136vw, 820px);
   }
+
+  .hesidio-news-hero--landscape {
+    width: 100%;
+    min-height: 0;
+  }
 }
 
 @media (max-width: 720px) {
@@ -4687,15 +4851,54 @@ body::after {
     font-size: clamp(1.55rem, 6.7vw, 2rem);
   }
 
+  .hesidio-weekly-article .hesidio-news-header h1 {
+    font-size: clamp(2rem, 10vw, 2.75rem);
+    overflow-wrap: anywhere;
+  }
+
+  .hesidio-weekly-article .hesidio-news-header,
+  .hesidio-weekly-article .hesidio-news-header > div,
+  .hesidio-weekly-article .hesidio-news-header h1,
+  .hesidio-weekly-article .hesidio-news-header > div > p,
+  .hesidio-weekly-article .hesidio-news-alert,
+  .hesidio-weekly-article .hesidio-news-body {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible;
+    overflow-wrap: anywhere;
+    box-sizing: border-box;
+  }
+
+  .hesidio-weekly-article .hesidio-news-header h1,
+  .hesidio-weekly-article .hesidio-news-header > div > p,
+  .hesidio-weekly-article .hesidio-news-alert,
+  .hesidio-weekly-article .hesidio-news-body {
+    width: calc(100% - 48px) !important;
+    max-width: calc(100% - 48px) !important;
+  }
+
   .hesidio-news-header > div > p {
     width: calc(100vw - 72px) !important;
     max-width: calc(100vw - 72px) !important;
     font-size: .96rem;
   }
 
+  .hesidio-weekly-article .hesidio-news-header > div > p {
+    width: calc(100% - 48px) !important;
+    max-width: calc(100% - 48px) !important;
+  }
+
+  .hesidio-weekly-article .hesidio-news-alert li {
+    overflow-wrap: anywhere;
+  }
+
   .hesidio-news-hero {
     width: 100%;
     min-height: min(148vw, 690px);
+  }
+
+  .hesidio-news-hero--landscape {
+    min-height: 0;
   }
 
   .hesidio-news-hero::after {

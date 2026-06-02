@@ -8,6 +8,13 @@
     currentCardTitle: "Ren Natal",
     latestArticleTitle: "HESIDIO: quando o mundo começa a esquecer a si mesmo",
     latestArticleUrl: "/blog/hesidio-mundo-esqueceu-memoria-identidade.html",
+    weeklyArticleEnabled: false,
+    weeklyArticleStatus: "OFFLINE / RASCUNHO",
+    weeklyArticleTitle: "Por Que Berserk Continua Sendo o Maior Mangá Dark Fantasy Já Criado?",
+    weeklyArticleUrl: "/artigos/por-que-berserk-continua-sendo-o-maior-dark-fantasy/",
+    weeklyArticleImage: "/articles/berserk-dark-fantasy-cover.webp",
+    weeklyArticleImageAlt: "Guerreiro solitário diante de um eclipse vermelho em um cenário dark fantasy devastado.",
+    weeklyArticleSubtitle: "Uma análise sobre a obra que definiu o Dark Fantasy moderno e continua influenciando mangás, jogos e universos sombrios.",
     nextEpisodeNumber: 3,
     nextEpisodeDate: "06/06/2026",
     episodes: [

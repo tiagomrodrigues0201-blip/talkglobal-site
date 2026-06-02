@@ -12,8 +12,17 @@ const DEFAULT_CARDS = [{
   image_path: SITE_STATE.getValue ? SITE_STATE.getValue('currentCardImage') : '/public/cards/ren_natal.png',
   description: 'Um presente do cofre HESIDIO. Ren Hazama aparece preservado como lembrança de uma noite que não pertence totalmente ao arquivo.',
   active: true,
-  owned: false
+  owned: false,
+  living_card: true,
+  living_effect: 'christmas_helion'
 }];
+
+const LIVING_CARD_EFFECTS = {
+  ren_natal: {
+    living_card: true,
+    living_effect: 'christmas_helion'
+  }
+};
 
 const state = {
   client: null,
@@ -93,6 +102,14 @@ function getCardDescription(card) {
   return 'Registro visual preservado no cofre HESIDIO. O arquivo mantém a descrição incompleta.';
 }
 
+function enrichCard(card) {
+  if (!card || typeof card !== 'object') return card;
+  return {
+    ...card,
+    ...(LIVING_CARD_EFFECTS[card.slug] || {})
+  };
+}
+
 function getDownloadName(card) {
   return `${card.slug || 'hesidio-carta'}.png`.replace(/[^a-z0-9._-]+/gi, '-').toLowerCase();
 }
@@ -145,7 +162,7 @@ function renderCards() {
 }
 
 function openCardModal(slug) {
-  const card = state.cards.find((item) => item.slug === slug && item.owned);
+  const card = enrichCard(state.cards.find((item) => item.slug === slug && item.owned));
   const modal = getElement(selectors.modal);
   if (!card || !modal) return;
 
@@ -157,6 +174,7 @@ function openCardModal(slug) {
   const week = getElement(selectors.modalWeek);
   const description = getElement(selectors.modalDescription);
   const download = getElement(selectors.modalDownload);
+  const modalImage = modal.querySelector('.card-modal__image');
 
   if (image) {
     image.src = imagePath;
@@ -171,6 +189,10 @@ function openCardModal(slug) {
     download.href = imagePath;
     download.download = getDownloadName(card);
   }
+  if (modalImage) {
+    modalImage.classList.toggle('is-living-card', Boolean(card.living_card));
+    modalImage.dataset.livingEffect = card.living_effect || '';
+  }
 
   modal.hidden = false;
   document.body.classList.add('has-card-modal');
@@ -180,6 +202,11 @@ function openCardModal(slug) {
 function closeCardModal() {
   const modal = getElement(selectors.modal);
   if (!modal) return;
+  const modalImage = modal.querySelector('.card-modal__image');
+  if (modalImage) {
+    modalImage.classList.remove('is-living-card');
+    delete modalImage.dataset.livingEffect;
+  }
   modal.hidden = true;
   document.body.classList.remove('has-card-modal');
 }
@@ -206,10 +233,10 @@ async function apiFetch(path, options = {}) {
 async function loadCards() {
   try {
     const payload = await apiFetch('/api/cards', { method: 'GET' });
-    state.cards = Array.isArray(payload.cards) ? payload.cards : DEFAULT_CARDS;
+    state.cards = Array.isArray(payload.cards) ? payload.cards.map(enrichCard) : DEFAULT_CARDS.map(enrichCard);
     renderCards();
   } catch (error) {
-    state.cards = DEFAULT_CARDS;
+    state.cards = DEFAULT_CARDS.map(enrichCard);
     renderCards();
     throw error;
   }
@@ -239,7 +266,7 @@ async function refreshAfterAuth() {
 async function initSupabase() {
   if (!window.supabase?.createClient) {
     setStatus('O cliente de login ainda não carregou. Recarregue a página em alguns segundos.', 'error');
-    state.cards = DEFAULT_CARDS;
+    state.cards = DEFAULT_CARDS.map(enrichCard);
     renderCards();
     return;
   }
@@ -255,7 +282,7 @@ async function initSupabase() {
 
   if (!config.configured) {
     setStatus('Supabase Auth ainda precisa ser configurado para liberar o cofre de cartas.', 'error');
-    state.cards = DEFAULT_CARDS;
+    state.cards = DEFAULT_CARDS.map(enrichCard);
     renderCards();
     return;
   }
