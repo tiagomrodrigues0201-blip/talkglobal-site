@@ -8,6 +8,8 @@
     currentCardTitle: "Ren Natal",
     latestArticleTitle: "Por Que Berserk Continua Sendo o Maior Mangá Dark Fantasy Já Criado?",
     latestArticleUrl: "/artigos/por-que-berserk-continua-sendo-o-maior-dark-fantasy/",
+    homeHeroImage: "/public/studios/hesidio-poster.png",
+    homeHeroImageAlt: "Fragmento visual restrito de HESIDIO.",
     weeklyArticleEnabled: true,
     weeklyArticleStatus: "ARTIGO DA SEMANA",
     weeklyArticleTitle: "Por Que Berserk Continua Sendo o Maior Mangá Dark Fantasy Já Criado?",
@@ -15,6 +17,14 @@
     weeklyArticleImage: "/articles/berserk-dark-fantasy-cover.webp",
     weeklyArticleImageAlt: "Guerreiro solitário diante de um eclipse vermelho em um cenário dark fantasy devastado.",
     weeklyArticleSubtitle: "Uma análise sobre a obra que definiu o Dark Fantasy moderno e continua influenciando mangás, jogos e universos sombrios.",
+    featuredVideoEnabled: false,
+    featuredVideoStatus: "DESTAQUE EM VÍDEO",
+    featuredVideoSlug: "registro-001",
+    featuredVideoTitle: "O Primeiro Despertar de Ren Hazama",
+    featuredVideoUrl: "/videos/registro-001.html",
+    featuredVideoImage: "/public/videos/registro-001-poster.jpg",
+    featuredVideoImageAlt: "Miniatura do Registro 001 do Arquivo de Vídeos HESIDIO.",
+    featuredVideoSubtitle: "Registro audiovisual preservado para futuras cenas, bastidores e fragmentos oficiais de HESIDIO.",
     nextEpisodeNumber: 3,
     nextEpisodeDate: "06/06/2026",
     episodes: [
@@ -54,6 +64,120 @@
         file: "AIR-02",
         signal: "HUMANO",
         episodeNumber: 1
+      }
+    ],
+    videos: [
+      {
+        slug: "registro-001",
+        number: 1,
+        status: "OFFLINE / MODELO",
+        title: "O Primeiro Despertar de Ren Hazama",
+        url: "/videos/registro-001.html",
+        thumbnail: "/public/videos/registro-001-poster.jpg",
+        thumbnailAlt: "Miniatura do Registro 001 do Arquivo de Vídeos HESIDIO.",
+        description: "Estrutura reservada para o primeiro registro audiovisual oficial de HESIDIO.",
+        summary: "Um modelo de registro em vídeo para apresentar cenas, teasers ou fragmentos oficiais sem carregar mídia automaticamente.",
+        characters: ["Ren Hazama"],
+        context: "Registro preparado para acompanhar o arquivo público de HESIDIO sem revelar spoilers centrais.",
+        videoSrc: "/public/videos/registro-001.mp4",
+        embedUrl: "",
+        publishDate: "2026-06-02"
+      },
+      {
+        slug: "registro-002",
+        number: 2,
+        status: "OFFLINE / MODELO",
+        title: "Arquivo Visual Selado",
+        url: "/videos/registro-002.html",
+        thumbnail: "/public/videos/registro-002-poster.jpg",
+        thumbnailAlt: "Miniatura do Registro 002 do Arquivo de Vídeos HESIDIO.",
+        description: "Estrutura reservada para um futuro registro audiovisual do universo HESIDIO.",
+        summary: "Modelo pronto para um novo vídeo, com SEO, thumbnail, contexto e navegação interna.",
+        characters: ["A confirmar"],
+        context: "Registro ainda sem conteúdo final. O arquivo permanece preparado para revisão editorial.",
+        videoSrc: "/public/videos/registro-002.mp4",
+        embedUrl: "",
+        publishDate: "2026-06-02"
+      },
+      {
+        slug: "registro-003",
+        number: 3,
+        status: "OFFLINE / MODELO",
+        title: "Fragmento Audiovisual Lacrado",
+        url: "/videos/registro-003.html",
+        thumbnail: "/public/videos/registro-003-poster.jpg",
+        thumbnailAlt: "Miniatura do Registro 003 do Arquivo de Vídeos HESIDIO.",
+        description: "Estrutura reservada para expandir o arquivo de vídeos oficiais de HESIDIO.",
+        summary: "Página-modelo para futuras publicações em vídeo, sem autoplay e sem iframe carregado antes do clique.",
+        characters: ["A confirmar"],
+        context: "Conteúdo em modo offline até aprovação e inserção do vídeo final.",
+        videoSrc: "/public/videos/registro-003.mp4",
+        embedUrl: "",
+        publishDate: "2026-06-02"
+      },
+      {
+        slug: "registro-004",
+        number: 4,
+        status: "OFFLINE / MODELO",
+        title: "Registro Visual 004",
+        url: "/videos/registro-004.html",
+        thumbnail: "/public/videos/registro-004-poster.jpg",
+        thumbnailAlt: "Miniatura do Registro 004 do Arquivo de Vídeos HESIDIO.",
+        description: "Registro audiovisual preparado em versão leve para revisão editorial.",
+        summary: "Arquivo otimizado para o site, com carregamento apenas após o clique do leitor.",
+        characters: ["A confirmar"],
+        context: "Conteúdo preservado em modo offline até aprovação final.",
+        videoSrc: "/public/videos/registro-004.mp4",
+        embedUrl: "",
+        publishDate: "2026-06-02"
+      },
+      {
+        slug: "registro-005",
+        number: 5,
+        status: "OFFLINE / MODELO",
+        title: "Registro Visual 005",
+        url: "/videos/registro-005.html",
+        thumbnail: "/public/videos/registro-005-poster.jpg",
+        thumbnailAlt: "Miniatura do Registro 005 do Arquivo de Vídeos HESIDIO.",
+        description: "Registro audiovisual preparado em versão leve para revisão editorial.",
+        summary: "Arquivo otimizado para o site, com thumbnail inicial e vídeo carregado sob demanda.",
+        characters: ["A confirmar"],
+        context: "Conteúdo preservado em modo offline até aprovação final.",
+        videoSrc: "/public/videos/registro-005.mp4",
+        embedUrl: "",
+        publishDate: "2026-06-02"
+      },
+      {
+        slug: "registro-006",
+        number: 6,
+        status: "OFFLINE / MODELO",
+        title: "Registro Visual 006",
+        url: "/videos/registro-006.html",
+        thumbnail: "/public/videos/registro-006-poster.jpg",
+        thumbnailAlt: "Miniatura do Registro 006 do Arquivo de Vídeos HESIDIO.",
+        description: "Registro audiovisual preparado em versão leve para revisão editorial.",
+        summary: "Arquivo comprimido para navegação rápida, mantendo o visual do arquivo HESIDIO.",
+        characters: ["A confirmar"],
+        context: "Conteúdo preservado em modo offline até aprovação final.",
+        videoSrc: "/public/videos/registro-006.mp4",
+        embedUrl: "",
+        publishDate: "2026-06-02"
+      },
+      {
+        slug: "registro-007",
+        number: 7,
+        status: "OFFLINE / MODELO",
+        title: "Registro Visual 007",
+        url: "/videos/registro-007.html",
+        thumbnail: "/public/videos/registro-007-poster.jpg",
+        thumbnailAlt: "Miniatura do Registro 007 do Arquivo de Vídeos HESIDIO.",
+        description: "Registro audiovisual preparado em versão leve para revisão editorial.",
+        summary: "O maior arquivo bruto foi convertido para uma versão web muito mais leve, sem autoplay.",
+        characters: ["A confirmar"],
+        context: "Conteúdo preservado em modo offline até aprovação final.",
+        videoSrc: "/public/videos/registro-007.mp4",
+        embedUrl: "",
+        publishDate: "2026-06-02"
       }
     ]
   };
@@ -115,6 +239,20 @@
 
   const releasedEpisodes = () => state.episodes.filter((episode) => episode.number <= state.currentEpisodeNumber && episode.coverImage);
   const releasedCharacters = () => state.releasedCharacters.filter((character) => character.episodeNumber <= state.currentEpisodeNumber);
+  const videoBySlug = (slug) => state.videos.find((video) => video.slug === slug) || state.videos[0];
+  const padVideo = (number) => String(number).padStart(3, "0");
+
+  const videoStatusLabel = (video) => video.status || "OFFLINE / MODELO";
+
+  const renderVideoFrame = (video) => `
+    <div class="video-frame" data-video-frame>
+      <img src="${escapeHtml(video.thumbnail)}" alt="${escapeHtml(video.thumbnailAlt)}" loading="lazy" decoding="async">
+      <div class="video-frame__veil" aria-hidden="true"></div>
+      <button class="video-frame__play" type="button" data-video-play data-video-src="${escapeHtml(video.videoSrc || "")}" data-video-embed="${escapeHtml(video.embedUrl || "")}" data-video-title="${escapeHtml(video.title)}" ${video.videoSrc || video.embedUrl ? "" : "disabled"}>
+        ${video.videoSrc || video.embedUrl ? "Carregar vídeo" : "Vídeo aguardando liberação"}
+      </button>
+    </div>
+  `;
 
   const renderStack = (target) => {
     target.innerHTML = state.episodes.map((episode) => `
@@ -198,6 +336,82 @@
     }).join("");
   };
 
+  const renderVideosList = (target) => {
+    target.innerHTML = state.videos.map((video) => `
+      <article class="video-record-card">
+        <a href="${escapeHtml(video.url)}" aria-label="Abrir ${escapeHtml(video.title)}">
+          <figure>
+            <img src="${escapeHtml(video.thumbnail)}" alt="${escapeHtml(video.thumbnailAlt)}" loading="lazy" decoding="async">
+            <span>REGISTRO ${padVideo(video.number)}</span>
+          </figure>
+          <div>
+            <small>${escapeHtml(videoStatusLabel(video))}</small>
+            <h2>${escapeHtml(video.title)}</h2>
+            <p>${escapeHtml(video.description)}</p>
+            <strong>Abrir registro</strong>
+          </div>
+        </a>
+      </article>
+    `).join("");
+  };
+
+  const renderVideoRecord = (target) => {
+    const video = videoBySlug(target.dataset.videoSlug);
+    target.innerHTML = `
+      <section class="video-record-hero">
+        <div class="container video-record-layout">
+          <div>
+            <span class="kicker">REGISTRO ${padVideo(video.number)} // ${escapeHtml(videoStatusLabel(video))}</span>
+            <h1>${escapeHtml(video.title)}</h1>
+            <p>${escapeHtml(video.description)}</p>
+          </div>
+          <aside>
+            <span>ARQUIVO AUDIOVISUAL</span>
+            <strong>OFFLINE</strong>
+            <p>Estrutura preparada para revisão editorial antes da publicação pública.</p>
+          </aside>
+        </div>
+      </section>
+      <section class="video-record-body">
+        <div class="container video-record-body__grid">
+          <article class="video-record-main">
+            ${renderVideoFrame(video)}
+            <div class="video-record-text">
+              <span>RESUMO</span>
+              <p>${escapeHtml(video.summary)}</p>
+              <span>CONTEXTO DA CENA</span>
+              <p>${escapeHtml(video.context)}</p>
+            </div>
+          </article>
+          <aside class="video-record-side">
+            <div>
+              <span>PERSONAGENS ENVOLVIDOS</span>
+              <ul>${video.characters.map((name) => `<li>${escapeHtml(name)}</li>`).join("")}</ul>
+            </div>
+            <div>
+              <span>LINKS INTERNOS</span>
+              <a href="/manga/">Episódios</a>
+              <a href="/personagens/ren-hazama/">Personagens</a>
+              <a href="/cartas/">Cartas</a>
+              <a href="/blog/">Artigos</a>
+            </div>
+          </aside>
+        </div>
+      </section>
+      <section class="video-explore-section">
+        <div class="container">
+          <span class="kicker">CONTINUAR EXPLORANDO</span>
+          <div class="video-explore-grid">
+            <a href="/manga/"><span>Episódios</span><strong>Arquivo do mangá</strong></a>
+            <a href="/personagens/ren-hazama/"><span>Personagens</span><strong>Dossiês públicos</strong></a>
+            <a href="/cartas/"><span>Cartas</span><strong>Cofre colecionável</strong></a>
+            <a href="/blog/"><span>Artigos</span><strong>Registros editoriais</strong></a>
+          </div>
+        </div>
+      </section>
+    `;
+  };
+
   function applySiteState() {
     document.querySelectorAll("[data-hesidio-state-text]").forEach((element) => {
       element.textContent = getValue(element.dataset.hesidioStateText);
@@ -226,12 +440,16 @@
 
     document.querySelectorAll("[data-hesidio-episode-covers]").forEach(renderEpisodeCovers);
     document.querySelectorAll("[data-hesidio-characters]").forEach(renderCharacters);
+    document.querySelectorAll("[data-hesidio-videos-list]").forEach(renderVideosList);
+    document.querySelectorAll("[data-hesidio-video-record]").forEach(renderVideoRecord);
+    document.dispatchEvent(new CustomEvent("hesidio:content-rendered"));
   }
 
   window.HESIDIO_SITE_STATE = Object.freeze({
     ...state,
     computed,
     getValue,
+    videoBySlug,
     applySiteState
   });
 

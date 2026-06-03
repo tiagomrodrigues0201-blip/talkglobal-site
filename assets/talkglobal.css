@@ -128,6 +128,86 @@
   }
 }
 
+/* Final override: Ren Natal living card is a reward, not a hidden archive image. */
+.collectible-card.has-living-card .collectible-card__image,
+.card-modal__image.is-living-card {
+  background: #050101 !important;
+}
+
+.collectible-card.has-living-card .collectible-card__image::before,
+.collectible-card.has-living-card .collectible-card__image::after,
+.card-modal__image.is-living-card::before,
+.card-modal__image.is-living-card::after,
+.collectible-card.has-living-card .watermarked-image__diagonal,
+.collectible-card.has-living-card .watermarked-image__pattern,
+.card-modal__image.is-living-card .watermarked-image__diagonal,
+.card-modal__image.is-living-card .watermarked-image__pattern {
+  display: none !important;
+}
+
+.collectible-card.has-living-card .collectible-card__image img,
+.card-modal__image.is-living-card img {
+  position: relative !important;
+  z-index: 1 !important;
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+.collectible-card.has-living-card .collectible-card__image img,
+.card-modal__image.is-living-card img {
+  object-fit: contain !important;
+}
+
+.card-modal__image.is-living-card {
+  width: min(100%, 560px) !important;
+  max-height: calc(92vh - 68px);
+  border-color: rgba(216,198,157,.42) !important;
+  box-shadow:
+    0 28px 110px rgba(0,0,0,.62),
+    0 0 0 1px rgba(184,148,75,.2),
+    0 0 54px rgba(111,13,18,.2) !important;
+}
+
+.collectible-card.has-living-card .watermarked-image__corner,
+.card-modal__image.is-living-card .watermarked-image__corner {
+  z-index: 8 !important;
+  right: 18px !important;
+  bottom: 16px !important;
+  color: rgba(255,246,226,.62) !important;
+  opacity: .82 !important;
+  text-shadow: 0 2px 12px rgba(0,0,0,.85) !important;
+}
+
+.is-living-card .card-living-layer {
+  pointer-events: none !important;
+}
+
+.is-living-card .card-living-layer--helion {
+  z-index: 0 !important;
+  opacity: .18 !important;
+  filter: none !important;
+}
+
+.is-living-card .card-living-layer--snow {
+  opacity: .34 !important;
+}
+
+.is-living-card .card-living-layer--embers {
+  opacity: .44 !important;
+}
+
+.is-living-card .card-living-layer--winter {
+  opacity: .24 !important;
+}
+
+@media (max-width: 920px) {
+  .card-modal__image.is-living-card {
+    width: min(100%, 430px) !important;
+    margin-inline: auto;
+  }
+}
+
 @media (max-width: 720px) {
   body:not(.reader-page) {
     overflow-x: hidden;
@@ -195,6 +275,410 @@
 
   .weekly-article-feature__image {
     width: 100%;
+  }
+}
+
+/* Living collectible cards: the reward art must be visible and premium. */
+.collectible-card.has-living-card .collectible-card__image,
+.card-modal__image.is-living-card {
+  background: #050101;
+}
+
+.collectible-card.has-living-card .collectible-card__image::before,
+.collectible-card.has-living-card .collectible-card__image::after,
+.card-modal__image.is-living-card::before,
+.card-modal__image.is-living-card::after,
+.collectible-card.has-living-card .watermarked-image__diagonal,
+.collectible-card.has-living-card .watermarked-image__pattern,
+.card-modal__image.is-living-card .watermarked-image__diagonal,
+.card-modal__image.is-living-card .watermarked-image__pattern {
+  display: none !important;
+}
+
+.collectible-card.has-living-card .collectible-card__image img,
+.card-modal__image.is-living-card img {
+  position: relative;
+  z-index: 1;
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+.collectible-card.has-living-card .collectible-card__image img {
+  object-fit: contain;
+}
+
+.card-modal__image.is-living-card {
+  width: min(100%, 560px);
+  max-height: calc(92vh - 68px);
+  border-color: rgba(216,198,157,.42);
+  box-shadow:
+    0 28px 110px rgba(0,0,0,.62),
+    0 0 0 1px rgba(184,148,75,.2),
+    0 0 54px rgba(111,13,18,.2);
+}
+
+.card-modal__image.is-living-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.collectible-card.has-living-card .watermarked-image__corner,
+.card-modal__image.is-living-card .watermarked-image__corner {
+  z-index: 8;
+  right: 18px;
+  bottom: 16px;
+  color: rgba(255,246,226,.62) !important;
+  opacity: .82;
+  text-shadow: 0 2px 12px rgba(0,0,0,.85);
+}
+
+.collectible-card.has-living-card .watermarked-image__corner strong,
+.card-modal__image.is-living-card .watermarked-image__corner strong {
+  font-size: .76rem;
+  letter-spacing: .18em;
+}
+
+.collectible-card.has-living-card .watermarked-image__corner small,
+.card-modal__image.is-living-card .watermarked-image__corner small {
+  font-size: .64rem;
+}
+
+.is-living-card .card-living-layer {
+  z-index: 6;
+}
+
+.is-living-card .card-living-layer--helion {
+  z-index: 0;
+  opacity: .18;
+}
+
+.is-living-card .card-living-layer--snow {
+  opacity: .34;
+}
+
+.is-living-card .card-living-layer--embers {
+  opacity: .44;
+}
+
+.is-living-card .card-living-layer--winter {
+  opacity: .24;
+}
+
+.card-modal__panel:has(.card-modal__image.is-living-card) {
+  grid-template-columns: minmax(320px, 560px) minmax(280px, 440px);
+  align-items: center;
+}
+
+.card-modal__panel:has(.card-modal__image.is-living-card) .card-modal__content {
+  align-self: center;
+}
+
+@media (max-width: 920px) {
+  .card-modal__panel:has(.card-modal__image.is-living-card) {
+    grid-template-columns: 1fr;
+  }
+
+  .card-modal__image.is-living-card {
+    width: min(100%, 430px);
+    margin-inline: auto;
+  }
+}
+
+/* HESIDIO video archive: offline structure, no autoplay media. */
+.video-archive-page,
+.video-record-page {
+  background:
+    radial-gradient(circle at 72% 8%, rgba(127, 14, 21, .16), transparent 28rem),
+    linear-gradient(180deg, #030101 0%, #080303 48%, #020101 100%);
+  color: var(--ivory, #fff3df);
+}
+
+.video-archive-hero,
+.video-record-hero {
+  padding: clamp(118px, 13vw, 172px) 0 clamp(44px, 7vw, 84px);
+  border-bottom: 1px solid rgba(139, 17, 24, .3);
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 9px),
+    linear-gradient(120deg, rgba(97, 10, 14, .22), transparent 54%);
+}
+
+.video-archive-hero h1,
+.video-record-hero h1 {
+  max-width: 980px;
+  margin: 16px 0 18px;
+  font-family: var(--serif, Georgia, "Times New Roman", ui-serif, serif);
+  font-size: clamp(3rem, 8vw, 8.2rem);
+  line-height: .9;
+  letter-spacing: 0;
+}
+
+.video-archive-hero p,
+.video-record-hero p {
+  max-width: 760px;
+  margin: 0;
+  color: rgba(232, 222, 202, .72);
+  font-size: clamp(1.05rem, 1.45vw, 1.32rem);
+  line-height: 1.65;
+}
+
+.video-archive-section,
+.video-record-body,
+.video-explore-section {
+  padding: clamp(42px, 7vw, 84px) 0;
+}
+
+.video-archive-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.video-record-card a,
+.video-record-side,
+.video-record-main,
+.video-explore-grid a,
+.home-video-feature-section .weekly-article-feature {
+  border: 1px solid rgba(216, 198, 157, .16);
+  background:
+    linear-gradient(145deg, rgba(139, 17, 24, .16), transparent 58%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.024) 0 1px, transparent 1px 8px),
+    rgba(7, 4, 3, .82);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.68), 0 28px 78px rgba(0,0,0,.28);
+}
+
+.video-record-card a {
+  display: grid;
+  min-height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.video-record-card figure {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  margin: 0;
+  overflow: hidden;
+  background: #050101;
+}
+
+.video-record-card img,
+.video-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: saturate(1.05) contrast(1.06) brightness(.96);
+  background: #050101;
+}
+
+.video-record-card figure span {
+  position: absolute;
+  left: 18px;
+  top: 16px;
+  padding: 9px 12px;
+  border: 1px solid rgba(139, 17, 24, .7);
+  background: rgba(0,0,0,.56);
+  color: rgba(255, 246, 226, .82);
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: .66rem;
+  font-weight: 900;
+  letter-spacing: .16em;
+}
+
+.video-record-card div {
+  padding: 22px;
+}
+
+.video-record-card small,
+.video-record-text span,
+.video-record-side span,
+.video-explore-grid span {
+  display: block;
+  color: var(--gold, #b8944b);
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.video-record-card h2 {
+  margin: 10px 0 10px;
+  font-family: var(--serif, Georgia, "Times New Roman", ui-serif, serif);
+  font-size: clamp(1.55rem, 2.3vw, 2.25rem);
+  line-height: 1;
+}
+
+.video-record-card p,
+.video-record-text p,
+.video-record-side li {
+  color: rgba(232, 222, 202, .72);
+  line-height: 1.6;
+}
+
+.video-record-card strong {
+  display: inline-block;
+  margin-top: 8px;
+  color: rgba(255, 246, 226, .9);
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.video-record-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+  gap: clamp(24px, 5vw, 64px);
+  align-items: end;
+}
+
+.video-record-layout aside {
+  padding: 22px;
+  border: 1px solid rgba(216, 198, 157, .16);
+  background: rgba(0,0,0,.38);
+}
+
+.video-record-layout aside span,
+.video-record-layout aside strong {
+  display: block;
+  font-family: "Courier New", ui-monospace, monospace;
+  font-weight: 900;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.video-record-layout aside span {
+  color: var(--gold, #b8944b);
+  font-size: .66rem;
+}
+
+.video-record-layout aside strong {
+  margin-top: 10px;
+  color: rgba(255, 246, 226, .9);
+}
+
+.video-record-body__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+  gap: 26px;
+}
+
+.video-record-main {
+  padding: clamp(16px, 2.2vw, 24px);
+}
+
+.video-frame {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid rgba(216, 198, 157, .14);
+  background: #050101;
+}
+
+.video-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.video-frame video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  background: #000;
+}
+
+.video-frame__veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,.42));
+}
+
+.video-frame__play {
+  position: absolute;
+  padding: 14px 18px;
+  border: 1px solid rgba(139, 17, 24, .78);
+  background: rgba(24, 7, 6, .84);
+  color: rgba(255, 246, 226, .92);
+  font-family: "Courier New", ui-monospace, monospace;
+  font-weight: 900;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.video-frame__play:disabled {
+  cursor: default;
+  opacity: .72;
+}
+
+.video-record-text {
+  display: grid;
+  gap: 10px;
+  padding-top: 24px;
+}
+
+.video-record-side {
+  display: grid;
+  align-content: start;
+  gap: 22px;
+  padding: 22px;
+}
+
+.video-record-side ul {
+  margin: 12px 0 0;
+  padding-left: 18px;
+}
+
+.video-record-side a {
+  display: block;
+  margin-top: 10px;
+  color: rgba(255, 246, 226, .84);
+  text-decoration: none;
+}
+
+.video-explore-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.video-explore-grid a {
+  padding: 20px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.video-explore-grid strong {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--serif, Georgia, "Times New Roman", ui-serif, serif);
+  font-size: 1.35rem;
+  line-height: 1.05;
+}
+
+.home-video-feature-section[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 920px) {
+  .video-archive-grid,
+  .video-record-layout,
+  .video-record-body__grid,
+  .video-explore-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .video-archive-hero h1,
+  .video-record-hero h1 {
+    font-size: clamp(2.7rem, 13vw, 4.4rem);
   }
 }
 

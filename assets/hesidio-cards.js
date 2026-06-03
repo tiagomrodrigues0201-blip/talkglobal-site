@@ -114,6 +114,16 @@ function getDownloadName(card) {
   return `${card.slug || 'hesidio-carta'}.png`.replace(/[^a-z0-9._-]+/gi, '-').toLowerCase();
 }
 
+function getLiveCardDownloadPath(card) {
+  if (card.living_card && card.slug === FIRST_GIFT_SLUG) return '/public/cards/ren_natal_live.html';
+  return card.image_path || '/public/cards/ren_natal.png';
+}
+
+function getLiveCardDownloadName(card) {
+  if (card.living_card && card.slug === FIRST_GIFT_SLUG) return 'ren_natal_live.html';
+  return getDownloadName(card);
+}
+
 function cardMarkup(card) {
   const owned = Boolean(card.owned);
   const living = owned && Boolean(card.living_card);
@@ -193,8 +203,9 @@ function openCardModal(slug) {
   if (week) week.textContent = `Semana ${card.week || 1}`;
   if (description) description.textContent = getCardDescription(card);
   if (download) {
-    download.href = imagePath;
-    download.download = getDownloadName(card);
+    download.href = getLiveCardDownloadPath(card);
+    download.download = getLiveCardDownloadName(card);
+    download.textContent = card.living_card ? 'Baixar carta viva' : 'Baixar carta';
   }
   if (modalImage) {
     modalImage.classList.toggle('is-living-card', Boolean(card.living_card));

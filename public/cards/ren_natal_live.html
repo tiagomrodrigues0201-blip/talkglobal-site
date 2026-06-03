@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ren Natal — Carta Viva HESIDIO</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #030101;
+    --gold: #b8944b;
+    --text: #fff3df;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    min-height: 100vh;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background:
+      radial-gradient(circle at 50% 12%, rgba(111,13,18,.24), transparent 24rem),
+      linear-gradient(180deg, #050101, #010101);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  main {
+    width: min(100%, 760px);
+    display: grid;
+    gap: 18px;
+    justify-items: center;
+  }
+
+  .live-card {
+    position: relative;
+    width: min(100%, 620px);
+    aspect-ratio: 3 / 4.18;
+    overflow: hidden;
+    border: 1px solid rgba(216,198,157,.42);
+    background: #050101;
+    box-shadow: 0 30px 100px rgba(0,0,0,.62), 0 0 54px rgba(111,13,18,.22);
+    isolation: isolate;
+  }
+
+  .live-card img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    filter: none;
+  }
+
+  .layer {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .helion {
+    z-index: 0;
+    opacity: .24;
+    background:
+      radial-gradient(circle at 18% 66%, rgba(111,13,18,.28), transparent 28%),
+      radial-gradient(circle at 76% 32%, rgba(43,42,48,.28), transparent 30%),
+      radial-gradient(circle at 48% 52%, rgba(139,17,24,.16), transparent 34%);
+    transform: scale(1.04);
+    animation: helion 18s ease-in-out infinite alternate;
+  }
+
+  .snow {
+    opacity: .36;
+    background-image:
+      radial-gradient(circle, rgba(238,241,242,.76) 0 1px, transparent 1.5px),
+      radial-gradient(circle, rgba(238,241,242,.38) 0 1px, transparent 1.7px);
+    background-size: 86px 112px, 142px 170px;
+    background-position: 0 -120px, 44px -180px;
+    animation: snow 26s linear infinite;
+  }
+
+  .embers {
+    opacity: .52;
+    background-image:
+      radial-gradient(circle at 16% 76%, rgba(183,26,32,.72) 0 1px, transparent 2.6px),
+      radial-gradient(circle at 72% 42%, rgba(139,17,24,.62) 0 1px, transparent 2.2px),
+      radial-gradient(circle at 58% 86%, rgba(184,148,75,.38) 0 1px, transparent 2.5px);
+    animation: embers 7.5s ease-in-out infinite;
+  }
+
+  .winter {
+    opacity: .28;
+    background:
+      radial-gradient(circle at 24% 20%, rgba(216,198,157,.3) 0 1px, transparent 2.2px),
+      radial-gradient(circle at 82% 64%, rgba(232,222,202,.24) 0 1px, transparent 2.4px),
+      radial-gradient(circle at 64% 12%, rgba(122,28,32,.2) 0 1px, transparent 2.4px);
+    animation: winter 11s ease-in-out infinite;
+  }
+
+  .signature {
+    position: absolute;
+    right: 18px;
+    bottom: 16px;
+    z-index: 3;
+    color: rgba(255,246,226,.68);
+    font-family: Georgia, "Times New Roman", serif;
+    text-align: right;
+    text-shadow: 0 2px 12px rgba(0,0,0,.85);
+    pointer-events: none;
+  }
+
+  .signature strong,
+  .signature small {
+    display: block;
+  }
+
+  .signature strong {
+    font-size: .82rem;
+    letter-spacing: .18em;
+  }
+
+  .signature small {
+    margin-top: 3px;
+    font-size: .68rem;
+    letter-spacing: .08em;
+  }
+
+  h1 {
+    margin: 0;
+    color: var(--text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2.2rem, 7vw, 4rem);
+    line-height: .95;
+    text-align: center;
+  }
+
+  p {
+    max-width: 46rem;
+    margin: 0;
+    color: rgba(232,222,202,.72);
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  @keyframes snow {
+    from { background-position: 0 -120px, 44px -180px; }
+    to { background-position: 18px 620px, -24px 720px; }
+  }
+
+  @keyframes helion {
+    from { opacity: .16; transform: translate3d(-2%, 1%, 0) scale(1.04); }
+    to { opacity: .28; transform: translate3d(3%, -2%, 0) scale(1.08); }
+  }
+
+  @keyframes embers {
+    0%, 100% { opacity: .22; transform: translateY(4px); }
+    42% { opacity: .58; transform: translateY(-4px); }
+    72% { opacity: .34; transform: translateY(-1px); }
+  }
+
+  @keyframes winter {
+    0%, 100% { opacity: .14; }
+    35% { opacity: .36; }
+    68% { opacity: .22; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .layer {
+      animation: none;
+    }
+  }
+</style>
+</head>
+<body>
+  <main>
+    <figure class="live-card" aria-label="Carta viva Ren Natal">
+      <span class="layer helion" aria-hidden="true"></span>
+      <img src="https://talkglobalapp.com/public/cards/ren_natal.png" alt="Ren Natal, carta colecionável de Ren Hazama em HESIDIO">
+      <span class="layer snow" aria-hidden="true"></span>
+      <span class="layer embers" aria-hidden="true"></span>
+      <span class="layer winter" aria-hidden="true"></span>
+      <span class="signature" aria-hidden="true"><strong>HESIDIO</strong><small>@hesidio</small></span>
+    </figure>
+    <h1>Ren Natal</h1>
+    <p>Ren Hazama · Raridade Especial · Semana 1 · Christmas Chaos</p>
+  </main>
+</body>
+</html>

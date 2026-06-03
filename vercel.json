@@ -32,6 +32,14 @@
       "dest": "/cartas/index.html"
     },
     {
+      "src": "/videos/?",
+      "dest": "/videos/index.html"
+    },
+    {
+      "src": "/videos/(.*)",
+      "dest": "/videos/$1"
+    },
+    {
       "handle": "filesystem"
     },
     {
