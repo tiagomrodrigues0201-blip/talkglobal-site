@@ -303,6 +303,15 @@ body.hesidio-reader-page {
   line-height: 1.7;
 }
 
+.episode-comments .comment-prompt {
+  margin: 18px 0 8px;
+  padding: 14px 16px;
+  border-left: 3px solid var(--reader-red);
+  color: #fff6e6;
+  background: rgba(201,168,102,.06);
+  font-weight: 800;
+}
+
 .comment-auth-warning {
   display: flex;
   flex-wrap: wrap;

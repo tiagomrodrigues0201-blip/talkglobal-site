@@ -43,6 +43,18 @@
       "dest": "/cartas/index.html"
     },
     {
+      "src": "/portfolio/?",
+      "dest": "/portfolio/index.html"
+    },
+    {
+      "src": "/personagens/?",
+      "dest": "/personagens/index.html"
+    },
+    {
+      "src": "/personagens/(.*)",
+      "dest": "/personagens/$1"
+    },
+    {
       "src": "/videos/?",
       "dest": "/videos/index.html"
     },

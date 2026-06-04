@@ -1,9 +1,13 @@
 (() => {
   const state = {
-    currentEpisodeNumber: 2,
-    currentEpisodeTitle: "A Garota que Sobreviveu",
-    currentEpisodeUrl: "/manga/episodios/ep-2/",
+    currentEpisodeNumber: 10,
+    currentEpisodeTitle: "Registro 10",
+    currentEpisodeUrl: "/manga/episodios/ep-10/",
     currentEpisodeStatus: "DISPONÍVEL",
+    seasonOneStatus: "TEMPORADA I DISPONÍVEL",
+    seasonOnePublicCount: 10,
+    seasonOneFinalReleaseDate: "13/06/2026",
+    seasonOnePublicSummary: "10 episódios disponíveis. Os registros finais da Temporada I serão liberados em 13 de junho.",
     currentCardSlug: "ren_natal",
     currentCardTitle: "Ren Natal",
     latestArticleTitle: "Por Que Berserk Continua Sendo o Maior Mangá Dark Fantasy Já Criado?",
@@ -25,20 +29,21 @@
     featuredVideoImage: "/public/videos/registro-001-poster.jpg",
     featuredVideoImageAlt: "Miniatura do Registro 001 do Arquivo de Vídeos HESIDIO.",
     featuredVideoSubtitle: "Registro audiovisual preservado para futuras cenas, bastidores e fragmentos oficiais de HESIDIO.",
-    nextEpisodeNumber: 3,
-    nextEpisodeDate: "06/06/2026",
+    nextEpisodeNumber: 11,
+    nextEpisodeDate: "13/06/2026",
     episodes: [
       { number: 1, date: "23/05/2026", title: "O Acidente", url: "/manga/episodios/ep-1/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-1/images/001.png", coverAlt: "Capa do Episódio 1 de HESIDIO" },
       { number: 2, date: "30/05/2026", title: "A Garota que Sobreviveu", url: "/manga/episodios/ep-2/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-2/images/001.png", coverAlt: "Capa do Episódio 2 de HESIDIO" },
-      { number: 3, date: "06/06/2026", title: "Registro selado", url: "/manga/episodios/ep-3/", status: "SELADO" },
-      { number: 4, date: "13/06/2026", title: "Registro selado", url: "/manga/episodios/ep-4/", status: "SELADO" },
-      { number: 5, date: "20/06/2026", title: "Registro selado", url: "/manga/episodios/ep-5/", status: "SELADO" },
-      { number: 6, date: "27/06/2026", title: "Arquivo restrito", url: "/manga/episodios/ep-6/", status: "RESTRITO", premium: true },
-      { number: 7, date: "04/07/2026", title: "Arquivo restrito", url: "/manga/episodios/ep-7/", status: "RESTRITO", premium: true },
-      { number: 8, date: "11/07/2026", title: "Arquivo restrito", url: "/manga/episodios/ep-8/", status: "RESTRITO", premium: true },
-      { number: 9, date: "18/07/2026", title: "Arquivo restrito", url: "/manga/episodios/ep-9/", status: "RESTRITO", premium: true },
-      { number: 10, date: "25/07/2026", title: "Arquivo restrito", url: "/manga/episodios/ep-10/", status: "RESTRITO", premium: true },
-      { number: 11, date: "01/08/2026", title: "Arquivo restrito", url: "/manga/episodios/ep-11/", status: "RESTRITO", premium: true }
+      { number: 3, date: "03/06/2026", title: "Registro 03", url: "/manga/episodios/ep-3/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-3/images/001.png", coverAlt: "Capa do Episódio 3 de HESIDIO" },
+      { number: 4, date: "03/06/2026", title: "Registro 04", url: "/manga/episodios/ep-4/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-4/images/001.png", coverAlt: "Capa do Episódio 4 de HESIDIO" },
+      { number: 5, date: "03/06/2026", title: "Registro 05", url: "/manga/episodios/ep-5/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-5/images/001.png", coverAlt: "Capa do Episódio 5 de HESIDIO" },
+      { number: 6, date: "03/06/2026", title: "Registro 06", url: "/manga/episodios/ep-6/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-6/images/001.png", coverAlt: "Capa do Episódio 6 de HESIDIO" },
+      { number: 7, date: "03/06/2026", title: "Registro 07", url: "/manga/episodios/ep-7/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-7/images/001.png", coverAlt: "Capa do Episódio 7 de HESIDIO" },
+      { number: 8, date: "03/06/2026", title: "Registro 08", url: "/manga/episodios/ep-8/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-8/images/001.png", coverAlt: "Capa do Episódio 8 de HESIDIO" },
+      { number: 9, date: "03/06/2026", title: "Registro 09", url: "/manga/episodios/ep-9/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-9/images/001.png", coverAlt: "Capa do Episódio 9 de HESIDIO" },
+      { number: 10, date: "03/06/2026", title: "Registro 10", url: "/manga/episodios/ep-10/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-10/images/001.png", coverAlt: "Capa do Episódio 10 de HESIDIO" },
+      { number: 11, date: "13/06/2026", title: "Registro selado", url: "/manga/episodios/ep-11/", status: "REGISTRO SELADO", sealed: true },
+      { number: 12, date: "13/06/2026", title: "Registro selado", url: "/manga/episodios/ep-12/", status: "REGISTRO SELADO", sealed: true }
     ],
     releasedCharacters: [
       {
@@ -51,6 +56,8 @@
         fullSummary: "Silencioso, ferido e perigoso sem querer ser. O arquivo só confirma que algo nele responde antes das palavras.",
         file: "REN-01",
         signal: "SILÊNCIO",
+        sealLabel: "Arquivo público",
+        cardSeal: "DOSSIÊ LIBERADO",
         episodeNumber: 1
       },
       {
@@ -63,7 +70,177 @@
         fullSummary: "Humana demais para um mundo que começa a falhar. Sua presença preserva calor onde tudo parece perder forma.",
         file: "AIR-02",
         signal: "HUMANO",
+        sealLabel: "Arquivo público",
+        cardSeal: "DOSSIÊ LIBERADO",
         episodeNumber: 1
+      },
+      {
+        slug: "ban",
+        name: "Ban",
+        url: "/personagens/ban/",
+        image: "/public/studios/ban.jpg",
+        imageAlt: "Dossiê visual oficial de Ban em HESIDIO",
+        summary: "Livre demais para obedecer ao medo.",
+        fullSummary: "Livre demais para obedecer ao medo. Onde Ren é silêncio, Ban é movimento.",
+        file: "BAN-03",
+        signal: "VENTO",
+        sealLabel: "Arquivo público",
+        cardSeal: "DOSSIÊ LIBERADO",
+        episodeNumber: 10
+      },
+      {
+        slug: "kiwa",
+        name: "Kiwa",
+        url: "/personagens/kiwa/",
+        image: "/public/studios/kiwa.jpg",
+        imageAlt: "Dossiê visual oficial de Kiwa em HESIDIO",
+        summary: "Ela não deixa ninguém cair em silêncio.",
+        fullSummary: "Ela não deixa ninguém cair em silêncio. O arquivo registra calor humano em situações críticas.",
+        file: "KIW-04",
+        signal: "CALOR",
+        sealLabel: "Arquivo público",
+        cardSeal: "DOSSIÊ LIBERADO",
+        episodeNumber: 10
+      },
+      {
+        slug: "alaric",
+        name: "Alaric",
+        url: "/personagens/alaric/",
+        image: "/public/studios/alaric.jpg",
+        imageAlt: "Dossiê visual oficial de Alaric em HESIDIO",
+        summary: "Ordem não é paz. É contenção.",
+        fullSummary: "Ordem não é paz. É contenção. O guardião permanece entre Airi e memórias que não deveriam voltar.",
+        file: "ALA-05",
+        signal: "ORDEM",
+        sealLabel: "Arquivo público",
+        cardSeal: "DOSSIÊ LIBERADO",
+        episodeNumber: 10
+      },
+      {
+        slug: "izaya",
+        name: "Izaya",
+        url: "/personagens/izaya/",
+        image: "/public/studios/izaya.jpg",
+        imageAlt: "Dossiê visual oficial de Izaya em HESIDIO",
+        summary: "O medo aprendeu a sorrir.",
+        fullSummary: "O medo aprendeu a sorrir. A ameaça não parece atacar apenas o corpo.",
+        file: "IZA-06",
+        signal: "MEDO",
+        sealLabel: "Arquivo público",
+        cardSeal: "DOSSIÊ LIBERADO",
+        episodeNumber: 10
+      },
+      {
+        slug: "zenkai",
+        name: "Zenkai",
+        url: "/personagens/zenkai/",
+        image: "/public/studios/zenkai.jpg",
+        imageAlt: "Dossiê visual oficial de Zenkai em HESIDIO",
+        summary: "Ele não quer o mundo. Quer ultrapassá-lo.",
+        fullSummary: "Ele não quer o mundo. Quer ultrapassá-lo. Não há conclusão pública autorizada.",
+        file: "ZEN-07",
+        signal: "VAZIO",
+        sealLabel: "Arquivo público",
+        cardSeal: "DOSSIÊ LIBERADO",
+        episodeNumber: 10
+      },
+      {
+        slug: "mizuki",
+        name: "Mizuki",
+        url: "/personagens/mizuki/",
+        image: "/public/studios/mizuki.jpg",
+        imageAlt: "Dossiê visual oficial de Mizuki em HESIDIO",
+        summary: "Onde ela passa, o calor desaparece.",
+        fullSummary: "Onde ela passa, o calor desaparece. O nome aparece em registros incompletos.",
+        file: "MIZ-08",
+        signal: "GEADA",
+        sealLabel: "Dossiê lacrado",
+        cardSeal: "DOSSIÊ LACRADO",
+        episodeNumber: 10
+      },
+      {
+        slug: "daitetsu",
+        name: "Daitetsu",
+        url: "/personagens/daitetsu/",
+        image: "/public/studios/daitetsu.jpg",
+        imageAlt: "Dossiê visual oficial de Daitetsu em HESIDIO",
+        summary: "Algumas lendas ainda respiram.",
+        fullSummary: "Algumas lendas ainda respiram. Daitetsu parece lembrar de coisas que o mundo tentou apagar.",
+        file: "DAI-09",
+        signal: "LENDÁRIO",
+        sealLabel: "Arquivo público",
+        cardSeal: "DOSSIÊ LIBERADO",
+        episodeNumber: 10
+      },
+      {
+        slug: "pippa",
+        name: "Pippa",
+        url: "/personagens/pippa/",
+        image: "/public/studios/pippa.jpg",
+        imageAlt: "Dossiê visual oficial de Pippa em HESIDIO",
+        summary: "Ainda humana. Apesar de tudo.",
+        fullSummary: "Ainda humana. Apesar de tudo. Em HESIDIO, sentir pode ser mais perigoso do que qualquer poder.",
+        file: "PIP-10",
+        signal: "HUMANO",
+        sealLabel: "Arquivo público",
+        cardSeal: "DOSSIÊ LIBERADO",
+        episodeNumber: 10
+      },
+      {
+        slug: "mora",
+        name: "Mora",
+        url: "/personagens/mora/",
+        image: "/public/studios/mora.jpg",
+        imageAlt: "Dossiê visual oficial de Mora em HESIDIO",
+        summary: "Ela diz o que ninguém quer ouvir.",
+        fullSummary: "Ela diz o que ninguém quer ouvir. O arquivo mantém acesso parcial negado.",
+        file: "MOR-11",
+        signal: "CONFLITO",
+        sealLabel: "Dossiê lacrado",
+        cardSeal: "DOSSIÊ LACRADO",
+        episodeNumber: 10
+      },
+      {
+        slug: "hachiro",
+        name: "Hachiro",
+        url: "/personagens/hachiro/",
+        image: "/public/studios/hachiro.jpg",
+        imageAlt: "Dossiê visual oficial de Hachiro em HESIDIO",
+        summary: "O nome apareceu antes da explicação.",
+        fullSummary: "O nome apareceu antes da explicação. O arquivo registra disciplina, leitura de combate e silêncio calculado.",
+        file: "HAC-12",
+        signal: "DISCIPLINA",
+        sealLabel: "Arquivo público",
+        cardSeal: "DOSSIÊ LIBERADO",
+        episodeNumber: 10
+      },
+      {
+        slug: "sakuma",
+        name: "Sakuma",
+        url: "/personagens/sakuma/",
+        image: "/public/studios/sakuma.jpg",
+        imageAlt: "Dossiê visual oficial de Sakuma em HESIDIO",
+        summary: "Ele não precisava tocar em ninguém.",
+        fullSummary: "Ele não precisava tocar em ninguém. O ambiente reage antes dele.",
+        file: "SAK-13",
+        signal: "PRESSÃO",
+        sealLabel: "Arquivo público",
+        cardSeal: "DOSSIÊ LIBERADO",
+        episodeNumber: 10
+      },
+      {
+        slug: "bakurai",
+        name: "Bakurai",
+        url: "/personagens/bakurai/",
+        image: "/public/studios/bakurai.jpg",
+        imageAlt: "Dossiê visual oficial de Bakurai em HESIDIO",
+        summary: "Se o corpo quebrar, ele avança quebrado.",
+        fullSummary: "Se o corpo quebrar, ele avança quebrado. O arquivo registra ruptura elétrica instável.",
+        file: "BAK-14",
+        signal: "RUPTURA",
+        sealLabel: "Arquivo público",
+        cardSeal: "DOSSIÊ LIBERADO",
+        episodeNumber: 10
       }
     ],
     videos: [
@@ -190,15 +367,15 @@
   const computed = {
     currentEpisodeLabel: () => `EP ${padEpisode(state.currentEpisodeNumber)}`,
     currentEpisodeStatusLabel: () => "EPISÓDIO ATUAL",
-    currentEpisodeButtonText: () => "Ler episódio atual",
-    currentEpisodeSummary: () => `Último registro liberado: EP ${padEpisode(state.currentEpisodeNumber)} — ${state.currentEpisodeTitle}.`,
+    currentEpisodeButtonText: () => "Começar leitura",
+    currentEpisodeSummary: () => state.seasonOnePublicSummary,
     currentEpisodeCardTitle: () => `${computed.currentEpisodeLabel()} — ${state.currentEpisodeTitle}`,
-    currentEpisodeCardCopy: () => "O último registro liberado está aberto no arquivo oficial.",
-    currentEpisodeMetaDescription: () => `Portal oficial de HESIDIO. Episódio atual: EP ${padEpisode(state.currentEpisodeNumber)} — ${state.currentEpisodeTitle}. Novos registros em formato de mangá são liberados no arquivo oficial.`,
+    currentEpisodeCardCopy: () => "Os primeiros 10 episódios da Temporada I estão abertos para leitura pública.",
+    currentEpisodeMetaDescription: () => `Portal oficial de HESIDIO. ${state.seasonOnePublicSummary} Leia a Temporada I no arquivo oficial.`,
     nextEpisodeLabel: () => `EP ${padEpisode(state.nextEpisodeNumber)}`,
     nextEpisodeSummary: () => {
       const episode = nextEpisode();
-      return episode ? `Próximo registro: ${computed.nextEpisodeLabel()} em ${episode.date}.` : "Próximo registro: data a confirmar.";
+      return episode ? `Registros finais selados até ${state.seasonOneFinalReleaseDate}.` : "Registros finais com data a confirmar.";
     },
     nextEpisodeDate: () => nextEpisode()?.date || state.nextEpisodeDate,
     currentCardSummary: () => `Carta atual do cofre: ${state.currentCardTitle}.`,
@@ -223,7 +400,7 @@
 
   const episodeTitle = (episode) => {
     if (episode.number <= state.currentEpisodeNumber) return episode.title;
-    return episode.premium ? "Arquivo restrito" : "Registro selado";
+    return "Registro selado";
   };
 
   const episodeDateLabel = (episode) => {
@@ -233,8 +410,7 @@
 
   const episodeCopy = (episode) => {
     if (episode.number <= state.currentEpisodeNumber) return "Registro público aberto.";
-    if (episode.premium) return "Registro reservado para acesso premium.";
-    return "Nome e descrição permanecem ocultos.";
+    return `Os registros finais da Temporada I ainda permanecem selados. A abertura oficial ocorrerá em ${state.seasonOneFinalReleaseDate}.`;
   };
 
   const releasedEpisodes = () => state.episodes.filter((episode) => episode.number <= state.currentEpisodeNumber && episode.coverImage);
@@ -297,10 +473,10 @@
     target.innerHTML = releasedCharacters().map((character) => {
       if (layout === "manga") {
         return `
-          <article class="character-open">
+          <article class="character-open character-open--${escapeHtml(character.slug.split("-")[0])}">
             <a href="${escapeHtml(character.url)}">
-              <div class="portrait forbidden-image wm-subtle" data-src="${escapeHtml(character.image)}" data-label="DOSSIÊ LIBERADO" style="--image: url('${escapeHtml(character.image)}')"><span class="image-mark">HESIDIO</span><span class="diagonal-mark" aria-hidden="true">HESIDIO</span><span class="pattern-mark" aria-hidden="true">HESIDIO · @hesidio</span></div>
-              <small>Arquivo público</small>
+              <div class="portrait forbidden-image wm-subtle" data-src="${escapeHtml(character.image)}" data-label="${escapeHtml(character.cardSeal || "DOSSIÊ LIBERADO")}" style="--image: url('${escapeHtml(character.image)}')"><span class="image-mark">HESIDIO</span><span class="diagonal-mark" aria-hidden="true">HESIDIO</span><span class="pattern-mark" aria-hidden="true">HESIDIO · @hesidio</span></div>
+              <small>${escapeHtml(character.sealLabel || "Arquivo público")}</small>
               <h3>${escapeHtml(character.name)}</h3>
               <p>${escapeHtml(character.summary)}</p>
             </a>
@@ -312,7 +488,7 @@
         return `
           <article class="character-card character-card--${escapeHtml(character.slug.split("-")[0])}" data-file="${escapeHtml(character.file)}" data-signal="${escapeHtml(character.signal)}">
             <figure class="watermarked-image watermarked-image--page watermarked-image--soft-center" oncontextmenu="return false"><img src="${escapeHtml(character.image)}" alt="${escapeHtml(character.imageAlt)}" draggable="false" loading="lazy" decoding="async"><span class="watermarked-image__center" aria-hidden="true">HESIDIO</span><span class="watermarked-image__corner" aria-hidden="true"><strong>HESIDIO</strong><small>@hesidio</small></span></figure>
-            <small>Dossiê liberado pelo arquivo oficial</small>
+            <small>${escapeHtml(character.sealLabel || "Arquivo público")}</small>
             <h3>${escapeHtml(character.name)}</h3>
             <p>${escapeHtml(character.fullSummary)}</p>
           </article>
@@ -320,15 +496,15 @@
       }
 
       return `
-        <a class="hub-character-card" href="${escapeHtml(character.url)}">
+        <a class="hub-character-card hub-character-card--${escapeHtml(character.slug.split("-")[0])}" href="${escapeHtml(character.url)}">
           <figure class="watermarked-image watermarked-image--page watermarked-image--soft-center" oncontextmenu="return false">
             <img src="${escapeHtml(character.image)}" alt="${escapeHtml(character.imageAlt)}" draggable="false" loading="lazy" decoding="async">
-            <span class="watermarked-image__center" aria-hidden="true">DOSSIÊ LIBERADO</span>
+            <span class="watermarked-image__center" aria-hidden="true">${escapeHtml(character.cardSeal || "DOSSIÊ LIBERADO")}</span>
             <span class="watermarked-image__pattern" aria-hidden="true">HESIDIO · @hesidio</span>
             <span class="watermarked-image__diagonal" aria-hidden="true">HESIDIO</span>
             <span class="watermarked-image__corner" aria-hidden="true"><strong>HESIDIO</strong><small>@hesidio</small></span>
           </figure>
-          <small>Arquivo público</small>
+          <small>${escapeHtml(character.sealLabel || "Arquivo público")}</small>
           <h3>${escapeHtml(character.name)}</h3>
           <p>${escapeHtml(character.summary)}</p>
         </a>
@@ -391,7 +567,7 @@
             <div>
               <span>LINKS INTERNOS</span>
               <a href="/manga/">Episódios</a>
-              <a href="/personagens/ren-hazama/">Personagens</a>
+              <a href="/personagens/">Personagens</a>
               <a href="/cartas/">Cartas</a>
               <a href="/blog/">Artigos</a>
             </div>
@@ -403,7 +579,7 @@
           <span class="kicker">CONTINUAR EXPLORANDO</span>
           <div class="video-explore-grid">
             <a href="/manga/"><span>Episódios</span><strong>Arquivo do mangá</strong></a>
-            <a href="/personagens/ren-hazama/"><span>Personagens</span><strong>Dossiês públicos</strong></a>
+            <a href="/personagens/"><span>Personagens</span><strong>Dossiês públicos</strong></a>
             <a href="/cartas/"><span>Cartas</span><strong>Cofre colecionável</strong></a>
             <a href="/blog/"><span>Artigos</span><strong>Registros editoriais</strong></a>
           </div>
