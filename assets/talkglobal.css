@@ -14,6 +14,104 @@
   --max: 1220px;
 }
 
+.simple-article-page {
+  margin: 0;
+  background: #050505;
+  color: #f4eee4;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.simple-article-page * {
+  box-sizing: border-box;
+}
+
+.simple-article {
+  width: min(100%, 920px);
+  margin: 0 auto;
+  padding: 0 0 56px;
+}
+
+.simple-article__cover {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.simple-article h1 {
+  width: 100%;
+  max-width: 760px;
+  margin: 28px auto 24px;
+  padding: 0 18px;
+  color: #fff8ec;
+  font-size: clamp(2rem, 8vw, 3rem);
+  line-height: 1.08;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.simple-article__body {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 18px;
+}
+
+.simple-article__body p,
+.simple-article__body h2 {
+  letter-spacing: 0;
+}
+
+.simple-article__body p {
+  margin: 0 0 1.1rem;
+  color: #e8dece;
+  font-size: 1.06rem;
+  line-height: 1.75;
+}
+
+.simple-article__body h2 {
+  margin: 2.2rem 0 1rem;
+  color: #fff4de;
+  font-size: 1.45rem;
+  line-height: 1.2;
+}
+
+.simple-article__body strong {
+  color: #fff8ec;
+}
+
+@media (max-width: 560px) {
+  .simple-article h1 {
+    max-width: 340px;
+    margin: 24px auto 20px;
+    font-size: clamp(1.52rem, 7.3vw, 1.88rem);
+    line-height: 1.16;
+  }
+
+  .simple-article__body {
+    max-width: 340px;
+  }
+
+  .simple-article__body p {
+    font-size: 1rem;
+    line-height: 1.72;
+  }
+
+  .simple-article__body h2 {
+    font-size: 1.22rem;
+  }
+}
+
+@media (min-width: 860px) {
+  .simple-article {
+    padding-top: 32px;
+  }
+
+  .simple-article__cover {
+    border-radius: 8px;
+  }
+}
+
 /* EP1 visual unlock: focused interaction without adding a separate game flow. */
 .helicon-unlock-section .section-head {
   margin-bottom: 28px;
@@ -125,6 +223,73 @@
 
   .cards-vault-page .cards-collection-section .section-head h2 {
     font-size: clamp(2.2rem, 11vw, 3.2rem);
+  }
+}
+
+@media (max-width: 560px) {
+  .cards-vault-page,
+  .cards-vault-page * {
+    box-sizing: border-box;
+  }
+
+  .cards-vault-page {
+    overflow-x: clip;
+  }
+
+  .cards-vault-page .container {
+    width: min(100% - 28px, 340px);
+    max-width: min(100% - 28px, 340px);
+  }
+
+  .cards-vault-hero {
+    padding: 88px 0 46px;
+  }
+
+  .cards-vault-page .cards-vault-copy,
+  .cards-vault-page .cards-vault-copy h1,
+  .cards-vault-page .cards-vault-copy p,
+  .cards-vault-page .cards-auth-panel,
+  .cards-vault-page .section-head {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .cards-vault-page .cards-vault-copy h1 {
+    font-size: clamp(1.78rem, 8.2vw, 2.04rem) !important;
+    line-height: 1.08;
+    overflow-wrap: break-word;
+    word-break: normal;
+    white-space: normal;
+    hyphens: none;
+  }
+
+  .cards-vault-page .cards-vault-copy p,
+  .cards-vault-page .cards-auth-panel p,
+  .cards-vault-page .cards-auth-status,
+  .cards-vault-page .cards-collection-section .section-head p,
+  .cards-vault-page .collectible-card__body p,
+  .cards-vault-page .cards-rule-grid p {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: normal;
+    white-space: normal;
+  }
+
+  .cards-auth-panel {
+    padding: 20px;
+  }
+
+  .cards-auth-panel h2,
+  .cards-collection-section .section-head h2 {
+    font-size: clamp(1.58rem, 7.8vw, 1.96rem) !important;
+    line-height: 1.08;
+  }
+
+  .cards-auth-panel .button {
+    min-width: 0;
+    padding-inline: 14px;
+    white-space: normal;
   }
 }
 

@@ -1,15 +1,15 @@
 import { createClient } from '@supabase/supabase-js';
 
-const FIRST_GIFT_SLUG = 'ren_natal';
+const FIRST_GIFT_SLUG = 'airi_festival_lights';
 const FIRST_GIFT_CARD = {
   id: null,
-  slug: 'ren_natal',
-  title: 'Ren Natal',
-  character: 'Ren Hazama',
+  slug: 'airi_festival_lights',
+  title: 'Airi Kurohana — Festival de Luzes',
+  character: 'Airi Kurohana',
   rarity: 'Especial',
   release_type: 'weekly_gift',
   week: 1,
-  image_path: '/public/cards/ren_natal.png',
+  image_path: '/public/cards/airi_festival_lights.png',
   active: true
 };
 

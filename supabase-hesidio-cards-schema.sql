@@ -60,13 +60,13 @@ insert into public.cards (
   active
 )
 values (
-  'ren_natal',
-  'Ren Natal',
-  'Ren Hazama',
+  'airi_festival_lights',
+  'Airi Kurohana — Festival de Luzes',
+  'Airi Kurohana',
   'Especial',
   'weekly_gift',
   1,
-  '/public/cards/ren_natal.png',
+  '/public/cards/airi_festival_lights.png',
   true
 )
 on conflict (slug) do update set

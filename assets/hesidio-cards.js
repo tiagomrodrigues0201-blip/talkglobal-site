@@ -1,20 +1,23 @@
 const SITE_STATE = window.HESIDIO_SITE_STATE || {};
-const FIRST_GIFT_SLUG = SITE_STATE.currentCardSlug || 'ren_natal';
-const FIRST_GIFT_TITLE = SITE_STATE.currentCardTitle || 'Ren Natal';
+const FIRST_GIFT_SLUG = SITE_STATE.currentCardSlug || 'airi_festival_lights';
+const FIRST_GIFT_TITLE = SITE_STATE.currentCardTitle || 'Airi Kurohana — Festival de Luzes';
+const FIRST_GIFT_CHARACTER = SITE_STATE.currentCardCharacter || 'Airi Kurohana';
+const FIRST_GIFT_RARITY = SITE_STATE.currentCardRarity || 'Especial';
+const FIRST_GIFT_WEEK = Number(SITE_STATE.currentCardWeek || 1);
+const FIRST_GIFT_DESCRIPTION = SITE_STATE.currentCardDescription || 'Um presente do cofre HESIDIO. Airi Kurohana aparece em uma lembrança luminosa preservada para leitores do arquivo.';
 const UNLOCK_MESSAGE = `Você desbloqueou uma carta colecionável: ${FIRST_GIFT_TITLE}.`;
 const DEFAULT_CARDS = [{
   slug: FIRST_GIFT_SLUG,
   title: FIRST_GIFT_TITLE,
-  character: 'Ren Hazama',
-  rarity: 'Especial',
+  character: FIRST_GIFT_CHARACTER,
+  rarity: FIRST_GIFT_RARITY,
   release_type: 'weekly_gift',
-  week: 1,
-  image_path: SITE_STATE.getValue ? SITE_STATE.getValue('currentCardImage') : '/public/cards/ren_natal.png',
-  description: 'Um presente do cofre HESIDIO. Ren Hazama aparece preservado como lembrança de uma noite que não pertence totalmente ao arquivo.',
+  week: FIRST_GIFT_WEEK,
+  image_path: SITE_STATE.getValue ? SITE_STATE.getValue('currentCardImage') : '/public/cards/airi_festival_lights.png',
+  description: FIRST_GIFT_DESCRIPTION,
   active: true,
   owned: false,
-  living_card: true,
-  living_effect: 'christmas_helion'
+  living_card: false
 }];
 
 const LIVING_CARD_EFFECTS = {
@@ -97,7 +100,7 @@ function escapeHtml(value) {
 function getCardDescription(card) {
   if (card.description) return card.description;
   if (card.slug === FIRST_GIFT_SLUG) {
-    return 'Um presente do cofre HESIDIO. Ren Hazama aparece preservado como lembrança de uma noite que não pertence totalmente ao arquivo.';
+    return FIRST_GIFT_DESCRIPTION;
   }
   return 'Registro visual preservado no cofre HESIDIO. O arquivo mantém a descrição incompleta.';
 }
@@ -115,19 +118,19 @@ function getDownloadName(card) {
 }
 
 function getLiveCardDownloadPath(card) {
-  if (card.living_card && card.slug === FIRST_GIFT_SLUG) return '/public/cards/ren_natal_live.html';
-  return card.image_path || '/public/cards/ren_natal.png';
+  if (card.living_card && card.slug === 'ren_natal') return '/public/cards/ren_natal_live.html';
+  return card.image_path || '/public/cards/airi_festival_lights.png';
 }
 
 function getLiveCardDownloadName(card) {
-  if (card.living_card && card.slug === FIRST_GIFT_SLUG) return 'ren_natal_live.html';
+  if (card.living_card && card.slug === 'ren_natal') return 'ren_natal_live.html';
   return getDownloadName(card);
 }
 
 function cardMarkup(card) {
   const owned = Boolean(card.owned);
   const living = owned && Boolean(card.living_card);
-  const imagePath = card.image_path || '/public/cards/ren_natal.png';
+  const imagePath = card.image_path || '/public/cards/airi_festival_lights.png';
   const stateLabel = owned ? 'Desbloqueada' : 'Bloqueada';
   const wrapperTag = owned ? 'button' : 'article';
   const actionAttrs = owned ? `type="button" data-card-open="${escapeHtml(card.slug)}" aria-label="Abrir carta ${escapeHtml(card.title)}"` : '';
@@ -183,7 +186,7 @@ function openCardModal(slug) {
   const modal = getElement(selectors.modal);
   if (!card || !modal) return;
 
-  const imagePath = card.image_path || '/public/cards/ren_natal.png';
+  const imagePath = card.image_path || '/public/cards/airi_festival_lights.png';
   const image = getElement(selectors.modalImage);
   const title = getElement(selectors.modalTitle);
   const character = getElement(selectors.modalCharacter);
