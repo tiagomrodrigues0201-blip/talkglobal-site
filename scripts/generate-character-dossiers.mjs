@@ -97,15 +97,11 @@ const characters = [
     classification: "presença não confirmada",
     archive: "acesso negado",
     image: "/public/studios/mizuki.jpg",
-    cardLine: "Onde ela passa, o calor desaparece.",
+    cardLine: "Acesso negado pelo arquivo da Temporada I.",
     sealed: true,
     description: [
-      "O nome Mizuki aparece em registros incompletos, sempre associado a quedas bruscas de temperatura e relatos de silêncio absoluto.",
-      "Não há confirmação pública sobre sua origem, função ou ligação com os eventos principais.",
-      "Alguns arquivos mencionam gelo escuro.",
-      "Outros mencionam sombras.",
-      "A maioria foi apagada antes da leitura completa.",
-      "O dossiê permanece lacrado."
+      "O nome Mizuki existe no índice público, mas o conteúdo do dossiê permanece bloqueado.",
+      "O arquivo não confirma origem, função, intenção ou vínculo com eventos futuros."
     ]
   },
   {
@@ -150,20 +146,14 @@ const characters = [
     slug: "mora",
     name: "Mora",
     status: "lacrado",
-    classification: "antagonismo em observação",
-    archive: "acesso parcial negado",
+    classification: "presença em observação",
+    archive: "acesso negado",
     image: "/public/studios/mora.jpg",
-    cardLine: "Ela diz o que ninguém quer ouvir.",
+    cardLine: "Acesso negado pelo arquivo da Temporada I.",
     sealed: true,
     description: [
-      "Mora aparece em registros fragmentados ligados a conflitos emocionais e ideológicos.",
-      "O arquivo não confirma sua origem, intenção ou extensão de ameaça.",
-      "Sua presença, porém, parece provocar instabilidade em pessoas ao redor.",
-      "Não por força bruta.",
-      "Mas por confronto.",
-      "Mora não parece apenas atacar.",
-      "Ela expõe.",
-      "E alguns arquivos sugerem que certas verdades podem ferir mais do que qualquer lâmina."
+      "O nome Mora existe no índice público, mas o conteúdo do dossiê permanece bloqueado.",
+      "O arquivo não confirma origem, função, intenção ou vínculo com eventos futuros."
     ]
   },
   {
@@ -255,7 +245,7 @@ const renderPage = (character) => `<!DOCTYPE html>
 <body class="archive-entry-page">
   <div class="archive-grain" aria-hidden="true"></div>
   <main class="archive-entry container">
-    <a class="archive-back" href="/personagens/">Voltar aos dossiês públicos</a>
+    <a class="archive-back" href="/hesidio/#personagens">Voltar aos dossiês públicos</a>
     <article>
       <header>
         <span class="kicker">${character.sealed ? "DOSSIÊ LACRADO" : "DOSSIÊ LIBERADO"} // TEMPORADA I</span>
@@ -285,12 +275,13 @@ const renderIndex = () => `<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Personagens | Dossiês Públicos HESIDIO</title>
-<meta name="description" content="Dossiês públicos de personagens de HESIDIO. Registros parciais, lacrados e sem conclusão autorizada.">
-<link rel="canonical" href="https://talkglobalapp.com/personagens/">
-<meta name="robots" content="index,follow,max-image-preview:large">
-<meta property="og:title" content="Personagens | Dossiês Públicos HESIDIO">
-<meta property="og:description" content="Arquivo público de personagens de HESIDIO, com registros parciais liberados pela Temporada I.">
+<title>Personagens | Ponte para HESIDIO</title>
+<meta name="description" content="Os personagens públicos de HESIDIO ficam organizados no arquivo central oficial.">
+<link rel="canonical" href="https://talkglobalapp.com/hesidio/">
+<meta name="robots" content="noindex,follow,max-image-preview:large">
+<meta http-equiv="refresh" content="0; url=/hesidio/#personagens">
+<meta property="og:title" content="Personagens | Ponte para HESIDIO">
+<meta property="og:description" content="Acesse os dossiês públicos pela seção oficial de personagens em HESIDIO.">
 <meta property="og:image" content="https://talkglobalapp.com/public/studios/hesidio-poster.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="/public/studios/hesidio-logo-site.png">
@@ -300,23 +291,12 @@ const renderIndex = () => `<!DOCTYPE html>
 <body class="archive-entry-page">
   <div class="archive-grain" aria-hidden="true"></div>
   <main class="archive-entry container">
-    <a class="archive-back" href="/hesidio/">Voltar ao arquivo HESIDIO</a>
-    <section class="hub-release-panel hub-character-panel character-index-panel" aria-label="Dossiês públicos de personagens">
-      <span class="kicker">DOSSIÊS LACRADOS</span>
-      <h1>Personagens</h1>
-      <p>Os dossiês públicos acompanham o ritmo do arquivo oficial. O restante permanece lacrado.</p>
-      <div class="hub-character-grid" data-hesidio-characters>
-        <a class="hub-character-card" href="/personagens/ren-hazama/">
-          <figure class="watermarked-image watermarked-image--page watermarked-image--soft-center" oncontextmenu="return false">
-            <img src="/public/studios/ren-dossie.png" alt="Dossiê visual oficial de Ren Hazama em HESIDIO" draggable="false" loading="lazy" decoding="async">
-            <span class="watermarked-image__center" aria-hidden="true">DOSSIÊ LIBERADO</span>
-            <span class="watermarked-image__corner" aria-hidden="true"><strong>HESIDIO</strong><small>@hesidio</small></span>
-          </figure>
-          <small>Arquivo público</small>
-          <h3>Ren Hazama</h3>
-          <p>Silencioso, ferido e perigoso sem querer ser.</p>
-        </a>
-      </div>
+    <a class="archive-back" href="/hesidio/#personagens">Abrir personagens no arquivo HESIDIO</a>
+    <section class="hub-release-panel hub-character-panel character-index-panel" aria-label="Ponte para personagens de HESIDIO">
+      <span class="kicker">PONTE OFICIAL</span>
+      <h1>Personagens ficam no arquivo central.</h1>
+      <p>Os dossiês públicos de HESIDIO agora aparecem apenas em /hesidio/#personagens, junto do contexto editorial da Temporada I.</p>
+      <a class="button primary" href="/hesidio/#personagens">Abrir dossiês públicos</a>
     </section>
   </main>
   <script src="/assets/hesidio-site-state.js" defer></script>
