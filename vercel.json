@@ -23,6 +23,42 @@
       "continue": true
     },
     {
+      "src": "/(?:travel|travel\\.html|travel\\.js|destinations-data\\.js)/?",
+      "status": 301,
+      "headers": {
+        "Location": "/sobre.html"
+      }
+    },
+    {
+      "src": "/(?:extensao|viral)\\.html/?",
+      "status": 301,
+      "headers": {
+        "Location": "/sobre.html"
+      }
+    },
+    {
+      "src": "/teste-tradutor(?:/.*)?",
+      "dest": "/410.html",
+      "status": 410
+    },
+    {
+      "src": "/(?:worker-video|automation|drafts|social)(?:/.*)?",
+      "dest": "/410.html",
+      "status": 410
+    },
+    {
+      "src": "/api/(?:translate-video|travel-search)(?:\\.js)?/?",
+      "dest": "/410.html",
+      "status": 410
+    },
+    {
+      "src": "/blog/(?:3-sites-pagar-mais-barato-e-lucrar|bilionarios-ia-dinheiro-tecnologia|brasileiros-migram-para-apartamentos-compactos|brasileiros-renda-em-dolar|dia-do-trabalhador-2026-futuro-do-trabalho|ferramentas-para-ganhar-dinheiro-online|freelancer-internacional|ganhar-dinheiro-youtube-2026-3-caminhos|ganhar-em-dolar|ingles-para-ganhar-em-dolar|inteligencia-artificial-freelancers-produtividade|melhor-notebook-trabalho-online|mercado-imobiliario-brasil-comprar-ou-investir-2026|nova-fase-ia-testes-antes-do-lancamento|ranking-bilionarios-mapa-do-futuro|setup-home-office-produtivo|tecnologia-para-freelancer|trabalho-online-home-office-milhoes|trabalho-remoto-internacional-crescimento)\\.html/?",
+      "status": 301,
+      "headers": {
+        "Location": "/blog/"
+      }
+    },
+    {
       "src": "/api/auth-config/?",
       "dest": "/api/auth-config.js"
     },

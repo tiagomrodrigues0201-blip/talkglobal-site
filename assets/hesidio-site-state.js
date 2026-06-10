@@ -1,13 +1,13 @@
 (() => {
   const state = {
-    currentEpisodeNumber: 10,
-    currentEpisodeTitle: "Registro 10",
-    currentEpisodeUrl: "/manga/episodios/ep-10/",
+    currentEpisodeNumber: 12,
+    currentEpisodeTitle: "Registro 12",
+    currentEpisodeUrl: "/manga/episodios/ep-12/",
     currentEpisodeStatus: "DISPONÍVEL",
     seasonOneStatus: "TEMPORADA I DISPONÍVEL",
-    seasonOnePublicCount: 10,
+    seasonOnePublicCount: 12,
     seasonOneFinalReleaseDate: "13/06/2026",
-    seasonOnePublicSummary: "10 episódios disponíveis. Os registros finais da Temporada I serão liberados em 13 de junho.",
+    seasonOnePublicSummary: "12 episódios disponíveis. A Temporada I está aberta para leitura pública no arquivo oficial.",
     currentCardSlug: "airi_festival_lights",
     currentCardTitle: "Airi Kurohana — Festival de Luzes",
     currentCardCharacter: "Airi Kurohana",
@@ -33,7 +33,7 @@
     featuredVideoImage: "/public/videos/registro-001-poster.jpg",
     featuredVideoImageAlt: "Miniatura do Registro 001 do Arquivo de Vídeos HESIDIO.",
     featuredVideoSubtitle: "Registro audiovisual preservado para futuras cenas, bastidores e fragmentos oficiais de HESIDIO.",
-    nextEpisodeNumber: 11,
+    nextEpisodeNumber: 12,
     nextEpisodeDate: "13/06/2026",
     episodes: [
       { number: 1, date: "23/05/2026", title: "O Acidente", url: "/manga/episodios/ep-1/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-1/images/001.png", coverAlt: "Capa do Episódio 1 de HESIDIO" },
@@ -46,8 +46,8 @@
       { number: 8, date: "03/06/2026", title: "Registro 08", url: "/manga/episodios/ep-8/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-8/images/001.png", coverAlt: "Capa do Episódio 8 de HESIDIO" },
       { number: 9, date: "03/06/2026", title: "Registro 09", url: "/manga/episodios/ep-9/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-9/images/001.png", coverAlt: "Capa do Episódio 9 de HESIDIO" },
       { number: 10, date: "03/06/2026", title: "Registro 10", url: "/manga/episodios/ep-10/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-10/images/001.png", coverAlt: "Capa do Episódio 10 de HESIDIO" },
-      { number: 11, date: "13/06/2026", title: "Registro selado", url: "/manga/episodios/ep-11/", status: "REGISTRO SELADO", sealed: true },
-      { number: 12, date: "13/06/2026", title: "Registro selado", url: "/manga/episodios/ep-12/", status: "REGISTRO SELADO", sealed: true }
+      { number: 11, date: "13/06/2026", title: "Registro 11", url: "/manga/episodios/ep-11/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-11/images/001.png", coverAlt: "Capa do Episódio 11 de HESIDIO" },
+      { number: 12, date: "13/06/2026", title: "Registro 12", url: "/manga/episodios/ep-12/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-12/images/001.png", coverAlt: "Capa do Episódio 12 de HESIDIO" }
     ],
     releasedCharacters: [
       {
@@ -374,11 +374,12 @@
     currentEpisodeButtonText: () => "Começar leitura",
     currentEpisodeSummary: () => state.seasonOnePublicSummary,
     currentEpisodeCardTitle: () => `${computed.currentEpisodeLabel()} — ${state.currentEpisodeTitle}`,
-    currentEpisodeCardCopy: () => "Os primeiros 10 episódios da Temporada I estão abertos para leitura pública.",
+    currentEpisodeCardCopy: () => "A Temporada I está aberta para leitura pública no arquivo oficial de HESIDIO.",
     currentEpisodeMetaDescription: () => `Portal oficial de HESIDIO. ${state.seasonOnePublicSummary} Leia a Temporada I no arquivo oficial.`,
     nextEpisodeLabel: () => `EP ${padEpisode(state.nextEpisodeNumber)}`,
     nextEpisodeSummary: () => {
       const episode = nextEpisode();
+      if (state.currentEpisodeNumber >= 12) return "Temporada I completa para leitura pública.";
       return episode ? `Registros finais selados até ${state.seasonOneFinalReleaseDate}.` : "Registros finais com data a confirmar.";
     },
     nextEpisodeDate: () => nextEpisode()?.date || state.nextEpisodeDate,

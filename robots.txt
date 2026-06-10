@@ -1,4 +1,20 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Allow: /api/auth-config
+Allow: /api/cards
+Disallow: /automation/
+Disallow: /drafts/
+Disallow: /social/
+Disallow: /teste-tradutor/
+Disallow: /worker-video/
+Disallow: /travel.html
+Disallow: /travel.js
+Disallow: /destinations-data.js
+Disallow: /extensao.html
+Disallow: /viral.html
+Disallow: /*?preview=
+Disallow: /*?test=
+Disallow: /*?debug=
 
 Sitemap: https://talkglobalapp.com/sitemap.xml

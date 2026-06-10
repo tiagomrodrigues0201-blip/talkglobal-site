@@ -1182,15 +1182,56 @@ a { color: inherit; text-decoration: none; }
 }
 
 @media (max-width: 760px) {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
   .site-topbar {
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
     padding: 10px 14px;
     border-bottom-color: rgba(216,199,163,.18);
   }
 
   .site-topbar nav {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    flex-wrap: nowrap;
     gap: 14px;
     font-size: .62rem;
+    scrollbar-width: none;
+  }
+
+  .site-topbar nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .site-topbar nav a {
+    flex: 0 0 auto;
+  }
+
+  .forbidden-image .pattern-mark,
+  .forbidden-image .diagonal-mark,
+  .forbidden-image .image-mark {
+    max-width: 100%;
+    contain: paint;
+  }
+
+  .forbidden-image .pattern-mark {
+    inset: 0;
+    width: 100%;
+  }
+
+  .forbidden-image .diagonal-mark {
+    width: min(62vw, 240px);
   }
 
   .hero {
@@ -1501,4 +1542,57 @@ a { color: inherit; text-decoration: none; }
 .episode-cover .diagonal-mark {
   opacity: .06;
   filter: drop-shadow(0 0 22px rgba(0,0,0,.6));
+}
+
+@media (max-width: 760px) {
+  .site-topbar {
+    left: 0;
+    transform: none;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .site-topbar nav {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: visible;
+    overscroll-behavior-x: auto;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 8px 12px;
+    scrollbar-width: none;
+  }
+
+  .site-topbar nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .site-topbar nav a {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .forbidden-image .pattern-mark {
+    display: none;
+    transform: none;
+  }
+
+  .forbidden-image .diagonal-mark {
+    width: min(62vw, 240px);
+    max-width: 100%;
+    overflow: hidden;
+    contain: paint;
+  }
+
+  .forbidden-image .image-mark {
+    left: auto;
+    right: 10px;
+    width: auto;
+    min-width: 0;
+    max-width: 100%;
+    transform: none;
+    contain: paint;
+  }
 }
