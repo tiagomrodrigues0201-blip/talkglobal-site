@@ -226,6 +226,127 @@
   }
 }
 
+/* Final mobile home safety net: keep every home card horizontal and full-width. */
+@media (max-width: 768px) {
+  .approval-layout,
+  .approval-article-grid,
+  .approval-article-grid .weekly-article-feature,
+  .unlock-stage,
+  .unlock-grid,
+  .archive-post-grid,
+  .season-layout,
+  .episode-stack,
+  .premium-pass,
+  .community-inner,
+  .social-links,
+  .portfolio-home-inner {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .approval-article-grid > *,
+  .approval-article-grid a,
+  .weekly-article-feature,
+  .unlock-card,
+  .archive-post-card,
+  .archive-post-card a,
+  .episode-stack a,
+  .premium-pass > *,
+  .premium-offer,
+  .social-links a,
+  .portfolio-home-inner > * {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .approval-article-grid a,
+  .archive-post-card a,
+  .episode-stack a,
+  .unlock-card,
+  .premium-offer {
+    min-height: 0 !important;
+    padding: 18px !important;
+    overflow: hidden;
+  }
+
+  .approval-article-grid span,
+  .approval-article-grid strong,
+  .approval-article-grid p,
+  .approval-article-grid em,
+  .unlock-terminal span,
+  .unlock-terminal h3,
+  .unlock-terminal p,
+  .unlock-card span,
+  .unlock-card strong,
+  .unlock-card em,
+  .archive-post-card small,
+  .archive-post-card h3,
+  .archive-post-card p,
+  .archive-post-card em,
+  .episode-stack span,
+  .episode-stack strong,
+  .episode-stack em,
+  .premium-pass h2,
+  .premium-pass p,
+  .premium-offer > strong,
+  .community-inner h2,
+  .community-inner p,
+  .portfolio-home-copy h2,
+  .portfolio-home-copy p {
+    display: block;
+    max-width: 100% !important;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    white-space: normal !important;
+    overflow-wrap: normal;
+    word-break: normal;
+    transform: none !important;
+  }
+
+  .approval-article-grid strong,
+  .unlock-terminal h3,
+  .archive-post-card h3,
+  .episode-stack strong,
+  .premium-pass h2,
+  .premium-offer > strong,
+  .community-inner h2,
+  .portfolio-home-copy h2 {
+    font-size: clamp(1.38rem, 6.4vw, 2rem) !important;
+    line-height: 1.12 !important;
+  }
+
+  .approval-article-grid p,
+  .unlock-terminal p,
+  .archive-post-card p,
+  .premium-pass p,
+  .community-inner p,
+  .portfolio-home-copy p {
+    font-size: .95rem !important;
+    line-height: 1.55 !important;
+  }
+
+  .archive-post-card::before,
+  .archive-post-card::after,
+  .episode-stack a::before,
+  .episode-stack a::after,
+  .unlock-stage::before,
+  .portfolio-home-media::after {
+    display: none !important;
+  }
+
+  .weekly-article-feature__image,
+  .unlock-preview,
+  .portfolio-home-media {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
 @media (max-width: 560px) {
   .cards-vault-page,
   .cards-vault-page * {
@@ -5479,6 +5600,249 @@ body::after {
 
   .archive-post-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Home impact pass: shorter editorial copy, mobile-first hierarchy. */
+.restricted-hero {
+  min-height: min(700px, 82svh);
+  padding-block: 78px 38px;
+}
+
+.hero-copy h1 {
+  max-width: min(100%, 920px);
+  font-size: clamp(3rem, 5.6vw, 5.6rem);
+  white-space: normal;
+}
+
+.hero-subtitle {
+  max-width: 34rem;
+}
+
+.hero-line {
+  max-width: 38rem;
+  font-size: clamp(1.05rem, 1.55vw, 1.42rem);
+  line-height: 1.28;
+}
+
+.hero-publisher {
+  max-width: 34rem;
+  font-size: .98rem;
+  line-height: 1.55;
+}
+
+.approval-editorial-section,
+.fragments-section,
+.forbidden-archives-section,
+.season-section,
+.community-section,
+.portfolio-home-section {
+  padding-block: clamp(44px, 6vw, 78px);
+}
+
+.section-head p,
+.approval-copy p,
+.section-copy p,
+.community-inner p,
+.portfolio-home-copy p,
+.site-footer p {
+  font-size: clamp(.95rem, 1.35vw, 1.08rem);
+  line-height: 1.62;
+}
+
+.portfolio-home-copy h2 {
+  font-size: clamp(1.9rem, 4vw, 3.6rem);
+}
+
+.site-footer div {
+  max-width: 560px;
+}
+
+@media (max-width: 720px) {
+  .restricted-hero {
+    min-height: auto;
+    padding-top: 74px;
+    padding-bottom: 26px;
+  }
+
+  .hero-inner {
+    width: min(100% - 28px, var(--max));
+    padding-block: 26px 14px;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(2.05rem, 9.8vw, 2.76rem);
+    line-height: .96;
+    max-width: 8.7em;
+    white-space: normal;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(.92rem, 4.3vw, 1.04rem);
+    line-height: 1.32;
+  }
+
+  .hero-line {
+    max-width: 100%;
+    font-size: clamp(.98rem, 4.5vw, 1.16rem);
+    line-height: 1.32;
+  }
+
+  .hero-publisher {
+    max-width: 100%;
+    font-size: .88rem;
+  }
+
+  .approval-editorial-section,
+  .fragments-section,
+  .forbidden-archives-section,
+  .season-section,
+  .community-section,
+  .portfolio-home-section {
+    padding-block: 38px;
+  }
+
+  .section-copy h2,
+  .section-head h2,
+  .community-inner h2,
+  .approval-copy h2,
+  .portfolio-home-copy h2 {
+    font-size: clamp(1.55rem, 7.2vw, 2.15rem);
+    line-height: 1.08;
+  }
+
+  .premium-section {
+    padding-block: 34px;
+  }
+
+  .premium-pass {
+    padding: 22px;
+  }
+
+  .premium-pass h2,
+  .premium-offer > strong {
+    font-size: clamp(1.58rem, 7.4vw, 2.18rem);
+  }
+}
+
+/* Critical mobile home fix: no compressed desktop card columns. */
+@media (max-width: 768px) {
+  .approval-layout,
+  .approval-article-grid,
+  .approval-article-grid .weekly-article-feature,
+  .unlock-stage,
+  .unlock-grid,
+  .archive-post-grid,
+  .season-layout,
+  .episode-stack,
+  .premium-pass,
+  .community-inner,
+  .social-links,
+  .portfolio-home-inner {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .approval-article-grid > *,
+  .approval-article-grid a,
+  .weekly-article-feature,
+  .unlock-card,
+  .archive-post-card,
+  .archive-post-card a,
+  .episode-stack a,
+  .premium-pass > *,
+  .premium-offer,
+  .social-links a,
+  .portfolio-home-inner > * {
+    grid-column: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .approval-article-grid a,
+  .archive-post-card a,
+  .episode-stack a,
+  .unlock-card,
+  .premium-offer {
+    min-height: 0 !important;
+    padding: 18px !important;
+    overflow: hidden;
+  }
+
+  .approval-article-grid span,
+  .approval-article-grid strong,
+  .approval-article-grid p,
+  .approval-article-grid em,
+  .unlock-terminal span,
+  .unlock-terminal h3,
+  .unlock-terminal p,
+  .unlock-card span,
+  .unlock-card strong,
+  .unlock-card em,
+  .archive-post-card small,
+  .archive-post-card h3,
+  .archive-post-card p,
+  .archive-post-card em,
+  .episode-stack span,
+  .episode-stack strong,
+  .episode-stack em,
+  .premium-pass h2,
+  .premium-pass p,
+  .premium-offer > strong,
+  .community-inner h2,
+  .community-inner p,
+  .portfolio-home-copy h2,
+  .portfolio-home-copy p {
+    display: block;
+    max-width: 100% !important;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    white-space: normal !important;
+    overflow-wrap: normal;
+    word-break: normal;
+    transform: none !important;
+  }
+
+  .approval-article-grid strong,
+  .unlock-terminal h3,
+  .archive-post-card h3,
+  .episode-stack strong,
+  .premium-pass h2,
+  .premium-offer > strong,
+  .community-inner h2,
+  .portfolio-home-copy h2 {
+    font-size: clamp(1.38rem, 6.4vw, 2rem) !important;
+    line-height: 1.12 !important;
+  }
+
+  .approval-article-grid p,
+  .unlock-terminal p,
+  .archive-post-card p,
+  .premium-pass p,
+  .community-inner p,
+  .portfolio-home-copy p {
+    font-size: .95rem !important;
+    line-height: 1.55 !important;
+  }
+
+  .archive-post-card::before,
+  .archive-post-card::after,
+  .episode-stack a::before,
+  .episode-stack a::after,
+  .unlock-stage::before,
+  .portfolio-home-media::after {
+    display: none !important;
+  }
+
+  .weekly-article-feature__image,
+  .unlock-preview,
+  .portfolio-home-media {
+    width: 100% !important;
+    max-width: 100% !important;
   }
 }
 

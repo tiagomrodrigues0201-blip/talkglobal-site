@@ -370,8 +370,8 @@
 
   const computed = {
     currentEpisodeLabel: () => `EP ${padEpisode(state.currentEpisodeNumber)}`,
-    currentEpisodeStatusLabel: () => "EPISÓDIO ATUAL",
-    currentEpisodeButtonText: () => "Começar leitura",
+    currentEpisodeStatusLabel: () => "TEMPORADA I COMPLETA",
+    currentEpisodeButtonText: () => "Ver temporada completa",
     currentEpisodeSummary: () => state.seasonOnePublicSummary,
     currentEpisodeCardTitle: () => `${computed.currentEpisodeLabel()} — ${state.currentEpisodeTitle}`,
     currentEpisodeCardCopy: () => "A Temporada I está aberta para leitura pública no arquivo oficial de HESIDIO.",

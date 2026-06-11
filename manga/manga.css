@@ -935,6 +935,23 @@ a { color: inherit; text-decoration: none; }
   100% { transform: translate3d(24px,-110vh,0); opacity: 0; }
 }
 
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.forbidden-image,
+.forbidden-image * {
+  max-width: 100%;
+}
+
+.forbidden-image .pattern-mark,
+.forbidden-image .diagonal-mark,
+.forbidden-image .image-mark {
+  pointer-events: none;
+}
+
 @keyframes grainShift {
   0%,100% { transform: translate(0,0); }
   50% { transform: translate(-1%,1%); }
