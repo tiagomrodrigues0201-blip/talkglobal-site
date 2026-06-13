@@ -36,18 +36,18 @@
     nextEpisodeNumber: 12,
     nextEpisodeDate: "13/06/2026",
     episodes: [
-      { number: 1, date: "23/05/2026", title: "O Acidente", url: "/manga/episodios/ep-1/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-1/images/001.png", coverAlt: "Capa do Episódio 1 de HESIDIO" },
-      { number: 2, date: "30/05/2026", title: "A Garota que Sobreviveu", url: "/manga/episodios/ep-2/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-2/images/001.png", coverAlt: "Capa do Episódio 2 de HESIDIO" },
-      { number: 3, date: "03/06/2026", title: "Registro 03", url: "/manga/episodios/ep-3/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-3/images/001.png", coverAlt: "Capa do Episódio 3 de HESIDIO" },
-      { number: 4, date: "03/06/2026", title: "Registro 04", url: "/manga/episodios/ep-4/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-4/images/001.png", coverAlt: "Capa do Episódio 4 de HESIDIO" },
-      { number: 5, date: "03/06/2026", title: "Registro 05", url: "/manga/episodios/ep-5/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-5/images/001.png", coverAlt: "Capa do Episódio 5 de HESIDIO" },
-      { number: 6, date: "03/06/2026", title: "Registro 06", url: "/manga/episodios/ep-6/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-6/images/001.png", coverAlt: "Capa do Episódio 6 de HESIDIO" },
-      { number: 7, date: "03/06/2026", title: "Registro 07", url: "/manga/episodios/ep-7/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-7/images/001.png", coverAlt: "Capa do Episódio 7 de HESIDIO" },
-      { number: 8, date: "03/06/2026", title: "Registro 08", url: "/manga/episodios/ep-8/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-8/images/001.png", coverAlt: "Capa do Episódio 8 de HESIDIO" },
-      { number: 9, date: "03/06/2026", title: "Registro 09", url: "/manga/episodios/ep-9/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-9/images/001.png", coverAlt: "Capa do Episódio 9 de HESIDIO" },
-      { number: 10, date: "03/06/2026", title: "Registro 10", url: "/manga/episodios/ep-10/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-10/images/001.png", coverAlt: "Capa do Episódio 10 de HESIDIO" },
-      { number: 11, date: "13/06/2026", title: "Registro 11", url: "/manga/episodios/ep-11/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-11/images/001.png", coverAlt: "Capa do Episódio 11 de HESIDIO" },
-      { number: 12, date: "13/06/2026", title: "Registro 12", url: "/manga/episodios/ep-12/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-12/images/001.png", coverAlt: "Capa do Episódio 12 de HESIDIO" }
+      { number: 1, date: "23/05/2026", title: "O Acidente", synopsis: "Uma tragédia impossível rompe a normalidade e deixa Ren Hazama diante de algo que nenhum ser humano deveria presenciar. Entre destroços, silêncio e medo, o acidente se torna mais do que uma lembrança: ele marca o início de uma história que o mundo tentou esquecer.", url: "/manga/episodios/ep-1/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-1/images/001.png", coverAlt: "Capa do Episódio 1 de HESIDIO" },
+      { number: 2, date: "30/05/2026", title: "A Garota que Sobreviveu", synopsis: "Airi Kurohana sobrevive ao impossível, mas sua sobrevivência desperta perguntas que ninguém parece preparado para responder. Enquanto Ren se aproxima dela, forças ocultas começam a se mover ao redor dos dois, como se o mundo tivesse percebido algo errado.", url: "/manga/episodios/ep-2/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-2/images/001.png", coverAlt: "Capa do Episódio 2 de HESIDIO" },
+      { number: 3, date: "03/06/2026", title: "Registro 03", synopsis: "Bakurai ataca Ren sem pensar duas vezes, certo de que a violência será suficiente para derrubá-lo. Mas Ren permanece calmo e encerra o confronto com apenas um golpe. No fim, uma presença muito mais perigosa aparece: Sakuma.", url: "/manga/episodios/ep-3/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-3/images/001.png", coverAlt: "Capa do Episódio 3 de HESIDIO" },
+      { number: 4, date: "03/06/2026", title: "Registro 04", synopsis: "Sakuma transforma o campo de batalha em um desastre vivo, esmagando Ren com uma força que parece dobrar as regras do mundo. Mesmo ferido, Ren se coloca entre Airi e a morte. Quanto mais ele resiste, mais a realidade parece reagir ao que dorme dentro dele.", url: "/manga/episodios/ep-4/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-4/images/001.png", coverAlt: "Capa do Episódio 4 de HESIDIO" },
+      { number: 5, date: "03/06/2026", title: "Registro 05", synopsis: "O limite de Ren é ultrapassado, e algo sombrio desperta em meio à destruição. A vitória contra Sakuma não traz alívio, apenas medo e distância. Airi vê Ren de uma forma que jamais imaginou, enquanto o mundo ao redor começa a perder sua forma.", url: "/manga/episodios/ep-5/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-5/images/001.png", coverAlt: "Capa do Episódio 5 de HESIDIO" },
+      { number: 6, date: "03/06/2026", title: "Registro 06", synopsis: "Após a calamidade, Ren e Airi chegam a uma cidade antiga escondida entre montanhas impossíveis. Monte Hélicon observa em silêncio, e Daitetsu surge como uma presença esmagadora. Em outro lugar, Zenkai percebe que Ren ainda está vivo.", url: "/manga/episodios/ep-6/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-6/images/001.png", coverAlt: "Capa do Episódio 6 de HESIDIO" },
+      { number: 7, date: "03/06/2026", title: "Registro 07", synopsis: "Ban surge diante de Ren como uma lembrança que ainda sangra. Ao levar Airi, ele força Ren a encarar uma verdade incômoda: nem todos veem sua presença como proteção. Entre amizade perdida e medo real, o passado volta para cobrar sua dívida.", url: "/manga/episodios/ep-7/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-7/images/001.png", coverAlt: "Capa do Episódio 7 de HESIDIO" },
+      { number: 8, date: "03/06/2026", title: "Registro 08", synopsis: "Longe de Ren e Airi, uma cidade destruída revela o horror de Izaya. Pippa e seu mestre enfrentam uma ameaça calma, elegante e impossível de compreender. Cada ataque parece inútil diante de uma presença que transforma medo em forma.", url: "/manga/episodios/ep-8/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-8/images/001.png", coverAlt: "Capa do Episódio 8 de HESIDIO" },
+      { number: 9, date: "03/06/2026", title: "Registro 09", synopsis: "A luta contra Izaya expõe regras cruéis, onde força bruta se torna armadilha e coragem pode ser punida. Enquanto Pippa foge em desespero, Ban leva Airi a um antigo santuário. Ali, uma reação inesperada anuncia que ela talvez seja mais importante do que imagina.", url: "/manga/episodios/ep-9/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-9/images/001.png", coverAlt: "Capa do Episódio 9 de HESIDIO" },
+      { number: 10, date: "03/06/2026", title: "Registro 10", synopsis: "Alaric se coloca diante de Ban para proteger Airi, mesmo que isso custe seu próprio corpo. Entre vento, pressão e barreiras sagradas, a luta revela mais do que poder: revela dever. Airi tenta impedir o conflito, mas ninguém ali parece disposto a recuar.", url: "/manga/episodios/ep-10/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-10/images/001.png", coverAlt: "Capa do Episódio 10 de HESIDIO" },
+      { number: 11, date: "13/06/2026", title: "Registro 11", synopsis: "A conclusão da Temporada I aproxima Ren, Airi, Ban, Alaric e Daitetsu de um ponto sem retorno. Monte Hélicon reage, o silêncio se rompe e algo antigo começa a respirar novamente. Zenkai observa de longe, como se esperasse por esse momento há muito tempo.", url: "/manga/episodios/ep-11/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-11/images/001.png", coverAlt: "Capa do Episódio 11 de HESIDIO" },
+      { number: 12, date: "13/06/2026", title: "Registro 12", synopsis: "Em um episódio bônus, Kiwa surge entre ruínas e chuva, trazendo calor humano para um mundo marcado por dor. Seu encontro com Ban, Airi e Alaric abre espaço para humor, cuidado e tensão silenciosa. Mas sob Monte Hélicon, algo esquecido começa a despertar.", url: "/manga/episodios/ep-12/", status: "DISPONÍVEL", coverImage: "/public/manga/episodios/ep-12/images/001.png", coverAlt: "Capa do Episódio 12 de HESIDIO" }
     ],
     releasedCharacters: [
       {
@@ -380,7 +380,7 @@
     nextEpisodeSummary: () => {
       const episode = nextEpisode();
       if (state.currentEpisodeNumber >= 12) return "Temporada I completa para leitura pública.";
-      return episode ? `Registros finais selados até ${state.seasonOneFinalReleaseDate}.` : "Registros finais com data a confirmar.";
+      return episode ? "Temporada I disponível para leitura pública." : "Temporada I disponível para leitura pública.";
     },
     nextEpisodeDate: () => nextEpisode()?.date || state.nextEpisodeDate,
     currentCardSummary: () => `Carta atual do cofre: ${state.currentCardTitle}.`,
@@ -405,7 +405,7 @@
 
   const episodeTitle = (episode) => {
     if (episode.number <= state.currentEpisodeNumber) return episode.title;
-    return "Registro selado";
+    return "Registro público";
   };
 
   const episodeDateLabel = (episode) => {
@@ -415,7 +415,7 @@
 
   const episodeCopy = (episode) => {
     if (episode.number <= state.currentEpisodeNumber) return "Registro público aberto.";
-    return `Os registros finais da Temporada I ainda permanecem selados. A abertura oficial ocorrerá em ${state.seasonOneFinalReleaseDate}.`;
+    return "Registro público da Temporada I de HESIDIO.";
   };
 
   const releasedEpisodes = () => state.episodes.filter((episode) => episode.number <= state.currentEpisodeNumber && episode.coverImage);
@@ -447,7 +447,7 @@
 
   const renderCards = (target) => {
     target.innerHTML = state.episodes.map((episode) => `
-      <a class="episode-card ${episode.number <= state.currentEpisodeNumber ? "is-first" : ""} ${episode.premium ? "is-premium" : ""}" href="${escapeHtml(episode.url)}">
+      <a class="episode-card ${episode.number <= state.currentEpisodeNumber ? "is-first" : ""}" href="${escapeHtml(episode.url)}">
         <small>${escapeHtml(episodeDateLabel(episode))} · EP ${padEpisode(episode.number)}</small>
         <h3>${escapeHtml(episodeTitle(episode))}</h3>
         <p>${escapeHtml(episodeCopy(episode))}</p>

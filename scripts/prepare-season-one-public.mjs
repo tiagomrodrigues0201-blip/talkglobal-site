@@ -3,7 +3,7 @@ import path from "path";
 
 const root = process.cwd();
 
-const released = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+const released = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
 const titles = {
   1: "O Acidente",
   2: "A Garota que Sobreviveu",
@@ -15,8 +15,8 @@ const titles = {
   8: "Registro 08",
   9: "Registro 09",
   10: "Registro 10",
-  11: "Registro Selado",
-  12: "Registro Selado"
+  11: "Registro 11",
+  12: "Registro 12"
 };
 
 const questions = {
@@ -29,7 +29,24 @@ const questions = {
   7: "Qual momento mudou sua leitura da Temporada I?",
   8: "Que escolha dos personagens mais chamou sua atenção?",
   9: "O que este registro revela sobre o arquivo de HESIDIO?",
-  10: "Qual teoria você leva para os registros finais?"
+  10: "Qual teoria você leva para os registros finais?",
+  11: "Qual teoria você leva para os registros finais?",
+  12: "Qual teoria você leva para os registros finais?"
+};
+
+const synopses = {
+  1: "Uma tragédia impossível rompe a normalidade e deixa Ren Hazama diante de algo que nenhum ser humano deveria presenciar. Entre destroços, silêncio e medo, o acidente se torna mais do que uma lembrança: ele marca o início de uma história que o mundo tentou esquecer.",
+  2: "Airi Kurohana sobrevive ao impossível, mas sua sobrevivência desperta perguntas que ninguém parece preparado para responder. Enquanto Ren se aproxima dela, forças ocultas começam a se mover ao redor dos dois, como se o mundo tivesse percebido algo errado.",
+  3: "Bakurai ataca Ren sem pensar duas vezes, certo de que a violência será suficiente para derrubá-lo. Mas Ren permanece calmo e encerra o confronto com apenas um golpe. No fim, uma presença muito mais perigosa aparece: Sakuma.",
+  4: "Sakuma transforma o campo de batalha em um desastre vivo, esmagando Ren com uma força que parece dobrar as regras do mundo. Mesmo ferido, Ren se coloca entre Airi e a morte. Quanto mais ele resiste, mais a realidade parece reagir ao que dorme dentro dele.",
+  5: "O limite de Ren é ultrapassado, e algo sombrio desperta em meio à destruição. A vitória contra Sakuma não traz alívio, apenas medo e distância. Airi vê Ren de uma forma que jamais imaginou, enquanto o mundo ao redor começa a perder sua forma.",
+  6: "Após a calamidade, Ren e Airi chegam a uma cidade antiga escondida entre montanhas impossíveis. Monte Hélicon observa em silêncio, e Daitetsu surge como uma presença esmagadora. Em outro lugar, Zenkai percebe que Ren ainda está vivo.",
+  7: "Ban surge diante de Ren como uma lembrança que ainda sangra. Ao levar Airi, ele força Ren a encarar uma verdade incômoda: nem todos veem sua presença como proteção. Entre amizade perdida e medo real, o passado volta para cobrar sua dívida.",
+  8: "Longe de Ren e Airi, uma cidade destruída revela o horror de Izaya. Pippa e seu mestre enfrentam uma ameaça calma, elegante e impossível de compreender. Cada ataque parece inútil diante de uma presença que transforma medo em forma.",
+  9: "A luta contra Izaya expõe regras cruéis, onde força bruta se torna armadilha e coragem pode ser punida. Enquanto Pippa foge em desespero, Ban leva Airi a um antigo santuário. Ali, uma reação inesperada anuncia que ela talvez seja mais importante do que imagina.",
+  10: "Alaric se coloca diante de Ban para proteger Airi, mesmo que isso custe seu próprio corpo. Entre vento, pressão e barreiras sagradas, a luta revela mais do que poder: revela dever. Airi tenta impedir o conflito, mas ninguém ali parece disposto a recuar.",
+  11: "A conclusão da Temporada I aproxima Ren, Airi, Ban, Alaric e Daitetsu de um ponto sem retorno. Monte Hélicon reage, o silêncio se rompe e algo antigo começa a respirar novamente. Zenkai observa de longe, como se esperasse por esse momento há muito tempo.",
+  12: "Em um episódio bônus, Kiwa surge entre ruínas e chuva, trazendo calor humano para um mundo marcado por dor. Seu encontro com Ban, Airi e Alaric abre espaço para humor, cuidado e tensão silenciosa. Mas sob Monte Hélicon, algo esquecido começa a despertar."
 };
 
 function pad(number, size = 2) {
@@ -202,6 +219,10 @@ function releasedPage(number) {
       <h1>${escapeHtml(title)}</h1>
       <p>Registro público da Temporada I de HESIDIO.</p>
     </section>
+    <section class="reader-synopsis" aria-labelledby="episode-synopsis-title">
+      <h2 id="episode-synopsis-title">SINOPSE DO ARQUIVO</h2>
+      <p>${escapeHtml(synopses[number] || "")}</p>
+    </section>
     <section class="reader-book-controls" aria-label="Controles do modo livro">
       <button class="reader-button" type="button" data-reader-prev>Anterior</button>
       <span data-reader-status>Página 1 de ${images.length}</span>
@@ -215,50 +236,10 @@ function releasedPage(number) {
 </html>`;
 }
 
-function sealedPage(number) {
-  return `<!doctype html>
-<html lang="pt-BR">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EP ${pad(number)} — Registro Selado — HESIDIO</title>
-<meta name="description" content="Os registros finais da Temporada I ainda permanecem selados. A abertura oficial ocorrerá em 13 de junho.">
-<link rel="canonical" href="https://talkglobalapp.com/manga/episodios/ep-${number}/">
-<meta name="robots" content="index,follow,max-image-preview:large">
-<meta property="og:type" content="article">
-<meta property="og:site_name" content="HESIDIO">
-<meta property="og:title" content="EP ${pad(number)} — Registro Selado — HESIDIO">
-<meta property="og:description" content="Os registros finais da Temporada I ainda permanecem selados. A abertura oficial ocorrerá em 13 de junho.">
-<meta property="og:url" content="https://talkglobalapp.com/manga/episodios/ep-${number}/">
-<meta property="og:image" content="https://talkglobalapp.com/public/studios/hesidio-poster.png">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="icon" type="image/png" href="/public/studios/hesidio-logo-site.png">
-<link rel="stylesheet" href="/assets/hesidio-reader.css">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7852370456334253" crossorigin="anonymous"></script>
-</head>
-<body class="hesidio-reader-page">
-  <header class="reader-topbar">
-    <a class="reader-brand" href="/manga/"><img src="/public/studios/hesidio-logo-site.png" alt="">HESIDIO</a>
-    ${nav(number)}
-  </header>
-  <main class="locked-reader">
-    <section class="locked-box">
-      <span>REGISTRO SELADO / TEMPORADA I</span>
-      <h1>Os registros finais permanecem selados.</h1>
-      <p>Os registros finais da Temporada I ainda permanecem selados. A abertura oficial ocorrerá em 13 de junho.</p>
-      <a class="reader-button" href="/manga/">Voltar para a Temporada I</a>
-      <a class="reader-button" href="https://discord.gg/cZb3ktnmc" target="_blank" rel="noopener">Entrar no Discord</a>
-    </section>
-  </main>
-</body>
-</html>`;
-}
-
 for (let number = 1; number <= 12; number += 1) {
   const dir = path.join(root, "manga", "episodios", `ep-${number}`);
   fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(
-    path.join(dir, "index.html"),
-    released.has(number) ? releasedPage(number) : sealedPage(number)
-  );
+  if (released.has(number)) {
+    fs.writeFileSync(path.join(dir, "index.html"), releasedPage(number));
+  }
 }
