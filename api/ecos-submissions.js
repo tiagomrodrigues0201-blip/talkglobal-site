@@ -6,7 +6,8 @@ const MAX_COVER_SIZE = 10 * 1024 * 1024;
 const MAX_FILE_SIZE = 50 * 1024 * 1024;
 const MAX_FILES = 3;
 const ALLOWED_COVER_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
-const ALLOWED_FILE_TYPES = new Set(['application/pdf']);
+const ALLOWED_FILE_TYPES = new Set(['application/pdf', 'image/jpeg', 'image/png', 'image/webp']);
+const SAFE_PATH_PATTERN = /^submissions\/[0-9a-f-]{36}\/[a-z0-9-]+\.(?:jpg|jpeg|png|webp|pdf)$/;
 
 class PublicSubmissionError extends Error {}
 class EcosConfigError extends Error {}
@@ -22,7 +23,7 @@ function getSupabaseAdmin() {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) {
-    throw new EcosConfigError('Configuração de envio indisponível no momento.');
+    throw new EcosConfigError('Envio temporariamente indisponível. Tente novamente mais tarde.');
   }
   return createClient(url, key, {
     auth: { persistSession: false, autoRefreshToken: false }
@@ -33,153 +34,49 @@ function getStorageBuckets() {
   const coversBucket = process.env.SUPABASE_COVERS_BUCKET;
   const filesBucket = process.env.SUPABASE_FILES_BUCKET;
   if (!coversBucket || !filesBucket) {
-    throw new EcosConfigError('Configuração de envio indisponível no momento.');
+    throw new EcosConfigError('Envio temporariamente indisponível. Tente novamente mais tarde.');
   }
   if (coversBucket !== EXPECTED_COVERS_BUCKET || filesBucket !== EXPECTED_FILES_BUCKET) {
-    throw new EcosConfigError('Configuração de envio indisponível no momento.');
+    throw new EcosConfigError('Envio temporariamente indisponível. Tente novamente mais tarde.');
   }
   return { coversBucket, filesBucket };
+}
+
+async function readJson(request) {
+  if (request.body && typeof request.body === 'object' && !Buffer.isBuffer(request.body)) return request.body;
+  const raw = await new Promise((resolve, reject) => {
+    if (typeof request.body === 'string') return resolve(request.body);
+    if (Buffer.isBuffer(request.body)) return resolve(request.body.toString('utf8'));
+
+    let body = '';
+    request.on('data', (chunk) => { body += chunk; });
+    request.on('end', () => resolve(body));
+    request.on('error', reject);
+  });
+
+  try {
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    throw new PublicSubmissionError('Envio inválido.');
+  }
 }
 
 function cleanText(value, maxLength = 4000) {
   return String(value || '').trim().slice(0, maxLength);
 }
 
-function slugify(value) {
-  return cleanText(value, 120)
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 72) || 'eco';
-}
-
-function extensionFromName(fileName, fallback) {
-  const extension = String(fileName || '').split('.').pop();
-  return extension && extension !== fileName ? extension.toLowerCase().replace(/[^a-z0-9]/g, '') : fallback;
-}
-
-function buildPath(kind, title, file, index = 0) {
-  const stamp = new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 14);
-  const random = Math.random().toString(36).slice(2, 8);
-  const extension = extensionFromName(file?.name, kind === 'cover' ? 'jpg' : 'pdf');
-  return `${slugify(title)}/${stamp}-${random}${index ? `-parte-${index + 1}` : ''}.${extension}`;
-}
-
-function getHeader(request, name) {
-  return request.headers?.[name] || request.headers?.[name.toLowerCase()] || request.headers?.[name.toUpperCase()] || '';
-}
-
-async function readRawBody(request) {
-  if (Buffer.isBuffer(request.body)) return request.body;
-  if (request.body instanceof Uint8Array) return Buffer.from(request.body);
-  if (typeof request.body === 'string') return Buffer.from(request.body);
-
-  return await new Promise((resolve, reject) => {
-    const chunks = [];
-    request.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
-    request.on('end', () => resolve(Buffer.concat(chunks)));
-    request.on('error', reject);
-  });
-}
-
-function parseContentDisposition(value) {
-  const result = {};
-  String(value || '').split(';').forEach((part) => {
-    const [rawKey, ...rawValue] = part.trim().split('=');
-    if (!rawKey || !rawValue.length) return;
-    result[rawKey.toLowerCase()] = rawValue.join('=').trim().replace(/^"|"$/g, '');
-  });
-  return result;
-}
-
-function parseMultipart(buffer, boundary) {
-  const fields = {};
-  const files = {};
-  const delimiter = Buffer.from(`--${boundary}`);
-  let cursor = buffer.indexOf(delimiter);
-
-  while (cursor !== -1) {
-    cursor += delimiter.length;
-    if (buffer[cursor] === 45 && buffer[cursor + 1] === 45) break;
-    if (buffer[cursor] === 13 && buffer[cursor + 1] === 10) cursor += 2;
-
-    const headerEnd = buffer.indexOf(Buffer.from('\r\n\r\n'), cursor);
-    if (headerEnd === -1) break;
-    const headerText = buffer.slice(cursor, headerEnd).toString('utf8');
-    const headers = {};
-    headerText.split('\r\n').forEach((line) => {
-      const index = line.indexOf(':');
-      if (index === -1) return;
-      headers[line.slice(0, index).trim().toLowerCase()] = line.slice(index + 1).trim();
-    });
-
-    const nextBoundary = buffer.indexOf(delimiter, headerEnd + 4);
-    if (nextBoundary === -1) break;
-    let content = buffer.slice(headerEnd + 4, nextBoundary);
-    if (content.length >= 2 && content[content.length - 2] === 13 && content[content.length - 1] === 10) {
-      content = content.slice(0, -2);
-    }
-
-    const disposition = parseContentDisposition(headers['content-disposition']);
-    const name = disposition.name;
-    if (name) {
-      if (disposition.filename) {
-        const file = {
-          name: disposition.filename,
-          type: headers['content-type'] || 'application/octet-stream',
-          size: content.length,
-          buffer: content
-        };
-        files[name] = files[name] || [];
-        files[name].push(file);
-      } else {
-        fields[name] = content.toString('utf8');
-      }
-    }
-    cursor = nextBoundary;
-  }
-
-  return { fields, files };
-}
-
-async function readSubmission(request) {
-  const contentType = getHeader(request, 'content-type');
-  const boundary = String(contentType).match(/boundary=(?:"([^"]+)"|([^;]+))/i)?.[1] || String(contentType).match(/boundary=(?:"([^"]+)"|([^;]+))/i)?.[2];
-  if (!boundary) throw new PublicSubmissionError('Envio inválido: formulário multipart obrigatório.');
-
-  const rawBody = await readRawBody(request);
-  const { fields, files } = parseMultipart(rawBody, boundary);
-  return {
-    metadata: {
-      title: fields.title,
-      author_name: fields.author_name || fields.penName,
-      author_email: fields.author_email || fields.email,
-      social_url: fields.social_url || fields.social,
-      creation_type: fields.creation_type || fields.creationType,
-      short_description: fields.short_description || fields.summary,
-      content_text: fields.content_text || fields.contentText,
-      external_link: fields.external_link || fields.externalLink,
-      age_rating: fields.age_rating || fields.rating
-    },
-    cover: files.cover?.[0] || files.coverImage?.[0] || null,
-    files: files.files || files.workPdf || []
-  };
-}
-
 function validateMetadata(body) {
-  const metadata = body.metadata || {};
   const required = {
-    title: cleanText(metadata.title, 180),
-    author_name: cleanText(metadata.author_name, 140),
-    author_email: cleanText(metadata.author_email, 180),
-    creation_type: cleanText(metadata.creation_type, 80),
-    short_description: cleanText(metadata.short_description, 700),
-    age_rating: cleanText(metadata.age_rating, 20)
+    title: cleanText(body.title, 180),
+    author_name: cleanText(body.author_name || body.penName, 140),
+    author_email: cleanText(body.author_email || body.email, 180),
+    social_url: cleanText(body.social_url || body.social, 500),
+    creation_type: cleanText(body.creation_type || body.creationType, 80),
+    short_description: cleanText(body.short_description || body.summary, 700),
+    age_rating: cleanText(body.age_rating || body.rating, 20)
   };
 
-  for (const [key, value] of Object.entries(required)) {
+  for (const value of Object.values(required)) {
     if (!value) throw new PublicSubmissionError('Preencha todos os campos obrigatórios antes de enviar.');
   }
 
@@ -187,59 +84,44 @@ function validateMetadata(body) {
     throw new PublicSubmissionError('E-mail inválido.');
   }
 
+  if (body.confirm_authorship !== true || body.allow_public_display !== true) {
+    throw new PublicSubmissionError('Confirme a autoria e a autorização de exibição antes de enviar.');
+  }
+
   return {
     ...required,
-    social_url: cleanText(metadata.social_url, 500) || null,
-    content_text: cleanText(metadata.content_text, 20000) || null,
-    external_link: cleanText(metadata.external_link, 1000) || null
+    content_text: cleanText(body.content_text || body.contentText, 20000) || null,
+    external_link: cleanText(body.external_link || body.externalLink, 1000) || null
   };
 }
 
-function validateCover(file) {
-  if (!file) throw new PublicSubmissionError('Imagem de capa obrigatória.');
-  if (!ALLOWED_COVER_TYPES.has(file.type)) throw new PublicSubmissionError('A capa deve estar em JPG, PNG ou WEBP.');
-  if (Number(file.size || 0) > MAX_COVER_SIZE) throw new PublicSubmissionError('A capa pode ter até 10 MB.');
-}
+function validateUploadedFile(file, allowedTypes, maxSize, label) {
+  const path = cleanText(file?.path, 600);
+  const type = cleanText(file?.type, 120);
+  const size = Number(file?.size || 0);
+  const originalName = cleanText(file?.name, 220);
 
-function validateFiles(files) {
-  if (!Array.isArray(files)) throw new PublicSubmissionError('Lista de arquivos inválida.');
-  if (files.length > MAX_FILES) throw new PublicSubmissionError('Envie no máximo 3 arquivos da obra.');
-  files.forEach((file) => {
-    if (!ALLOWED_FILE_TYPES.has(file.type)) throw new PublicSubmissionError('Os arquivos anexos devem estar em PDF.');
-    if (Number(file.size || 0) > MAX_FILE_SIZE) throw new PublicSubmissionError('Cada arquivo da obra pode ter até 50 MB.');
-  });
-}
+  if (!path || !SAFE_PATH_PATTERN.test(path)) throw new PublicSubmissionError(`${label} inválido.`);
+  if (!allowedTypes.has(type)) throw new PublicSubmissionError(`${label} com tipo inválido.`);
+  if (!Number.isFinite(size) || size <= 0 || size > maxSize) throw new PublicSubmissionError(`${label} com tamanho inválido.`);
 
-async function uploadFile(supabase, bucket, path, file) {
-  const { error } = await supabase.storage
-    .from(bucket)
-    .upload(path, file.buffer, {
-      contentType: file.type,
-      upsert: false
-    });
-  if (error) throw error;
+  return { path, type, size, name: originalName || null };
 }
 
 async function createSubmission(request, response) {
-  const { metadata: rawMetadata, cover, files } = await readSubmission(request);
-  const metadata = validateMetadata({ metadata: rawMetadata });
-  validateCover(cover);
-  validateFiles(files);
+  const body = await readJson(request);
+  const metadata = validateMetadata(body);
+  const cover = validateUploadedFile(body.cover, ALLOWED_COVER_TYPES, MAX_COVER_SIZE, 'Capa');
+  const files = Array.isArray(body.files) ? body.files : [];
+
+  if (files.length > MAX_FILES) throw new PublicSubmissionError('Envie no máximo 3 arquivos da obra.');
+  const uploadedFiles = files.map((file) => validateUploadedFile(file, ALLOWED_FILE_TYPES, MAX_FILE_SIZE, 'Arquivo'));
 
   const supabase = getSupabaseAdmin();
   const { coversBucket, filesBucket } = getStorageBuckets();
-  const coverPath = buildPath('cover', metadata.title, cover);
-  const fileUrls = [];
+  const { data: publicCover } = supabase.storage.from(coversBucket).getPublicUrl(cover.path);
+  const fileUrls = uploadedFiles.map((file) => `${filesBucket}/${file.path}`);
 
-  await uploadFile(supabase, coversBucket, coverPath, cover);
-
-  for (const [index, file] of files.entries()) {
-    const path = buildPath('file', metadata.title, file, index);
-    await uploadFile(supabase, filesBucket, path, file);
-    fileUrls.push(`${filesBucket}/${path}`);
-  }
-
-  const { data: publicCover } = supabase.storage.from(coversBucket).getPublicUrl(coverPath);
   const { data, error } = await supabase
     .from('ecos_submissions')
     .insert({

@@ -99,7 +99,7 @@
           <input type="url" name="externalLink">
         </label>
         <label>PDF da obra
-          <input type="file" name="workPdf" accept="application/pdf" multiple data-ecos-files-input>
+          <input type="file" name="workPdf" accept="application/pdf,image/png,image/jpeg,image/webp" multiple data-ecos-files-input>
         </label>
         <label>Classificação etária
           <select name="rating" required>
@@ -112,11 +112,11 @@
         </label>
       </div>
 
-      <p class="ecos-form-help">Para mangás, quadrinhos ou histórias longas, o criador pode enviar um PDF ou link externo para análise. Recomendamos otimizar imagens e PDFs antes do envio. Arquivos muito grandes podem demorar mais para serem processados. Cada arquivo pode ter até 50 MB.</p>
+      <p class="ecos-form-help">Para mangás, quadrinhos ou histórias longas, o criador pode enviar um PDF ou link externo para análise. Recomendamos otimizar imagens e PDFs antes do envio. Arquivos muito grandes podem demorar mais para serem processados. Cada arquivo pode ter até 50 MB. Para obras maiores, use também o campo de link externo.</p>
 
       <div class="ecos-checks">
-        <label><input type="checkbox" required> <span>Confirmo que esta obra é de minha autoria.</span></label>
-        <label><input type="checkbox" required> <span>Autorizo a exibição da obra no Ecos de Hélicon com os devidos créditos.</span></label>
+        <label><input type="checkbox" name="confirmAuthorship" required data-ecos-authorship> <span>Confirmo que esta obra é de minha autoria.</span></label>
+        <label><input type="checkbox" name="allowPublicDisplay" required data-ecos-display> <span>Autorizo a exibição da obra no Ecos de Hélicon com os devidos créditos.</span></label>
       </div>
 
       <button class="button primary" type="submit" data-ecos-submit-button>Enviar para análise</button>

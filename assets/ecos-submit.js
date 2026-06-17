@@ -3,13 +3,16 @@
   const MAX_FILE_SIZE = 50 * 1024 * 1024;
   const MAX_FILES = 3;
   const ALLOWED_COVER_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
+  const ALLOWED_FILE_TYPES = new Set(['application/pdf', 'image/jpeg', 'image/png', 'image/webp']);
 
   const selectors = {
     form: '[data-ecos-submission-form]',
     status: '[data-ecos-submission-message]',
     submit: '[data-ecos-submit-button]',
     cover: '[data-ecos-cover-input]',
-    files: '[data-ecos-files-input]'
+    files: '[data-ecos-files-input]',
+    authorship: '[data-ecos-authorship]',
+    display: '[data-ecos-display]'
   };
 
   const getElement = (selector) => document.querySelector(selector);
@@ -22,14 +25,10 @@
     status.dataset.state = type;
   }
 
-  function validateCover(file) {
-    if (!file) throw new Error('Envie uma imagem de capa para o Eco.');
-    if (file.size > MAX_COVER_SIZE) {
-      throw new Error('A capa pode ter até 10 MB.');
-    }
-    if (file.type && !ALLOWED_COVER_TYPES.has(file.type)) {
-      throw new Error('A capa deve estar em JPG, PNG ou WEBP.');
-    }
+  function validateFile(file, allowedTypes, maxSize, messages) {
+    if (!file) throw new Error(messages.required);
+    if (file.size > maxSize) throw new Error(messages.size);
+    if (file.type && !allowedTypes.has(file.type)) throw new Error(messages.type);
   }
 
   function validateFiles(files) {
@@ -37,37 +36,78 @@
       throw new Error('Envie no máximo 3 arquivos da obra ou utilize um link externo.');
     }
     files.forEach((file) => {
-      if (file.size > MAX_FILE_SIZE) {
-        throw new Error('Cada arquivo da obra pode ter até 50 MB.');
-      }
-      if (file.type && file.type !== 'application/pdf') {
-        throw new Error('Nesta etapa, os arquivos anexos devem estar em PDF.');
-      }
+      validateFile(file, ALLOWED_FILE_TYPES, MAX_FILE_SIZE, {
+        required: 'Selecione um arquivo da obra.',
+        size: 'Cada arquivo da obra pode ter até 50 MB.',
+        type: 'Arquivos da obra devem ser PDF, JPG, PNG ou WEBP.'
+      });
     });
+  }
+
+  async function apiFetch(url, payload) {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) {
+      throw new Error(result.message || result.error || 'Não foi possível processar o Eco.');
+    }
+    return result;
+  }
+
+  async function uploadDirect(file, target) {
+    const body = new FormData();
+    body.append('cacheControl', '3600');
+    body.append('', file);
+    const response = await fetch(target.signedUrl, {
+      method: 'PUT',
+      headers: { 'x-upsert': 'false' },
+      body
+    });
+    if (!response.ok) {
+      throw new Error('Não foi possível enviar os arquivos. Tente novamente com arquivos otimizados ou use um link externo.');
+    }
   }
 
   function readForm(form) {
     const formData = new FormData(form);
-    const title = String(formData.get('title') || '').trim();
-    const authorName = String(formData.get('penName') || '').trim();
-    const authorEmail = String(formData.get('email') || '').trim();
-    const creationType = String(formData.get('creationType') || '').trim();
-    const shortDescription = String(formData.get('summary') || '').trim();
-    const ageRating = String(formData.get('rating') || '').trim();
     const coverFile = getElement(selectors.cover)?.files?.[0] || null;
     const files = Array.from(getElement(selectors.files)?.files || []);
+    const authorship = Boolean(getElement(selectors.authorship)?.checked);
+    const display = Boolean(getElement(selectors.display)?.checked);
+    const values = {
+      title: String(formData.get('title') || '').trim(),
+      author_name: String(formData.get('penName') || '').trim(),
+      author_email: String(formData.get('email') || '').trim(),
+      social_url: String(formData.get('social') || '').trim(),
+      creation_type: String(formData.get('creationType') || '').trim(),
+      short_description: String(formData.get('summary') || '').trim(),
+      content_text: String(formData.get('contentText') || '').trim(),
+      external_link: String(formData.get('externalLink') || '').trim(),
+      age_rating: String(formData.get('rating') || '').trim(),
+      confirm_authorship: authorship,
+      allow_public_display: display
+    };
 
-    if (!title) throw new Error('Informe o título da criação.');
-    if (!authorName) throw new Error('Informe o nome artístico.');
-    if (!authorEmail) throw new Error('Informe o e-mail.');
-    if (!coverFile) throw new Error('Envie uma imagem de capa para o Eco.');
-    if (!creationType) throw new Error('Selecione o tipo de criação.');
-    if (!shortDescription) throw new Error('Escreva uma descrição curta.');
-    if (!ageRating) throw new Error('Selecione a classificação etária.');
+    if (!values.title) throw new Error('Informe o título da criação.');
+    if (!values.author_name) throw new Error('Informe o nome artístico.');
+    if (!values.author_email) throw new Error('Informe o e-mail.');
+    if (!values.social_url) throw new Error('Informe a rede social principal.');
+    if (!values.creation_type) throw new Error('Selecione o tipo de criação.');
+    if (!values.short_description) throw new Error('Escreva uma descrição curta.');
+    if (!values.age_rating) throw new Error('Selecione a classificação etária.');
+    if (!authorship || !display) throw new Error('Confirme a autoria e a autorização de exibição antes de enviar.');
 
-    validateCover(coverFile);
+    validateFile(coverFile, ALLOWED_COVER_TYPES, MAX_COVER_SIZE, {
+      required: 'Envie uma imagem de capa para o Eco.',
+      size: 'A capa pode ter até 10 MB.',
+      type: 'A capa deve estar em JPG, PNG ou WEBP.'
+    });
     validateFiles(files);
-    return formData;
+
+    return { values, coverFile, files };
   }
 
   async function submitEco(event) {
@@ -77,24 +117,62 @@
     if (submitButton) submitButton.disabled = true;
 
     try {
-      const formData = readForm(form);
-      setStatus('Enviando Eco para análise segura...', 'neutral');
-      const response = await fetch('/api/ecos-submissions', {
-        method: 'POST',
-        body: formData
+      const { values, coverFile, files } = readForm(form);
+      setStatus('Preparando envio seguro dos arquivos...', 'neutral');
+      const uploadPlan = await apiFetch('/api/ecos-upload-urls', {
+        title: values.title,
+        cover: {
+          name: coverFile.name,
+          type: coverFile.type,
+          size: coverFile.size
+        },
+        files: files.map((file) => ({
+          name: file.name,
+          type: file.type || 'application/octet-stream',
+          size: file.size
+        }))
       });
-      const result = await response.json().catch(() => ({}));
-      if (!response.ok || !result.ok) {
-        throw new Error(result.message || result.error || 'Não foi possível processar o Eco.');
+
+      setStatus('Enviando capa para o arquivo de Hélicon...', 'neutral');
+      await uploadDirect(coverFile, uploadPlan.cover);
+
+      const uploadedFiles = [];
+      for (const [index, file] of files.entries()) {
+        const target = uploadPlan.files[index];
+        if (!target) continue;
+        setStatus(`Enviando arquivo ${index + 1} de ${files.length}...`, 'neutral');
+        await uploadDirect(file, target);
+        uploadedFiles.push({
+          path: target.path,
+          name: file.name,
+          type: file.type || target.type,
+          size: file.size
+        });
       }
-      if (result.submission?.status !== 'pending') {
+
+      setStatus('Registrando Eco como pendente de análise...', 'neutral');
+      const completed = await apiFetch('/api/ecos-submissions', {
+        ...values,
+        cover: {
+          path: uploadPlan.cover.path,
+          name: coverFile.name,
+          type: coverFile.type,
+          size: coverFile.size
+        },
+        files: uploadedFiles
+      });
+
+      if (completed.submission?.status !== 'pending') {
         throw new Error('O Eco não retornou com status pendente.');
       }
 
       form.reset();
-      setStatus('Seu Eco foi enviado para análise. A publicação só acontece após revisão manual.', 'success');
+      setStatus('Eco enviado com sucesso. Sua criação entrou para análise.', 'success');
     } catch (error) {
-      setStatus(error.message || 'Não foi possível enviar seu Eco agora.', 'error');
+      const message = error.message === 'Envio temporariamente indisponível. Tente novamente mais tarde.'
+        ? error.message
+        : error.message || 'Não foi possível enviar os arquivos. Tente novamente com arquivos otimizados ou use um link externo.';
+      setStatus(message, 'error');
     } finally {
       if (submitButton) submitButton.disabled = false;
     }
