@@ -1,6 +1,6 @@
 const EXPECTED_COVERS_BUCKET = 'ecos-covers';
 const EXPECTED_FILES_BUCKET = 'ecos-files';
-const EXPECTED_SUPABASE_URL_PREFIX = 'https://czbesfhizljntvldgmh.supabase.co';
+const EXPECTED_SUPABASE_URL_PREFIX = 'https://czbesfihizljntvldgmh.supabase.co';
 const MAX_COVER_SIZE = 10 * 1024 * 1024;
 const MAX_FILE_SIZE = 50 * 1024 * 1024;
 const MAX_FILES = 3;
