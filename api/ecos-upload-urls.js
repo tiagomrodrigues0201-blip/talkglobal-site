@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 
 const EXPECTED_COVERS_BUCKET = 'ecos-covers';
 const EXPECTED_FILES_BUCKET = 'ecos-files';
+const EXPECTED_SUPABASE_URL_PREFIX = 'https://czbesfhizljntvldgmh.supabase.co';
 const MAX_COVER_SIZE = 10 * 1024 * 1024;
 const MAX_FILE_SIZE = 50 * 1024 * 1024;
 const MAX_FILES = 3;
@@ -17,6 +18,56 @@ const EXTENSIONS_BY_TYPE = {
 class PublicUploadError extends Error {}
 class EcosConfigError extends Error {}
 
+function variableState(name, validator) {
+  const value = process.env[name];
+  if (typeof value === 'undefined') return 'AUSENTE';
+
+  const normalized = String(value).trim();
+  if (!normalized) return 'VAZIA';
+  if (validator && !validator(normalized)) return 'FORMATO INVÁLIDO';
+
+  return 'PRESENTE';
+}
+
+function logConfigDiagnostics() {
+  console.info('[ecos-upload-urls] config diagnostics', {
+    SUPABASE_URL: variableState(
+      'SUPABASE_URL',
+      (value) => value.startsWith(EXPECTED_SUPABASE_URL_PREFIX)
+    ),
+    SUPABASE_SERVICE_ROLE_KEY: variableState('SUPABASE_SERVICE_ROLE_KEY'),
+    SUPABASE_COVERS_BUCKET: variableState(
+      'SUPABASE_COVERS_BUCKET',
+      (value) => value === EXPECTED_COVERS_BUCKET
+    ),
+    SUPABASE_FILES_BUCKET: variableState(
+      'SUPABASE_FILES_BUCKET',
+      (value) => value === EXPECTED_FILES_BUCKET
+    )
+  });
+}
+
+function safeSupabaseResponse(error) {
+  const response = error?.response;
+  if (!response) return null;
+
+  if (typeof response === 'string') return response.slice(0, 500);
+
+  return {
+    status: response.status || null,
+    statusText: response.statusText || null
+  };
+}
+
+function safeStorageError(error) {
+  return {
+    name: error?.name || null,
+    message: error?.message || null,
+    statusCode: error?.statusCode || error?.status || null,
+    response: safeSupabaseResponse(error)
+  };
+}
+
 function sendJson(response, statusCode, payload) {
   response.statusCode = statusCode;
   response.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -27,7 +78,7 @@ function sendJson(response, statusCode, payload) {
 function getSupabaseAdmin() {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) {
+  if (!url || !key || !String(url).trim().startsWith(EXPECTED_SUPABASE_URL_PREFIX)) {
     throw new EcosConfigError('Envio temporariamente indisponível. Tente novamente mais tarde.');
   }
   return createClient(url, key, {
@@ -87,9 +138,17 @@ function validateFileDescriptor(file, allowedTypes, maxSize, label) {
   };
 }
 
-async function signedUpload(supabase, bucket, path) {
+async function signedUpload(supabase, bucket, path, type) {
   const { data, error } = await supabase.storage.from(bucket).createSignedUploadUrl(path);
-  if (error) throw error;
+  if (error) {
+    console.error('[ecos-upload-urls] signed upload failed', {
+      type,
+      bucket,
+      path,
+      error: safeStorageError(error)
+    });
+    throw error;
+  }
   return data;
 }
 
@@ -103,19 +162,20 @@ async function createUploadUrls(request, response) {
   if (files.length > MAX_FILES) throw new PublicUploadError('Envie no máximo 3 arquivos da obra.');
 
   const workFiles = files.map((file) => validateFileDescriptor(file, ALLOWED_FILE_TYPES, MAX_FILE_SIZE, 'Arquivo'));
+  logConfigDiagnostics();
   const supabase = getSupabaseAdmin();
   const { coversBucket, filesBucket } = getStorageBuckets();
   const submissionDraftId = crypto.randomUUID();
   const timestamp = Date.now();
 
   const coverPath = `submissions/${submissionDraftId}/cover-${timestamp}.${cover.extension}`;
-  const coverUpload = await signedUpload(supabase, coversBucket, coverPath);
+  const coverUpload = await signedUpload(supabase, coversBucket, coverPath, 'cover');
   const { data: publicCover } = supabase.storage.from(coversBucket).getPublicUrl(coverPath);
 
   const fileUploads = [];
   for (const [index, file] of workFiles.entries()) {
     const path = `submissions/${submissionDraftId}/part-${index + 1}-${timestamp}.${file.extension}`;
-    const upload = await signedUpload(supabase, filesBucket, path);
+    const upload = await signedUpload(supabase, filesBucket, path, 'work_file');
     fileUploads.push({
       bucket: filesBucket,
       path,
