@@ -8,6 +8,9 @@ const MAX_FILES = 3;
 const ALLOWED_COVER_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
 const ALLOWED_FILE_TYPES = new Set(['application/pdf']);
 
+class PublicSubmissionError extends Error {}
+class EcosConfigError extends Error {}
+
 function sendJson(response, statusCode, payload) {
   response.statusCode = statusCode;
   response.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -19,7 +22,7 @@ function getSupabaseAdmin() {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) {
-    throw new Error('Supabase backend incompleto: SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY são obrigatórios.');
+    throw new EcosConfigError('Configuração de envio indisponível no momento.');
   }
   return createClient(url, key, {
     auth: { persistSession: false, autoRefreshToken: false }
@@ -30,10 +33,10 @@ function getStorageBuckets() {
   const coversBucket = process.env.SUPABASE_COVERS_BUCKET;
   const filesBucket = process.env.SUPABASE_FILES_BUCKET;
   if (!coversBucket || !filesBucket) {
-    throw new Error('Buckets do Ecos incompletos: SUPABASE_COVERS_BUCKET e SUPABASE_FILES_BUCKET são obrigatórios.');
+    throw new EcosConfigError('Configuração de envio indisponível no momento.');
   }
   if (coversBucket !== EXPECTED_COVERS_BUCKET || filesBucket !== EXPECTED_FILES_BUCKET) {
-    throw new Error('Buckets do Ecos inválidos. Capas devem usar ecos-covers e arquivos devem usar ecos-files.');
+    throw new EcosConfigError('Configuração de envio indisponível no momento.');
   }
   return { coversBucket, filesBucket };
 }
@@ -144,7 +147,7 @@ function parseMultipart(buffer, boundary) {
 async function readSubmission(request) {
   const contentType = getHeader(request, 'content-type');
   const boundary = String(contentType).match(/boundary=(?:"([^"]+)"|([^;]+))/i)?.[1] || String(contentType).match(/boundary=(?:"([^"]+)"|([^;]+))/i)?.[2];
-  if (!boundary) throw new Error('Envio inválido: formulário multipart obrigatório.');
+  if (!boundary) throw new PublicSubmissionError('Envio inválido: formulário multipart obrigatório.');
 
   const rawBody = await readRawBody(request);
   const { fields, files } = parseMultipart(rawBody, boundary);
@@ -177,11 +180,11 @@ function validateMetadata(body) {
   };
 
   for (const [key, value] of Object.entries(required)) {
-    if (!value) throw new Error(`Campo obrigatório ausente: ${key}.`);
+    if (!value) throw new PublicSubmissionError('Preencha todos os campos obrigatórios antes de enviar.');
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(required.author_email)) {
-    throw new Error('E-mail inválido.');
+    throw new PublicSubmissionError('E-mail inválido.');
   }
 
   return {
@@ -193,17 +196,17 @@ function validateMetadata(body) {
 }
 
 function validateCover(file) {
-  if (!file) throw new Error('Imagem de capa obrigatória.');
-  if (!ALLOWED_COVER_TYPES.has(file.type)) throw new Error('A capa deve estar em JPG, PNG ou WEBP.');
-  if (Number(file.size || 0) > MAX_COVER_SIZE) throw new Error('A capa pode ter até 10 MB.');
+  if (!file) throw new PublicSubmissionError('Imagem de capa obrigatória.');
+  if (!ALLOWED_COVER_TYPES.has(file.type)) throw new PublicSubmissionError('A capa deve estar em JPG, PNG ou WEBP.');
+  if (Number(file.size || 0) > MAX_COVER_SIZE) throw new PublicSubmissionError('A capa pode ter até 10 MB.');
 }
 
 function validateFiles(files) {
-  if (!Array.isArray(files)) throw new Error('Lista de arquivos inválida.');
-  if (files.length > MAX_FILES) throw new Error('Envie no máximo 3 arquivos da obra.');
+  if (!Array.isArray(files)) throw new PublicSubmissionError('Lista de arquivos inválida.');
+  if (files.length > MAX_FILES) throw new PublicSubmissionError('Envie no máximo 3 arquivos da obra.');
   files.forEach((file) => {
-    if (!ALLOWED_FILE_TYPES.has(file.type)) throw new Error('Os arquivos anexos devem estar em PDF.');
-    if (Number(file.size || 0) > MAX_FILE_SIZE) throw new Error('Cada arquivo da obra pode ter até 50 MB.');
+    if (!ALLOWED_FILE_TYPES.has(file.type)) throw new PublicSubmissionError('Os arquivos anexos devem estar em PDF.');
+    if (Number(file.size || 0) > MAX_FILE_SIZE) throw new PublicSubmissionError('Cada arquivo da obra pode ter até 50 MB.');
   });
 }
 
@@ -262,17 +265,30 @@ async function createSubmission(request, response) {
 
 export default async function handler(request, response) {
   try {
+    if (request.method === 'GET') {
+      return sendJson(response, 200, {
+        ok: false,
+        message: 'Use POST to submit Ecos de Hélicon entries.'
+      });
+    }
+
     if (request.method !== 'POST') {
       response.setHeader('Allow', 'POST');
-      return sendJson(response, 405, { ok: false, error: 'method_not_allowed' });
+      return sendJson(response, 405, {
+        ok: false,
+        message: 'Use POST to submit Ecos de Hélicon entries.'
+      });
     }
 
     return await createSubmission(request, response);
   } catch (error) {
+    const safeMessage = error instanceof PublicSubmissionError || error instanceof EcosConfigError
+      ? error.message
+      : 'Não foi possível processar o Eco agora.';
     return sendJson(response, 400, {
       ok: false,
       error: 'ecos_submission_failed',
-      message: error.message || 'Não foi possível processar o Eco.'
+      message: safeMessage
     });
   }
 }

@@ -67,6 +67,10 @@
       "dest": "/api/cards.js"
     },
     {
+      "src": "/api/ecos-submissions/?",
+      "dest": "/api/ecos-submissions.js"
+    },
+    {
       "src": "/manga/?",
       "dest": "/manga/index.html"
     },
