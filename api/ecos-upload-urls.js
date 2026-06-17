@@ -1,5 +1,3 @@
-import { createClient } from '@supabase/supabase-js';
-
 const EXPECTED_COVERS_BUCKET = 'ecos-covers';
 const EXPECTED_FILES_BUCKET = 'ecos-files';
 const EXPECTED_SUPABASE_URL_PREFIX = 'https://czbesfhizljntvldgmh.supabase.co';
@@ -68,8 +66,34 @@ function safeStorageError(error) {
     name: error?.name || null,
     message: error?.message || null,
     statusCode: error?.statusCode || error?.status || null,
+    causeCode: error?.cause?.code || null,
+    causeMessage: error?.cause?.message || null,
     response: safeSupabaseResponse(error)
   };
+}
+
+async function safeResponseText(response) {
+  const text = await response.text().catch(() => '');
+  return text.slice(0, 500);
+}
+
+function storageEndpoint(url, suffix) {
+  return `${url.replace(/\/+$/, '')}/storage/v1${suffix}`;
+}
+
+function storageHeaders(key) {
+  return {
+    apikey: key,
+    Authorization: `Bearer ${key}`,
+    'Content-Type': 'application/json'
+  };
+}
+
+function encodeStoragePath(bucket, path) {
+  return [bucket, ...path.split('/')]
+    .filter(Boolean)
+    .map((part) => encodeURIComponent(part))
+    .join('/');
 }
 
 function sendJson(response, statusCode, payload) {
@@ -79,15 +103,13 @@ function sendJson(response, statusCode, payload) {
   response.end(JSON.stringify(payload));
 }
 
-function getSupabaseAdmin() {
+function getSupabaseConfig() {
   const url = String(process.env.SUPABASE_URL || '').trim();
   const key = String(process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim();
   if (!url || !key || !url.startsWith(EXPECTED_SUPABASE_URL_PREFIX) || !isJwtLike(key)) {
     throw new EcosConfigError('Envio temporariamente indisponível. Tente novamente mais tarde.');
   }
-  return createClient(url, key, {
-    auth: { persistSession: false, autoRefreshToken: false }
-  });
+  return { url, key };
 }
 
 function getStorageBuckets() {
@@ -142,18 +164,93 @@ function validateFileDescriptor(file, allowedTypes, maxSize, label) {
   };
 }
 
-async function signedUpload(supabase, bucket, path, type) {
-  const { data, error } = await supabase.storage.from(bucket).createSignedUploadUrl(path);
-  if (error) {
-    console.error('[ecos-upload-urls] signed upload failed', {
-      type,
-      bucket,
-      path,
+async function checkStorageReachability(config, bucket) {
+  const endpoint = storageEndpoint(config.url, `/bucket/${encodeURIComponent(bucket)}`);
+  try {
+    const response = await fetch(endpoint, {
+      method: 'GET',
+      headers: storageHeaders(config.key)
+    });
+    const details = {
+      endpoint,
+      status: response.status,
+      statusText: response.statusText
+    };
+
+    if (!response.ok) {
+      details.response = await safeResponseText(response);
+      console.error('[ecos-upload-urls] native storage reachability failed', details);
+      throw new Error('Supabase Storage endpoint unavailable.');
+    }
+
+    console.info('[ecos-upload-urls] native storage reachability ok', details);
+  } catch (error) {
+    console.error('[ecos-upload-urls] native storage fetch failed', {
+      endpoint,
       error: safeStorageError(error)
     });
     throw error;
   }
-  return data;
+}
+
+async function signedUpload(config, bucket, path, type) {
+  const endpoint = storageEndpoint(
+    config.url,
+    `/object/upload/sign/${encodeStoragePath(bucket, path)}`
+  );
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: storageHeaders(config.key),
+      body: JSON.stringify({})
+    });
+
+    if (!response.ok) {
+      const error = new Error('Supabase Storage signed upload request failed.');
+      error.status = response.status;
+      error.response = await safeResponseText(response);
+      console.error('[ecos-upload-urls] native signed upload failed', {
+        type,
+        bucket,
+        path,
+        endpoint,
+        error: safeStorageError(error)
+      });
+      throw error;
+    }
+
+    const data = await response.json();
+    const signedUrl = new URL(data.url, storageEndpoint(config.url, '')).toString();
+    const token = new URL(signedUrl).searchParams.get('token');
+
+    if (!token) {
+      const error = new Error('No signed upload token returned by Supabase Storage.');
+      console.error('[ecos-upload-urls] native signed upload failed', {
+        type,
+        bucket,
+        path,
+        endpoint,
+        error: safeStorageError(error)
+      });
+      throw error;
+    }
+
+    return { signedUrl, token, path };
+  } catch (error) {
+    console.error('[ecos-upload-urls] native signed upload fetch failed', {
+      type,
+      bucket,
+      path,
+      endpoint,
+      error: safeStorageError(error)
+    });
+    throw error;
+  }
+}
+
+function getPublicStorageUrl(config, bucket, path) {
+  return encodeURI(storageEndpoint(config.url, `/object/public/${bucket}/${path}`));
 }
 
 async function createUploadUrls(request, response) {
@@ -167,19 +264,19 @@ async function createUploadUrls(request, response) {
 
   const workFiles = files.map((file) => validateFileDescriptor(file, ALLOWED_FILE_TYPES, MAX_FILE_SIZE, 'Arquivo'));
   logConfigDiagnostics();
-  const supabase = getSupabaseAdmin();
+  const supabaseConfig = getSupabaseConfig();
   const { coversBucket, filesBucket } = getStorageBuckets();
+  await checkStorageReachability(supabaseConfig, coversBucket);
   const submissionDraftId = crypto.randomUUID();
   const timestamp = Date.now();
 
   const coverPath = `submissions/${submissionDraftId}/cover-${timestamp}.${cover.extension}`;
-  const coverUpload = await signedUpload(supabase, coversBucket, coverPath, 'cover');
-  const { data: publicCover } = supabase.storage.from(coversBucket).getPublicUrl(coverPath);
+  const coverUpload = await signedUpload(supabaseConfig, coversBucket, coverPath, 'cover');
 
   const fileUploads = [];
   for (const [index, file] of workFiles.entries()) {
     const path = `submissions/${submissionDraftId}/part-${index + 1}-${timestamp}.${file.extension}`;
-    const upload = await signedUpload(supabase, filesBucket, path, 'work_file');
+    const upload = await signedUpload(supabaseConfig, filesBucket, path, 'work_file');
     fileUploads.push({
       bucket: filesBucket,
       path,
@@ -199,7 +296,7 @@ async function createUploadUrls(request, response) {
       path: coverPath,
       signedUrl: coverUpload.signedUrl,
       token: coverUpload.token,
-      cover_url: publicCover.publicUrl,
+      cover_url: getPublicStorageUrl(supabaseConfig, coversBucket, coverPath),
       name: cover.name,
       type: cover.type,
       size: cover.size
