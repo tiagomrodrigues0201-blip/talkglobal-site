@@ -221,7 +221,7 @@ async function signedUpload(config, bucket, path, type) {
     }
 
     const data = await response.json();
-    const signedUrl = new URL(data.url, storageEndpoint(config.url, '')).toString();
+    const signedUrl = new URL(`${storageEndpoint(config.url, '')}${data.url}`).toString();
     const token = new URL(signedUrl).searchParams.get('token');
 
     if (!token) {
