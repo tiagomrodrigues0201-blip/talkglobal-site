@@ -29,13 +29,17 @@ function variableState(name, validator) {
   return 'PRESENTE';
 }
 
+function isJwtLike(value) {
+  return value.split('.').length === 3;
+}
+
 function logConfigDiagnostics() {
   console.info('[ecos-upload-urls] config diagnostics', {
     SUPABASE_URL: variableState(
       'SUPABASE_URL',
       (value) => value.startsWith(EXPECTED_SUPABASE_URL_PREFIX)
     ),
-    SUPABASE_SERVICE_ROLE_KEY: variableState('SUPABASE_SERVICE_ROLE_KEY'),
+    SUPABASE_SERVICE_ROLE_KEY: variableState('SUPABASE_SERVICE_ROLE_KEY', isJwtLike),
     SUPABASE_COVERS_BUCKET: variableState(
       'SUPABASE_COVERS_BUCKET',
       (value) => value === EXPECTED_COVERS_BUCKET
@@ -76,9 +80,9 @@ function sendJson(response, statusCode, payload) {
 }
 
 function getSupabaseAdmin() {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key || !String(url).trim().startsWith(EXPECTED_SUPABASE_URL_PREFIX)) {
+  const url = String(process.env.SUPABASE_URL || '').trim();
+  const key = String(process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim();
+  if (!url || !key || !url.startsWith(EXPECTED_SUPABASE_URL_PREFIX) || !isJwtLike(key)) {
     throw new EcosConfigError('Envio temporariamente indisponível. Tente novamente mais tarde.');
   }
   return createClient(url, key, {
@@ -87,8 +91,8 @@ function getSupabaseAdmin() {
 }
 
 function getStorageBuckets() {
-  const coversBucket = process.env.SUPABASE_COVERS_BUCKET;
-  const filesBucket = process.env.SUPABASE_FILES_BUCKET;
+  const coversBucket = String(process.env.SUPABASE_COVERS_BUCKET || '').trim();
+  const filesBucket = String(process.env.SUPABASE_FILES_BUCKET || '').trim();
   if (!coversBucket || !filesBucket) {
     throw new EcosConfigError('Envio temporariamente indisponível. Tente novamente mais tarde.');
   }
