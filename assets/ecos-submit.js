@@ -4,6 +4,7 @@
   const MAX_FILES = 3;
   const ALLOWED_COVER_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
   const ALLOWED_FILE_TYPES = new Set(['application/pdf', 'image/jpeg', 'image/png', 'image/webp']);
+  let uploadConfigPromise = null;
 
   const selectors = {
     form: '[data-ecos-submission-form]',
@@ -57,13 +58,31 @@
     return result;
   }
 
-  async function uploadDirect(file, target) {
+  async function getUploadConfig() {
+    if (!uploadConfigPromise) {
+      uploadConfigPromise = fetch('/api/auth-config', { cache: 'no-store' })
+        .then((response) => response.json())
+        .then((config) => {
+          if (!config.configured || !config.anonKey) {
+            throw new Error('Envio temporariamente indisponível. Tente novamente mais tarde.');
+          }
+          return config;
+        });
+    }
+    return uploadConfigPromise;
+  }
+
+  async function uploadDirect(file, target, config) {
     const body = new FormData();
     body.append('cacheControl', '3600');
     body.append('', file);
     const response = await fetch(target.signedUrl, {
       method: 'PUT',
-      headers: { 'x-upsert': 'false' },
+      headers: {
+        apikey: config.anonKey,
+        Authorization: `Bearer ${config.anonKey}`,
+        'x-upsert': 'false'
+      },
       body
     });
     if (!response.ok) {
@@ -132,16 +151,17 @@
           size: file.size
         }))
       });
+      const uploadConfig = await getUploadConfig();
 
       setStatus('Enviando capa para o arquivo de Hélicon...', 'neutral');
-      await uploadDirect(coverFile, uploadPlan.cover);
+      await uploadDirect(coverFile, uploadPlan.cover, uploadConfig);
 
       const uploadedFiles = [];
       for (const [index, file] of files.entries()) {
         const target = uploadPlan.files[index];
         if (!target) continue;
         setStatus(`Enviando arquivo ${index + 1} de ${files.length}...`, 'neutral');
-        await uploadDirect(file, target);
+        await uploadDirect(file, target, uploadConfig);
         uploadedFiles.push({
           path: target.path,
           name: file.name,
