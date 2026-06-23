@@ -112,6 +112,263 @@
   }
 }
 
+/* TalkGlobal Studios articles: premium editorial reading system. */
+.article-page {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 50% -8%, rgba(141,17,24,.18), transparent 19rem),
+    radial-gradient(circle at 100% 18%, rgba(184,148,75,.09), transparent 18rem),
+    #050505;
+  color: #f4eee4;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.article-page *,
+.article-page *::before,
+.article-page *::after {
+  box-sizing: border-box;
+}
+
+.articles-hero {
+  padding: 112px 0 42px;
+}
+
+.articles-hero .container {
+  width: min(100% - 28px, var(--max));
+}
+
+.articles-hero h1,
+.article-body h1 {
+  margin: 0;
+  color: #fff7e8;
+  font-family: Georgia, "Times New Roman", ui-serif, serif;
+  font-size: clamp(2.6rem, 13vw, 5.6rem);
+  line-height: .95;
+  letter-spacing: 0;
+}
+
+.articles-hero p {
+  max-width: 760px;
+  margin: 18px 0 0;
+  color: #dccfb8;
+  font-size: clamp(1.05rem, 2.6vw, 1.28rem);
+  line-height: 1.65;
+}
+
+.articles-list {
+  padding: 8px 0 68px;
+}
+
+.article-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  width: min(100% - 28px, var(--max));
+}
+
+.article-card {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid rgba(216,198,157,.18);
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, rgba(20,14,10,.92), rgba(7,6,5,.94)),
+    rgba(8,6,4,.88);
+  box-shadow: 0 26px 80px rgba(0,0,0,.34);
+}
+
+.article-card__image {
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #120c0a;
+}
+
+.article-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.06) saturate(1.08);
+  transition: transform .5s ease, filter .5s ease;
+}
+
+.article-card:hover .article-card__image img {
+  transform: scale(1.035);
+  filter: contrast(1.12) saturate(1.14);
+}
+
+.article-card__copy {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+}
+
+.article-card__copy span,
+.article-meta,
+.article-meta a {
+  color: #c7aa60;
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.article-card__copy h2 {
+  margin: 0;
+  color: #fff4de;
+  font-family: Georgia, "Times New Roman", ui-serif, serif;
+  font-size: clamp(1.35rem, 6vw, 2rem);
+  line-height: 1.06;
+  letter-spacing: 0;
+}
+
+.article-card__copy h2 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.article-card__copy p {
+  margin: 0;
+  color: #d8ccba;
+  font-size: 1rem;
+  line-height: 1.62;
+}
+
+.article-shell {
+  width: min(100% - 28px, 1040px);
+  margin: 0 auto;
+  padding: 96px 0 64px;
+}
+
+.article-detail {
+  display: grid;
+  gap: 22px;
+}
+
+.article-cover {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(216,198,157,.22);
+  border-radius: 8px;
+  background: #110b09;
+  box-shadow: 0 30px 96px rgba(0,0,0,.42);
+}
+
+.article-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.18)),
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,.05), transparent 28rem);
+}
+
+.article-cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  align-items: center;
+}
+
+.article-meta a {
+  text-decoration: none;
+}
+
+.article-body {
+  width: min(100%, 760px);
+  margin: 0 auto;
+}
+
+.article-body h1 {
+  margin: 8px 0 28px;
+  font-size: clamp(2.08rem, 9vw, 4.25rem);
+}
+
+.article-body h2 {
+  margin: 2.45rem 0 1rem;
+  color: #fff0d1;
+  font-family: Georgia, "Times New Roman", ui-serif, serif;
+  font-size: clamp(1.45rem, 5vw, 2rem);
+  line-height: 1.18;
+  letter-spacing: 0;
+}
+
+.article-body p,
+.article-body li {
+  color: #e5dac9;
+  font-size: clamp(1.02rem, 2vw, 1.1rem);
+  line-height: 1.82;
+  letter-spacing: 0;
+}
+
+.article-body p {
+  margin: 0 0 1.08rem;
+}
+
+.article-body ul {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 1.35rem;
+  padding-left: 1.25rem;
+}
+
+.article-body strong {
+  color: #fff8ec;
+}
+
+.article-cta-heading {
+  padding-top: 1.4rem;
+  border-top: 1px solid rgba(216,198,157,.22);
+}
+
+@media (min-width: 760px) {
+  .article-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .article-card__copy {
+    padding: 22px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .article-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .article-card:first-child {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 620px) {
+  .articles-hero {
+    padding-top: 94px;
+  }
+
+  .article-shell {
+    width: min(100% - 22px, 1040px);
+    padding-top: 82px;
+  }
+
+  .article-cover,
+  .article-card {
+    border-radius: 6px;
+  }
+}
+
 /* EP1 visual unlock: focused interaction without adding a separate game flow. */
 .helicon-unlock-section .section-head {
   margin-bottom: 28px;
