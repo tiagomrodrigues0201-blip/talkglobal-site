@@ -32,6 +32,20 @@
     return safeHttpUrl(item.external_link) ? ' target="_blank" rel="noopener noreferrer"' : '';
   }
 
+  function detailAction(item) {
+    const readUrl = safeHttpUrl(item.signed_read_url);
+    if (readUrl) {
+      return `<a class="button primary" href="${escapeHtml(readUrl)}" target="_blank" rel="noopener noreferrer">Ler obra</a>`;
+    }
+
+    const externalLink = safeHttpUrl(item.external_link);
+    if (externalLink) {
+      return `<a class="button primary" href="${escapeHtml(externalLink)}" target="_blank" rel="noopener noreferrer">Abrir link externo</a>`;
+    }
+
+    return '<p class="ecos-form-help">Arquivo público ainda não disponível.</p>';
+  }
+
   function card(item) {
     const type = escapeHtml(item.creation_type || 'Eco aprovado');
     const rating = escapeHtml(item.age_rating || 'Classificação pendente');
@@ -45,7 +59,7 @@
         <h3>${escapeHtml(item.title)}</h3>
         <small>por ${author}</small>
         <p>${escapeHtml(item.short_description)}</p>
-        <a class="button secondary" href="${escapeHtml(workHref(item))}"${workTarget(item)}>Ver obra</a>
+        <a class="button secondary" href="${escapeHtml(workHref(item))}"${workTarget(item)}>Ver detalhes</a>
       </article>
     `;
   }
@@ -72,11 +86,6 @@
       return;
     }
 
-    const externalLink = safeHttpUrl(item.external_link);
-    const external = externalLink
-      ? `<a class="button primary" href="${escapeHtml(externalLink)}" target="_blank" rel="noopener noreferrer">Abrir link externo</a>`
-      : '<button class="button secondary" type="button" disabled>Leitura pública será liberada após revisão final.</button>';
-
     detail.innerHTML = `
       <section class="ecos-form-intro">
         <span class="kicker">${escapeHtml(item.creation_type)} · ${escapeHtml(item.age_rating)}</span>
@@ -88,8 +97,7 @@
           <img src="${escapeHtml(item.cover_url)}" alt="Capa de ${escapeHtml(item.title)}." width="900" height="900" loading="lazy" decoding="async">
         </figure>
         <p>${escapeHtml(item.short_description)}</p>
-        <p class="ecos-form-help">Arquivos privados do Ecos de Hélicon não são expostos nesta visualização local. PDFs privados continuam protegidos em ecos-files.</p>
-        ${external}
+        ${detailAction(item)}
       </article>
     `;
   }
