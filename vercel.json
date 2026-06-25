@@ -75,6 +75,10 @@
       "dest": "/api/ecos-upload-urls.js"
     },
     {
+      "src": "/api/ecos-approved/?",
+      "dest": "/api/ecos-approved.js"
+    },
+    {
       "src": "/manga/?",
       "dest": "/manga/index.html"
     },
