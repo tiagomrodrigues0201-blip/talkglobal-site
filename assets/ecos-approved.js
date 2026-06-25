@@ -15,8 +15,11 @@
   }
 
   function safeHttpUrl(value) {
+    const raw = text(value);
+    if (!raw) return '';
+
     try {
-      const url = new URL(text(value), window.location.origin);
+      const url = new URL(raw, window.location.origin);
       if (url.protocol === 'http:' || url.protocol === 'https:') return url.href;
     } catch {}
     return '';
