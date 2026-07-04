@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Ecos de Hélicon</title>
+<meta name="description" content="Área administrativa protegida para revisão editorial dos envios do Ecos de Hélicon.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#050202">
+<link rel="icon" type="image/png" href="/public/studios/hesidio-logo-site.png">
+<link rel="apple-touch-icon" href="/public/studios/hesidio-logo-site.png">
+<link rel="stylesheet" href="/assets/talkglobal.css">
+<link rel="stylesheet" href="/assets/ecos-admin.css">
+</head>
+<body class="ecos-page ecos-admin-page">
+  <div class="archive-grain" aria-hidden="true"></div>
+  <header class="topbar">
+    <div class="container nav">
+      <a href="/ecos/" class="brand" aria-label="Ecos de Hélicon"><img src="/public/studios/hesidio-logo-site.png" alt="" width="38" height="38"><span>Ecos de Hélicon</span></a>
+      <nav class="menu" aria-label="Navegação administrativa">
+        <a href="/ecos/">Ecos</a><a href="/ecos/enviar/">Enviar Eco</a><a href="/ecos/diretrizes/">Diretrizes</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container ecos-admin-shell">
+    <section class="ecos-admin-hero">
+      <span class="kicker">ADMIN PROTEGIDO</span>
+      <h1>Admin — Ecos de Hélicon</h1>
+      <p>Revisão editorial dos envios reais do Ecos, com arquivos privados acessados apenas por signed URL temporária.</p>
+    </section>
+
+    <section class="ecos-admin-login" data-admin-login-panel>
+      <form class="ecos-admin-login-card" data-admin-login-form>
+        <span class="kicker">LOGIN</span>
+        <h2>Acesso administrativo</h2>
+        <label>ADMIN_SECRET
+          <input type="password" name="adminSecret" autocomplete="current-password" required>
+        </label>
+        <button class="button primary" type="submit" data-admin-login>Entrar</button>
+      </form>
+    </section>
+
+    <p class="ecos-admin-message" data-admin-message hidden></p>
+
+    <div data-admin-app hidden>
+      <section class="ecos-admin-summary" aria-label="Resumo dos envios">
+        <article><span data-admin-count="pending">0</span><small>Pending</small></article>
+      </section>
+
+      <div class="ecos-admin-toolbar">
+        <button class="button secondary" type="button" data-admin-refresh>Atualizar pendentes</button>
+        <button class="button secondary" type="button" data-admin-logout>Sair</button>
+      </div>
+
+      <section class="ecos-admin-layout">
+        <aside class="ecos-admin-list" aria-label="Lista de envios pendentes">
+          <div class="ecos-admin-panel-head">
+            <span class="kicker">SUBMISSIONS</span>
+            <h2>Envios pending</h2>
+            <p>Somente envios pendentes aparecem nesta lista. Aprovados entram automaticamente em /ecos/.</p>
+          </div>
+          <div class="ecos-admin-items" data-admin-list></div>
+        </aside>
+
+        <article class="ecos-admin-detail" aria-live="polite" data-admin-detail>
+          <div class="ecos-admin-empty">
+            <span class="kicker">REVIEW</span>
+            <h2>Selecione um envio</h2>
+            <p>A capa, o arquivo temporário e os dados editoriais aparecerão aqui.</p>
+          </div>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <script src="/assets/ecos-admin.js" defer></script>
+</body>
+</html>

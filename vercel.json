@@ -79,6 +79,18 @@
       "dest": "/api/ecos-approved.js"
     },
     {
+      "src": "/api/ecos-admin-submissions/?",
+      "dest": "/api/ecos-admin-submissions.js"
+    },
+    {
+      "src": "/api/ecos-admin-submission/?",
+      "dest": "/api/ecos-admin-submission.js"
+    },
+    {
+      "src": "/api/ecos-admin-status/?",
+      "dest": "/api/ecos-admin-status.js"
+    },
+    {
       "src": "/manga/?",
       "dest": "/manga/index.html"
     },
