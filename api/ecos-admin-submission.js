@@ -3,11 +3,12 @@ import { createClient } from '@supabase/supabase-js';
 
 const FILES_BUCKET = 'ecos-files';
 const SIGNED_URL_EXPIRES_IN = 10 * 60;
-const DETAIL_FIELDS = 'id,title,author_name,author_email,author_social,creation_type,short_description,age_rating,status,cover_url,external_link,file_url,created_at';
+const DETAIL_FIELDS = 'id,title,author_name,author_email,social_url,creation_type,short_description,age_rating,status,cover_url,external_link,file_url,created_at';
 
 class EcosConfigError extends Error {}
 class EcosAuthError extends Error {}
 class EcosInputError extends Error {}
+class EcosDataError extends Error {}
 
 function sendJson(response, statusCode, payload) {
   response.statusCode = statusCode;
@@ -54,6 +55,7 @@ function getSupabaseAdmin() {
 function parseStoredFiles(value) {
   if (!value) return [];
   if (Array.isArray(value)) return value;
+  if (typeof value === 'object') return [value];
 
   if (typeof value === 'string') {
     const trimmed = value.trim();
@@ -61,6 +63,7 @@ function parseStoredFiles(value) {
 
     try {
       const parsed = JSON.parse(trimmed);
+      if (!parsed) return [];
       return Array.isArray(parsed) ? parsed : [parsed];
     } catch {
       return [trimmed];
@@ -72,7 +75,7 @@ function parseStoredFiles(value) {
 
 function normalizePrivateFilePath(value) {
   const candidate = value && typeof value === 'object'
-    ? value.path || value.file_url || value.url || value.href
+    ? value.path || value.file_url || value.url || value.href || value.publicUrl || value.public_url
     : value;
   const raw = String(candidate || '').trim();
   if (!raw) return '';
@@ -82,16 +85,20 @@ function normalizePrivateFilePath(value) {
     storagePath = new URL(raw).pathname;
   } catch {}
 
-  const withoutPublicPrefix = storagePath.replace(/^\/?storage\/v1\/object\/(?:public|sign)\//, '');
-  const withoutBucket = withoutPublicPrefix.startsWith(`${FILES_BUCKET}/`)
-    ? withoutPublicPrefix.slice(`${FILES_BUCKET}/`.length)
-    : withoutPublicPrefix;
+  const withoutLeadingSlash = storagePath.replace(/^\/+/, '');
+  const withoutObjectPrefix = withoutLeadingSlash.replace(/^storage\/v1\/object\/(?:public|sign|authenticated)\//, '');
+  const withoutBucket = withoutObjectPrefix.startsWith(`${FILES_BUCKET}/`)
+    ? withoutObjectPrefix.slice(`${FILES_BUCKET}/`.length)
+    : withoutObjectPrefix.startsWith(`${FILES_BUCKET}%2F`)
+      ? withoutObjectPrefix.slice(`${FILES_BUCKET}%2F`.length)
+      : withoutObjectPrefix;
 
-  if (!/^submissions\/[0-9a-f-]{36}\/[a-z0-9-]+\.(?:pdf|jpg|jpeg|png|webp)$/i.test(withoutBucket)) {
+  const decodedPath = decodeURIComponent(withoutBucket);
+  if (!/^submissions\/[0-9a-f-]{36}\/[a-z0-9-]+\.(?:pdf|jpg|jpeg|png|webp)$/i.test(decodedPath)) {
     return '';
   }
 
-  return withoutBucket;
+  return decodedPath;
 }
 
 function safePublicCoverUrl(value) {
@@ -100,12 +107,19 @@ function safePublicCoverUrl(value) {
 
   try {
     const url = new URL(raw);
-    if ((url.protocol === 'http:' || url.protocol === 'https:') && !url.pathname.includes(`/${FILES_BUCKET}/`)) {
-      return url.href;
-    }
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') return '';
+    if (url.pathname.includes(`/${FILES_BUCKET}/`)) return '';
+    return url.href;
   } catch {}
 
   return '';
+}
+
+function safeStorageMessage(error) {
+  return {
+    message: error?.message || null,
+    statusCode: error?.statusCode || error?.status || null
+  };
 }
 
 function fileNameFromPath(path) {
@@ -124,25 +138,30 @@ async function signedUrl(supabase, value) {
     .createSignedUrl(path, SIGNED_URL_EXPIRES_IN);
 
   if (error) {
-    console.warn('[ecos-admin-submission] signed URL unavailable', { message: error.message });
+    console.warn('[ecos-admin-submission] signed URL unavailable', {
+      path,
+      error: safeStorageMessage(error)
+    });
     return { signedUrl: '', fileName: fileNameFromPath(path) };
   }
 
   return { signedUrl: data?.signedUrl || '', fileName: fileNameFromPath(path) };
 }
 
-function adminItem(row, filePreview, coverPreview) {
+function adminItem(row, filePreview) {
   if (!row) return null;
   const {
     file_url,
     cover_url,
+    social_url,
     ...safeRow
   } = row;
 
   return {
     ...safeRow,
+    author_social: social_url || '',
     cover_url: safePublicCoverUrl(cover_url),
-    cover_signed_url: coverPreview.signedUrl || '',
+    cover_signed_url: '',
     file_signed_url: filePreview.signedUrl || '',
     file_name: filePreview.fileName || 'Arquivo enviado',
     signed_url_expires_in: filePreview.signedUrl ? SIGNED_URL_EXPIRES_IN : null
@@ -161,12 +180,17 @@ async function getSubmission(request, response) {
     .eq('id', id)
     .maybeSingle();
 
-  if (error) throw error;
+  if (error) {
+    console.error('[ecos-admin-submission] Supabase detail query failed', {
+      code: error.code || null,
+      message: error.message || null
+    });
+    throw new EcosDataError('Não foi possível consultar este envio.');
+  }
   if (!data) return sendJson(response, 404, { ok: false, error: 'ecos_submission_not_found', message: 'Envio não encontrado.' });
 
   const filePreview = await signedUrl(supabase, data.file_url);
-  const coverPreview = await signedUrl(supabase, data.cover_url);
-  return sendJson(response, 200, { ok: true, item: adminItem(data, filePreview, coverPreview) });
+  return sendJson(response, 200, { ok: true, item: adminItem(data, filePreview) });
 }
 
 export default async function handler(request, response) {
@@ -185,7 +209,7 @@ export default async function handler(request, response) {
       return sendJson(response, 400, { ok: false, error: 'ecos_admin_bad_request', message: error.message });
     }
 
-    const message = error instanceof EcosConfigError
+    const message = error instanceof EcosConfigError || error instanceof EcosDataError
       ? error.message
       : 'Não foi possível abrir este envio agora.';
     return sendJson(response, 500, { ok: false, error: 'ecos_admin_submission_failed', message });
