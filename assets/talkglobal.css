@@ -333,6 +333,47 @@
   border-top: 1px solid rgba(216,198,157,.22);
 }
 
+.article-related {
+  width: min(100%, 760px);
+  margin: 12px auto 0;
+  padding-top: 26px;
+  border-top: 1px solid rgba(216,198,157,.18);
+}
+
+.article-related h2 {
+  margin: 0 0 14px;
+  color: #fff0d1;
+  font-family: Georgia, "Times New Roman", ui-serif, serif;
+  font-size: clamp(1.35rem, 5vw, 1.85rem);
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+.article-related__list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.article-related__list a {
+  display: block;
+  padding: 13px 14px;
+  border: 1px solid rgba(216,198,157,.16);
+  border-radius: 6px;
+  background: rgba(12,9,7,.72);
+  color: #f4e5c8;
+  font-weight: 800;
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.article-related__list a:hover {
+  border-color: rgba(199,170,96,.44);
+  background: rgba(28,18,12,.88);
+}
+
 @media (min-width: 760px) {
   .article-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
