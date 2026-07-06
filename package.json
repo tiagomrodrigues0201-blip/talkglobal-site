@@ -8,7 +8,10 @@
     "approve": "node automation/publishApprovedArticles.js --approve-only",
     "publish": "node automation/publishApprovedArticles.js",
     "sync-social": "node scripts/sync-social.mjs",
-    "build:hesidio": "node scripts/build-hesidio-episodes.mjs"
+    "build:hesidio": "node scripts/build-hesidio-episodes.mjs",
+    "predeploy:prod": "node scripts/predeploy-check.mjs",
+    "deploy:prod": "node scripts/deploy-prod.mjs",
+    "verify:production": "node scripts/verify-production.mjs"
   },
   "engines": {
     "node": ">=18"
