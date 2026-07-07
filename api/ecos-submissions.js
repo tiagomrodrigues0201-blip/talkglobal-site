@@ -4,7 +4,7 @@ const EXPECTED_COVERS_BUCKET = 'ecos-covers';
 const EXPECTED_FILES_BUCKET = 'ecos-files';
 const MAX_COVER_SIZE = 10 * 1024 * 1024;
 const MAX_FILE_SIZE = 50 * 1024 * 1024;
-const MAX_FILES = 3;
+const MAX_FILES = 20;
 const ALLOWED_COVER_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
 const ALLOWED_FILE_TYPES = new Set(['application/pdf', 'image/jpeg', 'image/png', 'image/webp']);
 const SAFE_PATH_PATTERN = /^submissions\/[0-9a-f-]{36}\/[a-z0-9-]+\.(?:jpg|jpeg|png|webp|pdf)$/;
@@ -68,9 +68,8 @@ function cleanText(value, maxLength = 4000) {
 function validateMetadata(body) {
   const required = {
     title: cleanText(body.title, 180),
-    author_name: cleanText(body.author_name || body.penName, 140),
+    author_name: cleanText(body.author_name || body.penName, 140) || 'Autor anônimo',
     author_email: cleanText(body.author_email || body.email, 180),
-    social_url: cleanText(body.social_url || body.social, 500),
     creation_type: cleanText(body.creation_type || body.creationType, 80),
     short_description: cleanText(body.short_description || body.summary, 700),
     age_rating: cleanText(body.age_rating || body.rating, 20)
@@ -90,6 +89,7 @@ function validateMetadata(body) {
 
   return {
     ...required,
+    social_url: cleanText(body.social_url || body.social, 500) || null,
     content_text: cleanText(body.content_text || body.contentText, 20000) || null,
     external_link: cleanText(body.external_link || body.externalLink, 1000) || null
   };
@@ -114,13 +114,20 @@ async function createSubmission(request, response) {
   const cover = validateUploadedFile(body.cover, ALLOWED_COVER_TYPES, MAX_COVER_SIZE, 'Capa');
   const files = Array.isArray(body.files) ? body.files : [];
 
-  if (files.length > MAX_FILES) throw new PublicSubmissionError('Envie no máximo 3 arquivos da obra.');
+  if (files.length > MAX_FILES) throw new PublicSubmissionError(`Envie no máximo ${MAX_FILES} arquivos da obra.`);
   const uploadedFiles = files.map((file) => validateUploadedFile(file, ALLOWED_FILE_TYPES, MAX_FILE_SIZE, 'Arquivo'));
 
   const supabase = getSupabaseAdmin();
   const { coversBucket, filesBucket } = getStorageBuckets();
   const { data: publicCover } = supabase.storage.from(coversBucket).getPublicUrl(cover.path);
-  const fileUrls = uploadedFiles.map((file) => `${filesBucket}/${file.path}`);
+  const fileUrls = uploadedFiles.map((file, index) => ({
+    bucket: filesBucket,
+    path: file.path,
+    name: file.name || `Capítulo ${index + 1}`,
+    type: file.type,
+    size: file.size,
+    chapter_number: index + 1
+  }));
 
   const { data, error } = await supabase
     .from('ecos_submissions')

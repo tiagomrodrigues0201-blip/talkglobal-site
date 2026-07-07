@@ -869,6 +869,67 @@
   font-weight: 850;
 }
 
+.ecos-chapter-panel {
+  display: grid;
+  gap: 14px;
+  margin: 0 auto 34px;
+  max-width: 860px;
+  width: min(100%, 860px);
+  padding: clamp(18px, 4vw, 28px);
+  border: 1px solid rgba(216,198,157,.16);
+  background:
+    radial-gradient(circle at 8% 0%, rgba(184,148,75,.12), transparent 16rem),
+    rgba(8,5,4,.76);
+}
+
+.ecos-chapter-panel h2 {
+  margin: 0;
+  color: #fff7e6;
+  font-family: Georgia, "Times New Roman", ui-serif, serif;
+  font-size: clamp(1.55rem, 7vw, 2.35rem);
+  line-height: 1.08;
+}
+
+.ecos-chapter-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ecos-chapter-list a {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 5px;
+  min-width: 0;
+  padding: 13px 14px;
+  border: 1px solid rgba(216,198,157,.15);
+  background: rgba(0,0,0,.24);
+  color: #fff7e6;
+  text-decoration: none;
+}
+
+.ecos-chapter-list a:hover {
+  border-color: rgba(216,198,157,.42);
+  background: rgba(184,148,75,.08);
+}
+
+.ecos-chapter-list span,
+.ecos-chapter-list small {
+  color: rgba(216,198,157,.68);
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.ecos-chapter-list strong {
+  overflow-wrap: anywhere;
+  line-height: 1.25;
+}
+
 .ecos-guidelines-card ul {
   display: grid;
   gap: 8px;

@@ -3,7 +3,7 @@ const EXPECTED_FILES_BUCKET = 'ecos-files';
 const EXPECTED_SUPABASE_URL_PREFIX = 'https://czbesfihizljntvldgmh.supabase.co';
 const MAX_COVER_SIZE = 10 * 1024 * 1024;
 const MAX_FILE_SIZE = 50 * 1024 * 1024;
-const MAX_FILES = 3;
+const MAX_FILES = 20;
 const ALLOWED_COVER_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
 const ALLOWED_FILE_TYPES = new Set(['application/pdf', 'image/jpeg', 'image/png', 'image/webp']);
 const EXTENSIONS_BY_TYPE = {
@@ -260,7 +260,7 @@ async function createUploadUrls(request, response) {
   const files = Array.isArray(body.files) ? body.files : [];
 
   if (!title) throw new PublicUploadError('Informe o título da criação.');
-  if (files.length > MAX_FILES) throw new PublicUploadError('Envie no máximo 3 arquivos da obra.');
+  if (files.length > MAX_FILES) throw new PublicUploadError(`Envie no máximo ${MAX_FILES} arquivos da obra.`);
 
   const workFiles = files.map((file) => validateFileDescriptor(file, ALLOWED_FILE_TYPES, MAX_FILE_SIZE, 'Arquivo'));
   logConfigDiagnostics();
@@ -275,7 +275,8 @@ async function createUploadUrls(request, response) {
 
   const fileUploads = [];
   for (const [index, file] of workFiles.entries()) {
-    const path = `submissions/${submissionDraftId}/part-${index + 1}-${timestamp}.${file.extension}`;
+    const chapterNumber = String(index + 1).padStart(2, '0');
+    const path = `submissions/${submissionDraftId}/chapter-${chapterNumber}-${timestamp}.${file.extension}`;
     const upload = await signedUpload(supabaseConfig, filesBucket, path, 'work_file');
     fileUploads.push({
       bucket: filesBucket,
@@ -284,7 +285,8 @@ async function createUploadUrls(request, response) {
       token: upload.token,
       name: file.name,
       type: file.type,
-      size: file.size
+      size: file.size,
+      chapter_number: index + 1
     });
   }
 

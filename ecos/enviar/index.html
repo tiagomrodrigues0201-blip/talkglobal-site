@@ -40,7 +40,7 @@
     <section class="ecos-form-intro">
       <span class="kicker">NOVO ECO</span>
       <h1>Enviar meu Eco</h1>
-      <p>Compartilhe sua criação para análise editorial. Nenhuma obra será publicada automaticamente.</p>
+      <p>Compartilhe sua criação para análise editorial. Mangás podem ser enviados como capítulos em massa ou por link externo. Nenhuma obra será publicada automaticamente.</p>
       <div class="ecos-submit-note">
         <strong>Pendente de análise</strong>
         <span>Autoria, classificação etária, créditos e adequação editorial precisam ser revisados antes de qualquer publicação.</span>
@@ -49,14 +49,11 @@
 
     <form class="ecos-form" data-ecos-submission-form>
       <div class="ecos-form-grid">
-        <label>Nome artístico
-          <input type="text" name="penName" autocomplete="organization" required>
+        <label>Crédito público (opcional)
+          <input type="text" name="penName" autocomplete="organization" placeholder="Deixe em branco para enviar como autor anônimo">
         </label>
         <label>E-mail
           <input type="email" name="email" autocomplete="email" required>
-        </label>
-        <label>Rede social principal
-          <input type="url" name="social" required>
         </label>
         <label>Tipo de criação
           <select name="creationType" required>
@@ -98,7 +95,7 @@
         <label>Link externo
           <input type="url" name="externalLink">
         </label>
-        <label>PDF da obra
+        <label>Capítulos ou arquivo da obra
           <input type="file" name="workPdf" accept="application/pdf,image/png,image/jpeg,image/webp" multiple data-ecos-files-input>
         </label>
         <label>Classificação etária
@@ -112,11 +109,11 @@
         </label>
       </div>
 
-      <p class="ecos-form-help">Para mangás, quadrinhos ou histórias longas, o criador pode enviar um PDF ou link externo para análise. Recomendamos otimizar imagens e PDFs antes do envio. Arquivos muito grandes podem demorar mais para serem processados. Cada arquivo pode ter até 50 MB. Para obras maiores, use também o campo de link externo.</p>
+      <p class="ecos-form-help">Para mangás, quadrinhos ou histórias longas, envie até 20 PDFs ou imagens, com até 50 MB por arquivo. Use nomes em ordem, como capitulo-01.pdf, capitulo-02.pdf e capitulo-03.pdf. Para obras maiores ou já hospedadas, use também o campo de link externo.</p>
 
       <div class="ecos-checks">
         <label><input type="checkbox" name="confirmAuthorship" required data-ecos-authorship> <span>Confirmo que esta obra é de minha autoria.</span></label>
-        <label><input type="checkbox" name="allowPublicDisplay" required data-ecos-display> <span>Autorizo a exibição da obra no Ecos de Hélicon com os devidos créditos.</span></label>
+        <label><input type="checkbox" name="allowPublicDisplay" required data-ecos-display> <span>Autorizo a exibição da obra no Ecos de Hélicon com o crédito público informado ou como autor anônimo.</span></label>
       </div>
 
       <button class="button primary" type="submit" data-ecos-submit-button>Enviar para análise</button>

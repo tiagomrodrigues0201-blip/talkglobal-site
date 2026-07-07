@@ -1,7 +1,7 @@
 (() => {
   const MAX_COVER_SIZE = 10 * 1024 * 1024;
   const MAX_FILE_SIZE = 50 * 1024 * 1024;
-  const MAX_FILES = 3;
+  const MAX_FILES = 20;
   const ALLOWED_COVER_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
   const ALLOWED_FILE_TYPES = new Set(['application/pdf', 'image/jpeg', 'image/png', 'image/webp']);
   let uploadConfigPromise = null;
@@ -34,7 +34,7 @@
 
   function validateFiles(files) {
     if (files.length > MAX_FILES) {
-      throw new Error('Envie no máximo 3 arquivos da obra ou utilize um link externo.');
+      throw new Error(`Envie no máximo ${MAX_FILES} arquivos da obra ou utilize um link externo.`);
     }
     files.forEach((file) => {
       validateFile(file, ALLOWED_FILE_TYPES, MAX_FILE_SIZE, {
@@ -43,6 +43,13 @@
         type: 'Arquivos da obra devem ser PDF, JPG, PNG ou WEBP.'
       });
     });
+  }
+
+  function sortFiles(files) {
+    return [...files].sort((a, b) => a.name.localeCompare(b.name, 'pt-BR', {
+      numeric: true,
+      sensitivity: 'base'
+    }));
   }
 
   async function apiFetch(url, payload) {
@@ -93,14 +100,14 @@
   function readForm(form) {
     const formData = new FormData(form);
     const coverFile = getElement(selectors.cover)?.files?.[0] || null;
-    const files = Array.from(getElement(selectors.files)?.files || []);
+    const files = sortFiles(Array.from(getElement(selectors.files)?.files || []));
     const authorship = Boolean(getElement(selectors.authorship)?.checked);
     const display = Boolean(getElement(selectors.display)?.checked);
     const values = {
       title: String(formData.get('title') || '').trim(),
-      author_name: String(formData.get('penName') || '').trim(),
+      author_name: String(formData.get('penName') || '').trim() || 'Autor anônimo',
       author_email: String(formData.get('email') || '').trim(),
-      social_url: String(formData.get('social') || '').trim(),
+      social_url: '',
       creation_type: String(formData.get('creationType') || '').trim(),
       short_description: String(formData.get('summary') || '').trim(),
       content_text: String(formData.get('contentText') || '').trim(),
@@ -111,9 +118,7 @@
     };
 
     if (!values.title) throw new Error('Informe o título da criação.');
-    if (!values.author_name) throw new Error('Informe o nome artístico.');
     if (!values.author_email) throw new Error('Informe o e-mail.');
-    if (!values.social_url) throw new Error('Informe a rede social principal.');
     if (!values.creation_type) throw new Error('Selecione o tipo de criação.');
     if (!values.short_description) throw new Error('Escreva uma descrição curta.');
     if (!values.age_rating) throw new Error('Selecione a classificação etária.');
@@ -145,10 +150,11 @@
           type: coverFile.type,
           size: coverFile.size
         },
-        files: files.map((file) => ({
+        files: files.map((file, index) => ({
           name: file.name,
           type: file.type || 'application/octet-stream',
-          size: file.size
+          size: file.size,
+          chapter_number: index + 1
         }))
       });
       const uploadConfig = await getUploadConfig();
@@ -166,7 +172,8 @@
           path: target.path,
           name: file.name,
           type: file.type || target.type,
-          size: file.size
+          size: file.size,
+          chapter_number: index + 1
         });
       }
 
@@ -204,7 +211,7 @@
       filesInput.addEventListener('change', () => {
         try {
           validateFiles(Array.from(filesInput.files || []));
-          setStatus('Arquivos selecionados para análise.', 'neutral');
+          setStatus(`${filesInput.files.length} arquivo(s) selecionado(s). A ordem será definida pelo nome dos arquivos.`, 'neutral');
         } catch (error) {
           filesInput.value = '';
           setStatus(error.message, 'error');

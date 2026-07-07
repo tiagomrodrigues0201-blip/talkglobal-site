@@ -26,27 +26,88 @@
   }
 
   function workHref(item) {
-    const externalLink = safeHttpUrl(item.external_link);
-    if (externalLink) return externalLink;
     return `/ecos/obra/?id=${encodeURIComponent(item.id)}`;
   }
 
-  function workTarget(item) {
-    return safeHttpUrl(item.external_link) ? ' target="_blank" rel="noopener noreferrer"' : '';
+  function readerPages(item) {
+    return Array.isArray(item?.reader_pages)
+      ? item.reader_pages.filter((page) => safeHttpUrl(page?.url))
+      : [];
   }
 
-  function detailAction(item) {
-    const readUrl = safeHttpUrl(item.signed_read_url);
-    if (readUrl) {
-      return `<a class="button primary" href="${escapeHtml(readUrl)}" target="_blank" rel="noopener noreferrer">Ler obra</a>`;
-    }
+  function chapters(item) {
+    return Array.isArray(item?.chapters)
+      ? item.chapters.filter((chapter) => safeHttpUrl(chapter?.url))
+      : [];
+  }
 
+  function formatBytes(value) {
+    const size = Number(value);
+    if (!Number.isFinite(size) || size <= 0) return '';
+    const mb = size / (1024 * 1024);
+    if (mb >= 1) return `${mb.toFixed(mb >= 10 ? 0 : 1)} MB`;
+    return `${Math.max(1, Math.round(size / 1024))} KB`;
+  }
+
+  function renderChapterList(item) {
+    const items = chapters(item);
     const externalLink = safeHttpUrl(item.external_link);
-    if (externalLink) {
-      return `<a class="button primary" href="${escapeHtml(externalLink)}" target="_blank" rel="noopener noreferrer">Abrir link externo</a>`;
+    if (!items.length && !externalLink) return '';
+
+    return `
+      <section class="ecos-chapter-panel" aria-label="Capítulos disponíveis">
+        <span class="kicker">LEITURA</span>
+        <h2>${items.length > 1 ? 'Capítulos disponíveis' : 'Arquivo disponível'}</h2>
+        ${items.length ? `
+          <ol class="ecos-chapter-list">
+            ${items.map((chapter, index) => {
+              const number = Number(chapter.number) > 0 ? Number(chapter.number) : index + 1;
+              const size = formatBytes(chapter.size);
+              return `
+                <li>
+                  <a href="${escapeHtml(safeHttpUrl(chapter.url))}" target="_blank" rel="noopener noreferrer">
+                    <span>Capítulo ${number}</span>
+                    <strong>${escapeHtml(chapter.title || `Capítulo ${number}`)}</strong>
+                    ${size ? `<small>${escapeHtml(size)}</small>` : ''}
+                  </a>
+                </li>
+              `;
+            }).join('')}
+          </ol>
+        ` : ''}
+        ${externalLink ? `<a class="button secondary" href="${escapeHtml(externalLink)}" target="_blank" rel="noopener noreferrer">Abrir link externo</a>` : ''}
+      </section>
+    `;
+  }
+
+  function renderReader(item) {
+    const pages = readerPages(item);
+    if (!pages.length) {
+      if (chapters(item).length || safeHttpUrl(item.external_link)) return '';
+      return `
+        <section class="ecos-reader-empty" aria-live="polite">
+          <span class="kicker">LEITOR</span>
+          <h2>Leitor ainda não disponível.</h2>
+          <p>Esta obra já está aprovada, mas as páginas otimizadas para leitura vertical ainda não foram preparadas.</p>
+        </section>
+      `;
     }
 
-    return '<p class="ecos-form-help">Arquivo público ainda não disponível.</p>';
+    const title = escapeHtml(item.title || 'obra');
+    const total = pages.length;
+    return `
+      <section class="ecos-reader" aria-label="Leitor vertical de ${title}">
+        ${pages.map((page, index) => {
+          const width = Number(page.width) > 0 ? Math.round(Number(page.width)) : 1200;
+          const height = Number(page.height) > 0 ? Math.round(Number(page.height)) : 1800;
+          return `
+            <figure class="ecos-reader-page">
+              <img src="${escapeHtml(safeHttpUrl(page.url))}" alt="Página ${index + 1} de ${total} de ${title}." width="${width}" height="${height}" loading="lazy" decoding="async">
+            </figure>
+          `;
+        }).join('')}
+      </section>
+    `;
   }
 
   function card(item) {
@@ -62,7 +123,7 @@
         <h3>${escapeHtml(item.title)}</h3>
         <small>por ${author}</small>
         <p>${escapeHtml(item.short_description)}</p>
-        <a class="button secondary" href="${escapeHtml(workHref(item))}"${workTarget(item)}>Ver detalhes</a>
+        <a class="button secondary" href="${escapeHtml(workHref(item))}">Ver detalhes</a>
       </article>
     `;
   }
@@ -100,8 +161,9 @@
           <img src="${escapeHtml(item.cover_url)}" alt="Capa de ${escapeHtml(item.title)}." width="900" height="900" loading="lazy" decoding="async">
         </figure>
         <p>${escapeHtml(item.short_description)}</p>
-        ${detailAction(item)}
       </article>
+      ${renderChapterList(item)}
+      ${renderReader(item)}
     `;
   }
 

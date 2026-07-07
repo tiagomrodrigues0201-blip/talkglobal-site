@@ -3,14 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eco aprovado | Ecos de Hélicon</title>
-<meta name="description" content="Visualização pública local de um Eco aprovado em Hélicon, com capa, autoria, classificação e descrição editorial.">
+<title>Leitor do Eco | Ecos de Hélicon</title>
+<meta name="description" content="Leitor vertical público para Ecos aprovados em Hélicon, com páginas otimizadas para leitura mobile.">
 <link rel="canonical" href="https://talkglobalapp.com/ecos/obra/">
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#050202">
 <link rel="icon" type="image/png" href="/public/studios/hesidio-logo-site.png">
 <link rel="apple-touch-icon" href="/public/studios/hesidio-logo-site.png">
 <link rel="stylesheet" href="/assets/talkglobal.css">
+<style>
+  .ecos-reader {
+    display: grid;
+    gap: 10px;
+    margin: 0 auto 48px;
+    max-width: 860px;
+    width: min(100%, 860px);
+  }
+
+  .ecos-reader-page {
+    background: #050202;
+    border: 1px solid rgba(255, 244, 225, 0.08);
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .ecos-reader-page img {
+    display: block;
+    height: auto;
+    width: 100%;
+  }
+
+  .ecos-reader-empty {
+    border: 1px solid rgba(245, 213, 168, 0.18);
+    background: rgba(14, 7, 5, 0.78);
+    margin: 0 auto 48px;
+    max-width: 760px;
+    padding: clamp(22px, 7vw, 40px);
+  }
+
+  .ecos-reader-empty h2 {
+    color: #fff4e1;
+    font-size: clamp(1.5rem, 8vw, 2.4rem);
+    line-height: 1.05;
+    margin: 10px 0 12px;
+  }
+
+  .ecos-reader-empty p {
+    color: rgba(255, 244, 225, 0.78);
+    margin: 0;
+  }
+</style>
 </head>
 <body class="ecos-page ecos-work-page">
   <div class="archive-grain" aria-hidden="true"></div>
