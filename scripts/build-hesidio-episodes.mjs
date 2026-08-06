@@ -2,8 +2,8 @@ import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync
 import { join } from "node:path";
 import { execFileSync } from "node:child_process";
 
-const sourceRoot = "/Users/tiago/Desktop/Anime/manga/o-acidente";
-const siteRoot = "/Users/tiago/Desktop/Site";
+const sourceRoot = process.env.HESIDIO_SOURCE_ROOT || join(process.cwd(), "source/manga/o-acidente");
+const siteRoot = process.env.SITE_ROOT || process.cwd();
 const publicRoot = join(siteRoot, "public/manga/episodios");
 const pageRoot = join(siteRoot, "manga/episodios");
 const previewCount = 3;

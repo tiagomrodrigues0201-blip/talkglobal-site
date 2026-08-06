@@ -2,8 +2,7 @@ import { copyFileSync, existsSync, mkdirSync, readdirSync, statSync } from "node
 import { join } from "node:path";
 
 const source = "social";
-const destination =
-  "/Users/tiago/Library/Mobile Documents/com~apple~CloudDocs/TalkGlobal/Social";
+const destination = process.env.SOCIAL_SYNC_DESTINATION || "social-export";
 
 function copyDirectory(from, to) {
   mkdirSync(to, { recursive: true });

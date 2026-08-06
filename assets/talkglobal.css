@@ -2616,20 +2616,18 @@ button.collectible-card {
 }
 
 .cards-unlock-toast {
-  position: fixed;
-  z-index: 60;
-  right: 18px;
-  bottom: 18px;
-  max-width: min(420px, calc(100vw - 36px));
+  width: min(100%, 360px);
   border: 1px solid rgba(184,148,75,.44);
-  padding: 16px 18px;
+  padding: 11px 13px;
   background:
     linear-gradient(135deg, rgba(139,17,24,.22), transparent 58%),
     rgba(3,1,1,.94);
   color: #fff2d9;
   font-weight: 800;
-  line-height: 1.4;
-  box-shadow: 0 18px 70px rgba(0,0,0,.48);
+  font-size: .82rem;
+  line-height: 1.35;
+  text-align: center;
+  box-shadow: 0 14px 46px rgba(0,0,0,.32);
 }
 
 .has-card-modal {
@@ -2931,6 +2929,793 @@ button.collectible-card {
 @media (prefers-reduced-motion: reduce) {
   .is-living-card .card-living-layer {
     animation: none;
+  }
+}
+
+/* TalkGlobal Cartas IA MVP */
+.cartas-ai-page {
+  background:
+    radial-gradient(circle at 74% 8%, rgba(37, 172, 117, .14), transparent 26rem),
+    radial-gradient(circle at 12% 18%, rgba(214, 184, 92, .1), transparent 22rem),
+    linear-gradient(180deg, #07130f 0%, #08100f 48%, #050807 100%);
+  color: #eef7ed;
+}
+
+.cartas-ai-page .button {
+  border-radius: 6px;
+}
+
+.cartas-shell {
+  padding-bottom: 60px;
+}
+
+.cartas-hero {
+  padding: clamp(112px, 12vw, 160px) 0 42px;
+  border-bottom: 1px solid rgba(137, 188, 156, .22);
+}
+
+.cartas-hero-grid,
+.cartas-dashboard {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(320px, .7fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.cartas-hero-copy h1,
+.cartas-panel h2 {
+  margin: 0;
+  color: #f5f3df;
+  letter-spacing: 0;
+}
+
+.cartas-hero-copy h1 {
+  max-width: 880px;
+  font-size: clamp(3rem, 7vw, 7.2rem);
+  line-height: .92;
+}
+
+.cartas-hero-copy p,
+.cartas-panel p {
+  color: rgba(238, 247, 237, .72);
+  line-height: 1.6;
+}
+
+.cartas-panel {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  border: 1px solid rgba(185, 213, 178, .16);
+  border-radius: 8px;
+  padding: clamp(18px, 2.6vw, 28px);
+  background:
+    linear-gradient(145deg, rgba(37, 172, 117, .09), rgba(218, 176, 75, .04)),
+    rgba(6, 16, 13, .78);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.035), 0 24px 70px rgba(0,0,0,.24);
+}
+
+.cartas-wide {
+  grid-column: 1 / -1;
+}
+
+.cartas-auth form,
+.cartas-photo-form {
+  display: grid;
+  gap: 10px;
+}
+
+.cartas-auth label,
+.cartas-photo-form label,
+.cartas-panel .kicker,
+.cartas-game-card span,
+.cartas-game-card small {
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #d7bd68;
+}
+
+.cartas-auth input,
+.cartas-photo-form input,
+.cartas-actions select {
+  width: 100%;
+  border: 1px solid rgba(185, 213, 178, .2);
+  border-radius: 6px;
+  padding: 13px 12px;
+  background: rgba(0,0,0,.28);
+  color: #eef7ed;
+  font: inherit;
+}
+
+.cartas-section-head {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cartas-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.cartas-empty {
+  grid-column: 1 / -1;
+  border: 1px dashed rgba(185, 213, 178, .24);
+  border-radius: 8px;
+  padding: 24px;
+  color: rgba(238, 247, 237, .72);
+}
+
+.cartas-game-card,
+.cartas-game-card button {
+  min-width: 0;
+}
+
+.cartas-game-card {
+  border: 1px solid rgba(185, 213, 178, .14);
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(0,0,0,.22);
+}
+
+.cartas-game-card.is-selected {
+  border-color: rgba(215, 189, 104, .72);
+  box-shadow: 0 0 0 2px rgba(215, 189, 104, .12);
+}
+
+.cartas-game-card button {
+  display: grid;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cartas-game-card__art {
+  aspect-ratio: 4 / 3;
+  background: #07130f;
+}
+
+.cartas-game-card__art img,
+.cartas-generated-art {
+  width: 100%;
+  height: 100%;
+}
+
+.cartas-game-card__art img {
+  object-fit: cover;
+}
+
+.cartas-generated-art {
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 40% 32%, rgba(255,255,255,.22), transparent 8rem),
+    linear-gradient(135deg, rgba(37, 172, 117, .42), rgba(13, 31, 48, .9));
+}
+
+.cartas-generated-art span {
+  border: 1px solid rgba(255,255,255,.32);
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(0,0,0,.24);
+}
+
+.cartas-game-card__body {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+}
+
+.cartas-game-card h3 {
+  margin: 0;
+  color: #f5f3df;
+  font-size: 1.25rem;
+  line-height: 1.12;
+}
+
+.cartas-game-card p,
+.cartas-game-card dl {
+  margin: 0;
+}
+
+.cartas-game-card dl {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.cartas-game-card dl div {
+  border: 1px solid rgba(185, 213, 178, .14);
+  border-radius: 6px;
+  padding: 6px;
+  background: rgba(255,255,255,.035);
+}
+
+.cartas-game-card dt {
+  color: rgba(238, 247, 237, .54);
+  font-size: .62rem;
+}
+
+.cartas-game-card dd {
+  margin: 0;
+  color: #f5f3df;
+  font-weight: 900;
+}
+
+.cartas-deck,
+.cartas-synergies,
+.cartas-stat-row {
+  display: grid;
+  gap: 10px;
+}
+
+.cartas-deck article,
+.cartas-synergies article {
+  border: 1px solid rgba(185, 213, 178, .14);
+  border-radius: 8px;
+  padding: 12px;
+  background: rgba(0,0,0,.18);
+}
+
+.cartas-deck span,
+.cartas-stat-row span {
+  color: #d7bd68;
+  font-weight: 900;
+}
+
+.cartas-battle {
+  display: grid;
+  gap: 14px;
+}
+
+.cartas-combatants {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.cartas-combatant {
+  border: 1px solid rgba(185, 213, 178, .16);
+  border-radius: 8px;
+  padding: 14px;
+  background: rgba(0,0,0,.22);
+}
+
+.cartas-combatant strong {
+  display: block;
+  margin-top: 5px;
+  color: #f5f3df;
+  font-size: 1.25rem;
+}
+
+.cartas-combatant meter {
+  width: 100%;
+  height: 12px;
+}
+
+.cartas-actions {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.cartas-log {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 20px;
+  color: rgba(238, 247, 237, .74);
+}
+
+@media (max-width: 920px) {
+  .cartas-hero-grid,
+  .cartas-dashboard,
+  .cartas-card-grid,
+  .cartas-combatants,
+  .cartas-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .cartas-hero-copy h1 {
+    font-size: clamp(2.55rem, 12vw, 4.4rem);
+  }
+
+  .cartas-section-head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
+.cartas-ai-page {
+  --rarity-edge: #8a8f90;
+  --rarity-soft: rgba(138, 143, 144, .2);
+  --rarity-glow: rgba(138, 143, 144, .26);
+  --rarity-label: #c7c8c3;
+}
+
+.cartas-game-card.rarity-comum,
+.cartas-detail-modal.rarity-comum {
+  --rarity-edge: #9a8d78;
+  --rarity-soft: rgba(154, 141, 120, .18);
+  --rarity-glow: rgba(154, 141, 120, .26);
+  --rarity-label: #c7b9a1;
+}
+
+.cartas-game-card.rarity-rara,
+.cartas-detail-modal.rarity-rara {
+  --rarity-edge: #36c6df;
+  --rarity-soft: rgba(54, 198, 223, .18);
+  --rarity-glow: rgba(54, 198, 223, .38);
+  --rarity-label: #9eefff;
+}
+
+.cartas-game-card.rarity-lendaria,
+.cartas-detail-modal.rarity-lendaria {
+  --rarity-edge: #d6ad50;
+  --rarity-soft: rgba(214, 173, 80, .2);
+  --rarity-glow: rgba(214, 173, 80, .42);
+  --rarity-label: #ffe2a0;
+}
+
+.cartas-game-card.rarity-mitica,
+.cartas-detail-modal.rarity-mitica {
+  --rarity-edge: #d780ff;
+  --rarity-soft: rgba(215, 128, 255, .22);
+  --rarity-glow: rgba(215, 128, 255, .5);
+  --rarity-label: #f1c0ff;
+}
+
+.cartas-ai-page .cartas-dashboard {
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
+}
+
+.cartas-section-head p {
+  margin: 6px 0 0;
+  color: rgba(238,247,237,.66);
+  font-weight: 800;
+}
+
+.cartas-save-group {
+  display: grid;
+  gap: 8px;
+  justify-items: end;
+  min-width: min(100%, 250px);
+}
+
+.cartas-save-group span,
+.cartas-mini-label {
+  color: rgba(238,247,237,.6);
+  font: 900 .68rem/1.3 "Courier New", ui-monospace, monospace;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.cartas-save-group .button {
+  width: 100%;
+  min-height: 44px;
+}
+
+.cartas-save-group .button:disabled {
+  opacity: .48;
+  cursor: not-allowed;
+  filter: grayscale(.4);
+}
+
+.cartas-save-group .button.is-ready:not(:disabled) {
+  box-shadow: 0 0 0 1px rgba(255,255,255,.08), 0 12px 34px rgba(37,172,117,.24);
+}
+
+.cartas-mock-note {
+  margin: 0;
+  border: 1px solid rgba(54,198,223,.26);
+  border-radius: 8px;
+  padding: 12px 14px;
+  background: rgba(54,198,223,.08);
+  color: rgba(238,247,237,.78);
+}
+
+.cartas-card-grid {
+  justify-content: center;
+  grid-template-columns: repeat(3, minmax(240px, 320px));
+  gap: clamp(14px, 2vw, 24px);
+}
+
+.cartas-game-card {
+  position: relative;
+  aspect-ratio: 5 / 7;
+  border: 1px solid color-mix(in srgb, var(--rarity-edge) 64%, #18211d);
+  border-radius: 16px;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.055), transparent 24%),
+    radial-gradient(circle at 50% 0%, var(--rarity-soft), transparent 44%),
+    #101713;
+  box-shadow: 0 18px 48px rgba(0,0,0,.26), inset 0 0 0 1px rgba(255,255,255,.045);
+}
+
+.cartas-game-card::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  z-index: 0;
+  border: 1px solid rgba(255,255,255,.075);
+  border-radius: 11px;
+  pointer-events: none;
+}
+
+.cartas-game-card.is-selected {
+  border-color: var(--rarity-edge);
+  box-shadow:
+    0 20px 58px rgba(0,0,0,.32),
+    0 0 0 3px rgba(245,243,223,.9),
+    0 0 0 6px var(--rarity-glow);
+}
+
+.cartas-game-card.is-selected::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255,255,255,.12), transparent 34%);
+}
+
+.cartas-card-select {
+  position: relative;
+  z-index: 1;
+  grid-template-rows: 58% minmax(0, 1fr);
+  height: 100%;
+}
+
+.cartas-card-select:focus-visible,
+.cartas-detail-trigger:focus-visible,
+.cartas-detail-close:focus-visible {
+  outline: 3px solid #eef7ed;
+  outline-offset: 3px;
+}
+
+.cartas-selected-badge {
+  position: absolute;
+  z-index: 5;
+  top: 14px;
+  right: 14px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 999px;
+  padding: 7px 9px;
+  background: rgba(4,8,7,.82);
+  color: #eef7ed !important;
+  font-size: .56rem !important;
+}
+
+.cartas-game-card:not(.is-selected) .cartas-selected-badge {
+  opacity: .72;
+}
+
+.cartas-game-card__top {
+  position: absolute;
+  z-index: 3;
+  top: 18px;
+  left: 18px;
+  right: 92px;
+  display: grid;
+  gap: 4px;
+  padding: 0;
+  text-shadow: 0 2px 12px rgba(0,0,0,.72);
+}
+
+.cartas-game-card__top strong {
+  max-width: 100%;
+  color: #f5f3df;
+  font-size: clamp(1.05rem, 1.7vw, 1.34rem);
+  line-height: 1.05;
+}
+
+.cartas-game-card__top span {
+  color: var(--rarity-label) !important;
+}
+
+.cartas-game-card__art {
+  aspect-ratio: auto;
+  height: 100%;
+  min-height: 0;
+  margin: 14px 14px 0;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #07130f;
+}
+
+.cartas-demo-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cartas-demo-art .aura {
+  filter: blur(2px);
+}
+
+.cartas-demo-art .particle,
+.cartas-demo-art .weapon-line,
+.cartas-demo-art .visor {
+  fill: none;
+  stroke: rgba(245,243,223,.82);
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+
+.cartas-demo-art .particle {
+  stroke-width: 4;
+  opacity: .48;
+}
+
+.cartas-demo-art .cape {
+  fill: rgba(12,15,17,.76);
+}
+
+.cartas-demo-art .body,
+.cartas-demo-art .weapon {
+  fill: rgba(238,247,237,.78);
+}
+
+.cartas-demo-art .head {
+  fill: rgba(245,243,223,.88);
+}
+
+.cartas-demo-art .base-glow {
+  fill: rgba(255,255,255,.18);
+}
+
+.cartas-game-card__body {
+  gap: 4px;
+  padding: 8px 14px 48px;
+  overflow: hidden;
+}
+
+.cartas-game-card__body p {
+  color: rgba(238,247,237,.72);
+  font-size: .76rem;
+  line-height: 1.18;
+}
+
+.cartas-game-card dl {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.cartas-game-card dl div,
+.cartas-detail-content dl div {
+  border-color: rgba(255,255,255,.1);
+  background: rgba(0,0,0,.22);
+  text-align: center;
+}
+
+.cartas-game-card dl div {
+  padding: 4px;
+}
+
+.cartas-game-card dt,
+.cartas-detail-content dt {
+  color: rgba(238,247,237,.62);
+  font: 900 .56rem/1 "Courier New", ui-monospace, monospace;
+}
+
+.cartas-game-card dd,
+.cartas-detail-content dd {
+  color: #f5f3df;
+  font-size: .82rem;
+}
+
+.cartas-card-traits {
+  display: grid;
+  gap: 4px;
+}
+
+.cartas-card-traits span {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 5px;
+  align-items: start;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 7px;
+  padding: 4px 6px;
+  background: rgba(0,0,0,.16);
+  color: rgba(238,247,237,.72) !important;
+  font-size: .55rem !important;
+  line-height: 1.08;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.cartas-card-traits b {
+  color: var(--rarity-label);
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: .5rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.cartas-detail-trigger {
+  position: absolute;
+  z-index: 4;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  min-height: 32px;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 8px;
+  background: rgba(4,8,7,.84);
+  color: #eef7ed;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.cartas-detail-trigger:hover {
+  border-color: var(--rarity-edge);
+}
+
+.cartas-deck-summary-grid {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  gap: 16px;
+}
+
+.cartas-deck,
+.cartas-synergies {
+  margin-top: 8px;
+}
+
+.cartas-synergies article small {
+  color: var(--rarity-label);
+  font-weight: 900;
+}
+
+.cartas-detail-modal {
+  position: fixed;
+  z-index: 90;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(14px, 3vw, 34px);
+  background: rgba(0,0,0,.78);
+  backdrop-filter: blur(10px);
+}
+
+.cartas-detail-modal[hidden] {
+  display: none !important;
+}
+
+.cartas-detail-panel {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(260px, 380px) minmax(280px, 480px);
+  gap: clamp(18px, 4vw, 40px);
+  width: min(100%, 960px);
+  max-height: min(92vh, 860px);
+  overflow: auto;
+  border: 1px solid var(--rarity-edge);
+  border-radius: 14px;
+  padding: clamp(18px, 3vw, 30px);
+  background:
+    radial-gradient(circle at 20% 0%, var(--rarity-soft), transparent 22rem),
+    #09110e;
+  box-shadow: 0 32px 110px rgba(0,0,0,.58), 0 0 0 4px var(--rarity-glow);
+}
+
+.cartas-detail-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: rgba(0,0,0,.5);
+  color: #eef7ed;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.cartas-detail-art {
+  aspect-ratio: 5 / 7;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #07130f;
+}
+
+.cartas-detail-content {
+  align-self: center;
+  display: grid;
+  gap: 14px;
+}
+
+.cartas-detail-content > span {
+  color: var(--rarity-label);
+  font: 900 .72rem/1.3 "Courier New", ui-monospace, monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.cartas-detail-content h2 {
+  margin: 0;
+  color: #f5f3df;
+  font-size: clamp(2rem, 4vw, 4rem);
+  line-height: .98;
+}
+
+.cartas-detail-content p {
+  margin: 0;
+  color: rgba(238,247,237,.72);
+  line-height: 1.62;
+}
+
+.cartas-detail-content dl {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.cartas-detail-content dl div {
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.cartas-detail-facts {
+  display: grid;
+  gap: 8px;
+}
+
+.cartas-detail-facts article {
+  display: grid;
+  gap: 4px;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+  padding: 10px;
+  background: rgba(0,0,0,.18);
+}
+
+.cartas-detail-facts strong {
+  color: var(--rarity-label);
+  font-size: .76rem;
+  text-transform: uppercase;
+}
+
+@media (max-width: 1040px) {
+  .cartas-card-grid {
+    grid-template-columns: repeat(3, minmax(220px, 300px));
+  }
+}
+
+@media (max-width: 920px) {
+  .cartas-ai-page .cartas-dashboard,
+  .cartas-deck-summary-grid,
+  .cartas-detail-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .cartas-card-grid {
+    grid-template-columns: minmax(0, min(100%, 340px));
+    justify-content: center;
+  }
+
+  .cartas-save-group {
+    justify-items: stretch;
+  }
+
+  .cartas-detail-content dl {
+    grid-template-columns: repeat(5, minmax(48px, 1fr));
   }
 }
 
@@ -3856,6 +4641,11 @@ img { display: block; max-width: 100%; }
 .cookie-consent .button {
   min-height: 42px;
   padding: 10px 16px;
+}
+
+.cartas-ai-page .cookie-consent {
+  position: static;
+  margin: 28px auto;
 }
 
 .character-index-page main,

@@ -13,6 +13,7 @@ export default function handler(request, response) {
 
   const supabaseUrl = process.env.SUPABASE_URL || '';
   const anonKey = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+  const backendUrl = process.env.TALKGLOBAL_BACKEND_URL || '';
 
   if (!supabaseUrl || !anonKey) {
     return sendJson(response, 200, {
@@ -26,6 +27,7 @@ export default function handler(request, response) {
     ok: true,
     configured: true,
     supabaseUrl,
-    anonKey
+    anonKey,
+    backendUrl
   });
 }

@@ -5,8 +5,8 @@ import { promisify } from "node:util";
 
 const execFileAsync = promisify(execFile);
 
-const ffmpeg = "/Users/tiago/Desktop/Site/node_modules/ffmpeg-static/ffmpeg";
-const inputDir = process.argv[2] || "/Users/tiago/Desktop/Anime/hesidio-videos";
+const ffmpeg = process.env.FFMPEG_PATH || "ffmpeg";
+const inputDir = process.argv[2] || process.env.HESIDIO_VIDEO_INPUT_DIR || "source/hesidio-videos";
 const outputDir = process.argv[3] || "public/videos";
 
 await mkdir(outputDir, { recursive: true });

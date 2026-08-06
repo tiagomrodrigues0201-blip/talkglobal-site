@@ -3,3 +3,7 @@ node_modules/
 .DS_Store
 .vercel/
 work/
+test/screenshots/
+*.log
+*.tmp
+*.bak

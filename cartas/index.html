@@ -3,204 +3,172 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cartas Colecionáveis HESIDIO — Cofre Restrito</title>
-<meta name="description" content="Cofre oficial de cartas colecionáveis de HESIDIO. Faça login para desbloquear a carta atual do arquivo." data-hesidio-state-content="currentCardMetaDescription">
+<title>TalkGlobal Cartas</title>
+<meta name="description" content="Crie cartas colecionáveis personalizadas e jogue o tutorial de batalha do TalkGlobal.">
 <link rel="canonical" href="https://talkglobalapp.com/cartas/">
 <meta name="robots" content="index,follow,max-image-preview:large">
-<meta name="author" content="TalkGlobal Studios">
-<meta name="theme-color" content="#050202">
-<meta property="og:locale" content="pt_BR">
+<meta name="author" content="TalkGlobal">
+<meta name="theme-color" content="#07130f">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="TalkGlobal Studios">
-<meta property="og:title" content="Cartas Colecionáveis HESIDIO — Cofre Restrito">
-<meta property="og:description" content="Entre no cofre oficial de HESIDIO e desbloqueie a carta colecionável atual." data-hesidio-state-content="currentCardMetaDescription">
+<meta property="og:site_name" content="TalkGlobal">
+<meta property="og:title" content="TalkGlobal Cartas">
+<meta property="og:description" content="MVP de cartas colecionáveis personalizadas com fluxo preparado para análise por IA.">
 <meta property="og:url" content="https://talkglobalapp.com/cartas/">
-<meta property="og:image" content="https://talkglobalapp.com/public/cards/airi_festival_lights.png" data-hesidio-state-content="currentCardImageAbsolute">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Cartas Colecionáveis HESIDIO — Cofre Restrito">
-<meta name="twitter:description" content="Entre no cofre oficial de HESIDIO e desbloqueie a carta colecionável atual." data-hesidio-state-content="currentCardMetaDescription">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="apple-touch-icon" href="/public/studios/hesidio-logo-site.png">
 <link rel="stylesheet" href="/assets/talkglobal.css">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7852370456334253"
-     crossorigin="anonymous"></script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Cartas Colecionáveis HESIDIO","url":"https://talkglobalapp.com/cartas/","isPartOf":{"@type":"WebSite","name":"TalkGlobal Studios","url":"https://talkglobalapp.com/"},"about":{"@type":"CreativeWorkSeries","name":"HESIDIO","genre":["dark fantasy manga","seinen manga","horror manga","mangá cinematográfico"]},"description":"Cofre oficial de cartas colecionáveis de HESIDIO, com presentes semanais para leitores logados."}</script>
 </head>
-<body class="cards-vault-page">
-  <div class="archive-grain" aria-hidden="true"></div>
-  <div class="archive-embers" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-
+<body class="cards-vault-page cartas-ai-page">
   <header class="topbar">
     <div class="container nav">
-      <a href="/" class="brand" aria-label="TalkGlobal Studios">
-        <img src="/public/studios/hesidio-logo-site.png" alt="" width="42" height="42">
-        <span>TALKGLOBAL STUDIOS</span>
+      <a href="/" class="brand" aria-label="TalkGlobal">
+        <img src="/icon128.png" alt="" width="42" height="42">
+        <span>TALKGLOBAL</span>
       </a>
       <nav class="menu" aria-label="Navegação principal">
         <a href="/">Home</a>
         <a href="/hesidio/">HESIDIO</a>
         <a href="/manga/">Episódios</a>
         <a href="/artigos/">Artigos</a>
-        <a href="/hesidio/#personagens">Personagens/Lore</a>
-        <a href="/cartas/">Cartas Colecionáveis</a>
+        <a href="/cartas/" aria-current="page">Cartas</a>
         <a href="/portfolio/">PORTFÓLIO</a>
-        <a href="/sobre.html">Sobre</a>
-        <a href="/contato.html">Contato</a>
       </nav>
     </div>
   </header>
 
-  <main>
-    <section class="cards-vault-hero" aria-label="Cofre de cartas HESIDIO">
-      <div class="container cards-vault-layout">
-        <div class="cards-vault-copy">
-          <span class="kicker">COFRE RESTRITO</span>
-          <h1>Cartas colecionáveis HESIDIO.</h1>
-          <p>Registros guardados em silêncio. O cofre abre apenas para quem atravessa a porta certa.</p>
-          <p>Faça login e receba o presente semanal atual: <strong data-hesidio-state-text="currentCardTitle">Airi Kurohana — Festival de Luzes</strong>.</p>
+  <main class="cartas-shell">
+    <section class="cartas-hero">
+      <div class="container cartas-hero-grid">
+        <div class="cartas-hero-copy">
+          <span class="kicker">MVP JOGÁVEL</span>
+          <h1>Cartas colecionáveis personalizadas.</h1>
+          <p>Envie uma foto, receba 3 cartas comuns iniciais e entre no tutorial de batalha contra a máquina. A análise visual por IA está preparada no contrato do servidor e depende da chave OpenAI.</p>
         </div>
 
-        <aside class="cards-auth-panel" aria-label="Acesso ao cofre">
-          <span>ACESSO DO LEITOR</span>
-          <h2>Entrar no cofre</h2>
+        <aside class="cartas-panel cartas-auth">
+          <span>CONTA</span>
+          <h2>Acesso do jogador</h2>
           <p data-card-user hidden></p>
           <form data-card-login-form>
             <label for="card-email">E-mail</label>
             <input id="card-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="seu@email.com" required data-card-email>
-            <button class="button primary" type="submit">Receber chave</button>
+            <button class="button primary" type="submit">Entrar ou criar conta</button>
           </form>
-          <button class="button secondary" type="button" hidden data-card-signout>Sair do cofre</button>
-          <p class="cards-auth-status" data-card-status>Faça login para desbloquear a primeira carta colecionável.</p>
+          <button class="button secondary" type="button" hidden data-card-signout>Sair</button>
+          <p class="cards-auth-status" data-card-status>Conecte sua conta para começar.</p>
         </aside>
       </div>
     </section>
 
-    <section class="cards-collection-section" aria-label="Cartas disponíveis">
-      <div class="container">
-        <div class="section-head compact">
-          <span class="kicker">PRESENTE SEMANAL // ARQUIVO ATUAL</span>
-          <h2 data-hesidio-state-text="currentCardTitle">Airi Kurohana — Festival de Luzes</h2>
-          <p>Carta semanal do cofre HESIDIO, liberada automaticamente para leitores logados. A próxima carta ficará para outro arquivo.</p>
-        </div>
-        <div class="cards-grid" data-card-grid>
-          <article class="collectible-card is-locked">
-            <div class="collectible-card__body">
-              <span>CARREGANDO COFRE</span>
-              <h2>O arquivo está verificando seu acesso.</h2>
-              <p>A carta aparecerá aqui quando o sistema responder.</p>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="cards-editorial-section" aria-label="Guia editorial das cartas HESIDIO">
-      <div class="container cards-editorial-layout">
+    <section class="container cartas-dashboard" aria-label="Painel do jogo de cartas">
+      <div class="cartas-panel cartas-onboarding">
         <div>
-          <span class="kicker">GUIA DO COFRE</span>
-          <h2>As cartas são lembranças oficiais do universo HESIDIO.</h2>
-          <p>O cofre de cartas colecionáveis funciona como uma camada editorial paralela ao mangá. Cada carta destaca um personagem, uma variação visual, um momento simbólico ou um fragmento de atmosfera que ajuda o leitor a guardar partes importantes do arquivo.</p>
-          <p>Elas não substituem os episódios e não prometem vantagem competitiva. A proposta é colecionável, narrativa e afetiva: um presente digital para quem acompanha a obra e quer preservar pequenos registros do caminho.</p>
+          <span class="kicker">PRIMEIRO ACESSO</span>
+          <h2>Gerar 3 cartas iniciais</h2>
+          <p>As primeiras cartas são sempre Comuns. A foto influencia aparência e identidade, mas não altera raridade.</p>
         </div>
-        <div class="cards-editorial-notes">
-          <article>
-            <span>01</span>
-            <h3>Como o sistema funciona</h3>
-            <p>O leitor informa um email, recebe acesso ao cofre e desbloqueia a carta disponível da semana. A liberação pode mudar conforme campanhas, capítulos, datas especiais ou eventos editoriais ligados a HESIDIO.</p>
-          </article>
-          <article>
-            <span>02</span>
-            <h3>Raridades e variações</h3>
-            <p>As cartas podem seguir categorias como comum, rara, especial, evento ou arquivo proibido. A raridade não representa valor financeiro; ela indica contexto narrativo, acabamento visual ou importância dentro da temporada.</p>
-          </article>
-          <article>
-            <span>03</span>
-            <h3>Lore e leitura complementar</h3>
-            <p>Algumas cartas funcionam como pequenos dossiês: reforçam símbolos, relações, roupas, lugares e estados emocionais dos personagens. Esse conteúdo ajuda a expandir o universo sem revelar mistérios centrais antes da hora.</p>
-          </article>
-          <article>
-            <span>04</span>
-            <h3>Colecionismo responsável</h3>
-            <p>Nesta fase, as cartas são arquivos digitais oficiais para leitores. Não há marketplace, promessa de investimento, venda secundária ou ranking competitivo. O valor está na coleção, na memória e na ligação com a obra.</p>
-          </article>
+        <form data-photo-form class="cartas-photo-form">
+          <label for="player-photo">Foto do jogador</label>
+          <input id="player-photo" type="file" accept="image/*" data-photo-input>
+          <button class="button primary" type="submit">Criar cartas iniciais</button>
+        </form>
+      </div>
+
+      <div class="cartas-panel">
+        <span class="kicker">PROGRESSÃO</span>
+        <div class="cartas-stat-row" data-progression>
+          <strong>Nível 1</strong>
+          <span>Tutorial pendente</span>
+          <span>0 vitórias</span>
         </div>
       </div>
-    </section>
 
-    <section class="cards-rules-section" aria-label="Regras do cofre">
-      <div class="container cards-rule-grid">
-        <article>
-          <span>01</span>
-          <strong>Uma carta por leitor</strong>
-          <p>O cofre verifica seu login antes de conceder a carta. Registros duplicados são recusados.</p>
-        </article>
-        <article>
-          <span>02</span>
-          <strong>Presente semanal</strong>
-          <p>Novas cartas poderão ser abertas junto dos próximos registros de HESIDIO.</p>
-        </article>
-        <article>
-          <span>03</span>
-          <strong>Sem mercado</strong>
-          <p>Nesta fase, as cartas são apenas lembranças de leitura. Não há troca, venda ou ranking.</p>
-        </article>
+      <div class="cartas-panel cartas-wide">
+        <div class="cartas-section-head">
+          <div>
+            <span class="kicker">COLEÇÃO</span>
+            <h2>Suas cartas</h2>
+            <p data-selection-summary>0 de 3 cartas selecionadas</p>
+          </div>
+          <div class="cartas-save-group">
+            <span data-save-state>Selecione 3 cartas para salvar.</span>
+            <button class="button primary" type="button" data-save-deck disabled>Salvar baralho</button>
+            <div class="cards-unlock-toast" hidden data-card-toast role="status" aria-live="polite"></div>
+          </div>
+        </div>
+        <p class="cartas-mock-note" hidden data-mock-note>Modo de demonstração local: as artes são exemplos visuais. A personalização por IA será ativada na integração final.</p>
+        <div class="cartas-card-grid" data-card-grid></div>
+      </div>
+
+      <div class="cartas-panel cartas-wide cartas-deck-summary">
+        <div>
+          <span class="kicker">RESUMO DO BARALHO</span>
+          <h2>Cartas escolhidas e sinergias</h2>
+        </div>
+        <div class="cartas-deck-summary-grid">
+          <div>
+            <span class="cartas-mini-label">Baralho ativo</span>
+            <div class="cartas-deck" data-deck></div>
+          </div>
+          <div>
+            <span class="cartas-mini-label">Sinergias</span>
+            <div class="cartas-synergies" data-synergies></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cartas-panel cartas-wide">
+        <div class="cartas-section-head">
+          <div>
+            <span class="kicker">BATALHA</span>
+            <h2>Tutorial contra a máquina</h2>
+          </div>
+          <button class="button primary" type="button" data-start-battle>Iniciar tutorial</button>
+        </div>
+        <div class="cartas-battle" data-battle hidden>
+          <div class="cartas-combatants">
+            <div data-player-active></div>
+            <div data-enemy-active></div>
+          </div>
+          <div class="cartas-actions">
+            <button type="button" class="button secondary" data-battle-action="attack">Atacar</button>
+            <button type="button" class="button secondary" data-battle-action="defend">Defender</button>
+            <button type="button" class="button secondary" data-battle-action="ability">Habilidade</button>
+            <select data-switch-select aria-label="Carta para trocar"></select>
+            <button type="button" class="button secondary" data-battle-action="switch">Trocar</button>
+          </div>
+          <ol class="cartas-log" data-battle-log></ol>
+        </div>
       </div>
     </section>
   </main>
 
-  <div class="card-modal" hidden data-card-modal role="dialog" aria-modal="true" aria-labelledby="card-modal-title">
-    <div class="card-modal__panel">
-      <button class="card-modal__close" type="button" aria-label="Fechar visualização da carta" data-card-modal-close>Fechar</button>
-      <figure class="watermarked-image card-modal__image" oncontextmenu="return false">
-        <img src="/public/cards/airi_festival_lights.png" alt="" draggable="false" decoding="async" data-card-modal-image>
-        <span class="watermarked-image__pattern" aria-hidden="true">HESIDIO · @hesidio</span>
-        <span class="watermarked-image__diagonal" aria-hidden="true">HESIDIO</span>
-        <span class="card-living-layer card-living-layer--helion" aria-hidden="true"></span>
-        <span class="card-living-layer card-living-layer--snow" aria-hidden="true"></span>
-        <span class="card-living-layer card-living-layer--embers" aria-hidden="true"></span>
-        <span class="card-living-layer card-living-layer--winter" aria-hidden="true"></span>
-        <span class="watermarked-image__corner" aria-hidden="true"><strong>HESIDIO</strong><small>@hesidio</small></span>
-      </figure>
-      <section class="card-modal__content">
-        <span>REGISTRO DESBLOQUEADO</span>
-        <h2 id="card-modal-title" data-card-modal-title data-hesidio-state-text="currentCardTitle">Airi Kurohana — Festival de Luzes</h2>
-        <dl>
-          <div><dt>Personagem</dt><dd data-card-modal-character>Airi Kurohana</dd></div>
-          <div><dt>Raridade</dt><dd data-card-modal-rarity>Especial</dd></div>
-          <div><dt>Semana</dt><dd data-card-modal-week>Semana 1</dd></div>
-        </dl>
-        <p data-card-modal-description>Um presente do cofre HESIDIO.</p>
-        <a class="button primary" href="/public/cards/airi_festival_lights.png" download="airi_festival_lights.png" data-card-modal-download>Baixar carta</a>
-      </section>
-    </div>
-  </div>
-
-  <div class="cards-unlock-toast" hidden data-card-toast role="status" aria-live="polite"></div>
-
   <footer class="footer container site-footer">
     <div>
-      <strong>TalkGlobal Studios</strong>
-      <p>Estúdio independente de criação de conteúdo, mangá, dark fantasy e universos autorais.</p>
-      <p>HESIDIO é uma obra autoral original publicada por TalkGlobal Studios.</p>
+      <strong>TalkGlobal</strong>
+      <p>Experiência inicial de cartas integrada ao ecossistema TalkGlobal.</p>
     </div>
     <nav aria-label="Links institucionais">
-      <a href="/hesidio/">HESIDIO</a>
-      <a href="/manga/">Episódios</a>
-      <a href="/artigos/">Artigos</a>
-      <a href="/hesidio/#personagens">Personagens/Lore</a>
-      <a href="/cartas/">Cartas Colecionáveis</a>
-      <a href="/sobre.html">Sobre</a>
-      <a href="/contato.html">Contato</a>
       <a href="/privacy.html">Privacidade</a>
       <a href="/terms.html">Termos</a>
       <a href="/copyright.html">Copyright / DMCA</a>
     </nav>
   </footer>
-
-  <script src="/assets/hesidio-site-state.js" defer></script>
+  <div class="cartas-detail-modal" hidden data-card-detail-modal role="dialog" aria-modal="true" aria-labelledby="cartas-detail-title">
+    <div class="cartas-detail-panel">
+      <button class="cartas-detail-close" type="button" data-card-detail-close aria-label="Fechar detalhes da carta">Fechar</button>
+      <div class="cartas-detail-art" data-card-detail-art></div>
+      <section class="cartas-detail-content">
+        <span data-card-detail-rarity>Comum</span>
+        <h2 id="cartas-detail-title" data-card-detail-title>Carta</h2>
+        <p data-card-detail-description></p>
+        <dl data-card-detail-stats></dl>
+        <div class="cartas-detail-facts" data-card-detail-facts></div>
+      </section>
+    </div>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-  <script src="/assets/hesidio-cards.js" defer></script>
+  <script type="module" src="/assets/cartas-app.js"></script>
   <script src="/assets/cookie-consent.js" defer></script>
 </body>
 </html>
