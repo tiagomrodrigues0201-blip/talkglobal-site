@@ -1,0 +1,1106 @@
+:root {
+  --freela-ink: #111827;
+  --freela-navy: #101b2d;
+  --freela-navy-soft: #18263b;
+  --freela-cream: #f5efe4;
+  --freela-paper: #fffaf1;
+  --freela-gold: #c99a45;
+  --freela-gold-soft: #ead7ae;
+  --freela-muted: #637083;
+  --freela-line: rgba(16, 27, 45, .14);
+  --freela-white: #fff;
+  --freela-green: #266446;
+  --freela-max: 1180px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body.freela-page {
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--freela-cream);
+  color: var(--freela-ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.freela-page a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.freela-page img {
+  display: block;
+  max-width: 100%;
+}
+
+.freela-wrap {
+  width: min(100% - 32px, var(--freela-max));
+  margin: 0 auto;
+}
+
+.freela-topbar {
+  position: fixed;
+  top: 42px;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  border-bottom: 1px solid rgba(255, 250, 241, .12);
+  background: rgba(11, 18, 31, .72);
+  color: var(--freela-white);
+  backdrop-filter: blur(18px);
+}
+
+.freela-nav {
+  display: flex;
+  min-height: 68px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+}
+
+.freela-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.freela-brand img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+}
+
+.freela-menu {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  font-size: .88rem;
+  font-weight: 800;
+}
+
+.freela-menu a {
+  color: rgba(255, 250, 241, .82);
+}
+
+.freela-menu a:hover,
+.freela-menu a:focus-visible {
+  color: var(--freela-white);
+}
+
+.freela-menu .freela-nav-cta {
+  min-height: 42px;
+  padding: 12px 16px;
+  border: 1px solid rgba(234, 215, 174, .5);
+  border-radius: 8px;
+  background: var(--freela-gold);
+  color: var(--freela-navy);
+}
+
+.freela-hero {
+  position: relative;
+  display: grid;
+  min-height: 92svh;
+  overflow: hidden;
+  align-items: end;
+  padding: 104px 0 72px;
+  color: var(--freela-white);
+  background: var(--freela-navy);
+}
+
+.freela-hero::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    linear-gradient(90deg, rgba(8, 14, 24, .94) 0%, rgba(8, 14, 24, .76) 42%, rgba(8, 14, 24, .18) 72%),
+    linear-gradient(180deg, rgba(8, 14, 24, .42), rgba(8, 14, 24, .72)),
+    url("/assets/freela/angelys-notebook.jpg") center right 24% / cover no-repeat;
+}
+
+.freela-launchbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 24;
+  border-bottom: 1px solid rgba(255, 250, 241, .14);
+  background: #0b1220;
+  color: var(--freela-white);
+}
+
+.freela-launchbar-inner {
+  display: flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  font-size: .82rem;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.freela-launchbar strong {
+  color: var(--freela-gold-soft);
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.freela-launchbar span {
+  color: rgba(255, 250, 241, .82);
+}
+
+.freela-countdown {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.freela-countdown b {
+  display: inline-flex;
+  min-width: 26px;
+  min-height: 26px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: rgba(201, 154, 69, .18);
+  color: var(--freela-gold-soft);
+  font-size: .9rem;
+}
+
+.freela-countdown small,
+.freela-countdown span {
+  color: rgba(255, 250, 241, .68);
+  font-size: .74rem;
+}
+
+.freela-sales-hero {
+  min-height: 94svh;
+  align-items: center;
+  padding-top: 156px;
+}
+
+.freela-sales-hero::before {
+  background:
+    linear-gradient(90deg, rgba(8, 14, 24, .96) 0%, rgba(8, 14, 24, .78) 48%, rgba(8, 14, 24, .35) 100%),
+    linear-gradient(180deg, rgba(8, 14, 24, .36), rgba(8, 14, 24, .82)),
+    url("/assets/freela/angelys-notebook.jpg") center right 18% / cover no-repeat;
+}
+
+.freela-sales-hero-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 440px);
+  gap: 52px;
+  align-items: center;
+}
+
+.freela-hero::after {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  content: "";
+  background: rgba(234, 215, 174, .22);
+}
+
+.freela-hero-copy {
+  position: relative;
+  z-index: 1;
+  width: min(760px, 100%);
+}
+
+.freela-kicker {
+  display: block;
+  margin: 0 0 18px;
+  color: var(--freela-gold-soft);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: .14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.freela-hero h1 {
+  margin: 0;
+  max-width: 760px;
+  color: var(--freela-white);
+  font-family: Georgia, "Times New Roman", ui-serif, serif;
+  font-size: clamp(3.25rem, 11vw, 6.7rem);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: .92;
+}
+
+.freela-lead {
+  max-width: 700px;
+  margin: 24px 0 0;
+  color: rgba(255, 250, 241, .88);
+  font-size: clamp(1.12rem, 2.2vw, 1.35rem);
+  line-height: 1.62;
+}
+
+.freela-lead strong {
+  color: var(--freela-white);
+}
+
+.freela-hero-support {
+  max-width: 680px;
+  margin: 16px 0 0;
+  color: rgba(255, 250, 241, .76);
+  font-size: clamp(1rem, 1.8vw, 1.08rem);
+  line-height: 1.68;
+}
+
+.freela-hero-support strong {
+  color: var(--freela-white);
+}
+
+.freela-hero-price {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin: 24px 0 0;
+}
+
+.freela-hero-price span,
+.freela-hero-price em {
+  color: rgba(255, 250, 241, .72);
+  font-size: .92rem;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.freela-hero-price del {
+  color: rgba(255, 250, 241, .55);
+  font-size: 1.22rem;
+  font-weight: 900;
+}
+
+.freela-hero-price strong {
+  color: var(--freela-gold-soft);
+  font-size: clamp(2.2rem, 6vw, 3.8rem);
+  font-weight: 950;
+  line-height: .92;
+}
+
+.freela-product-stage {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+}
+
+.freela-book-mockup {
+  position: relative;
+  width: min(310px, 82vw);
+  min-height: 430px;
+  padding: 34px 30px;
+  border: 1px solid rgba(234, 215, 174, .24);
+  border-radius: 10px 22px 22px 10px;
+  background:
+    radial-gradient(circle at 78% 18%, rgba(201, 154, 69, .22), transparent 28%),
+    linear-gradient(145deg, #0c1728, #192a44);
+  box-shadow: 0 32px 90px rgba(0, 0, 0, .36);
+  color: var(--freela-white);
+  transform: rotate(2deg);
+}
+
+.freela-book-mockup::after {
+  position: absolute;
+  inset: 18px 16px 18px auto;
+  width: 1px;
+  content: "";
+  background: rgba(255, 250, 241, .18);
+}
+
+.freela-book-mockup span {
+  color: var(--freela-gold-soft);
+  font-size: .75rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.freela-book-mockup strong {
+  display: block;
+  margin: 52px 0 36px;
+  font-family: Georgia, "Times New Roman", ui-serif, serif;
+  font-size: clamp(2.75rem, 9vw, 4rem);
+  line-height: .94;
+}
+
+.freela-book-mockup small {
+  position: absolute;
+  left: 30px;
+  bottom: 30px;
+  color: rgba(255, 250, 241, .76);
+  font-weight: 900;
+}
+
+.freela-stack-card {
+  display: grid;
+  gap: 8px;
+  width: min(340px, 90vw);
+  padding: 18px;
+  border: 1px solid rgba(234, 215, 174, .22);
+  border-radius: 8px;
+  background: rgba(255, 250, 241, .92);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, .22);
+  color: var(--freela-navy);
+}
+
+.freela-stack-card b {
+  color: var(--freela-navy);
+  font-size: .88rem;
+  text-transform: uppercase;
+}
+
+.freela-stack-card span {
+  color: var(--freela-muted);
+  font-weight: 800;
+}
+
+.freela-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 32px 0 0;
+}
+
+.freela-button {
+  display: inline-flex;
+  min-height: 50px;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 18px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-weight: 900;
+  line-height: 1.2;
+  text-align: center;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+
+.freela-button:hover,
+.freela-button:focus-visible {
+  transform: translateY(-1px);
+}
+
+.freela-button-primary {
+  background: var(--freela-gold);
+  color: var(--freela-navy);
+}
+
+.freela-button-secondary {
+  border-color: rgba(255, 250, 241, .28);
+  color: var(--freela-white);
+}
+
+.freela-button-dark {
+  background: var(--freela-navy);
+  color: var(--freela-white);
+}
+
+.freela-hero-note {
+  max-width: 590px;
+  margin: 18px 0 0;
+  color: rgba(255, 250, 241, .72);
+  font-size: .94rem;
+  line-height: 1.6;
+}
+
+.freela-strip {
+  background: var(--freela-navy);
+  color: var(--freela-white);
+}
+
+.freela-strip-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: rgba(255, 250, 241, .12);
+}
+
+.freela-proof {
+  min-height: 126px;
+  padding: 22px 18px;
+  background: var(--freela-navy);
+}
+
+.freela-proof strong {
+  display: block;
+  color: var(--freela-gold-soft);
+  font-size: clamp(1.12rem, 2vw, 1.55rem);
+  line-height: 1.08;
+}
+
+.freela-proof span {
+  display: block;
+  margin-top: 9px;
+  color: rgba(255, 250, 241, .76);
+  font-size: .88rem;
+  line-height: 1.45;
+}
+
+.freela-section {
+  padding: 84px 0;
+}
+
+.freela-section-alt {
+  background: var(--freela-paper);
+}
+
+.freela-section-dark {
+  background: var(--freela-navy);
+  color: var(--freela-white);
+}
+
+.freela-section-head {
+  max-width: 760px;
+  margin: 0 0 38px;
+}
+
+.freela-section-head h2,
+.freela-copy h2 {
+  margin: 0;
+  color: var(--freela-navy);
+  font-family: Georgia, "Times New Roman", ui-serif, serif;
+  max-width: 760px;
+  overflow-wrap: anywhere;
+  font-size: clamp(2.1rem, 5vw, 4.1rem);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.02;
+}
+
+.freela-section-dark .freela-section-head h2,
+.freela-section-dark .freela-copy h2 {
+  color: var(--freela-white);
+}
+
+.freela-section-head p,
+.freela-copy p {
+  margin: 18px 0 0;
+  color: var(--freela-muted);
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  line-height: 1.72;
+}
+
+.freela-section-dark .freela-section-head p,
+.freela-section-dark .freela-copy p {
+  color: rgba(255, 250, 241, .72);
+}
+
+.freela-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.freela-outcome-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.freela-outcome-grid article {
+  min-height: 180px;
+  padding: 24px;
+  border: 1px solid var(--freela-line);
+  border-radius: 8px;
+  background: var(--freela-white);
+}
+
+.freela-outcome-grid strong {
+  display: block;
+  color: var(--freela-navy);
+  font-size: 1.25rem;
+  line-height: 1.18;
+}
+
+.freela-outcome-grid span {
+  display: block;
+  margin-top: 12px;
+  color: var(--freela-muted);
+  line-height: 1.55;
+}
+
+.freela-card {
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid var(--freela-line);
+  border-radius: 8px;
+  background: rgba(255, 250, 241, .74);
+}
+
+.freela-card-mark {
+  color: var(--freela-gold);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: .14em;
+}
+
+.freela-card h3 {
+  margin: 14px 0 10px;
+  color: var(--freela-navy);
+  font-size: 1.25rem;
+  letter-spacing: 0;
+  line-height: 1.18;
+}
+
+.freela-card p {
+  margin: 0;
+  color: var(--freela-muted);
+  line-height: 1.65;
+}
+
+.freela-two {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, .86fr);
+  gap: 44px;
+  align-items: center;
+}
+
+.freela-photo-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.freela-photo {
+  overflow: hidden;
+  min-height: 440px;
+  border: 1px solid rgba(16, 27, 45, .1);
+  border-radius: 8px;
+  background: #e8dfd1;
+}
+
+.freela-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.freela-photo-tiago img {
+  object-position: center;
+}
+
+.freela-photo-angelys img {
+  object-position: center top;
+}
+
+.freela-quote {
+  margin: 0;
+  padding: 34px;
+  border-left: 5px solid var(--freela-gold);
+  border-radius: 8px;
+  background: var(--freela-paper);
+  color: var(--freela-navy);
+  font-family: Georgia, "Times New Roman", ui-serif, serif;
+  font-size: clamp(1.85rem, 4.2vw, 3.25rem);
+  line-height: 1.12;
+}
+
+.freela-split-list {
+  display: grid;
+  gap: 12px;
+  margin: 26px 0 0;
+}
+
+.freela-list-item {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 12px;
+  align-items: start;
+  color: var(--freela-muted);
+  line-height: 1.6;
+}
+
+.freela-list-item::before {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(201, 154, 69, .16);
+  color: var(--freela-green);
+  content: "✓";
+  font-weight: 900;
+}
+
+.freela-kit {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.freela-platforms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 28px 0 0;
+}
+
+.freela-platforms span {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 15px;
+  border: 1px solid rgba(234, 215, 174, .22);
+  border-radius: 8px;
+  background: rgba(255, 250, 241, .08);
+  color: var(--freela-white);
+  font-size: .95rem;
+  font-weight: 900;
+}
+
+.freela-disclaimer {
+  max-width: 860px;
+  margin: 18px 0 0;
+  color: rgba(255, 250, 241, .58);
+  font-size: .82rem;
+  line-height: 1.55;
+}
+
+.freela-kit .freela-card {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 16px;
+  background: var(--freela-white);
+}
+
+.freela-icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: #f3e6ca;
+  color: var(--freela-navy);
+  font-weight: 900;
+}
+
+.freela-preview {
+  position: relative;
+  overflow: hidden;
+  min-height: 430px;
+}
+
+.freela-preview-page {
+  position: absolute;
+  width: min(282px, 72vw);
+  height: 350px;
+  padding: 24px;
+  border: 1px solid var(--freela-line);
+  border-radius: 8px;
+  background: var(--freela-white);
+  box-shadow: 0 24px 70px rgba(16, 27, 45, .14);
+}
+
+.freela-preview-page:nth-child(1) {
+  top: 58px;
+  left: 0;
+  transform: rotate(-5deg);
+}
+
+.freela-preview-page:nth-child(2) {
+  top: 16px;
+  left: 166px;
+  background: var(--freela-navy-soft);
+  transform: rotate(4deg);
+}
+
+.freela-page-line {
+  height: 10px;
+  margin: 14px 0;
+  border-radius: 999px;
+  background: #e5e9ef;
+}
+
+.freela-preview-page:nth-child(2) .freela-page-line {
+  background: rgba(255, 250, 241, .22);
+}
+
+.freela-page-line.short {
+  width: 62%;
+}
+
+.freela-page-block {
+  height: 104px;
+  margin: 24px 0;
+  border-radius: 8px;
+  background: #eef1f5;
+}
+
+.freela-preview-page:nth-child(2) .freela-page-block {
+  background: rgba(234, 215, 174, .18);
+}
+
+.freela-offer {
+  display: grid;
+  grid-template-columns: 1fr minmax(320px, 440px);
+  gap: 44px;
+  align-items: start;
+}
+
+.freela-pricebox {
+  padding: 28px;
+  border: 1px solid rgba(16, 27, 45, .12);
+  border-radius: 8px;
+  background: var(--freela-white);
+  box-shadow: 0 28px 80px rgba(16, 27, 45, .14);
+}
+
+.freela-price {
+  margin: 12px 0 18px;
+  color: var(--freela-navy);
+  font-size: clamp(3.2rem, 8vw, 5.2rem);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: .95;
+}
+
+.freela-price-anchor {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 12px 0 0;
+  color: var(--freela-muted);
+  font-weight: 900;
+}
+
+.freela-price-anchor del {
+  color: #9a3f35;
+  font-size: 1.35rem;
+}
+
+.freela-discount {
+  margin: -8px 0 18px;
+  color: var(--freela-green);
+  font-weight: 900;
+}
+
+.freela-price small {
+  font-size: 1.25rem;
+}
+
+.freela-included {
+  display: grid;
+  gap: 10px;
+  margin: 20px 0 24px;
+}
+
+.freela-included span {
+  color: var(--freela-muted);
+  line-height: 1.45;
+}
+
+.freela-included span::before {
+  margin-right: 9px;
+  color: var(--freela-green);
+  content: "✓";
+  font-weight: 900;
+}
+
+.freela-checkout-status {
+  min-height: 22px;
+  margin: 12px 0 0;
+  color: var(--freela-muted);
+  font-size: .92rem;
+  line-height: 1.5;
+}
+
+.freela-legal {
+  margin: 18px 0 0;
+  color: var(--freela-muted);
+  font-size: .86rem;
+  line-height: 1.6;
+}
+
+.freela-faq {
+  display: grid;
+  gap: 12px;
+}
+
+.freela-faq details {
+  padding: 18px 20px;
+  border: 1px solid var(--freela-line);
+  border-radius: 8px;
+  background: var(--freela-white);
+}
+
+.freela-faq summary {
+  cursor: pointer;
+  color: var(--freela-navy);
+  font-weight: 900;
+}
+
+.freela-faq p {
+  margin: 14px 0 0;
+  color: var(--freela-muted);
+  line-height: 1.65;
+}
+
+.freela-footer {
+  padding: 44px 0 108px;
+  background: #0b1220;
+  color: rgba(255, 250, 241, .72);
+}
+
+.freela-foot-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.freela-foot-grid strong {
+  display: block;
+  color: var(--freela-white);
+  margin-bottom: 6px;
+}
+
+.freela-foot-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-weight: 800;
+}
+
+.freela-mobilebar {
+  position: fixed;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  z-index: 25;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid rgba(255, 250, 241, .12);
+  border-radius: 8px;
+  background: rgba(11, 18, 31, .96);
+  color: var(--freela-white);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .25);
+}
+
+.freela-mobilebar span {
+  color: rgba(255, 250, 241, .7);
+  font-size: .78rem;
+}
+
+.freela-thanks-page {
+  min-height: 100vh;
+  background:
+    linear-gradient(135deg, rgba(16, 27, 45, .94), rgba(11, 18, 32, .96)),
+    url("/assets/freela/angelys-notebook.jpg") center / cover no-repeat;
+}
+
+.freela-thanks {
+  display: grid;
+  min-height: 100vh;
+  align-items: center;
+  padding: 42px 0;
+}
+
+.freela-thanks-card {
+  width: min(100% - 28px, 620px);
+  padding: clamp(28px, 7vw, 48px);
+  border: 1px solid rgba(234, 215, 174, .2);
+  border-radius: 8px;
+  background: rgba(255, 250, 241, .94);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, .28);
+}
+
+.freela-thanks-card h1 {
+  margin: 0;
+  color: var(--freela-navy);
+  font-family: Georgia, "Times New Roman", ui-serif, serif;
+  font-size: clamp(2.6rem, 8vw, 4.7rem);
+  line-height: .96;
+}
+
+.freela-thanks-card p {
+  color: var(--freela-muted);
+  font-size: 1.05rem;
+  line-height: 1.62;
+}
+
+.freela-thanks-card .freela-button {
+  margin-top: 16px;
+}
+
+@media (max-width: 980px) {
+  .freela-menu a:not(.freela-nav-cta) {
+    display: none;
+  }
+
+  .freela-strip-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .freela-grid,
+  .freela-two,
+  .freela-offer,
+  .freela-sales-hero-grid,
+  .freela-outcome-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .freela-photo-pair {
+    max-width: 680px;
+  }
+}
+
+@media (max-width: 680px) {
+  .freela-wrap {
+    width: min(100% - 24px, var(--freela-max));
+  }
+
+  .freela-topbar {
+    position: absolute;
+    top: 76px;
+  }
+
+  .freela-nav {
+    min-height: 62px;
+  }
+
+  .freela-brand span {
+    max-width: 160px;
+  }
+
+  .freela-menu .freela-nav-cta {
+    display: none;
+  }
+
+  .freela-hero {
+    min-height: 88svh;
+    padding: 150px 0 42px;
+  }
+
+  .freela-launchbar-inner {
+    min-height: 76px;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 0;
+  }
+
+  .freela-countdown-compact {
+    justify-content: center;
+  }
+
+  .freela-hero::before {
+    background:
+      linear-gradient(180deg, rgba(8, 14, 24, .7) 0%, rgba(8, 14, 24, .88) 46%, rgba(8, 14, 24, .96) 100%),
+      url("/assets/freela/angelys-notebook.jpg") 60% center / cover no-repeat;
+  }
+
+  .freela-sales-hero-grid {
+    gap: 34px;
+  }
+
+  .freela-product-stage {
+    order: -1;
+  }
+
+  .freela-book-mockup {
+    min-height: 330px;
+    transform: rotate(0);
+  }
+
+  .freela-book-mockup strong {
+    margin-top: 36px;
+  }
+
+  .freela-stack-card {
+    display: none;
+  }
+
+  .freela-actions .freela-button {
+    width: 100%;
+  }
+
+  .freela-strip-grid,
+  .freela-grid,
+  .freela-kit,
+  .freela-photo-pair,
+  .freela-outcome-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .freela-proof {
+    min-height: auto;
+  }
+
+  .freela-section {
+    padding: 62px 0;
+  }
+
+  .freela-card,
+  .freela-pricebox {
+    padding: 20px;
+  }
+
+  .freela-section-head h2,
+  .freela-copy h2 {
+    font-size: clamp(2rem, 10vw, 3.05rem);
+    line-height: 1.03;
+  }
+
+  .freela-section-head p,
+  .freela-copy p {
+    font-size: 1rem;
+    line-height: 1.58;
+  }
+
+  .freela-photo {
+    min-height: 340px;
+  }
+
+  .freela-preview {
+    min-height: 365px;
+  }
+
+  .freela-preview-page {
+    height: 310px;
+  }
+
+  .freela-preview-page:nth-child(1) {
+    top: 42px;
+    left: 0;
+  }
+
+  .freela-preview-page:nth-child(2) {
+    top: 8px;
+    left: 72px;
+  }
+
+  .freela-footer {
+    padding-bottom: 96px;
+  }
+
+  .freela-mobilebar {
+    display: flex;
+  }
+}

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compra confirmada | Freela na Vida Real</title>
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#101b2d">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="stylesheet" href="/assets/freela/freela-na-vida-real.css">
+</head>
+<body class="freela-page freela-thanks-page">
+  <main class="freela-thanks">
+    <section class="freela-wrap freela-thanks-card">
+      <span class="freela-kicker">Freela na Vida Real</span>
+      <h1>Seu acesso está quase pronto.</h1>
+      <p>Quando o pagamento estiver confirmado pela Stripe, o botão abaixo libera o download seguro do ebook.</p>
+      <a class="freela-button freela-button-primary" href="#" data-download-link>Baixar ebook</a>
+      <p class="freela-checkout-status" data-download-status>Confirmando sua sessão de compra...</p>
+      <p class="freela-legal">Se a confirmação ainda não apareceu, aguarde alguns segundos e tente novamente. O arquivo não fica em pasta pública.</p>
+    </section>
+  </main>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get("session_id");
+    const link = document.querySelector("[data-download-link]");
+    const status = document.querySelector("[data-download-status]");
+
+    if (!sessionId) {
+      link.setAttribute("aria-disabled", "true");
+      link.removeAttribute("href");
+      status.textContent = "Sessão de compra não encontrada.";
+    } else {
+      link.href = `/api/freela-download?session_id=${encodeURIComponent(sessionId)}`;
+      status.textContent = "Pagamento confirmado? Clique para baixar seu ebook.";
+    }
+  </script>
+</body>
+</html>
