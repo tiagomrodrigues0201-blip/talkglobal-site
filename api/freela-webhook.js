@@ -80,9 +80,13 @@ export default async function handler(req, res) {
     return json(res, 400, { message: "Evento inválido." });
   }
 
-  if (event.type === "checkout.session.completed") {
+  if (event.type === "checkout.session.completed" || event.type === "checkout.session.async_payment_succeeded") {
     const result = await recordPaidOrder(event);
     return json(res, 200, { received: true, result });
+  }
+
+  if (event.type === "checkout.session.async_payment_failed") {
+    return json(res, 200, { received: true, ignored: true, reason: "Pagamento assíncrono não confirmado." });
   }
 
   return json(res, 200, { received: true, ignored: true });

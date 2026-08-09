@@ -14,6 +14,8 @@ function parseArgs(argv) {
     environment: "development",
     syncVercel: false,
     productionApproved: false,
+    syncSecretKey: false,
+    envFile: "",
     launchEndsAt: "",
     webhookUrl: "",
     regularPriceCents: null
@@ -30,6 +32,11 @@ function parseArgs(argv) {
       args.syncVercel = true;
     } else if (arg === "--production-approved") {
       args.productionApproved = true;
+    } else if (arg === "--sync-secret-key") {
+      args.syncSecretKey = true;
+    } else if (arg === "--env-file") {
+      args.envFile = next;
+      index += 1;
     } else if (arg === "--launch-ends-at") {
       args.launchEndsAt = next;
       index += 1;
@@ -68,6 +75,11 @@ function readEnvFile(filePath) {
 
 function loadLocalEnv() {
   const cwd = process.cwd();
+  if (process.argv.includes("--env-file")) {
+    const envFileIndex = process.argv.indexOf("--env-file");
+    const explicitFile = process.argv[envFileIndex + 1];
+    return { ...readEnvFile(path.resolve(cwd, explicitFile)), ...process.env };
+  }
   const envLocal = readEnvFile(path.join(cwd, ".env.local"));
   const env = readEnvFile(path.join(cwd, ".env"));
   return { ...env, ...envLocal, ...process.env };
@@ -166,7 +178,11 @@ async function getOrCreateWebhook(secretKey, webhookUrl) {
     method: "POST",
     body: formBody({
       url: webhookUrl,
-      "enabled_events[]": ["checkout.session.completed"],
+      "enabled_events[]": [
+        "checkout.session.completed",
+        "checkout.session.async_payment_succeeded",
+        "checkout.session.async_payment_failed"
+      ],
       "metadata[product_slug]": PRODUCT_SLUG
     })
   });
@@ -192,7 +208,8 @@ function runVercelEnvAdd(name, value, environment, { sensitive = true } = {}) {
       if (code === 0) {
         resolve({ name, environment, stored: true });
       } else {
-        reject(new Error(`Falha ao gravar ${name} na Vercel: ${errorOutput || output}`));
+        const redacted = (errorOutput || output).replaceAll(value, "[hidden]");
+        reject(new Error(`Falha ao gravar ${name} na Vercel: ${redacted}`));
       }
     });
 
@@ -245,6 +262,7 @@ async function main() {
   const webhookResult = await getOrCreateWebhook(secretKey, args.webhookUrl);
 
   const vars = {
+    STRIPE_SECRET_KEY: { value: args.syncSecretKey ? secretKey : "", sensitive: true },
     SITE_URL: { value: REQUIRED_SITE_URL, sensitive: false },
     STRIPE_FREELA_LAUNCH_PRICE_ID: { value: launchResult.price.id, sensitive: false },
     STRIPE_FREELA_REGULAR_PRICE_ID: { value: regularResult.price?.id || "", sensitive: false },
