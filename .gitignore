@@ -9,3 +9,4 @@ test/screenshots/
 *.log
 *.tmp
 *.bak
+.env*.local

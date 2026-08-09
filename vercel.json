@@ -2,6 +2,15 @@
   "version": 2,
   "builds": [
     {
+      "src": "api/freela-download.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "private-products/freela/Freela_na_Vida_Real.pdf"
+        ]
+      }
+    },
+    {
       "src": "api/**/*.js",
       "use": "@vercel/node"
     },
@@ -10,11 +19,6 @@
       "use": "@vercel/static"
     }
   ],
-  "functions": {
-    "api/freela-download.js": {
-      "includeFiles": "private-products/freela/Freela_na_Vida_Real.pdf"
-    }
-  },
   "routes": [
     {
       "src": "/(.*)",

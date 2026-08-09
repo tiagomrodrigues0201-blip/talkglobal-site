@@ -4,6 +4,7 @@ import { dirname, resolve } from "node:path";
 
 const PRODUCT_SLUG = "freela-na-vida-real";
 const FILE_NAME = "Freela_na_Vida_Real.pdf";
+const ALLOWED_AMOUNTS = new Set([1499, 5700]);
 
 function json(res, status, body) {
   res.statusCode = status;
@@ -55,11 +56,19 @@ export default async function handler(req, res) {
   if (error) {
     const message = error === "missing_secret"
       ? "Entrega ainda não ativa. Configure STRIPE_SECRET_KEY no servidor."
-      : data?.error?.message || "Não foi possível confirmar o pagamento.";
+      : "Não foi possível confirmar o pagamento.";
     return json(res, status || 503, { message });
   }
 
-  if (session.metadata?.product !== PRODUCT_SLUG || session.payment_status !== "paid") {
+  const validPaidSession = (
+    session.metadata?.product === PRODUCT_SLUG &&
+    session.payment_status === "paid" &&
+    session.mode === "payment" &&
+    session.currency === "brl" &&
+    ALLOWED_AMOUNTS.has(session.amount_total)
+  );
+
+  if (!validPaidSession) {
     return json(res, 403, { message: "Pagamento não confirmado para este produto." });
   }
 

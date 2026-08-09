@@ -56,7 +56,12 @@ function readEnvFile(filePath) {
     const trimmed = line.trim();
     if (!trimmed || trimmed.startsWith("#") || !line.includes("=")) return;
     const index = line.indexOf("=");
-    values[line.slice(0, index).trim()] = line.slice(index + 1).trim();
+    const key = line.slice(0, index).trim();
+    let value = line.slice(index + 1).trim();
+    if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+      value = value.slice(1, -1);
+    }
+    values[key] = value;
   });
   return values;
 }
@@ -254,14 +259,14 @@ async function main() {
   console.log(JSON.stringify({
     environment: args.environment,
     stripeMode: mode,
-    product: { id: productResult.product.id, created: productResult.created },
-    launchPrice: { id: launchResult.price.id, amount: LAUNCH_PRICE_CENTS, created: launchResult.created },
+    product: { configured: true, created: productResult.created },
+    launchPrice: { configured: true, amount: LAUNCH_PRICE_CENTS, created: launchResult.created },
     regularPrice: regularResult.skipped
       ? { skipped: true, reason: "valor regular não confirmado" }
-      : { id: regularResult.price.id, amount: args.regularPriceCents, created: regularResult.created },
+      : { configured: true, amount: args.regularPriceCents, created: regularResult.created },
     webhook: webhookResult.skipped
       ? { skipped: true, reason: "informe --webhook-url quando houver URL de preview/produção definida" }
-      : { id: webhookResult.endpoint.id, url: webhookResult.endpoint.url, created: webhookResult.created, secretStored: Boolean(webhookResult.secret) },
+      : { configured: true, url: webhookResult.endpoint.url, created: webhookResult.created, secretStored: Boolean(webhookResult.secret) },
     vercel: args.syncVercel
       ? { synced: true, environment: args.environment, variablesStored: vercelStored }
       : { synced: false, reason: "rode com --sync-vercel depois de fazer login no Vercel CLI" },
