@@ -418,11 +418,13 @@ body.freela-page {
   justify-content: center;
   padding: 14px 18px;
   border: 1px solid transparent;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 900;
+  letter-spacing: .01em;
   line-height: 1.2;
   text-align: center;
-  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+  cursor: pointer;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease, opacity .2s ease;
 }
 
 .freela-button:hover,
@@ -430,9 +432,21 @@ body.freela-page {
   transform: translateY(-1px);
 }
 
-.freela-button-primary {
-  background: var(--freela-gold);
+.freela-page .freela-button-primary {
+  border-color: rgba(123, 84, 28, .28);
+  background: linear-gradient(180deg, #e2bd69 0%, var(--freela-gold) 62%, #b98733 100%);
   color: var(--freela-navy);
+  box-shadow: 0 14px 34px rgba(16, 27, 45, .18), inset 0 1px 0 rgba(255, 255, 255, .36);
+}
+
+.freela-page .freela-button-primary:hover,
+.freela-page .freela-button-primary:focus-visible {
+  box-shadow: 0 18px 40px rgba(16, 27, 45, .24), inset 0 1px 0 rgba(255, 255, 255, .42);
+}
+
+.freela-button:focus-visible {
+  outline: 3px solid rgba(234, 215, 174, .72);
+  outline-offset: 3px;
 }
 
 .freela-button-secondary {
@@ -440,9 +454,22 @@ body.freela-page {
   color: var(--freela-white);
 }
 
-.freela-button-dark {
-  background: var(--freela-navy);
-  color: var(--freela-white);
+.freela-page .freela-button-dark {
+  border-color: rgba(123, 84, 28, .28);
+  background: linear-gradient(180deg, #e2bd69 0%, var(--freela-gold) 62%, #b98733 100%);
+  color: var(--freela-navy);
+  box-shadow: 0 14px 34px rgba(16, 27, 45, .18), inset 0 1px 0 rgba(255, 255, 255, .36);
+}
+
+.freela-page .freela-button-dark:hover,
+.freela-page .freela-button-dark:focus-visible {
+  box-shadow: 0 18px 40px rgba(16, 27, 45, .24), inset 0 1px 0 rgba(255, 255, 255, .42);
+}
+
+.freela-button[aria-busy="true"] {
+  cursor: wait;
+  opacity: .82;
+  transform: none;
 }
 
 .freela-hero-note {
@@ -791,15 +818,15 @@ body.freela-page {
 }
 
 .freela-pricebox {
-  padding: 28px;
-  border: 1px solid rgba(16, 27, 45, .12);
-  border-radius: 8px;
-  background: var(--freela-white);
-  box-shadow: 0 28px 80px rgba(16, 27, 45, .14);
+  padding: 30px;
+  border: 1px solid rgba(201, 154, 69, .32);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255, 250, 241, .98) 0%, rgba(255, 255, 255, .97) 100%);
+  box-shadow: 0 28px 80px rgba(16, 27, 45, .16), inset 0 1px 0 rgba(255, 255, 255, .75);
 }
 
 .freela-price {
-  margin: 12px 0 18px;
+  margin: 16px 0 10px;
   color: var(--freela-navy);
   font-size: clamp(3.2rem, 8vw, 5.2rem);
   font-weight: 900;
@@ -811,18 +838,24 @@ body.freela-page {
   display: flex;
   gap: 10px;
   align-items: center;
-  margin: 12px 0 0;
+  width: fit-content;
+  margin: 16px 0 0;
+  padding: 8px 10px;
+  border: 1px solid rgba(154, 63, 53, .16);
+  border-radius: 999px;
+  background: rgba(154, 63, 53, .06);
   color: var(--freela-muted);
+  font-size: .92rem;
   font-weight: 900;
 }
 
 .freela-price-anchor del {
   color: #9a3f35;
-  font-size: 1.35rem;
+  font-size: 1.12rem;
 }
 
 .freela-discount {
-  margin: -8px 0 18px;
+  margin: 0 0 18px;
   color: var(--freela-green);
   font-weight: 900;
 }
@@ -834,7 +867,9 @@ body.freela-page {
 .freela-included {
   display: grid;
   gap: 10px;
-  margin: 20px 0 24px;
+  margin: 22px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid rgba(16, 27, 45, .12);
 }
 
 .freela-included span {
@@ -847,6 +882,16 @@ body.freela-page {
   color: var(--freela-green);
   content: "✓";
   font-weight: 900;
+}
+
+.freela-pricebox .freela-button-dark {
+  width: 100%;
+  min-height: 62px;
+  margin-top: 26px;
+  padding: 17px 20px;
+  border-radius: 12px;
+  font-size: 1rem;
+  letter-spacing: .02em;
 }
 
 .freela-checkout-status {
@@ -927,10 +972,18 @@ body.freela-page {
   gap: 12px;
   padding: 12px;
   border: 1px solid rgba(255, 250, 241, .12);
-  border-radius: 8px;
+  border-radius: 12px;
   background: rgba(11, 18, 31, .96);
   color: var(--freela-white);
   box-shadow: 0 18px 50px rgba(0, 0, 0, .25);
+}
+
+.freela-mobilebar .freela-button-primary {
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: .9rem;
+  white-space: nowrap;
 }
 
 .freela-mobilebar span {
