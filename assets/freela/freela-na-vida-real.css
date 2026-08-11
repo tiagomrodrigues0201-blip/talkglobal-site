@@ -334,6 +334,25 @@ body.freela-page {
   gap: 16px;
 }
 
+.freela-product-image {
+  width: min(430px, 100%);
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(234, 215, 174, .24);
+  border-radius: 18px;
+  background: rgba(255, 250, 241, .08);
+  box-shadow: 0 32px 90px rgba(0, 0, 0, .34);
+  transform: rotate(1.5deg);
+}
+
+.freela-product-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
 .freela-book-mockup {
   position: relative;
   width: min(310px, 82vw);
@@ -1101,6 +1120,12 @@ body.freela-page {
   .freela-book-mockup {
     min-height: 330px;
     transform: rotate(0);
+  }
+
+  .freela-product-image {
+    width: min(360px, 100%);
+    border-radius: 14px;
+    transform: none;
   }
 
   .freela-book-mockup strong {
