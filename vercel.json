@@ -92,15 +92,15 @@
     },
     {
       "src": "/api/freela-checkout/?",
-      "dest": "/api/freela-checkout.js"
+      "dest": "/api/freela.js?action=checkout"
     },
     {
       "src": "/api/freela-webhook/?",
-      "dest": "/api/freela-webhook.js"
+      "dest": "/api/freela.js?action=webhook"
     },
     {
       "src": "/api/freela-download/?",
-      "dest": "/api/freela-download.js"
+      "dest": "/api/freela.js?action=download"
     },
     {
       "src": "/freela-na-vida-real/?",

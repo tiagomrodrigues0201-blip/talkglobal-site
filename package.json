@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check:freela": "node --check api/freela-checkout.js && node --check api/freela-download.js && node --check api/freela-webhook.js && node --check assets/freela/freela-na-vida-real.js",
+    "check:freela": "node --check api/freela.js && node --check assets/freela/freela-na-vida-real.js",
     "generate": "node automation/generateArticles.js",
     "approve": "node automation/publishApprovedArticles.js --approve-only",
     "publish": "node automation/publishApprovedArticles.js",
