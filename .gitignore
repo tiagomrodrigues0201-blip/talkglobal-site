@@ -1,5 +1,12 @@
 node_modules/
 .env
+.env.local
 .DS_Store
 .vercel/
 work/
+private-products/
+test/screenshots/
+*.log
+*.tmp
+*.bak
+.env*.local
