@@ -1110,14 +1110,52 @@ h1 {
   margin: 18px 0 0;
 }
 
+.portfolio-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 28px;
+  width: min(1180px, calc(100% - 36px));
+  margin: 0 auto 42px;
+  padding: 28px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.portfolio-footer strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.portfolio-footer p {
+  max-width: 360px;
+  margin: 0;
+  color: rgba(246, 243, 255, 0.64);
+  font-size: 14px;
+}
+
+.portfolio-footer nav {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: 680px;
+  gap: 14px 22px;
+}
+
 @media (max-width: 980px) {
-  nav a:not(.nav-cta) {
-    display: none;
+  .site-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .site-header nav {
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 10px 14px;
+    font-size: 12px;
   }
 
   .hero {
     min-height: auto;
-    padding-top: 128px;
+    padding-top: 184px;
     padding-bottom: 330px;
   }
 
@@ -1170,6 +1208,14 @@ h1 {
     grid-column: auto;
     grid-row: auto;
   }
+
+  .portfolio-footer {
+    flex-direction: column;
+  }
+
+  .portfolio-footer nav {
+    justify-content: flex-start;
+  }
 }
 
 @media (max-width: 640px) {
@@ -1194,8 +1240,8 @@ h1 {
     height: 38px;
   }
 
-  nav {
-    display: none;
+  .site-header nav {
+    display: flex;
   }
 
   .hero {

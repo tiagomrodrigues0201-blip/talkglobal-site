@@ -134,6 +134,14 @@ a { color: inherit; text-decoration: none; }
   text-transform: uppercase;
 }
 
+.site-topbar nav a.nav-cta {
+  border: 1px solid rgba(168,134,61,.55);
+  border-radius: 8px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, rgba(168,134,61,.94), rgba(93,7,11,.86));
+  color: #fff8e8;
+}
+
 .site-topbar a:hover {
   color: #fff;
   text-shadow: 0 0 22px rgba(168,134,61,.5);
