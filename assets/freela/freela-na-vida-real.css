@@ -1114,7 +1114,7 @@ body.freela-page {
   }
 
   .freela-product-stage {
-    order: -1;
+    order: 0;
   }
 
   .freela-book-mockup {
