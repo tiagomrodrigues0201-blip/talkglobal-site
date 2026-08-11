@@ -91,6 +91,31 @@
       "dest": "/api/ecos-admin-status.js"
     },
     {
+      "src": "/api/freela-checkout/?",
+      "dest": "/api/freela-checkout.js"
+    },
+    {
+      "src": "/api/freela-webhook/?",
+      "dest": "/api/freela-webhook.js"
+    },
+    {
+      "src": "/api/freela-download/?",
+      "dest": "/api/freela-download.js"
+    },
+    {
+      "src": "/freela-na-vida-real/?",
+      "dest": "/freela-na-vida-real/index.html"
+    },
+    {
+      "src": "/freela-na-vida-real/(.*)",
+      "dest": "/freela-na-vida-real/$1"
+    },
+    {
+      "src": "/(?:private|private-products|_private|produto-digital|produtos-digitais|downloads)(?:/.*)?",
+      "dest": "/410.html",
+      "status": 410
+    },
+    {
       "src": "/manga/?",
       "dest": "/manga/index.html"
     },
