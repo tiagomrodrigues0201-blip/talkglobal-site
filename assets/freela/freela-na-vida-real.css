@@ -903,14 +903,105 @@ body.freela-page {
   font-weight: 900;
 }
 
-.freela-pricebox .freela-button-dark {
+.freela-payment-options {
+  display: grid;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.freela-pricebox .freela-button-dark,
+.freela-pricebox .freela-button-pix {
   width: 100%;
   min-height: 62px;
-  margin-top: 26px;
   padding: 17px 20px;
   border-radius: 12px;
   font-size: 1rem;
   letter-spacing: .02em;
+}
+
+.freela-button-pix {
+  border-color: rgba(16, 27, 45, .16);
+  background: #fffaf1;
+  color: var(--freela-navy);
+  box-shadow: inset 0 0 0 1px rgba(16, 27, 45, .08);
+}
+
+.freela-button-pix:hover,
+.freela-button-pix:focus-visible {
+  border-color: rgba(191, 144, 61, .62);
+  box-shadow: 0 14px 32px rgba(16, 27, 45, .12), inset 0 0 0 1px rgba(191, 144, 61, .2);
+}
+
+.freela-pix-box {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid rgba(16, 27, 45, .12);
+  border-radius: 12px;
+  background: rgba(255, 250, 241, .72);
+}
+
+.freela-pix-label {
+  display: block;
+  margin: 0 0 8px;
+  color: var(--freela-navy);
+  font-size: .88rem;
+  font-weight: 900;
+}
+
+.freela-pix-form {
+  display: grid;
+  gap: 10px;
+}
+
+.freela-pix-form input,
+.freela-pix-payment textarea {
+  width: 100%;
+  border: 1px solid rgba(16, 27, 45, .14);
+  border-radius: 10px;
+  background: var(--freela-white);
+  color: var(--freela-navy);
+  font: inherit;
+}
+
+.freela-pix-form input {
+  min-height: 48px;
+  padding: 12px 14px;
+}
+
+.freela-pix-form input:focus,
+.freela-pix-payment textarea:focus {
+  border-color: rgba(191, 144, 61, .7);
+  outline: 3px solid rgba(234, 215, 174, .45);
+}
+
+.freela-pix-payment {
+  display: grid;
+  gap: 12px;
+  justify-items: stretch;
+  margin-top: 16px;
+}
+
+.freela-pix-payment img {
+  width: min(100%, 220px);
+  height: auto;
+  justify-self: center;
+  border: 10px solid var(--freela-white);
+  border-radius: 12px;
+  box-shadow: 0 14px 34px rgba(16, 27, 45, .14);
+}
+
+.freela-pix-payment textarea {
+  min-height: 104px;
+  resize: vertical;
+  padding: 12px;
+  color: var(--freela-muted);
+  font-size: .84rem;
+  line-height: 1.45;
+}
+
+.freela-pix-copy,
+.freela-pix-download {
+  width: 100%;
 }
 
 .freela-checkout-status {

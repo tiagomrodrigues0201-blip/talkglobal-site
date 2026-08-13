@@ -232,8 +232,24 @@
             <span>Pacote de Prompts</span>
             <span>Checklist de Execução</span>
           </div>
-          <a class="freela-button freela-button-dark" href="/api/freela-checkout" data-checkout="freela-na-vida-real">Sim, quero meu acesso</a>
-          <p class="freela-checkout-status" data-checkout-status>Pagamento seguro processado pela Stripe.</p>
+          <div class="freela-payment-options" aria-label="Escolha a forma de pagamento">
+            <a class="freela-button freela-button-dark" href="/api/freela-checkout" data-checkout="freela-na-vida-real">Pagar com cartão</a>
+            <button class="freela-button freela-button-pix" type="button" data-pix-toggle>Pagar com Pix</button>
+          </div>
+          <div class="freela-pix-box" data-pix-box hidden>
+            <label class="freela-pix-label" for="freela-pix-email">E-mail para identificar sua compra</label>
+            <div class="freela-pix-form">
+              <input id="freela-pix-email" type="email" inputmode="email" autocomplete="email" placeholder="seuemail@exemplo.com" data-pix-email>
+              <button class="freela-button freela-button-primary" type="button" data-pix-create>Gerar Pix de R$14,99</button>
+            </div>
+            <div class="freela-pix-payment" data-pix-payment hidden>
+              <img alt="QR Code Pix do Freela na Vida Real" width="220" height="220" data-pix-qr>
+              <label class="freela-pix-label" for="freela-pix-code">Pix Copia e Cola</label>
+              <textarea id="freela-pix-code" rows="4" readonly data-pix-code></textarea>
+              <button class="freela-button freela-button-pix-copy" type="button" data-pix-copy>Copiar código Pix</button>
+            </div>
+          </div>
+          <p class="freela-checkout-status" data-checkout-status>Pagamento seguro por cartão ou Pix.</p>
           <p class="freela-legal">Não há garantia de renda, contratação ou prazo. Resultados dependem da sua execução.</p>
         </aside>
       </div>
