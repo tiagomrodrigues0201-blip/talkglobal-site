@@ -5,7 +5,6 @@ const pixBox = document.querySelector("[data-pix-box]");
 const pixEmail = document.querySelector("[data-pix-email]");
 const pixCreate = document.querySelector("[data-pix-create]");
 const pixPayment = document.querySelector("[data-pix-payment]");
-const pixPlaceholder = document.querySelector("[data-pix-placeholder]");
 const pixQr = document.querySelector("[data-pix-qr]");
 const pixCodeWrap = document.querySelector("[data-pix-code-wrap]");
 const pixCode = document.querySelector("[data-pix-code]");
@@ -30,23 +29,35 @@ function stopPixPolling() {
 }
 
 function resetPixVisual() {
+  if (pixPayment) pixPayment.hidden = true;
   if (pixQr) {
     pixQr.hidden = true;
     pixQr.removeAttribute("src");
   }
-  if (pixPlaceholder) pixPlaceholder.hidden = false;
   if (pixCodeWrap) pixCodeWrap.hidden = true;
   if (pixCode) pixCode.value = "";
   if (pixCopy) pixCopy.hidden = true;
   pixPayment?.querySelector("[data-pix-download]")?.remove();
 }
 
-function showPixQr(qrCodeBase64, qrCode) {
+function preloadImage(src) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = resolve;
+    image.onerror = reject;
+    image.src = src;
+  });
+}
+
+async function showPixQr(qrCodeBase64, qrCode) {
+  const qrSrc = `data:image/png;base64,${qrCodeBase64}`;
+  await preloadImage(qrSrc);
+
+  if (pixPayment) pixPayment.hidden = false;
   if (pixQr) {
-    pixQr.src = `data:image/png;base64,${qrCodeBase64}`;
+    pixQr.src = qrSrc;
     pixQr.hidden = false;
   }
-  if (pixPlaceholder) pixPlaceholder.hidden = true;
   if (pixCodeWrap) pixCodeWrap.hidden = false;
   if (pixCode) pixCode.value = qrCode;
   if (pixCopy) pixCopy.hidden = false;
@@ -127,7 +138,7 @@ async function createPixPayment() {
     }
 
     activePixPaymentId = data.payment_id;
-    showPixQr(data.qr_code_base64, data.qr_code);
+    await showPixQr(data.qr_code_base64, data.qr_code);
     setCheckoutStatus("Aguardando pagamento Pix...");
     pollPixStatus(activePixPaymentId);
   } catch {

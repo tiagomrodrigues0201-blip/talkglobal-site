@@ -989,46 +989,12 @@ body.freela-page {
   justify-self: center;
 }
 
-.freela-pix-placeholder,
 .freela-pix-payment img {
   width: 220px;
   height: 220px;
   border: 10px solid var(--freela-white);
   border-radius: 12px;
   box-shadow: 0 14px 34px rgba(16, 27, 45, .14);
-}
-
-.freela-pix-placeholder {
-  display: grid;
-  place-items: center;
-  align-content: center;
-  gap: 10px;
-  padding: 18px;
-  background:
-    linear-gradient(180deg, rgba(255, 250, 241, .96), rgba(247, 240, 226, .96)),
-    repeating-linear-gradient(45deg, rgba(16, 27, 45, .06) 0 8px, transparent 8px 16px);
-  color: var(--freela-navy);
-  text-align: center;
-}
-
-.freela-pix-placeholder span {
-  display: grid;
-  width: 54px;
-  height: 54px;
-  place-items: center;
-  border: 1px solid rgba(191, 144, 61, .42);
-  border-radius: 12px;
-  background: rgba(16, 27, 45, .96);
-  color: var(--freela-gold);
-  font-size: 2rem;
-  line-height: 1;
-}
-
-.freela-pix-placeholder strong {
-  max-width: 150px;
-  color: var(--freela-navy);
-  font-size: .92rem;
-  line-height: 1.35;
 }
 
 .freela-pix-payment img {
