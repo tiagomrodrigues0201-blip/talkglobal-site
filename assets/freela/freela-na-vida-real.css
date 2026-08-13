@@ -981,6 +981,11 @@ body.freela-page {
   margin-top: 16px;
 }
 
+.freela-pix-payment[hidden],
+.freela-pix-payment [hidden] {
+  display: none !important;
+}
+
 .freela-pix-qr-frame {
   display: grid;
   width: min(100%, 240px);
