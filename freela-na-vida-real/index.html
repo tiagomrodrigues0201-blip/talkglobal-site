@@ -242,11 +242,19 @@
               <input id="freela-pix-email" type="email" inputmode="email" autocomplete="email" placeholder="seuemail@exemplo.com" data-pix-email>
               <button class="freela-button freela-button-primary" type="button" data-pix-create>Gerar Pix de R$14,99</button>
             </div>
-            <div class="freela-pix-payment" data-pix-payment hidden>
-              <img alt="QR Code Pix do Freela na Vida Real" width="220" height="220" data-pix-qr>
-              <label class="freela-pix-label" for="freela-pix-code">Pix Copia e Cola</label>
-              <textarea id="freela-pix-code" rows="4" readonly data-pix-code></textarea>
-              <button class="freela-button freela-button-pix-copy" type="button" data-pix-copy>Copiar código Pix</button>
+            <div class="freela-pix-payment" data-pix-payment>
+              <div class="freela-pix-qr-frame">
+                <div class="freela-pix-placeholder" data-pix-placeholder aria-live="polite">
+                  <span aria-hidden="true">▦</span>
+                  <strong>Seu QR Code Pix aparecerá aqui</strong>
+                </div>
+                <img alt="QR Code Pix do Freela na Vida Real" width="220" height="220" data-pix-qr hidden>
+              </div>
+              <div data-pix-code-wrap hidden>
+                <label class="freela-pix-label" for="freela-pix-code">Pix Copia e Cola</label>
+                <textarea id="freela-pix-code" rows="4" readonly data-pix-code></textarea>
+              </div>
+              <button class="freela-button freela-button-pix-copy" type="button" data-pix-copy hidden>Copiar código Pix</button>
             </div>
           </div>
           <p class="freela-checkout-status" data-checkout-status>Pagamento seguro por cartão ou Pix.</p>

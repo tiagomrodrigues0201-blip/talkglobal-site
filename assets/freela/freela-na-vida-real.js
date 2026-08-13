@@ -5,7 +5,9 @@ const pixBox = document.querySelector("[data-pix-box]");
 const pixEmail = document.querySelector("[data-pix-email]");
 const pixCreate = document.querySelector("[data-pix-create]");
 const pixPayment = document.querySelector("[data-pix-payment]");
+const pixPlaceholder = document.querySelector("[data-pix-placeholder]");
 const pixQr = document.querySelector("[data-pix-qr]");
+const pixCodeWrap = document.querySelector("[data-pix-code-wrap]");
 const pixCode = document.querySelector("[data-pix-code]");
 const pixCopy = document.querySelector("[data-pix-copy]");
 
@@ -25,6 +27,29 @@ function setBusy(element, busy) {
 function stopPixPolling() {
   if (pixStatusTimer) window.clearTimeout(pixStatusTimer);
   pixStatusTimer = 0;
+}
+
+function resetPixVisual() {
+  if (pixQr) {
+    pixQr.hidden = true;
+    pixQr.removeAttribute("src");
+  }
+  if (pixPlaceholder) pixPlaceholder.hidden = false;
+  if (pixCodeWrap) pixCodeWrap.hidden = true;
+  if (pixCode) pixCode.value = "";
+  if (pixCopy) pixCopy.hidden = true;
+  pixPayment?.querySelector("[data-pix-download]")?.remove();
+}
+
+function showPixQr(qrCodeBase64, qrCode) {
+  if (pixQr) {
+    pixQr.src = `data:image/png;base64,${qrCodeBase64}`;
+    pixQr.hidden = false;
+  }
+  if (pixPlaceholder) pixPlaceholder.hidden = true;
+  if (pixCodeWrap) pixCodeWrap.hidden = false;
+  if (pixCode) pixCode.value = qrCode;
+  if (pixCopy) pixCopy.hidden = false;
 }
 
 async function copyPixCode() {
@@ -96,17 +121,17 @@ async function createPixPayment() {
     const data = await response.json().catch(() => ({}));
 
     if (!response.ok || !data.payment_id || !data.qr_code || !data.qr_code_base64) {
+      resetPixVisual();
       setCheckoutStatus(data.message || "Não foi possível gerar o Pix agora.");
       return;
     }
 
     activePixPaymentId = data.payment_id;
-    if (pixQr) pixQr.src = `data:image/png;base64,${data.qr_code_base64}`;
-    if (pixCode) pixCode.value = data.qr_code;
-    if (pixPayment) pixPayment.hidden = false;
+    showPixQr(data.qr_code_base64, data.qr_code);
     setCheckoutStatus("Aguardando pagamento Pix...");
     pollPixStatus(activePixPaymentId);
   } catch {
+    resetPixVisual();
     setCheckoutStatus("Não foi possível gerar o Pix agora.");
   } finally {
     setBusy(pixCreate, false);
@@ -148,6 +173,7 @@ pixToggle?.addEventListener("click", () => {
   if (!pixBox) return;
   pixBox.hidden = !pixBox.hidden;
   if (!pixBox.hidden) {
+    resetPixVisual();
     pixEmail?.focus();
     setCheckoutStatus("Informe seu e-mail para gerar o QR Code Pix.");
   }
