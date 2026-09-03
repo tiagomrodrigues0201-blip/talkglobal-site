@@ -2,7 +2,7 @@ import crypto from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
 
 const PRODUCT_SLUG = "freela-na-vida-real";
-const ALLOWED_AMOUNTS = new Set([1499, 5700]);
+const ALLOWED_AMOUNTS = new Set([1499, 4700, 5700]);
 const DEFAULT_BUCKET = "private-products";
 const DEFAULT_OBJECT = "freela/Freela_na_Vida_Real_Kit.zip";
 const SIGNED_URL_TTL_SECONDS = 300;
