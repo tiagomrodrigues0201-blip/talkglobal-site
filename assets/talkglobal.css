@@ -7911,3 +7911,46 @@ body::after {
     font-size: clamp(2.2rem, 11vw, 3.2rem);
   }
 }
+
+
+/* ARTICLE_INLINE_MEDIA_START */
+.article-cover--portrait img {
+  object-position: center 24%;
+}
+
+.article-card__image--award img {
+  object-position: center 24%;
+}
+
+.article-inline-media {
+  width: min(100%, 720px);
+  margin: 2rem auto 2.2rem;
+  overflow: hidden;
+  border: 1px solid rgba(216, 198, 157, .2);
+  border-radius: 8px;
+  background: #110b09;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .34);
+}
+
+.article-inline-media--portrait {
+  width: min(100%, 560px);
+}
+
+.article-inline-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.article-body a {
+  color: #dfc47f;
+  text-underline-offset: .18em;
+}
+
+@media (max-width: 620px) {
+  .article-inline-media {
+    margin: 1.55rem auto 1.8rem;
+    border-radius: 6px;
+  }
+}
+/* ARTICLE_INLINE_MEDIA_END */
