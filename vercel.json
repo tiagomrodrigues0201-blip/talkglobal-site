@@ -99,6 +99,10 @@
       "dest": "/api/freela.js?action=webhook"
     },
     {
+      "src": "/api/freela-status/?",
+      "dest": "/api/freela.js?action=status"
+    },
+    {
       "src": "/api/freela-download/?",
       "dest": "/api/freela.js?action=download"
     },

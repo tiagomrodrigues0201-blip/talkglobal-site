@@ -7,7 +7,10 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag("js", new Date());
-    gtag("config", "G-LD69N93XPX");
+    gtag("config", "G-LD69N93XPX", {
+      page_location: window.location.origin + window.location.pathname,
+      ignore_referrer: true
+    });
   </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,13 +37,65 @@
     const link = document.querySelector("[data-download-link]");
     const status = document.querySelector("[data-download-status]");
 
+    const purchaseStorageKey = sessionId ? `freela_purchase_${sessionId}` : "";
+
+    function wasPurchaseTracked() {
+      try { return localStorage.getItem(purchaseStorageKey) === "sent"; }
+      catch { return false; }
+    }
+
+    function rememberPurchase() {
+      try { localStorage.setItem(purchaseStorageKey, "sent"); }
+      catch { /* The transaction ID also lets Analytics deduplicate purchases. */ }
+    }
+
+    function trackPurchase(purchase) {
+      if (typeof window.gtag !== "function" || wasPurchaseTracked()) return;
+      window.gtag("event", "purchase", {
+        transaction_id: purchase.transaction_id,
+        value: purchase.value,
+        currency: purchase.currency,
+        items: [{
+          item_id: "freela-na-vida-real",
+          item_name: "Freela na Vida Real",
+          price: purchase.value,
+          quantity: 1
+        }]
+      });
+      rememberPurchase();
+    }
+
+    async function confirmPurchase() {
+      try {
+        const response = await fetch(`/api/freela-status?session_id=${encodeURIComponent(sessionId)}`, {
+          headers: { Accept: "application/json" }
+        });
+        const purchase = await response.json().catch(() => ({}));
+
+        if (!response.ok || !purchase.paid) {
+          link.setAttribute("aria-disabled", "true");
+          link.removeAttribute("href");
+          status.textContent = purchase.message || "O pagamento ainda está sendo confirmado. Aguarde alguns segundos e atualize a página.";
+          return;
+        }
+
+        link.href = `/api/freela-download?session_id=${encodeURIComponent(sessionId)}`;
+        link.removeAttribute("aria-disabled");
+        status.textContent = "Pagamento confirmado. Clique para baixar o ebook e os bônus em um único arquivo.";
+        trackPurchase(purchase);
+      } catch {
+        link.setAttribute("aria-disabled", "true");
+        link.removeAttribute("href");
+        status.textContent = "Não foi possível confirmar o pagamento agora. Atualize a página em alguns instantes.";
+      }
+    }
+
     if (!sessionId) {
       link.setAttribute("aria-disabled", "true");
       link.removeAttribute("href");
       status.textContent = "Sessão de compra não encontrada.";
     } else {
-      link.href = `/api/freela-download?session_id=${encodeURIComponent(sessionId)}`;
-      status.textContent = "Clique para baixar o ebook e os bônus em um único arquivo.";
+      confirmPurchase();
     }
   </script>
 </body>

@@ -74,7 +74,11 @@ async function checkout(req, res) {
   });
   const data = await response.json();
   if (!response.ok) return json(res, response.status, { message: "Não foi possível iniciar a compra agora." });
-  return json(res, 200, { url: data.url });
+  return json(res, 200, {
+    url: data.url,
+    value: Number.isInteger(data.amount_total) ? data.amount_total / 100 : 14.99,
+    currency: String(data.currency || "brl").toUpperCase()
+  });
 }
 
 async function readRawBody(req) {
@@ -127,6 +131,37 @@ async function getCheckoutSession(sessionId) {
   return response.ok ? { session: data } : { error: "stripe_error", status: response.status };
 }
 
+function isPaidFreelaSession(session) {
+  return session.metadata?.product === PRODUCT_SLUG
+    && session.payment_status === "paid"
+    && session.mode === "payment"
+    && session.currency === "brl"
+    && ALLOWED_AMOUNTS.has(session.amount_total);
+}
+
+async function status(req, res) {
+  if (req.method !== "GET") {
+    res.setHeader("Allow", "GET");
+    return json(res, 405, { message: "Método não permitido." });
+  }
+  const url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
+  const sessionId = url.searchParams.get("session_id") || "";
+  if (!sessionId.startsWith("cs_")) return json(res, 400, { message: "Sessão de compra inválida." });
+
+  const result = await getCheckoutSession(sessionId);
+  if (result.error) return json(res, result.status || 503, { message: "Não foi possível confirmar o pagamento." });
+  const session = result.session;
+  if (!isPaidFreelaSession(session)) return json(res, 200, { paid: false });
+
+  return json(res, 200, {
+    paid: true,
+    transaction_id: session.id,
+    value: session.amount_total / 100,
+    currency: session.currency.toUpperCase(),
+    price_type: session.metadata?.price_type || ""
+  });
+}
+
 async function getSignedProductUrl() {
   const supabaseUrl = process.env.SUPABASE_URL;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -149,7 +184,7 @@ async function download(req, res) {
   const result = await getCheckoutSession(sessionId);
   if (result.error) return json(res, result.status || 503, { message: "Não foi possível confirmar o pagamento." });
   const session = result.session;
-  const valid = session.metadata?.product === PRODUCT_SLUG && session.payment_status === "paid" && session.mode === "payment" && session.currency === "brl" && ALLOWED_AMOUNTS.has(session.amount_total);
+  const valid = isPaidFreelaSession(session);
   if (!valid) return json(res, 403, { message: "Pagamento não confirmado para este produto." });
   const product = await getSignedProductUrl();
   if (product.error) return json(res, 503, { message: "O kit digital ainda não está disponível no armazenamento privado." });
@@ -163,6 +198,7 @@ export default async function handler(req, res) {
   const action = getAction(req);
   if (action === "checkout") return checkout(req, res);
   if (action === "webhook") return webhook(req, res);
+  if (action === "status") return status(req, res);
   if (action === "download") return download(req, res);
   return json(res, 404, { message: "Rota não encontrada." });
 }
