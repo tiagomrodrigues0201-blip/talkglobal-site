@@ -5,13 +5,14 @@ export const amazonAssociatesConfig = Object.freeze({
     mode: "affiliate-links",
     apiEndpoint: "/api/amazon-recommendations",
   }),
-  disclosure: "Como associado da Amazon, eu ganho com compras qualificadas. Isso não aumenta o custo para você.",
+  footerDisclosure: "Como participante do Programa de Associados da Amazon, sou remunerado pelas compras qualificadas efetuadas.",
   recommendations: Object.freeze({
     notebookStand: Object.freeze({
       type: "notebook-stand",
       eyebrow: "Pode ser útil para quem trabalha online",
       title: "Mais conforto para trabalhar no notebook",
       text: "Veja opções de suportes para notebook na Amazon.",
+      cta: "Ver modelos para home office",
       query: "suporte para notebook ergonomico",
     }),
     wirelessMouse: Object.freeze({
@@ -19,6 +20,7 @@ export const amazonAssociatesConfig = Object.freeze({
       eyebrow: "Pode ser útil para quem trabalha online",
       title: "Um ajuste simples para a rotina de trabalho",
       text: "Veja opções de mouse sem fio para trabalho na Amazon.",
+      cta: "Ver opções de mouse",
       query: "mouse sem fio para trabalho",
     }),
     workHeadset: Object.freeze({
@@ -26,6 +28,7 @@ export const amazonAssociatesConfig = Object.freeze({
       eyebrow: "Pode ser útil para quem trabalha online",
       title: "Para chamadas e reuniões com mais clareza",
       text: "Veja opções de headsets para trabalho na Amazon.",
+      cta: "Encontrar um headset",
       query: "headset para trabalho home office",
     }),
     webcam: Object.freeze({
@@ -33,6 +36,7 @@ export const amazonAssociatesConfig = Object.freeze({
       eyebrow: "Pode ser útil para quem trabalha online",
       title: "Para apresentar seu trabalho com mais clareza",
       text: "Veja opções de webcams para reuniões na Amazon.",
+      cta: "Encontrar uma boa webcam",
       query: "webcam full hd para reuniões",
     }),
     techAccessories: Object.freeze({
@@ -40,6 +44,7 @@ export const amazonAssociatesConfig = Object.freeze({
       eyebrow: "Para organizar melhor seu equipamento",
       title: "Acessórios úteis para a rotina digital",
       text: "Veja opções de carregadores e acessórios de tecnologia na Amazon.",
+      cta: "Ver acessórios de tecnologia",
       query: "carregador usb c acessórios tecnologia",
     }),
     externalSsd: Object.freeze({
@@ -47,6 +52,7 @@ export const amazonAssociatesConfig = Object.freeze({
       eyebrow: "Para quem trabalha com arquivos digitais",
       title: "Mais espaço e praticidade para seus projetos",
       text: "Veja opções de SSD externo na Amazon.",
+      cta: "Ver opções de SSD externo",
       query: "ssd externo portátil",
     }),
     universalAdapter: Object.freeze({
@@ -54,6 +60,7 @@ export const amazonAssociatesConfig = Object.freeze({
       eyebrow: "Pode ser útil em uma próxima viagem",
       title: "Um adaptador para diferentes tomadas",
       text: "Veja opções de adaptadores universais de viagem na Amazon.",
+      cta: "Ver acessórios para viagem",
       query: "adaptador universal de viagem",
     }),
     powerBank: Object.freeze({
@@ -61,6 +68,7 @@ export const amazonAssociatesConfig = Object.freeze({
       eyebrow: "Pode ser útil em uma próxima viagem",
       title: "Energia extra fora de casa",
       text: "Veja opções de carregadores portáteis na Amazon.",
+      cta: "Ver carregadores portáteis",
       query: "carregador portátil power bank",
     }),
     travelBackpack: Object.freeze({
@@ -68,6 +76,7 @@ export const amazonAssociatesConfig = Object.freeze({
       eyebrow: "Pode ser útil em uma próxima viagem",
       title: "Para organizar melhor o que vai com você",
       text: "Veja opções de mochilas de viagem na Amazon.",
+      cta: "Ver mochilas para viagem",
       query: "mochila de viagem cabine",
     }),
     gamingAccessories: Object.freeze({
@@ -75,6 +84,7 @@ export const amazonAssociatesConfig = Object.freeze({
       eyebrow: "Para quem também gosta de jogar",
       title: "Acessórios para completar o setup",
       text: "Veja opções de periféricos e acessórios para games na Amazon.",
+      cta: "Ver acessórios para games",
       query: "acessórios para games periféricos",
     }),
     reading: Object.freeze({
@@ -82,6 +92,7 @@ export const amazonAssociatesConfig = Object.freeze({
       eyebrow: "Para continuar explorando o assunto",
       title: "Outras leituras podem ampliar essa descoberta",
       text: "Veja livros relacionados na Amazon.",
+      cta: "Pesquisar livros na Amazon",
       query: "livros cultura pop criatividade",
     }),
     darkFantasy: Object.freeze({
@@ -89,6 +100,7 @@ export const amazonAssociatesConfig = Object.freeze({
       eyebrow: "Para quem gosta de universos sombrios",
       title: "Mais histórias de dark fantasy para descobrir",
       text: "Veja livros e mangás de dark fantasy na Amazon.",
+      cta: "Pesquisar mangás na Amazon",
       query: "livros mangás dark fantasy",
     }),
     asianWorks: Object.freeze({
@@ -96,6 +108,7 @@ export const amazonAssociatesConfig = Object.freeze({
       eyebrow: "Para continuar descobrindo novas obras",
       title: "Mangás e histórias asiáticas para explorar",
       text: "Veja livros, mangás e obras relacionadas na Amazon.",
+      cta: "Pesquisar mangás na Amazon",
       query: "mangás manhwas obras asiáticas",
     }),
     realEstateBooks: Object.freeze({
@@ -103,6 +116,7 @@ export const amazonAssociatesConfig = Object.freeze({
       eyebrow: "Para aprofundar o assunto",
       title: "Leituras sobre mercado imobiliário e vendas",
       text: "Veja livros relacionados ao mercado imobiliário na Amazon.",
+      cta: "Pesquisar livros na Amazon",
       query: "livros mercado imobiliário vendas",
     }),
   }),

@@ -43,6 +43,7 @@ function searchRecommendation(context, workTerm) {
     eyebrow: "Para continuar explorando essa obra",
     title: `Pesquisar ${workTerm} na Amazon`,
     text: `Veja livros, mangás e itens relacionados a ${workTerm} na Amazon.`,
+    cta: "Pesquisar mangás na Amazon",
     query: `${workTerm} mangá livro`,
   };
 }
@@ -150,16 +151,18 @@ function renderRecommendation(context, selection) {
     <p class="amazon-recommendation__eyebrow"></p>
     <h2 id="amazon-recommendation-title"></h2>
     <p class="amazon-recommendation__text"></p>
-    <a class="amazon-recommendation__link" rel="sponsored noopener noreferrer" target="_blank">Ver na Amazon <span aria-hidden="true">→</span></a>
-    <p class="amazon-recommendation__disclosure"></p>
+    <a class="amazon-recommendation__link" rel="sponsored noopener noreferrer" target="_blank"></a>
   `;
 
   section.querySelector(".amazon-recommendation__eyebrow").textContent = selection.recommendation.eyebrow;
   section.querySelector("h2").textContent = selection.recommendation.title;
   section.querySelector(".amazon-recommendation__text").textContent = selection.recommendation.text;
-  section.querySelector(".amazon-recommendation__disclosure").textContent = config.disclosure;
-
   const link = section.querySelector("a");
+  link.append(document.createTextNode(selection.recommendation.cta || "Ver opções na Amazon"));
+  const arrow = document.createElement("span");
+  arrow.setAttribute("aria-hidden", "true");
+  arrow.textContent = "→";
+  link.append(" ", arrow);
   link.href = destination;
   link.dataset.amazonArticle = context.slug;
   link.dataset.amazonCategory = selection.category;
@@ -169,6 +172,15 @@ function renderRecommendation(context, selection) {
   const finalCta = context.article.querySelector(".article-cta-heading");
   if (finalCta) context.article.insertBefore(section, finalCta);
   else context.article.appendChild(section);
+
+  const footer = document.querySelector("footer.site-footer, footer.footer, body > footer");
+  if (footer && !footer.querySelector(".amazon-footer-disclosure")) {
+    const disclosure = document.createElement("p");
+    disclosure.className = "amazon-footer-disclosure";
+    disclosure.textContent = config.footerDisclosure;
+    const footerCopy = footer.querySelector(":scope > div") || footer;
+    footerCopy.appendChild(disclosure);
+  }
 }
 
 async function init() {

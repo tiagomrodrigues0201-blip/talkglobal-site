@@ -8335,8 +8335,7 @@ body::after {
 }
 
 .amazon-recommendation__sponsor,
-.amazon-recommendation__eyebrow,
-.amazon-recommendation__disclosure {
+.amazon-recommendation__eyebrow {
   display: block;
   margin: 0;
   color: rgba(255, 255, 255, .58);
@@ -8392,9 +8391,13 @@ body::after {
   transform: translateY(-1px);
 }
 
-.amazon-recommendation__disclosure {
-  margin-top: 16px;
+.site-footer .amazon-footer-disclosure,
+.footer .amazon-footer-disclosure {
+  margin-top: 14px;
   max-width: 62ch;
+  color: rgba(255, 255, 255, .52);
+  font-size: .75rem;
+  line-height: 1.55;
 }
 
 @media (max-width: 540px) {
