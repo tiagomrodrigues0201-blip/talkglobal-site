@@ -29,19 +29,19 @@ Um setup produtivo não é sobre estética. É sobre repetição. Se você traba
 
 **Cadeira Gamer**  
 Uma cadeira confortável pode ser o primeiro ajuste para quem passa muitas horas trabalhando, estudando ou atendendo clientes em casa.  
-[Ver na Amazon](https://www.amazon.com.br/dp/B0CJV2WKQF?tag=talkglobal0a-20)
+[Ver na Amazon](https://www.amazon.com.br/dp/B0CJV2WKQF)
 
 **Sony WH-CH720N**  
 Ajuda em reuniões, foco e chamadas longas, principalmente quando o ambiente tem ruído.  
-[Ver na Amazon](https://www.amazon.com.br/dp/B0BS1QCFHX?tag=talkglobal0a-20)
+[Ver na Amazon](https://www.amazon.com.br/dp/B0BS1QCFHX)
 
 **AirPods 4**  
 Alternativa compacta para chamadas, aulas, vídeos e rotina mobile. Faz sentido para quem usa bastante celular na operação.  
-[Ver na Amazon](https://www.amazon.com.br/dp/B0DGM4T4H8?tag=talkglobal0a-20)
+[Ver na Amazon](https://www.amazon.com.br/dp/B0DGM4T4H8)
 
 **Echo Dot Max**  
 Pode ajudar na rotina com timers, lembretes, música ambiente e comandos simples no espaço de trabalho.  
-[Ver na Amazon](https://www.amazon.com.br/dp/B0DKLQT9XR?tag=talkglobal0a-20)
+[Ver na Amazon](https://www.amazon.com.br/dp/B0DKLQT9XR)
 
 ## Como montar sem gastar demais
 

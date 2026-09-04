@@ -1,8 +1,8 @@
 # Estratégia Amazon Afiliados - TalkGlobal
 
-Objetivo: gerar cliques qualificados e buscar as primeiras 3 vendas Amazon em até 180 dias.
+Objetivo: gerar cliques qualificados com recomendações editoriais relacionadas a cada artigo.
 
-ID de associado: `talkglobal0a-20`
+O ID de associado fica definido somente em `assets/amazon-associates.config.js`.
 
 ## Posicionamento
 
@@ -19,16 +19,16 @@ A Amazon entra como recomendação útil, não como promessa de ganho rápido.
 
 ## Regras de links
 
-Todos os links Amazon publicados devem usar a tag:
+Todos os links Amazon publicados devem receber a tag configurada centralmente:
 
 ```txt
-?tag=talkglobal0a-20
+?tag=AMAZON_ASSOCIATE_ID
 ```
 
 Formato final usado no site:
 
 ```txt
-https://www.amazon.com.br/dp/ASIN?tag=talkglobal0a-20
+https://www.amazon.com.br/s?k=TERMO&tag=AMAZON_ASSOCIATE_ID
 ```
 
 Evitar publicar produtos sem ASIN real. Quando ainda não houver produto escolhido, manter o item fora do artigo em vez de deixar placeholder visível.
@@ -68,7 +68,7 @@ Como associado da Amazon, o TalkGlobal pode receber comissão por compras qualif
 - Conferir se os links reais continuam ativos na Amazon.
 - Priorizar produtos com alto apelo e preço acessível.
 - Evitar produtos muito específicos ou caros no começo.
-- Conferir se todos os links têm `tag=talkglobal0a-20`.
+- Conferir se todos os links recebem a tag definida na configuração central.
 - Publicar os 3 artigos.
 - Solicitar indexação no Search Console.
 

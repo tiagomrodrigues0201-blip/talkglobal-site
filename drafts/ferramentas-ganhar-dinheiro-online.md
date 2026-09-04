@@ -31,19 +31,19 @@ Sem organização, tudo parece urgente. Com organização, você enxerga priorid
 
 **Como Fazer Amigos e Influenciar Pessoas**  
 Um clássico para quem quer melhorar comunicação, relacionamento com clientes, negociação e confiança ao vender.  
-[Ver na Amazon](https://www.amazon.com.br/dp/6560954072?tag=talkglobal0a-20)
+[Ver na Amazon](https://www.amazon.com.br/dp/6560954072)
 
 **Os Segredos da Mente Milionária**  
 Leitura popular para quem está começando a estudar dinheiro, comportamento financeiro e mentalidade empreendedora.  
-[Ver na Amazon](https://www.amazon.com.br/dp/8575422391?tag=talkglobal0a-20)
+[Ver na Amazon](https://www.amazon.com.br/dp/8575422391)
 
 **iPad 9ª geração**  
 Pode funcionar como caderno digital, apoio para estudo, leitura, organização e criação de conteúdo simples.  
-[Ver na Amazon](https://www.amazon.com.br/dp/B0GPRKWMGK?tag=talkglobal0a-20)
+[Ver na Amazon](https://www.amazon.com.br/dp/B0GPRKWMGK)
 
 **GoPro HERO13 Black**  
 Para quem quer criar vídeos, bastidores, demonstrações de produto ou conteúdo com mais qualidade.  
-[Ver na Amazon](https://www.amazon.com.br/dp/B0DFY6JWWZ?tag=talkglobal0a-20)
+[Ver na Amazon](https://www.amazon.com.br/dp/B0DFY6JWWZ)
 
 ## Comece pequeno, mas comece com método
 

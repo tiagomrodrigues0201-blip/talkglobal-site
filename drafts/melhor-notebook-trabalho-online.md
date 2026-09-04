@@ -33,15 +33,15 @@ Quem usa o notebook para vender online também deve pensar em câmera, microfone
 
 **Notebook ASUS Vivobook 15**  
 Uma opção para quem quer uma máquina de trabalho mais completa para navegação, planilhas, reuniões e rotina online.  
-[Ver na Amazon](https://www.amazon.com.br/dp/B0F4LWGJ6H?tag=talkglobal0a-20)
+[Ver na Amazon](https://www.amazon.com.br/dp/B0F4LWGJ6H)
 
 **Sony WH-CH720N**  
 Fone útil para reuniões, foco e chamadas de trabalho, especialmente para quem divide ambiente ou precisa de áudio mais estável.  
-[Ver na Amazon](https://www.amazon.com.br/dp/B0BS1QCFHX?tag=talkglobal0a-20)
+[Ver na Amazon](https://www.amazon.com.br/dp/B0BS1QCFHX)
 
 **iPad 9ª geração**  
 Pode ser uma segunda tela, caderno digital ou apoio para estudo, leitura e organização da rotina online.  
-[Ver na Amazon](https://www.amazon.com.br/dp/B0GPRKWMGK?tag=talkglobal0a-20)
+[Ver na Amazon](https://www.amazon.com.br/dp/B0GPRKWMGK)
 
 ## Não compre pensando só no preço
 

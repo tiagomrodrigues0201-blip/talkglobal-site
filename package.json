@@ -4,13 +4,15 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "dev": "vite",
     "check:freela": "node --check api/freela.js && node --check assets/freela/freela-na-vida-real.js",
     "generate": "node automation/generateArticles.js",
     "approve": "node automation/publishApprovedArticles.js --approve-only",
     "publish": "node automation/publishApprovedArticles.js",
+    "sync:amazon": "node scripts/sync-amazon-recommendations.mjs",
     "sync-social": "node scripts/sync-social.mjs",
     "build:hesidio": "node scripts/build-hesidio-episodes.mjs",
-    "predeploy:prod": "node scripts/predeploy-check.mjs",
+    "predeploy:prod": "node scripts/sync-amazon-recommendations.mjs --check && node scripts/predeploy-check.mjs",
     "deploy:prod": "node scripts/deploy-prod.mjs",
     "verify:production": "node scripts/verify-production.mjs",
     "freela:stripe:dev": "node scripts/freela-stripe-setup.mjs --environment development",
@@ -25,5 +27,8 @@
     "ffmpeg-static": "^5.3.0",
     "ffprobe-static": "^3.1.0",
     "openai": "^6.37.0"
+  },
+  "devDependencies": {
+    "vite": "^8.2.2"
   }
 }

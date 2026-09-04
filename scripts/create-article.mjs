@@ -408,6 +408,7 @@ ${nav()}
   </section>
 </main>
 ${footer()}
+<script type="module" src="/assets/amazon-recommendations.js"></script>
 </body>
 </html>`;
 }

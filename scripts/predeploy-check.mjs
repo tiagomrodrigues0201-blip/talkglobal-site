@@ -17,6 +17,9 @@ const requiredFiles = [
   "contato.html",
   "politica-editorial.html",
   "copyright.html",
+  "assets/amazon-associates.config.js",
+  "assets/amazon-recommendations.js",
+  "scripts/sync-amazon-recommendations.mjs",
   "vercel.json",
   "package.json",
 ];
