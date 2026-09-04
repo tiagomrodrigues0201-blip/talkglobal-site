@@ -9,8 +9,6 @@ const requiredFiles = [
   "index.html",
   "manga/index.html",
   "artigos/index.html",
-  "ecos/index.html",
-  "ecos/enviar/index.html",
   "sitemap.xml",
   "robots.txt",
   "ads.txt",

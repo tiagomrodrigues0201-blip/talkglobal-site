@@ -477,590 +477,6 @@
   transform: scale(1.02) !important;
 }
 
-/* Ecos de Helicon: mobile-first archive for independent creations. */
-.ecos-page {
-  overflow-x: hidden;
-  background:
-    radial-gradient(circle at 50% -8%, rgba(141,17,24,.18), transparent 18rem),
-    radial-gradient(circle at 100% 24%, rgba(184,148,75,.1), transparent 16rem),
-    var(--bg);
-}
-
-.ecos-page *,
-.ecos-page *::before,
-.ecos-page *::after {
-  box-sizing: border-box;
-}
-
-.ecos-page .container,
-.ecos-home-teaser .container {
-  width: min(100% - 28px, var(--max));
-}
-
-.ecos-hero {
-  position: relative;
-  isolation: isolate;
-  padding: 110px 0 48px;
-  overflow: hidden;
-}
-
-.ecos-hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(180deg, rgba(2,1,1,.42), rgba(2,1,1,.96)),
-    repeating-linear-gradient(90deg, rgba(216,198,157,.04) 0 1px, transparent 1px 72px);
-  opacity: .9;
-}
-
-.ecos-hero__inner,
-.ecos-form-shell {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 22px;
-}
-
-.ecos-hero__copy {
-  display: grid;
-  gap: 14px;
-  min-width: 0;
-}
-
-.ecos-hero h1,
-.ecos-form-intro h1,
-.ecos-guidelines .info-hero h1 {
-  max-width: 100%;
-  margin: 0;
-  color: #fff7e6;
-  font-family: Georgia, "Times New Roman", ui-serif, serif;
-  font-size: clamp(2.55rem, 14vw, 4rem);
-  line-height: .96;
-  letter-spacing: 0;
-  overflow-wrap: normal;
-  word-break: normal;
-}
-
-.ecos-hero__lead {
-  margin: 0;
-  color: #e7c974;
-  font-family: Georgia, "Times New Roman", ui-serif, serif;
-  font-size: clamp(1.3rem, 6vw, 1.85rem);
-  line-height: 1.16;
-}
-
-.ecos-hero p,
-.ecos-form-intro p,
-.ecos-section .section-head p,
-.ecos-eternal p,
-.ecos-card p,
-.ecos-feature p,
-.ecos-submit-note span {
-  max-width: 66ch;
-  color: rgba(244,238,226,.72);
-  line-height: 1.68;
-}
-
-.ecos-actions {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-  margin-top: 8px;
-}
-
-.ecos-actions .button,
-.ecos-form .button,
-.ecos-eternal .button,
-.ecos-home-teaser .button {
-  width: 100%;
-  justify-content: center;
-  text-align: center;
-}
-
-.ecos-hero__artifact {
-  position: relative;
-  width: 100%;
-  min-width: 0;
-  margin: 0;
-  overflow: hidden;
-  border: 1px solid rgba(216,198,157,.18);
-  background: rgba(0,0,0,.42);
-  box-shadow: 0 24px 70px rgba(0,0,0,.42);
-}
-
-.ecos-hero__artifact img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  object-position: center;
-  filter: grayscale(.08) sepia(.12) saturate(.92) contrast(1.1) brightness(.74);
-}
-
-.ecos-hero__artifact::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(180deg, transparent 42%, rgba(0,0,0,.74)),
-    radial-gradient(circle at 50% 24%, transparent 0 12rem, rgba(0,0,0,.35));
-  pointer-events: none;
-}
-
-.ecos-hero__artifact figcaption {
-  position: absolute;
-  z-index: 2;
-  left: 14px;
-  right: 14px;
-  bottom: 14px;
-  color: rgba(244,238,226,.72);
-  font-family: "Courier New", ui-monospace, monospace;
-  font-size: .62rem;
-  font-weight: 900;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-}
-
-.ecos-section,
-.ecos-eternal {
-  padding: 46px 0;
-}
-
-.ecos-card-grid,
-.ecos-feature-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 14px;
-}
-
-.ecos-card,
-.ecos-feature,
-.ecos-eternal__panel,
-.ecos-form,
-.ecos-submit-note,
-.ecos-guidelines-card {
-  min-width: 0;
-  border: 1px solid rgba(216,198,157,.16);
-  background:
-    radial-gradient(circle at 10% 0%, rgba(141,17,24,.14), transparent 14rem),
-    linear-gradient(180deg, rgba(216,198,157,.055), rgba(0,0,0,.18)),
-    rgba(8,5,4,.76);
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,.42);
-}
-
-.ecos-card {
-  display: grid;
-  gap: 10px;
-  padding: 18px;
-  align-content: start;
-}
-
-.ecos-card span,
-.ecos-feature span,
-.ecos-submit-note strong {
-  color: #d7b45f;
-  font-family: "Courier New", ui-monospace, monospace;
-  font-size: .64rem;
-  font-weight: 900;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-}
-
-.ecos-card__image {
-  position: relative;
-  width: 100%;
-  margin: 0 0 6px;
-  overflow: hidden;
-  border: 1px solid rgba(216,198,157,.14);
-  background: rgba(0,0,0,.36);
-}
-
-.ecos-card__image img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 11;
-  object-fit: cover;
-  object-position: center;
-  filter: grayscale(.05) sepia(.08) saturate(.88) contrast(1.08) brightness(.78);
-  transition: transform .28s ease, filter .28s ease;
-}
-
-.ecos-card:hover .ecos-card__image img {
-  transform: scale(1.025);
-  filter: grayscale(.02) sepia(.06) saturate(1) contrast(1.08) brightness(.88);
-}
-
-.ecos-card h3,
-.ecos-feature h3,
-.ecos-eternal h2 {
-  margin: 0;
-  color: #fff7e6;
-  font-family: Georgia, "Times New Roman", ui-serif, serif;
-  font-size: clamp(1.35rem, 7vw, 1.92rem);
-  line-height: 1.08;
-}
-
-.ecos-card small {
-  color: rgba(216,198,157,.58);
-  font-size: .82rem;
-}
-
-.ecos-card .button {
-  width: 100%;
-  margin-top: 4px;
-  justify-content: center;
-  text-align: center;
-}
-
-.ecos-feature {
-  display: grid;
-  overflow: hidden;
-}
-
-.ecos-feature img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
-  filter: grayscale(.08) sepia(.1) saturate(.8) contrast(1.06) brightness(.76);
-}
-
-.ecos-feature div {
-  display: grid;
-  gap: 10px;
-  padding: 18px;
-}
-
-.ecos-eternal__panel {
-  display: grid;
-  gap: 10px;
-  padding: 22px;
-}
-
-.ecos-eternal h2 {
-  font-size: clamp(1.78rem, 8.6vw, 2.9rem);
-}
-
-.ecos-eternal p {
-  margin: 0;
-}
-
-.ecos-footer p {
-  max-width: 58ch;
-}
-
-.ecos-form-shell {
-  padding-top: 112px;
-  padding-bottom: 48px;
-}
-
-.ecos-form-intro,
-.ecos-form {
-  min-width: 0;
-}
-
-.ecos-submit-note {
-  display: grid;
-  gap: 8px;
-  margin-top: 18px;
-  padding: 16px;
-}
-
-.ecos-form {
-  display: grid;
-  gap: 16px;
-  padding: 16px;
-}
-
-.ecos-form-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 14px;
-}
-
-.ecos-form label {
-  display: grid;
-  gap: 8px;
-  min-width: 0;
-  color: rgba(244,238,226,.82);
-  font-size: .92rem;
-  font-weight: 800;
-}
-
-.ecos-form input,
-.ecos-form select,
-.ecos-form textarea {
-  width: 100%;
-  min-width: 0;
-  border: 1px solid rgba(216,198,157,.18);
-  border-radius: 0;
-  background: rgba(0,0,0,.34);
-  color: #fff7e6;
-  font: inherit;
-  padding: 13px 12px;
-  outline: none;
-}
-
-.ecos-form input:focus,
-.ecos-form select:focus,
-.ecos-form textarea:focus {
-  border-color: rgba(216,198,157,.52);
-  box-shadow: 0 0 0 3px rgba(184,148,75,.12);
-}
-
-.ecos-form textarea {
-  resize: vertical;
-}
-
-.ecos-cover-field {
-  display: grid;
-  gap: 10px;
-  padding: 14px;
-  border: 1px solid rgba(184,148,75,.34);
-  background:
-    linear-gradient(135deg, rgba(184,148,75,.08), rgba(141,17,24,.08)),
-    rgba(0,0,0,.22);
-}
-
-.ecos-cover-field p,
-.ecos-form-help {
-  margin: 0;
-  color: rgba(244,238,226,.66);
-  font-size: .9rem;
-  line-height: 1.55;
-}
-
-.ecos-form-help {
-  padding: 12px 14px;
-  border-left: 2px solid rgba(184,148,75,.6);
-  background: rgba(0,0,0,.2);
-}
-
-.ecos-checks {
-  display: grid;
-  gap: 12px;
-  padding: 14px;
-  border: 1px solid rgba(216,198,157,.12);
-  background: rgba(0,0,0,.22);
-}
-
-.ecos-checks label {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: start;
-  gap: 10px;
-  font-weight: 700;
-  line-height: 1.45;
-}
-
-.ecos-checks input {
-  width: 18px;
-  height: 18px;
-  margin-top: 2px;
-}
-
-.ecos-submission-message {
-  margin: 0;
-  padding: 14px;
-  border: 1px solid rgba(184,148,75,.42);
-  background: rgba(184,148,75,.1);
-  color: #fff0c5;
-  font-weight: 850;
-}
-
-.ecos-chapter-panel {
-  display: grid;
-  gap: 14px;
-  margin: 0 auto 34px;
-  max-width: 860px;
-  width: min(100%, 860px);
-  padding: clamp(18px, 4vw, 28px);
-  border: 1px solid rgba(216,198,157,.16);
-  background:
-    radial-gradient(circle at 8% 0%, rgba(184,148,75,.12), transparent 16rem),
-    rgba(8,5,4,.76);
-}
-
-.ecos-chapter-panel h2 {
-  margin: 0;
-  color: #fff7e6;
-  font-family: Georgia, "Times New Roman", ui-serif, serif;
-  font-size: clamp(1.55rem, 7vw, 2.35rem);
-  line-height: 1.08;
-}
-
-.ecos-chapter-list {
-  display: grid;
-  gap: 10px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.ecos-chapter-list a {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 5px;
-  min-width: 0;
-  padding: 13px 14px;
-  border: 1px solid rgba(216,198,157,.15);
-  background: rgba(0,0,0,.24);
-  color: #fff7e6;
-  text-decoration: none;
-}
-
-.ecos-chapter-list a:hover {
-  border-color: rgba(216,198,157,.42);
-  background: rgba(184,148,75,.08);
-}
-
-.ecos-chapter-list span,
-.ecos-chapter-list small {
-  color: rgba(216,198,157,.68);
-  font-family: "Courier New", ui-monospace, monospace;
-  font-size: .68rem;
-  font-weight: 900;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-}
-
-.ecos-chapter-list strong {
-  overflow-wrap: anywhere;
-  line-height: 1.25;
-}
-
-.ecos-guidelines-card ul {
-  display: grid;
-  gap: 8px;
-  margin: 0 0 28px;
-  padding-left: 20px;
-}
-
-.ecos-guidelines-card li {
-  color: rgba(244,238,226,.78);
-  line-height: 1.55;
-}
-
-.ecos-home-teaser {
-  padding: 38px 0;
-}
-
-.ecos-home-teaser__inner {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 18px;
-  padding: 22px;
-  border: 1px solid rgba(216,198,157,.16);
-  background:
-    radial-gradient(circle at 88% 0%, rgba(184,148,75,.13), transparent 16rem),
-    linear-gradient(135deg, rgba(141,17,24,.13), rgba(0,0,0,.28)),
-    rgba(8,5,4,.78);
-}
-
-.ecos-home-teaser h2 {
-  margin: 8px 0 10px;
-  color: #fff7e6;
-  font-family: Georgia, "Times New Roman", ui-serif, serif;
-  font-size: clamp(1.65rem, 8vw, 2.6rem);
-  line-height: 1.05;
-}
-
-.ecos-home-teaser p {
-  margin: 0;
-  color: rgba(244,238,226,.72);
-  line-height: 1.65;
-}
-
-@media (min-width: 520px) {
-  .ecos-actions {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .ecos-actions .button,
-  .ecos-form .button,
-  .ecos-card .button,
-  .ecos-eternal .button,
-  .ecos-home-teaser .button {
-    width: fit-content;
-  }
-}
-
-@media (min-width: 760px) {
-  .ecos-hero {
-    padding-top: 132px;
-  }
-
-  .ecos-hero__inner,
-  .ecos-form-shell {
-    grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
-    align-items: center;
-    gap: clamp(28px, 5vw, 72px);
-  }
-
-  .ecos-hero h1,
-  .ecos-form-intro h1,
-  .ecos-guidelines .info-hero h1 {
-    font-size: clamp(4rem, 7vw, 7rem);
-  }
-
-  .ecos-hero__artifact img {
-    aspect-ratio: 5 / 4;
-  }
-
-  .ecos-card-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .ecos-card .button {
-    align-self: end;
-  }
-
-  .ecos-feature-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .ecos-form-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .ecos-form {
-    padding: clamp(20px, 3vw, 32px);
-  }
-
-  .ecos-home-teaser__inner {
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-  }
-}
-
-@media (min-width: 1080px) {
-  .ecos-card-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 430px) {
-  .ecos-page .topbar .brand span {
-    max-width: 142px;
-  }
-
-  .ecos-hero h1,
-  .ecos-form-intro h1,
-  .ecos-guidelines .info-hero h1 {
-    font-size: clamp(2.45rem, 13.3vw, 3.45rem);
-  }
-
-  .ecos-section .section-head h2,
-  .ecos-home-teaser h2 {
-    font-size: clamp(1.5rem, 7.7vw, 2.1rem);
-  }
-
-  .ecos-form {
-    padding: 14px;
-  }
-}
-
 @media (max-width: 920px) {
   .cards-vault-page {
     overflow-x: hidden;
@@ -1120,7 +536,6 @@
   .restricted-hero .container,
   .cards-vault-page .container,
   .character-index-page .container,
-  .ecos-page .container,
   .info-page {
     width: calc(100% - 28px) !important;
     max-width: calc(100% - 28px) !important;
@@ -1132,9 +547,7 @@
   .cards-vault-layout,
   .character-index-layout,
   .character-lore-layout,
-  .cards-editorial-layout,
-  .ecos-hero__inner,
-  .ecos-guide-layout {
+  .cards-editorial-layout {
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) !important;
     width: 100% !important;
@@ -1147,10 +560,7 @@
   .cards-vault-copy,
   .cards-auth-panel,
   .character-index-layout > *,
-  .ecos-hero__copy,
-  .ecos-hero__artifact,
-  .info-card,
-  .ecos-eternal__panel {
+  .info-card {
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
@@ -1168,10 +578,6 @@
   .character-index-layout p,
   .character-index-section h2,
   .character-index-section p,
-  .ecos-hero__copy h1,
-  .ecos-hero__copy p,
-  .ecos-editorial-guide h2,
-  .ecos-editorial-guide p,
   .info-page h1,
   .info-page h2,
   .info-page p {
@@ -1211,7 +617,6 @@
   .restricted-hero .container,
   .cards-vault-page .container,
   .character-index-page .container,
-  .ecos-page .container,
   .info-page {
     width: calc(100% - 28px) !important;
     max-width: calc(100% - 28px) !important;
@@ -1223,9 +628,7 @@
   .cards-vault-layout,
   .character-index-layout,
   .character-lore-layout,
-  .cards-editorial-layout,
-  .ecos-hero__inner,
-  .ecos-guide-layout {
+  .cards-editorial-layout {
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) !important;
     width: 100% !important;
@@ -1238,10 +641,7 @@
   .cards-vault-copy,
   .cards-auth-panel,
   .character-index-layout > *,
-  .ecos-hero__copy,
-  .ecos-hero__artifact,
-  .info-card,
-  .ecos-eternal__panel {
+  .info-card {
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
@@ -1259,10 +659,6 @@
   .character-index-layout p,
   .character-index-section h2,
   .character-index-section p,
-  .ecos-hero__copy h1,
-  .ecos-hero__copy p,
-  .ecos-editorial-guide h2,
-  .ecos-editorial-guide p,
   .info-page h1,
   .info-page h2,
   .info-page p {
@@ -3932,8 +3328,7 @@ img { display: block; max-width: 100%; }
 }
 
 .character-index-page main,
-.cards-editorial-section,
-.ecos-editorial-guide {
+.cards-editorial-section {
   position: relative;
   z-index: 5;
 }
@@ -3948,8 +3343,7 @@ img { display: block; max-width: 100%; }
 
 .character-index-layout,
 .character-lore-layout,
-.cards-editorial-layout,
-.ecos-guide-layout {
+.cards-editorial-layout {
   display: grid;
   grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
   gap: clamp(26px, 5vw, 62px);
@@ -3958,8 +3352,7 @@ img { display: block; max-width: 100%; }
 
 .character-index-layout h1,
 .character-index-section h2,
-.cards-editorial-section h2,
-.ecos-editorial-guide h2 {
+.cards-editorial-section h2 {
   margin: 16px 0;
   color: #fff6e6;
   font-family: Georgia, "Times New Roman", ui-serif, serif;
@@ -3969,8 +3362,7 @@ img { display: block; max-width: 100%; }
 
 .character-index-layout p,
 .character-index-section p,
-.cards-editorial-section p,
-.ecos-editorial-guide p {
+.cards-editorial-section p {
   color: rgba(229,218,201,.78);
   font-size: clamp(1rem, 1.6vw, 1.08rem);
   line-height: 1.78;
@@ -3979,8 +3371,7 @@ img { display: block; max-width: 100%; }
 .character-index-poster,
 .character-index-grid article,
 .character-lore-list article,
-.cards-editorial-notes article,
-.ecos-guide-cards article {
+.cards-editorial-notes article {
   border: 1px solid rgba(216,198,157,.14);
   background:
     linear-gradient(145deg, rgba(216,198,157,.06), rgba(141,17,24,.055)),
@@ -4000,15 +3391,13 @@ img { display: block; max-width: 100%; }
 }
 
 .character-index-section,
-.cards-editorial-section,
-.ecos-editorial-guide {
+.cards-editorial-section {
   padding: 78px 0;
   border-top: 1px solid rgba(216,198,157,.08);
 }
 
 .character-index-grid,
-.cards-editorial-notes,
-.ecos-guide-cards {
+.cards-editorial-notes {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
@@ -4016,8 +3405,7 @@ img { display: block; max-width: 100%; }
 
 .character-index-grid article,
 .character-lore-list article,
-.cards-editorial-notes article,
-.ecos-guide-cards article {
+.cards-editorial-notes article {
   padding: 18px;
 }
 
@@ -4030,8 +3418,7 @@ img { display: block; max-width: 100%; }
 }
 
 .character-index-grid span,
-.cards-editorial-notes span,
-.ecos-guide-cards span {
+.cards-editorial-notes span {
   color: var(--gold);
   font-size: .68rem;
   font-weight: 950;
@@ -4041,8 +3428,7 @@ img { display: block; max-width: 100%; }
 
 .character-index-grid h3,
 .character-lore-list strong,
-.cards-editorial-notes h3,
-.ecos-guide-cards h3 {
+.cards-editorial-notes h3 {
   display: block;
   margin: 10px 0 8px;
   color: #fff5e3;
@@ -4055,8 +3441,7 @@ img { display: block; max-width: 100%; }
   gap: 12px;
 }
 
-.cards-editorial-section,
-.ecos-editorial-guide {
+.cards-editorial-section {
   background:
     radial-gradient(circle at 18% 20%, rgba(184,148,75,.1), transparent 24rem),
     linear-gradient(180deg, #020101, #070302);
@@ -4065,14 +3450,12 @@ img { display: block; max-width: 100%; }
 @media (max-width: 980px) {
   .character-index-layout,
   .character-lore-layout,
-  .cards-editorial-layout,
-  .ecos-guide-layout {
+  .cards-editorial-layout {
     grid-template-columns: 1fr;
   }
 
   .character-index-grid,
-  .cards-editorial-notes,
-  .ecos-guide-cards {
+  .cards-editorial-notes {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -4083,14 +3466,12 @@ img { display: block; max-width: 100%; }
   }
 
   .character-index-grid,
-  .cards-editorial-notes,
-  .ecos-guide-cards {
+  .cards-editorial-notes {
     grid-template-columns: 1fr;
   }
 
   .character-index-section,
-  .cards-editorial-section,
-  .ecos-editorial-guide {
+  .cards-editorial-section {
     padding: 58px 0;
   }
 
@@ -4102,8 +3483,7 @@ img { display: block; max-width: 100%; }
 
   .container,
   .cards-vault-page .container,
-  .character-index-page .container,
-  .ecos-page .container {
+  .character-index-page .container {
     width: min(calc(100% - 28px), var(--max));
     max-width: calc(100% - 28px);
     min-width: 0;
@@ -4112,11 +3492,9 @@ img { display: block; max-width: 100%; }
   .hero-copy,
   .cards-vault-copy,
   .character-index-layout > *,
-  .ecos-hero__copy,
   .info-page,
   .info-card,
-  .cards-auth-panel,
-  .ecos-eternal__panel {
+  .cards-auth-panel {
     max-width: 100%;
     min-width: 0;
   }
@@ -4131,10 +3509,6 @@ img { display: block; max-width: 100%; }
   .character-index-layout p,
   .character-index-section h2,
   .character-index-section p,
-  .ecos-hero__copy h1,
-  .ecos-hero__copy p,
-  .ecos-editorial-guide h2,
-  .ecos-editorial-guide p,
   .info-page h1,
   .info-page h2,
   .info-page p {
@@ -7801,7 +7175,6 @@ body::after {
   .restricted-hero .container,
   .cards-vault-page .container,
   .character-index-page .container,
-  .ecos-page .container,
   .info-page {
     width: calc(100% - 28px) !important;
     max-width: calc(100% - 28px) !important;
@@ -7813,9 +7186,7 @@ body::after {
   .cards-vault-layout,
   .character-index-layout,
   .character-lore-layout,
-  .cards-editorial-layout,
-  .ecos-hero__inner,
-  .ecos-guide-layout {
+  .cards-editorial-layout {
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) !important;
     width: 100% !important;
@@ -7828,10 +7199,7 @@ body::after {
   .cards-vault-copy,
   .cards-auth-panel,
   .character-index-layout > *,
-  .ecos-hero__copy,
-  .ecos-hero__artifact,
-  .info-card,
-  .ecos-eternal__panel {
+  .info-card {
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
@@ -7849,10 +7217,6 @@ body::after {
   .character-index-layout p,
   .character-index-section h2,
   .character-index-section p,
-  .ecos-hero__copy h1,
-  .ecos-hero__copy p,
-  .ecos-editorial-guide h2,
-  .ecos-editorial-guide p,
   .info-page h1,
   .info-page h2,
   .info-page p {

@@ -5,8 +5,8 @@ const requiredRoutes = [
   "/manga/",
   "/manga/episodios/ep-1/",
   "/artigos/",
-  "/ecos/",
-  "/ecos/enviar/",
+  "/portfolio/",
+  "/sobre.html",
   "/privacy.html",
   "/terms.html",
   "/contato.html",
@@ -15,6 +15,13 @@ const requiredRoutes = [
   "/ads.txt",
   "/robots.txt",
   "/sitemap.xml",
+];
+
+const removedRoutes = [
+  "/ecos/",
+  "/ecos/enviar/",
+  "/ecos/diretrizes/",
+  "/api/ecos-submissions",
 ];
 
 const failures = [];
@@ -39,6 +46,23 @@ async function checkRoute(pathname) {
 
 for (const route of requiredRoutes) {
   await checkRoute(route);
+}
+
+for (const route of removedRoutes) {
+  const url = new URL(route, baseUrl);
+  try {
+    const response = await fetch(url, { method: "HEAD", redirect: "manual" });
+    if (response.status === 410) {
+      console.log(`OK 410 ${url.href}`);
+      continue;
+    }
+    failures.push(`${response.status} ${url.href} (esperado 410)`);
+    console.error(`FAIL ${response.status} ${url.href} (esperado 410)`);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    failures.push(`NETWORK ${url.href} - ${message}`);
+    console.error(`FAIL NETWORK ${url.href} - ${message}`);
+  }
 }
 
 if (failures.length) {

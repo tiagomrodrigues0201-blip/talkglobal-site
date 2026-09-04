@@ -42,6 +42,16 @@
       "status": 410
     },
     {
+      "src": "/ecos(?:/.*)?",
+      "dest": "/410.html",
+      "status": 410
+    },
+    {
+      "src": "/api/ecos-(?:submissions|upload-urls|approved|admin-submissions|admin-submission|admin-status)(?:\\.js)?/?",
+      "dest": "/410.html",
+      "status": 410
+    },
+    {
       "src": "/(?:worker-video|automation|drafts|social)(?:/.*)?",
       "dest": "/410.html",
       "status": 410
@@ -65,30 +75,6 @@
     {
       "src": "/api/cards/?",
       "dest": "/api/cards.js"
-    },
-    {
-      "src": "/api/ecos-submissions/?",
-      "dest": "/api/ecos-submissions.js"
-    },
-    {
-      "src": "/api/ecos-upload-urls/?",
-      "dest": "/api/ecos-upload-urls.js"
-    },
-    {
-      "src": "/api/ecos-approved/?",
-      "dest": "/api/ecos-approved.js"
-    },
-    {
-      "src": "/api/ecos-admin-submissions/?",
-      "dest": "/api/ecos-admin-submissions.js"
-    },
-    {
-      "src": "/api/ecos-admin-submission/?",
-      "dest": "/api/ecos-admin-submission.js"
-    },
-    {
-      "src": "/api/ecos-admin-status/?",
-      "dest": "/api/ecos-admin-status.js"
     },
     {
       "src": "/api/freela-checkout/?",

@@ -89,6 +89,25 @@ h1 { max-width: 880px; margin-bottom: 26px; font-size: clamp(48px, 7vw, 88px); l
 .portfolio-footer strong { display: block; margin-bottom: 6px; }
 .portfolio-footer nav { flex-wrap: wrap; justify-content: flex-end; max-width: 650px; }
 
+.cookie-consent {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 100;
+  display: grid;
+  gap: 14px;
+  width: min(440px, calc(100% - 32px));
+  padding: 18px;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  background: rgba(10, 8, 8, 0.96);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.52);
+}
+.cookie-consent[hidden] { display: none; }
+.cookie-consent p { margin: 0; color: var(--muted); font-size: 15px; }
+.cookie-consent__actions { display: flex; justify-content: flex-end; }
+.cookie-consent .button { border: 0; cursor: pointer; }
+
 @media (max-width: 860px) {
   .site-header { align-items: flex-start; flex-direction: column; gap: 14px; padding: 16px 0; }
   .site-header nav { flex-wrap: wrap; width: 100%; gap: 10px 16px; }
@@ -122,4 +141,5 @@ h1 { max-width: 880px; margin-bottom: 26px; font-size: clamp(48px, 7vw, 88px); l
   .final-cta { gap: 30px; margin-top: 64px; margin-bottom: 64px; padding: 34px 24px; }
   .final-cta .button, .commercial-hero .button { width: 100%; }
   .portfolio-footer nav { gap: 12px 18px; }
+  .cookie-consent { right: 16px; bottom: 16px; }
 }
