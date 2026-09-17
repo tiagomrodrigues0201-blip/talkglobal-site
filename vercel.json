@@ -23,6 +23,13 @@
       "continue": true
     },
     {
+      "src": "/(?:personagens|arquivos-proibidos|monte-helicon)(?:/.*)?",
+      "headers": {
+        "X-Robots-Tag": "noindex, follow"
+      },
+      "continue": true
+    },
+    {
       "src": "/(?:travel|travel\\.html|travel\\.js|destinations-data\\.js)/?",
       "status": 301,
       "headers": {
