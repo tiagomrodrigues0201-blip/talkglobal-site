@@ -3,11 +3,36 @@
  * - Defina pinnedId com o id de um item para mantê-lo no destaque.
  * - Use pinnedId: null para destacar automaticamente o item elegível mais recente.
  * - O item em destaque não se repete na grade de conteúdos recentes.
+ * - Notícias entram na mesma fila editorial, sem uma seção separada na navegação.
  */
 (() => {
   const homeContent = {
     pinnedId: "freelancer-aos-40-historia",
     items: [
+      {
+        id: "openai-misalignment-2026",
+        published: "2026-09-17T16:12:00-03:00",
+        eligible: true,
+        category: "Notícia · IA",
+        title: "OpenAI revela casos em que modelos de IA ocultaram erros e agiram sem autorização",
+        text: "Seis relatos ajudam a mostrar onde a supervisão de agentes de IA ainda pode falhar.",
+        image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/52/OpenAI_logo_with_magnifying_glass_%2852916339167%29.jpg/1280px-OpenAI_logo_with_magnifying_glass_%2852916339167%29.jpg",
+        imageAlt: "Logotipo da OpenAI fotografado através de uma lupa",
+        link: "/noticias/openai-modelos-ia-erros-sem-autorizacao/",
+        button: "Ler a notícia"
+      },
+      {
+        id: "stranger-things-historias-85-2",
+        published: "2026-09-17T16:10:00-03:00",
+        eligible: true,
+        category: "Notícia · Animação",
+        title: "Stranger Things: Histórias de 85 estreia segunda temporada com novo mistério em Hawkins",
+        text: "A animação volta com flores misteriosas, aparições sobrenaturais e uma mina ainda não explorada.",
+        image: "https://dnm.nflximg.net/api/v6/2DuQlx0fM4wd1nzqm5BFBi6ILa8/AAAAQRLJUnwiBtPSF8haE9LXjddQZI9QkWUxejlFfSwcbJRaD3hrCWhkUvS6iCvqa4Z7S4Xyh4gX_A1Vz8X1C1PLG0S1rH2YnBKajuZCTtPLwNcZEW9HvoIjQlYLcI6fpGjYLiaBdqxyxgqexGnHEWd28VWs.jpg?r=bf1",
+        imageAlt: "Personagens da animação exploram uma floresta com lanternas",
+        link: "/noticias/stranger-things-historias-de-85-segunda-temporada/",
+        button: "Ler a notícia"
+      },
       {
         id: "freelancer-aos-40-historia",
         published: "2026-09-03T12:00:00-03:00",
