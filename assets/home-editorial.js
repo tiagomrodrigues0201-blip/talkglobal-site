@@ -7,8 +7,32 @@
  */
 (() => {
   const homeContent = {
-    pinnedId: "freelancer-aos-40-historia",
+    pinnedId: null,
     items: [
+      {
+        id: "worldpackers-matinhos-primeiro-dia",
+        published: "2026-09-19T16:00:00-03:00",
+        eligible: true,
+        category: "Viagem real · Matinhos",
+        title: "Nosso primeiro dia como voluntários pela Worldpackers: chuva, cozinha e o mar a 40 metros",
+        text: "Chuva, cozinha, trabalho online e novas pessoas: como começou nossa primeira experiência de voluntariado.",
+        image: "/public/artigos/viagens/worldpackers-primeiro-dia-capa-v2.jpg",
+        imageAlt: "Tiago e Angelys durante o primeiro dia do voluntariado em Matinhos",
+        link: "/artigos/primeiro-dia-voluntarios-worldpackers-matinhos/",
+        button: "Ler a história"
+      },
+      {
+        id: "claude-biomolecular-modeling",
+        published: "2026-09-18T14:00:00-03:00",
+        eligible: true,
+        category: "Notícia · IA",
+        title: "Claude acelera mais de 30 modelos científicos em cerca de 4×",
+        text: "A Anthropic afirma que Claude otimizou mais de 30 modelos abertos de biologia e publicou o código das melhorias.",
+        image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/Protein_Structure.png/1280px-Protein_Structure.png",
+        imageAlt: "Ilustração dos níveis de estrutura de proteínas",
+        link: "/noticias/claude-acelera-modelos-cientificos-biomoleculas/",
+        button: "Ler a notícia"
+      },
       {
         id: "openai-misalignment-2026",
         published: "2026-09-17T16:12:00-03:00",
