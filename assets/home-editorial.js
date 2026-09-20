@@ -16,7 +16,7 @@
         category: "Viagem real · Matinhos",
         title: "Nosso primeiro dia como voluntários pela Worldpackers: chuva, cozinha e o mar a 40 metros",
         text: "Chuva, cozinha, trabalho online e novas pessoas: como começou nossa primeira experiência de voluntariado.",
-        image: "/public/artigos/viagens/worldpackers-primeiro-dia-capa-real.jpg",
+        image: "/public/artigos/viagens/worldpackers-tiago-angelys.jpg",
         imageAlt: "Tiago e Angelys durante o primeiro dia do voluntariado em Matinhos",
         link: "/artigos/primeiro-dia-voluntarios-worldpackers-matinhos/",
         button: "Ler a história"
