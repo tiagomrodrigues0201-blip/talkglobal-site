@@ -96,6 +96,18 @@
       "dest": "/api/freela.js?action=status"
     },
     {
+      "src": "/api/freela-pix/?",
+      "dest": "/api/freela.js?action=pix"
+    },
+    {
+      "src": "/api/freela-pix-status/?",
+      "dest": "/api/freela.js?action=pix-status"
+    },
+    {
+      "src": "/api/freela-mercadopago-webhook/?",
+      "dest": "/api/freela.js?action=mercadopago-webhook"
+    },
+    {
       "src": "/api/freela-download/?",
       "dest": "/api/freela.js?action=download"
     },

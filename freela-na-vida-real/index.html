@@ -30,7 +30,7 @@
   <meta name="twitter:image" content="https://talkglobalapp.com/assets/freela/freela-na-vida-real-produto.webp">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="stylesheet" href="/assets/freela/freela-na-vida-real.css">
+  <link rel="stylesheet" href="/assets/freela/freela-na-vida-real.css?v=pix-20260920">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Freela na Vida Real","image":["https://talkglobalapp.com/assets/freela/freela-na-vida-real-produto.webp"],"brand":{"@type":"Brand","name":"TalkGlobal Studios"},"description":"Ebook com kit de execução para organizar experiência profissional, construir portfólio, criar presença online e usar IA com critério.","offers":{"@type":"Offer","price":"14.99","priceCurrency":"BRL","availability":"https://schema.org/InStock","url":"https://talkglobalapp.com/freela-na-vida-real/"}}</script>
 </head>
 <body class="freela-page">
@@ -240,8 +240,28 @@
             <span>Pacote de Prompts</span>
             <span>Checklist de Execução</span>
           </div>
-          <a class="freela-button freela-button-dark" href="/api/freela-checkout" data-checkout="freela-na-vida-real">Sim, quero meu acesso</a>
-          <p class="freela-checkout-status" data-checkout-status>Pagamento seguro processado pela Stripe.</p>
+          <div class="freela-payment-options" aria-label="Escolha a forma de pagamento">
+            <a class="freela-button freela-button-dark" href="/api/freela-checkout" data-checkout="freela-na-vida-real">Pagar com cartão</a>
+            <button class="freela-button freela-button-pix" type="button" data-pix-toggle>Pagar com Pix</button>
+          </div>
+          <div class="freela-pix-box" data-pix-box hidden>
+            <label class="freela-pix-label" for="freela-pix-email">E-mail para identificar sua compra</label>
+            <div class="freela-pix-form">
+              <input id="freela-pix-email" type="email" inputmode="email" autocomplete="email" placeholder="seuemail@exemplo.com" data-pix-email required>
+              <button class="freela-button freela-button-primary" type="button" data-pix-create>Gerar Pix de R$14,99</button>
+            </div>
+            <div class="freela-pix-payment" data-pix-payment hidden>
+              <div class="freela-pix-qr-frame">
+                <img alt="QR Code Pix do Freela na Vida Real" width="220" height="220" data-pix-qr hidden>
+              </div>
+              <div data-pix-code-wrap hidden>
+                <label class="freela-pix-label" for="freela-pix-code">Pix Copia e Cola</label>
+                <textarea id="freela-pix-code" rows="4" readonly data-pix-code></textarea>
+              </div>
+              <button class="freela-button freela-button-pix-copy" type="button" data-pix-copy hidden>Copiar código Pix</button>
+            </div>
+          </div>
+          <p class="freela-checkout-status" data-checkout-status role="status" aria-live="polite">Pagamento seguro por cartão ou Pix.</p>
           <p class="freela-legal">Produto educacional digital, com pagamento único e sem assinatura. Não é vaga de emprego, não intermedia clientes e não garante renda, contratação ou prazo.</p>
         </aside>
       </div>
@@ -275,6 +295,6 @@
     <a class="freela-button freela-button-primary" href="#comprar">Quero começar</a>
   </div>
 
-  <script src="/assets/freela/freela-na-vida-real.js" defer></script>
+  <script src="/assets/freela/freela-na-vida-real.js?v=pix-20260920" defer></script>
 </body>
 </html>
