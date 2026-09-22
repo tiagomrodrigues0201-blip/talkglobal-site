@@ -1,0 +1,30 @@
+name: Destaque automatico de novos artigos
+on:
+  push:
+    branches: [main]
+    paths: ['artigos/**', 'blog/**', 'noticias/**', 'scripts/sync-home-editorial.mjs']
+permissions:
+  contents: write
+concurrency:
+  group: editorial-highlights
+  cancel-in-progress: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/sync-home-editorial.mjs
+      - name: Registrar destaques
+        run: |
+          if ! git diff --quiet -- index.html assets/home-editorial.js; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add index.html assets/home-editorial.js
+            git commit -m 'Atualiza automaticamente os destaques dos artigos'
+            git push
+          fi
