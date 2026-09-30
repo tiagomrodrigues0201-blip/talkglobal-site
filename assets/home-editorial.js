@@ -8,7 +8,44 @@
 (() => {
   const homeContent = {
   "pinnedId": null,
+  "featuredCount": 3,
   "items": [
+    {
+      "id": "-artigos-anthropic-alerta-riscos-ia-",
+      "published": "2026-09-30T12:00:00Z",
+      "eligible": true,
+      "category": "Artigo · Tiago",
+      "title": "A criadora do Claude alertou sobre riscos para a humanidade. Eu só queria ajuda com meus textos.",
+      "text": "O alerta da criadora do Claude, os testes de segurança e o que muda quando uma IA recebe permissão para agir. Uma reflexão de Tiago.",
+      "image": "https://talkglobalapp.com/public/artigos/tecnologia/anthropic-alerta-riscos-ia/pesquisa-anthropic.jpg",
+      "imageAlt": "Ilustração da Anthropic para sua pesquisa sobre comportamentos de agentes de IA",
+      "link": "/artigos/anthropic-alerta-riscos-ia/",
+      "button": "Ler o artigo"
+    },
+    {
+      "id": "-artigos-aos-17-ela-saiu-de-casa-angelys-",
+      "published": "2026-09-30T12:00:00Z",
+      "eligible": true,
+      "category": "Artigo · Tiago",
+      "title": "Aos 17, ela saiu de casa. O nome dela é Angelys.",
+      "text": "Da saída da Venezuela aos 17 anos à conquista como campeã da imobiliária em 2025: a história de Angelys, contada por Tiago.",
+      "image": "https://talkglobalapp.com/public/artigos/freelancer/artigo-2-angelys-campea-2025.jpg",
+      "imageAlt": "Angelys com o troféu de campeã da imobiliária em 2025",
+      "link": "/artigos/aos-17-ela-saiu-de-casa-angelys/",
+      "button": "Ler o artigo"
+    },
+    {
+      "id": "-artigos-chatgpt-dots-trabalhando-computador-fechado-",
+      "published": "2026-09-30T12:00:00Z",
+      "eligible": true,
+      "category": "Artigo · Tiago",
+      "title": "O ChatGPT agora pode continuar trabalhando quando você fecha o computador",
+      "text": "O que são os Dots do ChatGPT, como funcionam as tarefas na nuvem, quem pode usar e quais permissões vale conferir antes de começar.",
+      "image": "https://talkglobalapp.com/public/artigos/tecnologia/chatgpt-dots-trabalhando/dots-computador-na-nuvem.jpg",
+      "imageAlt": "Ilustração de um computador na nuvem acima de um notebook fechado",
+      "link": "/artigos/chatgpt-dots-trabalhando-computador-fechado/",
+      "button": "Ler o artigo"
+    },
     {
       "id": "-artigos-o-que-muda-quando-voce-para-de-visitar-e-comeca-a-viver-",
       "published": "2026-09-22",
@@ -415,7 +452,8 @@
   const recentGrid = document.querySelector("[data-home-recent]");
   if (!recentGrid) return;
 
-  const recentItems = eligibleItems.slice(2, 5);
+  const featuredCount = homeContent.featuredCount || 2;
+  const recentItems = eligibleItems.slice(featuredCount, featuredCount + 3);
   const fragment = document.createDocumentFragment();
 
   recentItems.forEach((item) => {

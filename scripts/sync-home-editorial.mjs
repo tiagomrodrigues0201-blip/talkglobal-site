@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { createHash } from 'node:crypto';
 // Every published article is featured automatically, newest first. No opt-in flag.
 const source = readFileSync('assets/home-editorial.js', 'utf8');
 const match = source.match(/const homeContent = (\{[\s\S]*?\n\s*\});/);
@@ -30,13 +31,16 @@ function scan(dir) {
 }
 ['artigos','noticias','blog'].forEach(scan);
 const sorted=[...items.values()].sort((a,b)=>new Date(b.published)-new Date(a.published) || a.link.localeCompare(b.link));
-const config={pinnedId:null,items:sorted};
+// Keep the whole latest publication day together, even when several articles launch at once.
+const latestDay=sorted[0]?.published.slice(0,10);
+const featuredCount=Math.max(2,sorted.filter(item=>item.published.slice(0,10)===latestDay).length);
+const config={pinnedId:null,featuredCount,items:sorted};
 writeFileSync('assets/home-editorial.js', source.replace(match[0],`const homeContent = ${JSON.stringify(config,null,2)};`));
-const featured=sorted.slice(0,2);
+const featured=sorted.slice(0,featuredCount);
 function card(item) {return `<article class="feature-story" data-home-feature><a class="feature-story__media" href="${esc(item.link)}"><img src="${esc(item.image)}" alt="${esc(item.imageAlt)}" loading="eager" decoding="async"></a><div class="feature-story__copy"><span class="feature-story__category">${esc(item.category)}</span><h3>${esc(item.title)}</h3><p>${esc(item.text)}</p><a class="button primary" href="${esc(item.link)}">${esc(item.button)}</a></div></article>`;}
 let home=readFileSync('index.html','utf8');
 if (home.includes('<!-- AUTO-FEATURED:START -->')) home=home.replace(/<!-- AUTO-FEATURED:START -->[\s\S]*?<!-- AUTO-FEATURED:END -->/,`<!-- AUTO-FEATURED:START -->\n${featured.map(card).join('\n')}\n<!-- AUTO-FEATURED:END -->`);
 else home=home.replace(/<article class="feature-story" data-home-feature>[\s\S]*?<\/article>/,`<!-- AUTO-FEATURED:START -->\n${featured.map(card).join('\n')}\n<!-- AUTO-FEATURED:END -->`);
-home=home.replace('A história mais recente.','Novos artigos em destaque.').replace(/home-editorial.js\?v=[^"']+/,`home-editorial.js?v=${Buffer.from(JSON.stringify(config)).toString('base64url').slice(-24)}`);
+home=home.replace('A história mais recente.','Novos artigos em destaque.').replace(/home-editorial.js\?v=[^"']+/,`home-editorial.js?v=${createHash('sha256').update(JSON.stringify(config)).digest('hex').slice(0,12)}`);
 writeFileSync('index.html',home);
 console.log('Destaques automáticos:',featured.map(x=>x.title).join(' | '));
