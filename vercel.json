@@ -76,6 +76,10 @@
       }
     },
     {
+      "src": "/api/article-comments/?",
+      "dest": "/api/article-comments.js"
+    },
+    {
       "src": "/api/auth-config/?",
       "dest": "/api/auth-config.js"
     },

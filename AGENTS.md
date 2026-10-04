@@ -4,3 +4,5 @@
 - Preservar integralmente os textos aprovados, o humor e os finais. Não inventar experiências nem explicar piadas.
 - Publicação usa o projeto Vercel talkglobal-site e o domínio talkglobalapp.com. Preservar GA4, AdSense, Amazon, Pix e cartão.
 - Chamadas, resumos e descrições dos artigos assinados por Tiago devem manter sua voz em primeira pessoa. Nunca escrever “uma reflexão de Tiago”, “contada por Tiago” ou apresentar o autor em terceira pessoa nesses textos. Assinatura e dados estruturados de autoria continuam com o nome Tiago.
+
+- Todos os artigos devem ter comentários reais. `sync-home-editorial.mjs` também executa `sync-article-comments.mjs`. Preservar formulário e moderação.
