@@ -1,0 +1,80 @@
+/* Sales-page-only revision. Shared styles and payment scripts remain intact. */
+.freela-sales-refresh .freela-topbar {top:0;}
+.freela-sales-refresh .freela-sales-hero {min-height:auto;padding:130px 0 70px;}
+.freela-sales-refresh .freela-sales-hero::before {background:linear-gradient(135deg,#101b2d,#182b40);}
+.freela-sales-refresh .freela-sales-hero-grid {grid-template-columns:minmax(0,1.45fr) minmax(270px,.8fr);gap:48px;}
+.freela-sales-refresh .freela-hero h1 {font-size:clamp(2.25rem,3.8vw,3.7rem);line-height:1.1;letter-spacing:-.025em;}
+.freela-sales-refresh .freela-lead {font-size:1.12rem;line-height:1.65;}
+.freela-sales-refresh .freela-section {padding:72px 0;scroll-margin-top:90px;}
+.freela-sales-refresh .freela-section h2 {font-size:clamp(2rem,3.6vw,3rem);line-height:1.13;}
+.freela-sales-refresh figure {margin:0;min-width:0;}
+.freela-sales-refresh img {max-width:100%;height:auto;}
+.freela-sales-refresh .freela-real-story {display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:64px;}
+.freela-sales-refresh .freela-real-story img {display:block;width:100%;border-radius:16px;}
+.freela-sales-refresh figcaption {color:var(--freela-muted);font-size:.9rem;line-height:1.5;margin-top:12px;}
+.freela-sales-refresh .freela-copy p {font-size:1.06rem;line-height:1.7;}
+.freela-sales-refresh .freela-copy .freela-small-note,.freela-sales-refresh .freela-small-note {font-size:.92rem;line-height:1.65;color:var(--freela-muted);}
+.freela-sales-refresh .freela-gallery-intro {max-width:760px;font-size:1.08rem;line-height:1.7;margin:0 0 28px;}
+.freela-sales-refresh .freela-real-previews {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;}
+.freela-sales-refresh .freela-real-previews figure {border:1px solid #dcd4c6;border-radius:12px;padding:14px;background:#fffaf1;}
+.freela-sales-refresh .freela-real-previews img {display:block;width:100%;box-shadow:0 4px 14px #101b2d12;}
+.freela-sales-refresh .freela-real-previews figcaption strong {display:block;font-size:1.04rem;color:var(--freela-navy);margin-bottom:6px;}
+.freela-sales-refresh .freela-real-previews figcaption span {display:block;font-size:.8rem;margin-top:6px;}
+.freela-sales-refresh .freela-sheet-grid {display:grid;gap:20px;margin-top:28px;}
+.freela-sales-refresh .freela-sheet-preview {min-width:0;border:1px solid #dcd4c6;padding:20px;border-radius:12px;background:#fffaf1;}
+.freela-sales-refresh .freela-sheet-preview h3 {margin:0 0 6px;font-size:1.15rem;}
+.freela-sales-refresh .freela-sheet-preview p {margin:0 0 14px;color:var(--freela-muted);font-size:.87rem;}
+.freela-sales-refresh .freela-table-scroll {overflow-x:auto;max-width:100%;border:1px solid #dcd4c6;border-radius:6px;}
+.freela-sales-refresh table {border-collapse:collapse;min-width:640px;width:100%;font-size:.85rem;line-height:1.5;}
+.freela-sales-refresh th {background:var(--freela-navy);color:#fffaf1;text-align:left;}
+.freela-sales-refresh th,.freela-sales-refresh td {padding:12px;border:1px solid #dcd4c6;min-width:95px;}
+.freela-sales-refresh td {height:38px;vertical-align:top;}
+.freela-sales-refresh .freela-visually-hidden {position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;}
+.freela-sales-refresh .freela-learning-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;}
+.freela-sales-refresh .freela-learning-card {padding:26px;border:1px solid #dcd4c6;border-radius:12px;background:#fffaf1;}
+.freela-sales-refresh .freela-learning-card>span {color:#856020;font-weight:800;font-size:.9rem;}
+.freela-sales-refresh .freela-learning-card h3 {font-size:1.2rem;line-height:1.35;margin:12px 0;}
+.freela-sales-refresh .freela-learning-card p {color:var(--freela-muted);font-size:1rem;line-height:1.65;margin:0;}
+.freela-sales-refresh .freela-fit-grid {display:grid;grid-template-columns:1.2fr 1fr;gap:48px;}
+.freela-sales-refresh .freela-fit-grid ul {padding-left:24px;margin:0;}
+.freela-sales-refresh .freela-fit-grid li {padding:0 0 16px 4px;line-height:1.65;}
+.freela-sales-refresh .freela-not-for {padding:28px;border-radius:12px;background:var(--freela-cream);align-self:start;}
+.freela-sales-refresh .freela-not-for h3 {margin:0 0 22px;line-height:1.4;}
+.freela-sales-refresh .freela-pricebox {min-width:0;}
+.freela-sales-refresh .freela-buy-heading {font-size:1.1rem;line-height:1.45;margin-top:24px;}
+.freela-sales-refresh .freela-guarantee {margin-top:32px;padding-top:24px;border-top:1px solid #cfc5b3;}
+.freela-sales-refresh .freela-guarantee h3 {margin:0;font-size:1.2rem;}
+.freela-sales-refresh .freela-guarantee a {text-decoration:underline;overflow-wrap:anywhere;}
+.freela-sales-refresh .freela-button {transition:background .15s ease;}
+.freela-sales-refresh .freela-button:hover {transform:none;}
+@media(max-width:980px){
+ .freela-sales-refresh .freela-sales-hero-grid {grid-template-columns:1fr;gap:36px;}
+ .freela-sales-refresh .freela-product-stage {max-width:520px;justify-self:center;width:100%;}
+ .freela-sales-refresh .freela-real-story {gap:32px;}
+ .freela-sales-refresh .freela-learning-grid {grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:680px){
+ .freela-sales-refresh .freela-topbar {position:absolute;top:0;}
+ .freela-sales-refresh .freela-wrap {width:calc(100% - 36px);}
+ .freela-sales-refresh .freela-sales-hero {padding:100px 0 40px;}
+ .freela-sales-refresh .freela-hero h1 {font-size:2.12rem;line-height:1.12;}
+ .freela-sales-refresh .freela-lead {font-size:1.03rem;margin-top:22px;}
+ .freela-sales-refresh .freela-kicker {font-size:.7rem;letter-spacing:.09em;}
+ .freela-sales-refresh .freela-product-stage {order:0;padding:15px 0 0;min-height:0;}
+ .freela-sales-refresh .freela-book-mockup {min-height:285px;width:220px;transform:none;}
+ .freela-sales-refresh .freela-stack-card {display:none;}
+ .freela-sales-refresh .freela-section {padding:44px 0;scroll-margin-top:24px;}
+ .freela-sales-refresh .freela-section h2 {font-size:2rem;}
+ .freela-sales-refresh .freela-real-story,.freela-sales-refresh .freela-fit-grid {grid-template-columns:1fr;gap:28px;}
+ .freela-sales-refresh .freela-real-story figure {order:0;}
+ .freela-sales-refresh .freela-story-reverse figure {order:-1;}
+ .freela-sales-refresh .freela-real-previews {grid-template-columns:1fr;gap:24px;}
+ .freela-sales-refresh .freela-real-previews figure {padding:18px;}
+ .freela-sales-refresh .freela-real-previews img {max-height:480px;object-fit:contain;}
+ .freela-sales-refresh .freela-learning-grid {grid-template-columns:1fr;gap:16px;}
+ .freela-sales-refresh .freela-learning-card {padding:22px;}
+ .freela-sales-refresh .freela-pricebox {padding:24px 20px;}
+ .freela-sales-refresh .freela-sheet-preview {padding:16px;}
+ .freela-sales-refresh .freela-pix-form {min-width:0;}
+ .freela-sales-refresh .freela-pix-email,.freela-sales-refresh [data-pix-email] {min-width:0;}
+}
