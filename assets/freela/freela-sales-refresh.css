@@ -15,7 +15,7 @@
 .freela-sales-refresh .freela-copy p {font-size:1.06rem;line-height:1.7;}
 .freela-sales-refresh .freela-copy .freela-small-note,.freela-sales-refresh .freela-small-note {font-size:.92rem;line-height:1.65;color:var(--freela-muted);}
 .freela-sales-refresh .freela-gallery-intro {max-width:760px;font-size:1.08rem;line-height:1.7;margin:0 0 28px;}
-.freela-sales-refresh .freela-real-previews {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;}
+.freela-sales-refresh .freela-real-previews {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;}
 .freela-sales-refresh .freela-real-previews figure {border:1px solid #dcd4c6;border-radius:12px;padding:14px;background:#fffaf1;}
 .freela-sales-refresh .freela-real-previews img {display:block;width:100%;box-shadow:0 4px 14px #101b2d12;}
 .freela-sales-refresh .freela-real-previews figcaption strong {display:block;font-size:1.04rem;color:var(--freela-navy);margin-bottom:6px;}
