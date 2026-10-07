@@ -10,5 +10,5 @@ export default async function handler(req,res) {
  try {
   const url=await licensedProductUrl(storage,'freela/Freela_na_Vida_Real_Kit.zip',license,300);
   res.setHeader('Content-Type','application/json');res.end(JSON.stringify({url,code:license.code}));
- }catch {res.statusCode=500;res.end(JSON.stringify({error:'Private licensed delivery failed'}));}
+ }catch(e) { const probe=await storage.download('freela/Freela_na_Vida_Real_Kit.zip');res.statusCode=500;res.end(JSON.stringify({error:e.message,sourceError:probe.error?.message,sourceStatus:probe.error?.statusCode}));}
 }
