@@ -46,7 +46,7 @@ test('fresh delivery uploads a marked ZIP and private mapping before signing; ne
   const url = await licensedProductUrl(storage, 'original.zip', license, 300);
   assert.ok(url.includes('/licensed/v1/') && url.includes(license.code));
   assert.equal(objects.size, 2);
-  const zip = [...objects].find(([path]) => path.endsWith('.zip'))[1];
+  const zip = [...objects].find(([path]) => path.endsWith('Freela_na_Vida_Real_Kit.zip'))[1];
   assert.notDeepEqual(zip, Buffer.from(original));
   assert.equal(await licensedProductUrl(storage, 'original.zip', license, 300), url);
   assert.equal(objects.size, 2);
