@@ -2,18 +2,29 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import crypto from 'node:crypto';
+import * as licenseHelpers from '../lib/freela-license.js';
+import { PDFDocument } from 'pdf-lib';
+import { zipSync } from 'fflate';
+globalThis.__freelaLicenseHelpers = licenseHelpers;
+const fixturePdf = await PDFDocument.create();
+fixturePdf.addPage();
+const fixtureZip = zipSync({ 'ebook.pdf': await fixturePdf.save() });
 
 // Exercise the real handler, replacing only its external storage dependency.
 const source = await readFile(new URL('../api/freela.js', import.meta.url), 'utf8');
 let signedUrls = 0;
 globalThis.__freelaTestStorage = () => ({ storage: { from: () => ({
+  download: async () => ({ data: new Blob([fixtureZip]) }),
+  upload: async () => ({ data: {} }),
   createSignedUrl: async () => {
     signedUrls++;
     return { data: { signedUrl: 'https://storage.example.test/private-kit?signature=test' } };
   }
 }) } });
 const isolatedSource = source.replace('import { createClient } from "@supabase/supabase-js";',
-  'const createClient = globalThis.__freelaTestStorage;');
+  'const createClient = globalThis.__freelaTestStorage;').replace(
+  'import { purchaseLicense, licensedProductUrl } from "../lib/freela-license.js";',
+  'const { purchaseLicense, licensedProductUrl } = globalThis.__freelaLicenseHelpers;');
 const { default: handler } = await import('data:text/javascript;base64,' + Buffer.from(isolatedSource).toString('base64'));
 
 async function call(action, { method = 'GET', body, query = '' } = {}) {
@@ -94,6 +105,18 @@ test('Pix creation, confirmation and delivery; existing card checkout', async (t
       assert.equal(r.body.value, 14.99);
       assert.equal(r.body.currency, 'BRL');
     });
+    for (const [name, changes] of Object.entries({ unpaid: { payment_status: 'unpaid' }, wrongAmount: { amount_total: 1 }, wrongProduct: { metadata: { product: 'other' } }, wrongCurrency: { currency: 'usd' } })) {
+      await t.test('Stripe ' + name + ' cannot download', async () => {
+        mockPayment({ id: 'cs_test', metadata: { product: 'freela-na-vida-real' }, payment_status: 'paid', mode: 'payment', currency: 'brl', amount_total: 1499, ...changes });
+        const before = signedUrls;
+        assert.equal((await call('download', { query: '&session_id=cs_test' })).status, 403);
+        assert.equal(signedUrls, before);
+      });
+    }
+    await t.test('confirmed Stripe also gets a licensed private download', async () => {
+      mockPayment({ id: 'cs_test', metadata: { product: 'freela-na-vida-real' }, customer_details: { name: 'Buyer Test' }, payment_status: 'paid', mode: 'payment', currency: 'brl', amount_total: 1499 });
+      assert.equal((await call('download', { query: '&session_id=cs_test' })).status, 302);
+    });
     await t.test('existing Stripe status remains available', async () => {
       mockPayment({ metadata: { product: 'freela-na-vida-real' }, payment_status: 'paid', mode: 'payment', currency: 'brl', amount_total: 1499, id: 'cs_test' });
       const r = await call('status', { query: '&session_id=cs_test' });
@@ -108,3 +131,4 @@ test('Pix creation, confirmation and delivery; existing card checkout', async (t
     delete globalThis.__freelaTestStorage;
   }
 });
+

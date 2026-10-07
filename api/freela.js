@@ -1,5 +1,6 @@
 import crypto from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
+import { purchaseLicense, licensedProductUrl } from "../lib/freela-license.js";
 
 const PRODUCT_SLUG = "freela-na-vida-real";
 const PRODUCT_TITLE = "Freela na Vida Real - Ebook + Kit Prático de Execução";
@@ -364,15 +365,20 @@ async function mercadoPagoWebhook(req, res) {
   });
 }
 
-async function getSignedProductUrl() {
+async function getSignedProductUrl(license) {
   const supabaseUrl = process.env.SUPABASE_URL;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!supabaseUrl || !serviceRoleKey) return { error: "missing_storage_config" };
   const supabase = createClient(supabaseUrl, serviceRoleKey, { auth: { persistSession: false, autoRefreshToken: false } });
-  const { data, error } = await supabase.storage
-    .from(process.env.FREELA_PRODUCT_BUCKET || DEFAULT_BUCKET)
-    .createSignedUrl(process.env.FREELA_PRODUCT_OBJECT || DEFAULT_OBJECT, SIGNED_URL_TTL_SECONDS, { download: "Freela_na_Vida_Real_Kit.zip" });
-  return error || !data?.signedUrl ? { error: "storage_error" } : { signedUrl: data.signedUrl };
+  try {
+    const signedUrl = await licensedProductUrl(
+      supabase.storage.from(process.env.FREELA_PRODUCT_BUCKET || DEFAULT_BUCKET),
+      process.env.FREELA_PRODUCT_OBJECT || DEFAULT_OBJECT, license, SIGNED_URL_TTL_SECONDS);
+    return { signedUrl };
+  } catch {
+    // Fail closed: never deliver the unmarked original if personalization fails.
+    return { error: "licensed_storage_error" };
+  }
 }
 
 async function download(req, res) {
@@ -383,6 +389,8 @@ async function download(req, res) {
   const url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
   const sessionId = url.searchParams.get("session_id") || "";
   const paymentId = url.searchParams.get("mp_payment_id") || "";
+  let license;
+  res.setHeader("Cache-Control", "private, no-store, max-age=0");
   if (sessionId) {
     if (!sessionId.startsWith("cs_")) return json(res, 400, { message: "Sessão de compra inválida." });
     const result = await getCheckoutSession(sessionId);
@@ -390,6 +398,7 @@ async function download(req, res) {
     const session = result.session;
     const valid = isPaidFreelaSession(session);
     if (!valid) return json(res, 403, { message: "Pagamento não confirmado para este produto." });
+    license = purchaseLicense("stripe", session);
   
   } else if (paymentId) {
     if (!/^\d+$/.test(paymentId)) return json(res, 400, { message: "Pagamento Pix inválido." });
@@ -398,10 +407,11 @@ async function download(req, res) {
     const result = await getMercadoPagoPayment(paymentId);
     if (result.error) return json(res, result.status || 503, { message: "Não foi possível confirmar o Pix." });
     if (!isFreelaPixPayment(result.payment)) return json(res, 403, { message: "Pagamento Pix não confirmado para este produto." });
+    license = purchaseLicense("pix", result.payment);
   } else {
     return json(res, 400, { message: "Sessão de compra não encontrada." });
   }
-  const product = await getSignedProductUrl();
+  const product = await getSignedProductUrl(license);
   if (product.error) return json(res, 503, { message: "O kit digital ainda não está disponível no armazenamento privado." });
   res.statusCode = 302;
   res.setHeader("Location", product.signedUrl);
@@ -420,3 +430,4 @@ export default async function handler(req, res) {
   if (action === "download") return download(req, res);
   return json(res, 404, { message: "Rota não encontrada." });
 }
+
