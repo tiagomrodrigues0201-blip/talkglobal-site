@@ -1,0 +1,104 @@
++<!doctype html>
+<html lang="es">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LD69N93XPX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-LD69N93XPX", {
+      page_location: window.location.origin + window.location.pathname,
+      ignore_referrer: true
+    });
+  </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Confirmación de compra | Freelance en la Vida Real</title>
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#101b2d">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="stylesheet" href="/assets/freela/freela-na-vida-real.css">
+</head>
+<body class="freela-page freela-thanks-page">
+  <main class="freela-thanks">
+    <section class="freela-wrap freela-thanks-card">
+      <span class="freela-kicker">Freelance en la Vida Real</span>
+      <h1>Confirmando tu compra.</h1>
+      <p>Después de confirmar el pago, podrás descargar el ebook y los materiales en español.</p>
+      <a class="freela-button freela-button-primary" href="#" data-download-link>Descargar el kit completo</a>
+      <p class="freela-checkout-status" data-download-status>Confirmando tu compra…</p>
+      <p class="freela-legal">Si la confirmación aún no aparece, espera unos segundos y actualiza la página. El archivo está protegido.</p>
+    </section>
+  </main>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get("session_id");
+    const link = document.querySelector("[data-download-link]");
+    const status = document.querySelector("[data-download-status]");
+
+    const purchaseStorageKey = sessionId ? `freela_purchase_${sessionId}` : "";
+
+    function wasPurchaseTracked() {
+      try { return localStorage.getItem(purchaseStorageKey) === "sent"; }
+      catch { return false; }
+    }
+
+    function rememberPurchase() {
+      try { localStorage.setItem(purchaseStorageKey, "sent"); }
+      catch { /* The transaction ID also lets Analytics deduplicate purchases. */ }
+    }
+
+    function trackPurchase(purchase) {
+      if (typeof window.gtag !== "function" || wasPurchaseTracked()) return;
+      window.gtag("event", "purchase", {
+        transaction_id: purchase.transaction_id,
+        value: purchase.value,
+        currency: purchase.currency,
+        items: [{
+          item_id: "freelance-en-la-vida-real",
+          item_name: "Freelance en la Vida Real",
+          price: purchase.value,
+          quantity: 1
+        }]
+      });
+      rememberPurchase();
+    }
+
+    async function confirmPurchase() {
+      try {
+        const response = await fetch(`/api/freela-status?session_id=${encodeURIComponent(sessionId)}`, {
+          headers: { Accept: "application/json" }
+        });
+        const purchase = await response.json().catch(() => ({}));
+
+        if (!response.ok || !purchase.paid || purchase.language !== "es") {
+          link.setAttribute("aria-disabled", "true");
+          link.removeAttribute("href");
+          status.textContent = purchase.paid && purchase.language !== "es" ? "Esta compra corresponde a la edición en portugués. Accede desde el enlace original de tu compra." : purchase.message || "El pago todavía no está confirmado. Espera unos segundos y actualiza la página.";
+          return;
+        }
+
+        link.href = `/api/freela-download?session_id=${encodeURIComponent(sessionId)}`;
+        link.removeAttribute("aria-disabled");
+        status.textContent = "Pago confirmado. Descarga el ebook y los materiales en español en un archivo ZIP.";
+        document.querySelector("h1").textContent = "Pago confirmado.";
+        trackPurchase(purchase);
+      } catch {
+        link.setAttribute("aria-disabled", "true");
+        link.removeAttribute("href");
+        status.textContent = "No pudimos confirmar el pago. Actualiza la página en unos instantes.";
+      }
+    }
+
+    if (!sessionId) {
+      link.setAttribute("aria-disabled", "true");
+      link.removeAttribute("href");
+      status.textContent = "No encontramos una sesión de compra.";
+    } else {
+      confirmPurchase();
+    }
+  </script>
+</body>
+</html>
+

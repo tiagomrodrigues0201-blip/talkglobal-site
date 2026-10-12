@@ -3,6 +3,8 @@ import { createClient } from "@supabase/supabase-js";
 import { purchaseLicense, licensedProductUrl } from "../lib/freela-license.js";
 
 const PRODUCT_SLUG = "freela-na-vida-real";
+const ES_PRODUCT_SLUG = "freelance-en-la-vida-real";
+const ES_PATH = "/es/freelance-en-la-vida-real/";
 const PRODUCT_TITLE = "Freela na Vida Real - Ebook + Kit Prático de Execução";
 const PIX_AMOUNT_CENTS = 1499;
 const MERCADOPAGO_API_BASE = "https://api.mercadopago.com";
@@ -65,10 +67,15 @@ async function checkout(req, res) {
   let payload = {};
   try { payload = typeof req.body === "string" ? JSON.parse(req.body || "{}") : req.body || {}; }
   catch { return json(res, 400, { message: "Payload inválido." }); }
-  if (payload.product !== PRODUCT_SLUG) return json(res, 400, { message: "Produto inválido." });
-
+  const spanish = payload.product === ES_PRODUCT_SLUG;
+  if (payload.product !== PRODUCT_SLUG && !spanish) return json(res, 400, { message: "Produto inválido." });
+  if (spanish && (process.env.FREELA_ES_ENABLED !== "true" || !process.env.FREELA_ES_PRODUCT_OBJECT)) {
+    return json(res, 503, { message: "La edición en español todavía está en revisión." });
+  }
+  const productSlug = spanish ? ES_PRODUCT_SLUG : PRODUCT_SLUG;
+  const path = spanish ? ES_PATH : "/freela-na-vida-real/";
   const secretKey = process.env.STRIPE_SECRET_KEY;
-  const { priceId, priceType } = getActivePriceId();
+  const { priceId, priceType } = spanish ? { priceId: process.env.STRIPE_FREELA_ES_PRICE_ID, priceType: "es" } : getActivePriceId();
   if (!secretKey || !priceId) return json(res, 503, { message: "A compra ainda não está ativa. Estamos preparando a liberação com segurança." });
 
   const origin = getOrigin(req);
@@ -76,16 +83,17 @@ async function checkout(req, res) {
     mode: "payment",
     integration_identifier: "talkglobal_freela_qmznvrtc",
     customer_creation: "always",
-    client_reference_id: PRODUCT_SLUG,
+    client_reference_id: productSlug,
     "line_items[0][price]": priceId,
     "line_items[0][quantity]": "1",
-    success_url: `${origin}/freela-na-vida-real/obrigado/?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${origin}/freela-na-vida-real/?checkout=cancelled`,
-    "metadata[product]": PRODUCT_SLUG,
+    success_url: spanish ? `${origin}${path}gracias/?session_id={CHECKOUT_SESSION_ID}` : `${origin}/freela-na-vida-real/obrigado/?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${origin}${path}?checkout=cancelled`,
+    "metadata[product]": productSlug,
     "metadata[price_type]": priceType,
-    "payment_intent_data[metadata][product]": PRODUCT_SLUG,
+    "payment_intent_data[metadata][product]": productSlug,
     "payment_intent_data[metadata][price_type]": priceType
   });
+  if (spanish) { params.set("locale", "es"); params.set("metadata[language]", "es"); params.set("payment_intent_data[metadata][language]", "es"); }
   const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {
     method: "POST",
     headers: { Authorization: `Bearer ${secretKey}`, "Stripe-Version": "2026-06-24.dahlia", "Content-Type": "application/x-www-form-urlencoded" },
@@ -136,7 +144,7 @@ async function webhook(req, res) {
   catch { return json(res, 400, { message: "Evento inválido." }); }
   if (["checkout.session.completed", "checkout.session.async_payment_succeeded"].includes(event.type)) {
     const session = event.data?.object || {};
-    const fulfilled = session.metadata?.product === PRODUCT_SLUG && session.payment_status === "paid";
+    const fulfilled = (session.metadata?.product === PRODUCT_SLUG && session.payment_status === "paid") || purchaseLanguage(session) === "es";
     return json(res, 200, { received: true, fulfilled, session_id: fulfilled ? session.id : undefined });
   }
   return json(res, 200, { received: true, ignored: true });
@@ -158,6 +166,14 @@ function isPaidFreelaSession(session) {
     && ALLOWED_AMOUNTS.has(session.amount_total);
 }
 
+function purchaseLanguage(session) {
+  if (isPaidFreelaSession(session)) return "pt";
+  if (session.metadata?.product === ES_PRODUCT_SLUG && session.metadata?.language === "es"
+      && session.payment_status === "paid" && session.mode === "payment"
+      && session.currency === "brl" && session.amount_total === 1499) return "es";
+  return null;
+}
+
 async function status(req, res) {
   if (req.method !== "GET") {
     res.setHeader("Allow", "GET");
@@ -170,10 +186,13 @@ async function status(req, res) {
   const result = await getCheckoutSession(sessionId);
   if (result.error) return json(res, result.status || 503, { message: "Não foi possível confirmar o pagamento." });
   const session = result.session;
-  if (!isPaidFreelaSession(session)) return json(res, 200, { paid: false });
+  const language = purchaseLanguage(session);
+  if (!language) return json(res, 200, { paid: false });
 
   return json(res, 200, {
     paid: true,
+    language,
+    product_slug: session.metadata.product,
     transaction_id: session.id,
     value: session.amount_total / 100,
     currency: session.currency.toUpperCase(),
@@ -369,11 +388,13 @@ async function getSignedProductUrl(license) {
   const supabaseUrl = process.env.SUPABASE_URL;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!supabaseUrl || !serviceRoleKey) return { error: "missing_storage_config" };
+  const object = license.language === "es" ? process.env.FREELA_ES_PRODUCT_OBJECT : process.env.FREELA_PRODUCT_OBJECT || DEFAULT_OBJECT;
+  if (!object) return { error: "missing_spanish_product" };
   const supabase = createClient(supabaseUrl, serviceRoleKey, { auth: { persistSession: false, autoRefreshToken: false } });
   try {
     const signedUrl = await licensedProductUrl(
       supabase.storage.from(process.env.FREELA_PRODUCT_BUCKET || DEFAULT_BUCKET),
-      process.env.FREELA_PRODUCT_OBJECT || DEFAULT_OBJECT, license, SIGNED_URL_TTL_SECONDS);
+      object, license, SIGNED_URL_TTL_SECONDS);
     return { signedUrl };
   } catch {
     // Fail closed: never deliver the unmarked original if personalization fails.
@@ -396,9 +417,10 @@ async function download(req, res) {
     const result = await getCheckoutSession(sessionId);
     if (result.error) return json(res, result.status || 503, { message: "Não foi possível confirmar o pagamento." });
     const session = result.session;
-    const valid = isPaidFreelaSession(session);
+    const language = purchaseLanguage(session);
+    const valid = Boolean(language);
     if (!valid) return json(res, 403, { message: "Pagamento não confirmado para este produto." });
-    license = purchaseLicense("stripe", session);
+    license = { ...purchaseLicense("stripe", session), language };
   
   } else if (paymentId) {
     if (!/^\d+$/.test(paymentId)) return json(res, 400, { message: "Pagamento Pix inválido." });
@@ -430,4 +452,5 @@ export default async function handler(req, res) {
   if (action === "download") return download(req, res);
   return json(res, 404, { message: "Rota não encontrada." });
 }
+
 

@@ -116,6 +116,14 @@
       "dest": "/api/freela.js?action=download"
     },
     {
+      "src": "/es/freelance-en-la-vida-real/?",
+      "dest": "/es/freelance-en-la-vida-real/index.html"
+    },
+    {
+      "src": "/es/freelance-en-la-vida-real/gracias/?",
+      "dest": "/es/freelance-en-la-vida-real/gracias/index.html"
+    },
+    {
       "src": "/freela-na-vida-real/?",
       "dest": "/freela-na-vida-real/index.html"
     },
