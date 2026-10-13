@@ -4,9 +4,9 @@ Página: `/indicacoes/` (em revisão, sem publicação em produção). Identific
 
 ## Fonte de dados e atualização em lote
 
-O arquivo `data/amazon-products.csv` é a base de importação em lote; `npm run import:amazon` valida e gera `data/amazon-products.json`. Publicar **ambos** no mesmo commit. A vitrine também reutiliza as categorias existentes em `assets/amazon-associates.config.js`.
+O arquivo `data/amazon-products.csv` é a base de importação em lote; `npm run import:amazon` valida e gera `data/amazon-products.json`. Publicar **ambos** no mesmo commit. A vitrine exibe somente os registros ativos do JSON gerado. A configuração de afiliados fornece o identificador, sem acrescentar cartões antigos.
 
-Cabeçalhos CSV: `id,title,category,for_whom,why,limitations,experience,url,active`.
+Cabeçalhos CSV: `id,title,category,for_whom,why,limitations,experience,url,active,demonstration,kind,source_url`.
 
 - `category`: `trabalho`, `viagem`, `criacao`, `leitura`, `outros`.
 - `experience`: `usamos` somente se há experiência pessoal real; caso contrário, `pesquisado`.
@@ -14,9 +14,9 @@ Cabeçalhos CSV: `id,title,category,for_whom,why,limitations,experience,url,acti
 - `active`: use `false` para excluir item da próxima geração.
 - Nunca alimentar `image_url` por extração ou cópia sem autorização. O importador a rejeita.
 - O catálogo não captura nem atualiza preços, avaliações, promoções ou disponibilidade.
-- CSV de exemplo contém dados editoriais ilustrativos, NÃO produtos testados nem compras verificadas.
+- O primeiro lote contém sete recomendações editoriais (quatro modelos e três categorias), sem experiência de uso confirmada. Os links atuais são de pesquisa; fotos e links individuais continuam pendentes.
 
-Para adicionar dezenas de itens, basta colar linhas na planilha CSV, importar uma vez e atualizar a branch. Validar os links com o Link Checker no Portal de Associados.
+Para adicionar dezenas de itens, basta colar linhas na planilha CSV, importar uma vez e atualizar a branch. Executar `node tests/amazon-catalog.test.mjs` e validar os links com o Link Checker no Portal de Associados.
 
 ## Amazon API e imagens
 

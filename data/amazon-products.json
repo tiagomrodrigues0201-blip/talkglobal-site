@@ -69,7 +69,7 @@
       "active": true,
       "demonstration": false,
       "kind": "category",
-      "sourceUrl": "https://www.logitech.com/pt-br/products/mice/lift-vertical-ergonomic-mouse-business.html"
+      "sourceUrl": ""
     },
     {
       "id": "categoria-mochila-cabine",
@@ -97,7 +97,7 @@
       "active": true,
       "demonstration": false,
       "kind": "category",
-      "sourceUrl": "https://www.amazon.com.br/"
+      "sourceUrl": ""
     }
   ]
 }
