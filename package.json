@@ -17,7 +17,8 @@
     "verify:production": "node scripts/verify-production.mjs",
     "freela:stripe:dev": "node scripts/freela-stripe-setup.mjs --environment development",
     "freela:stripe:preview": "node scripts/freela-stripe-setup.mjs --environment preview",
-    "freela:stripe:production:prepare": "node scripts/freela-stripe-setup.mjs --environment production"
+    "freela:stripe:production:prepare": "node scripts/freela-stripe-setup.mjs --environment production",
+    "import:amazon": "node scripts/import-amazon-csv.mjs"
   },
   "engines": {
     "node": ">=22"
