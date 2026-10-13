@@ -149,6 +149,10 @@
       "dest": "/cartas/index.html"
     },
     {
+      "src": "/indicacoes/?",
+      "dest": "/indicacoes/index.html"
+    },
+    {
       "src": "/portfolio/?",
       "dest": "/portfolio/index.html"
     },
