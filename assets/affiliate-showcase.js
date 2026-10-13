@@ -12,6 +12,12 @@ const catalog = document.getElementById("catalog");
 const status = document.getElementById("catalog-status");
 let selected = "todos";
 let products = [];
+let query = "";
+const search = document.getElementById("product-search");
+const normalize = value => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+search?.addEventListener("input", () => { query = normalize(search.value.trim()); renderCards(); });
+const productArt = {"logitech-lift":"mouse","sony-wh-ch720n":"headphones","anker-nano-30w":"powerbank","rode-wireless-micro":"microphones","categoria-suporte-notebook":"stand","categoria-mochila-cabine":"backpack","categoria-livros-produtividade":"books"};
+const fallbackArt = {trabalho:"stand",viagem:"backpack",criacao:"microphones",leitura:"books"};
 function safeUrl(value) {
   try {
     const url = new URL(value);
@@ -36,15 +42,18 @@ function renderFilters() {
 }
 function renderCards() {
   catalog.replaceChildren();
-  const visible = products.filter(item => selected === "todos" || item.category === selected);
+  const visible = products.filter(item => (selected === "todos" || item.category === selected) && (!query || normalize(item.title + " " + item.why + " " + item.forWhom).includes(query)));
   status.textContent = visible.length ? visible.length + " opções" : "Nenhuma recomendação nesta categoria.";
   for (const item of visible) {
     const card = document.createElement("article");
     card.className = "card";
     const art = document.createElement("div");
     art.className = "catalog-art";
-    art.setAttribute("aria-hidden", "true");
-    art.textContent = item.category === "viagem" ? "✈" : item.category === "criacao" ? "◉" : item.category === "leitura" ? "▤" : "⌘";
+    const image = document.createElement("img");
+    image.src = "/assets/vitrine/" + (productArt[item.id] || fallbackArt[item.category] || "books") + ".svg";
+    image.alt = "Ilustração de " + item.title;
+    image.width = 640; image.height = 480; image.loading = "lazy";
+    art.append(image);
     const category = document.createElement("span");
     category.textContent = (groups.find(group => group.id === item.category)?.label || "Outros")
      ;
@@ -61,7 +70,7 @@ function renderCards() {
     const direct = safeUrl(item.url);
     const action = document.createElement("a");
     action.href = direct || buildAffiliateUrl(item.title);
-    action.textContent = direct ? "Ver na Amazon →" : "Buscar na Amazon →";
+    action.textContent = direct ? "Ver na Amazon →" : "Ver opções na Amazon →";
     action.target = "_blank";
     action.rel = "sponsored noopener noreferrer";
     action.setAttribute("aria-label", action.textContent + " — " + item.title + ", publicidade, abre em nova aba");

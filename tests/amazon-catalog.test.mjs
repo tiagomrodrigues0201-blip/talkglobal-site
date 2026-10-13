@@ -9,7 +9,7 @@ function element(tag) {
     setAttribute(k,v){this.attrs[k]=v},addEventListener(k,fn){this.listeners[k]=fn}};
 }
 async function run(fail=false) {
-  const ids=Object.fromEntries(["filters","catalog","catalog-status"].map(id=>[id,element("div")]));
+  const ids=Object.fromEntries(["filters","catalog","catalog-status","product-search"].map(id=>[id,element("div")]));
   let calls=0;
   const context={config:{associateId:"talkglobal0a-20"},URL,Error,window:{},
     document:{getElementById:id=>ids[id],createElement:element},
@@ -29,6 +29,17 @@ for (const [index,expected] of [[1,3],[2,2],[3,1],[4,1],[0,7]]) {
  assert.equal(button.attrs["aria-pressed"],"true");
  assert.equal(count(),1,"filter must not reload the catalog");
 }
+ids["product-search"].value = "réuniões";
+ids["product-search"].listeners.input();
+assert.equal(ids.catalog.children.length,1,"search must normalize accents");
+assert.equal(ids.catalog.children[0].children[2].textContent,"Sony WH-CH720N");
+ids["product-search"].value = "produto-inexistente-987";
+ids["product-search"].listeners.input();
+assert.equal(ids.catalog.children.length,0);
+ids["product-search"].value = "";
+ids["product-search"].listeners.input();
+assert.equal(ids.catalog.children.length,7);
+assert.equal(count(),1);
 for(const card of ids.catalog.children) {
  const link=card.children.find(child=>child.tag==="a");
  assert.equal(new URL(link.href).searchParams.get("tag"),"talkglobal0a-20");
