@@ -29,7 +29,7 @@ test('language isolation and Spanish review gate',async(t)=>{
   });
   await t.test('Spanish session uses its own price, metadata and Spanish return page',async()=>{
    Object.assign(process.env,{FREELA_ES_ENABLED:'true',FREELA_ES_PRODUCT_OBJECT:'freela/es/Kit_ES.zip',STRIPE_FREELA_ES_PRICE_ID:'price_es'});
-   globalThis.fetch=async(url,opts)=>{const p=new URLSearchParams(opts.body);assert.equal(p.get('line_items[0][price]'),'price_es');assert.equal(p.get('metadata[product]'),'freelance-en-la-vida-real');assert.equal(p.get('metadata[language]'),'es');assert.equal(p.get('locale'),'es');assert.ok(p.get('success_url').includes('/es/freelance-en-la-vida-real/gracias/'));return {ok:true,json:async()=>({url:'https://checkout.test',amount_total:1499,currency:'brl'})};};
+   globalThis.fetch=async(url,opts)=>{const p=new URLSearchParams(opts.body);assert.equal(p.get('line_items[0][price]'),'price_es');assert.equal(p.get('metadata[product]'),'freelance-en-la-vida-real');assert.equal(p.get('metadata[language]'),'es');assert.equal(p.get('locale'),'es');assert.equal(p.get('payment_method_types[0]'),'card');assert.ok(p.get('success_url').includes('/es/freelance-en-la-vida-real/gracias/'));return {ok:true,json:async()=>({url:'https://checkout.test',amount_total:1499,currency:'brl'})};};
    assert.equal((await call('checkout',{method:'POST',body:{product:'freelance-en-la-vida-real'}})).statusCode,200);
   });
   await t.test('paid Spanish status identifies Spanish edition',async()=>{

@@ -93,7 +93,7 @@ async function checkout(req, res) {
     "payment_intent_data[metadata][product]": productSlug,
     "payment_intent_data[metadata][price_type]": priceType
   });
-  if (spanish) { params.set("locale", "es"); params.set("metadata[language]", "es"); params.set("payment_intent_data[metadata][language]", "es"); }
+  if (spanish) { params.set("payment_method_types[0]", "card"); params.set("locale", "es"); params.set("metadata[language]", "es"); params.set("payment_intent_data[metadata][language]", "es"); }
   const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {
     method: "POST",
     headers: { Authorization: `Bearer ${secretKey}`, "Stripe-Version": "2026-06-24.dahlia", "Content-Type": "application/x-www-form-urlencoded" },
