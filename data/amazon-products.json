@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "products": [
+    {
+      "id": "suporte-notebook",
+      "title": "Suporte para notebook",
+      "category": "trabalho",
+      "forWhom": "Quem passa muitas horas no computador",
+      "why": "Eleva a tela e facilita um setup organizado",
+      "limitations": "Observe estabilidade e ergonomia",
+      "experience": "pesquisado",
+      "url": "",
+      "active": true
+    },
+    {
+      "id": "adaptador-viagem",
+      "title": "Adaptador universal",
+      "category": "viagem",
+      "forWhom": "Quem viaja entre países",
+      "why": "Facilita o uso de plugues em padrões diferentes",
+      "limitations": "Verifique compatibilidade e tensão elétrica",
+      "experience": "pesquisado",
+      "url": "",
+      "active": true
+    }
+  ]
+}
