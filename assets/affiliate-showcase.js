@@ -37,7 +37,7 @@ function renderFilters() {
 function renderCards() {
   catalog.replaceChildren();
   const visible = products.filter(item => selected === "todos" || item.category === selected);
-  status.textContent = visible.length ? visible.length + " recomendações nesta seleção." : "Nenhuma recomendação nesta categoria.";
+  status.textContent = visible.length ? visible.length + " opções" : "Nenhuma recomendação nesta categoria.";
   for (const item of visible) {
     const card = document.createElement("article");
     card.className = "card";
@@ -47,21 +47,21 @@ function renderCards() {
     art.textContent = item.category === "viagem" ? "✈" : item.category === "criacao" ? "◉" : item.category === "leitura" ? "▤" : "⌘";
     const category = document.createElement("span");
     category.textContent = (groups.find(group => group.id === item.category)?.label || "Outros")
-      + " · " + (item.kind === "product" ? "Modelo pesquisado" : "Categoria");
+     ;
     const title = document.createElement("h3");
     title.textContent = item.title;
-    const details = document.createElement("dl");
-    for (const [label, value] of [["Para quem", item.forWhom], ["Por que considerar", item.why], ["Antes de escolher", item.limitations]]) {
-      const term = document.createElement("dt");
-      term.textContent = label;
-      const description = document.createElement("dd");
-      description.textContent = value;
-      details.append(term, description);
-    }
+    const benefit = document.createElement("p");
+    benefit.textContent = item.why;
+    const details = document.createElement("details");
+    const summary = document.createElement("summary");
+    summary.textContent = "Antes de escolher";
+    const caution = document.createElement("p");
+    caution.textContent = item.limitations;
+    details.append(summary, caution);
     const direct = safeUrl(item.url);
     const action = document.createElement("a");
     action.href = direct || buildAffiliateUrl(item.title);
-    action.textContent = direct ? "Ver produto na Amazon" : item.kind === "product" ? "Pesquisar modelo na Amazon" : "Pesquisar categoria na Amazon";
+    action.textContent = direct ? "Ver na Amazon →" : "Buscar na Amazon →";
     action.target = "_blank";
     action.rel = "sponsored noopener noreferrer";
     action.setAttribute("aria-label", action.textContent + " — " + item.title + ", publicidade, abre em nova aba");
@@ -71,8 +71,9 @@ function renderCards() {
       });
     });
     const note = document.createElement("small");
-    note.textContent = "Publicidade · " + (item.experience === "usamos" ? "Uso próprio confirmado" : "Pesquisa editorial · Não testado por nós");
-    card.append(art, category, title, details, action, note);
+    note.textContent = item.experience === "usamos" ? "Usamos na nossa rotina" : "";
+    card.append(art, category, title, benefit, details, action);
+    if (item.experience === "usamos") card.append(note);
     catalog.append(card);
   }
 }
