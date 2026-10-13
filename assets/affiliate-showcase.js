@@ -2,9 +2,9 @@ import { amazonAssociatesConfig as config } from "./amazon-associates.config.js"
 import { buildAffiliateUrl } from "./amazon-recommendations.js";
 
 const groups = [
+  { id: "criacao", label: "Criação de conteúdo", shortLabel: "Criação" },
   { id: "trabalho", label: "Trabalho online", shortLabel: "Trabalho" },
   { id: "viagem", label: "Viagem" },
-  { id: "criacao", label: "Criação e tecnologia", shortLabel: "Criação" },
   { id: "leitura", label: "Livros e histórias", shortLabel: "Livros" },
 ];
 const filters = document.getElementById("filters");
@@ -16,7 +16,7 @@ let query = "";
 const search = document.getElementById("product-search");
 const normalize = value => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 search?.addEventListener("input", () => { query = normalize(search.value.trim()); renderCards(); });
-const productArt = {"logitech-lift":"mouse","sony-wh-ch720n":"headphones","anker-nano-30w":"powerbank","rode-wireless-micro":"microphones","categoria-suporte-notebook":"stand","categoria-mochila-cabine":"backpack","categoria-livros-produtividade":"books"};
+const productArt = {"dji-osmo-pocket-4-creator-combo":"pocket-camera","dji-osmo-mobile-8":"phone-gimbal","ulanzi-vl49-rgb":"video-light","categoria-tripe-celular":"phone-tripod","logitech-lift":"mouse","sony-wh-ch720n":"headphones","anker-nano-30w":"powerbank","rode-wireless-micro":"microphones","categoria-suporte-notebook":"stand","categoria-mochila-cabine":"backpack","categoria-livros-produtividade":"books"};
 const fallbackArt = {trabalho:"stand",viagem:"backpack",criacao:"microphones",leitura:"books"};
 function safeUrl(value) {
   try {

@@ -21,8 +21,8 @@ async function run(fail=false) {
 }
 const {ids,count}=await run();
 assert.equal(count(),1);
-assert.equal(ids.catalog.children.length,7,"CSV must be the only catalog source");
-for (const [index,expected] of [[1,3],[2,2],[3,1],[4,1],[0,7]]) {
+assert.equal(ids.catalog.children.length,11,"CSV must be the only catalog source");
+for (const [index,expected] of [[1,5],[2,3],[3,2],[4,1],[0,11]]) {
  const button=ids.filters.children[index];
  button.listeners.click();
  assert.equal(ids.catalog.children.length,expected);
@@ -38,7 +38,7 @@ ids["product-search"].listeners.input();
 assert.equal(ids.catalog.children.length,0);
 ids["product-search"].value = "";
 ids["product-search"].listeners.input();
-assert.equal(ids.catalog.children.length,7);
+assert.equal(ids.catalog.children.length,11);
 assert.equal(count(),1);
 for(const card of ids.catalog.children) {
  const link=card.children.find(child=>child.tag==="a");
@@ -49,4 +49,4 @@ for(const card of ids.catalog.children) {
 const failed=await run(true);
 assert.equal(failed.ids.catalog.children.length,0,"failed load must not show legacy recommendations");
 assert.match(failed.ids["catalog-status"].textContent,/Não foi possível/);
-console.log("Aprovado: sete cartões, cinco filtros, fetch único, links identificados e falha explícita.");
+console.log("Aprovado: onze cartões, cinco filtros, fetch único, links identificados e falha explícita.");
