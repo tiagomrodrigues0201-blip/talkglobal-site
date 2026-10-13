@@ -10,7 +10,8 @@
       "limitations": "Observe estabilidade e ergonomia",
       "experience": "pesquisado",
       "url": "",
-      "active": true
+      "active": true,
+      "demonstration": true
     },
     {
       "id": "adaptador-viagem",
@@ -21,7 +22,8 @@
       "limitations": "Verifique compatibilidade e tensão elétrica",
       "experience": "pesquisado",
       "url": "",
-      "active": true
+      "active": true,
+      "demonstration": true
     }
   ]
 }
