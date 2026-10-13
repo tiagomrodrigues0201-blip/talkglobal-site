@@ -39,7 +39,6 @@ async function loadProducts(){
   entriesFromCSV=body.products.filter(p=>p.active===true&&p.title&&p.forWhom&&p.why&&p.limitations)
     .map(p=>({...p,label:groups.find(g=>g.id===p.category)?.label||"Outros",category:p.category,link:safeUrl(p.url)}));
   render();
-loadProducts();
  } catch(e){ console.warn("Catálogo: carregamento indisponível",e); }
 }
 
@@ -55,10 +54,12 @@ function render(){
   const cat=document.createElement("span");cat.textContent=item.label;
   const title=document.createElement("h3");title.textContent=item.title;
   const desc=document.createElement("p");desc.textContent=item.forWhom ? "Para quem serve: "+item.forWhom+". Por que considerar: "+item.why+". Atenção: "+item.limitations+"." : (descriptions[item.key]||item.text);
-  const action=document.createElement("a");action.href=item.link||buildAffiliateUrl(item.query||item.title);action.textContent=item.link?"Ver produto na Amazon":item.cta||"Pesquisar na Amazon";action.target="_blank";action.rel="sponsored noopener noreferrer";action.setAttribute("aria-label",item.cta+" — publicidade, abre Amazon em nova aba");
-  const note=document.createElement("small");note.textContent="Publicidade · "+(item.experience==="usamos"?"Usado por nós":item.forWhom?"Produto pesquisado":"Pesquisa na Amazon");
+  const action=document.createElement("a");action.href=item.link||buildAffiliateUrl(item.query||item.title);action.textContent=item.link?"Ver produto na Amazon":item.cta||"Pesquisar na Amazon";action.target="_blank";action.rel="sponsored noopener noreferrer";action.setAttribute("aria-label",(item.cta||"Pesquisar na Amazon")+" — publicidade, abre Amazon em nova aba");
+  const note=document.createElement("small");note.textContent="Publicidade · "+(item.demonstration?"EXEMPLO ILUSTRATIVO — não é indicação de compra":item.experience==="usamos"?"Uso próprio confirmado":item.forWhom?"Pesquisa editorial, sem teste prático":"Pesquisa na Amazon");
   action.addEventListener("click",()=>{if(typeof window.gtag==="function")window.gtag("event","amazon_affiliate_click",{source:"vitrine",category:item.category,recommendation_type:item.type});});
   card.append(cat,title,desc,action,note);catalog.append(card);
  }
 }
 render();
+
+loadProducts();
