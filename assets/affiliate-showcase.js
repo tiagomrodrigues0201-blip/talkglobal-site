@@ -2,10 +2,10 @@ import { amazonAssociatesConfig as config } from "./amazon-associates.config.js"
 import { buildAffiliateUrl } from "./amazon-recommendations.js";
 
 const groups = [
-  { id: "trabalho", label: "Trabalho online" },
+  { id: "trabalho", label: "Trabalho online", shortLabel: "Trabalho" },
   { id: "viagem", label: "Viagem" },
-  { id: "criacao", label: "Criação e tecnologia" },
-  { id: "leitura", label: "Livros e histórias" },
+  { id: "criacao", label: "Criação e tecnologia", shortLabel: "Criação" },
+  { id: "leitura", label: "Livros e histórias", shortLabel: "Livros" },
 ];
 const filters = document.getElementById("filters");
 const catalog = document.getElementById("catalog");
@@ -30,7 +30,7 @@ function renderFilters() {
   for (const filter of [{ id: "todos", label: "Tudo" }, ...groups]) {
     const button = document.createElement("button");
     button.type = "button";
-    button.textContent = filter.label;
+    button.textContent = filter.shortLabel || filter.label;
     button.setAttribute("aria-pressed", String(selected === filter.id));
     button.addEventListener("click", () => {
       selected = filter.id;
@@ -70,7 +70,7 @@ function renderCards() {
     const direct = safeUrl(item.url);
     const action = document.createElement("a");
     action.href = direct || buildAffiliateUrl(item.title);
-    action.textContent = direct ? "Ver na Amazon →" : "Ver opções na Amazon →";
+    action.textContent = "Ver na Amazon ↗";
     action.target = "_blank";
     action.rel = "sponsored noopener noreferrer";
     action.setAttribute("aria-label", action.textContent + " — " + item.title + ", publicidade, abre em nova aba");
