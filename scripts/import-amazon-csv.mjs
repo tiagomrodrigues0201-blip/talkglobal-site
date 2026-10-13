@@ -23,7 +23,7 @@ const products=items.filter(x=>x.active!=="false"&&x.active!=="0").map((item,i)=
  if(item.url&&!/^https:\/\/(www\.)?amazon\.com\.br\//.test(item.url))throw Error("Link não é Amazon Brasil: "+id);
  if(item.url){const u=new URL(item.url);if(u.searchParams.get("tag")!=="talkglobal0a-20")throw Error("Link sem tag correta: "+id);}
  if(item.image_url)throw Error("Imagens não são importadas sem comprovação de licença/API: "+id);
- return {id,title:item.title,category:item.category,forWhom:item.for_whom,why:item.why,limitations:item.limitations,experience:item.experience||"pesquisado",url:item.url||"",active:true,demonstration:item.demonstration==="true"};
+ return {id,title:item.title,category:item.category,forWhom:item.for_whom,why:item.why,limitations:item.limitations,experience:item.experience||"pesquisado",url:item.url||"",active:true,demonstration:item.demonstration==="true",kind:item.kind==="product"?"product":"category",sourceUrl:item.source_url||""};
 });
 await mkdir(dirname(resolve(output)),{recursive:true});
 await writeFile(output,JSON.stringify({schemaVersion:1,products},null,2)+"\n");
