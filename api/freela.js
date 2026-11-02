@@ -387,7 +387,7 @@ async function mercadoPagoWebhook(req, res) {
   }
 
   const result = await getMercadoPagoPayment(String(paymentId));
-  if (result.error) return json(res, 200, { received: true, pending_validation: true });
+  if (result.error) return json(res, 503, { received: true, pending_validation: true });
   const measurement = await sendPurchase('mercadopago', result.payment);
   if (measurement.retry) {
     console.warn('openai_ads_delivery', measurement.reason);

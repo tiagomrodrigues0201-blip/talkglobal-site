@@ -99,6 +99,8 @@ test('signed Stripe/MP webhooks: approved only; duplicates retain ID; failures r
     currentPix = pix; assert.equal((await mpCall()).statusCode, 200);
     assert.equal(events[2].data.amount, 1499);
     reject = true; assert.equal((await stripeCall(stripe)).statusCode, 503); assert.equal((await mpCall()).statusCode, 503);
+    globalThis.fetch = async () => ({ ok: false, status: 503, json: async () => ({}) });
+    assert.equal((await mpCall()).statusCode, 503); // MP lookup failure must request retry, never acknowledge a lost conversion.
   } finally { globalThis.fetch = oldFetch; for (const k of keys) if (old[k] === undefined) delete process.env[k]; else process.env[k] = old[k]; }
 });
 
