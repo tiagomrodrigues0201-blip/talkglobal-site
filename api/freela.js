@@ -1,3 +1,4 @@
+import { adsMetadata, sendPurchase } from "../lib/freela-openai-ads.js";
 import crypto from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
 import { purchaseLicense, licensedProductUrl } from "../lib/freela-license.js";
@@ -93,6 +94,10 @@ async function checkout(req, res) {
     "payment_intent_data[metadata][product]": productSlug,
     "payment_intent_data[metadata][price_type]": priceType
   });
+  for (const [key, value] of Object.entries(adsMetadata(payload.openai_ads))) {
+    params.set(`metadata[${key}]`, value);
+    params.set(`payment_intent_data[metadata][${key}]`, value);
+  }
   if (spanish) { params.set("payment_method_types[0]", "card"); params.set("locale", "es"); params.set("metadata[language]", "es"); params.set("payment_intent_data[metadata][language]", "es"); }
   const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {
     method: "POST",
@@ -145,6 +150,11 @@ async function webhook(req, res) {
   if (["checkout.session.completed", "checkout.session.async_payment_succeeded"].includes(event.type)) {
     const session = event.data?.object || {};
     const fulfilled = (session.metadata?.product === PRODUCT_SLUG && session.payment_status === "paid") || purchaseLanguage(session) === "es";
+    const measurement = await sendPurchase('stripe', session, Number(event.created) * 1000);
+    if (measurement.retry) {
+      console.warn('openai_ads_delivery', measurement.reason);
+      return json(res, 503, { received: true, retry: true });
+    }
     return json(res, 200, { received: true, fulfilled, session_id: fulfilled ? session.id : undefined });
   }
   return json(res, 200, { received: true, ignored: true });
@@ -281,6 +291,7 @@ async function createPixPayment(req, res) {
     external_reference: externalReference,
     metadata: {
       product: PRODUCT_SLUG,
+      ...adsMetadata(payload.openai_ads),
       product_version: "1.1",
       delivery: "Freela_na_Vida_Real_Kit.zip"
     },
@@ -377,6 +388,11 @@ async function mercadoPagoWebhook(req, res) {
 
   const result = await getMercadoPagoPayment(String(paymentId));
   if (result.error) return json(res, 200, { received: true, pending_validation: true });
+  const measurement = await sendPurchase('mercadopago', result.payment);
+  if (measurement.retry) {
+    console.warn('openai_ads_delivery', measurement.reason);
+    return json(res, 503, { received: true, retry: true });
+  }
   return json(res, 200, {
     received: true,
     fulfilled: isFreelaPixPayment(result.payment),

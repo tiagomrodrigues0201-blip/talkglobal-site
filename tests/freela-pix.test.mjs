@@ -25,7 +25,7 @@ const isolatedSource = source.replace('import { createClient } from "@supabase/s
   'const createClient = globalThis.__freelaTestStorage;').replace(
   'import { purchaseLicense, licensedProductUrl } from "../lib/freela-license.js";',
   'const { purchaseLicense, licensedProductUrl } = globalThis.__freelaLicenseHelpers;');
-const { default: handler } = await import('data:text/javascript;base64,' + Buffer.from(isolatedSource).toString('base64'));
+const { default: handler } = await import('data:text/javascript;base64,' + Buffer.from(isolatedSource.replace('../lib/freela-openai-ads.js', new URL('../lib/freela-openai-ads.js', import.meta.url).href)).toString('base64'));
 
 async function call(action, { method = 'GET', body, query = '' } = {}) {
   const req = { method, body, url: '/api/freela.js?action=' + action + query, headers: { host: 'talkglobalapp.com' } };

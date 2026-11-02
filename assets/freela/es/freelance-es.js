@@ -4,7 +4,7 @@ document.querySelectorAll(`[data-checkout="${sku}"]`).forEach(button=>button.add
  if(button.disabled)return;
  button.disabled=true;statusEl.textContent='Preparando el pago…';
  try{
-  const r=await fetch('/api/freela-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({product:sku})});
+  const r=await fetch('/api/freela-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({product:sku,openai_ads:window.talkglobalOpenAIAttribution?.()})});
   const d=await r.json();
   if(!r.ok||!d.url){statusEl.textContent=d.message||'La compra todavía no está disponible.';return;}
   let done=false;const redirect=()=>{if(!done){done=true;window.location.assign(d.url);}};
