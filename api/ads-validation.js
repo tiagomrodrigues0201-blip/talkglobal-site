@@ -10,6 +10,10 @@ export default async function handler(req, res) {
   }
   if (req.method === 'GET') {
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    if (req.query?.view === 'mobile') {
+      const src = req.query.language === 'es' ? '/es/freelance-en-la-vida-real/' : '/freela-na-vida-real/';
+      return res.end(`<!doctype html><html lang="pt-BR"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Prévia móvel — 390 px</title><style>body{margin:20px;background:#ddd;font:16px system-ui}iframe{display:block;width:390px;height:844px;border:1px solid #888;background:white}</style><h1>Teste responsivo · 390 × 844</h1><p>Prévia isolada. Não concluir pagamentos reais.</p><iframe title="Página em largura de celular" src="${src}"></iframe></html>`);
+    }
     return res.end('<!doctype html><html lang="pt-BR"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Validação CAPI — prévia</title><h1>Validar conexão com a CAPI</h1><p>Somente validate_only. Não cria pagamentos nem registra vendas. A chave permanece no servidor.</p><form method="post"><button type="submit">Validar Stripe e Pix sem registrar vendas</button></form></html>');
   }
   if (req.method !== 'POST') { res.statusCode = 405; res.setHeader('Allow', 'GET, POST'); return res.end(); }

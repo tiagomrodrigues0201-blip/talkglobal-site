@@ -22,8 +22,14 @@ Server POST `https://bzr.openai.com/v1/events?pid=PIXEL_ID`, Bearer CAPI key, `o
 - No separate durable queue: delivery recovery depends on configured provider retries/manual webhook resend within OpenAI's 7-day timestamp window. Monitor `openai_ads_delivery` logs (reason only). Previously accepted purchases later refunded are not automatically subtracted from Ads reporting; this measures approved purchases, not net revenue after refunds.
 - Consent is recorded at checkout creation for that payment. Unchecking prevents new checkout sharing, not an already-started payment's metadata or already-delivered events. Privacy page explains this and provides revocation contact.
 
-## Activate (not completed)
-Account lookup confirmed Bah Viajou has no conversion sources/settings. Vercel has no OPENAI_ADS_* variables. Do not reuse the existing OPENAI_API_KEY: Ads requires its own CAPI key.
+## Configuration and activation
+Bah Viajou has the web source **TalkGlobal - Freela na Vida Real** and conversion **Freela - Compra aprovada**, mapped to `order_created`. The configured Vercel Pixel ID matches the source and the CAPI key is Sensitive. The real CAPI accepted both Stripe and Pix payloads with `validate_only=true`; this did not save conversions. Production activation must follow the final checks below. No campaign is currently linked to the conversion; campaign changes are outside this PR's authorization.
+
+`opt_out=true` restricts future user-level personalization; it does not disable conversion measurement. Measurement consent is enforced independently before any event is built.
+
+The preview-only `/api/ads-validation.js` diagnostic forces validation mode. Its optional `?view=mobile` (and `&language=es`) displays the actual sales page in a 390 × 844 frame for responsive checks. All diagnostic variants return 404 in Production or outside validation mode. No buyer data or credentials are returned.
+
+Do not reuse OPENAI_API_KEY: Ads requires its own CAPI key. The following is the setup and release checklist, not a claim that every provider end-to-end test has been executed:
 1. In Ads Manager > Conversions, create a web data source and obtain Pixel ID and its Conversions API key. Do not paste the key into chat, commits or frontend code.
 2. In Vercel server-only environment settings for this project, add OPENAI_ADS_PIXEL_ID and sensitive OPENAI_ADS_CAPI_KEY. Begin in isolated preview/test with OPENAI_ADS_MODE=validate. The integration defaults to off when unset.
 3. Use only Stripe/MP TEST credentials and webhook signing secrets in that preview. Existing preview MP credentials may be production credentials: never assume they are test. No payment creation is required for `node scripts/validate-openai-ads.mjs`, which always forces validate_only=true and does not save conversions.
