@@ -139,7 +139,7 @@ async function createPixPayment() {
     const response = await fetch("/api/freela-pix", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ product: "freela-na-vida-real", email })
+      body: JSON.stringify({ product: "freela-na-vida-real", email, openai_ads: window.talkglobalOpenAIAttribution?.() })
     });
     const data = await response.json().catch(() => ({}));
 
@@ -200,7 +200,7 @@ checkoutButtons.forEach((button) => {
       const response = await fetch("/api/freela-checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ product: "freela-na-vida-real" })
+        body: JSON.stringify({ product: "freela-na-vida-real", openai_ads: window.talkglobalOpenAIAttribution?.() })
       });
       const data = await response.json().catch(() => ({}));
 

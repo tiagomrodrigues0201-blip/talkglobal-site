@@ -10,7 +10,7 @@ globalThis.__esStorage=()=>({storage:{from:()=>({
 const source=(await readFile(new URL('../api/freela.js',import.meta.url),'utf8'))
  .replace('import { createClient } from "@supabase/supabase-js";','const createClient=globalThis.__esStorage;')
  .replace('import { purchaseLicense, licensedProductUrl } from "../lib/freela-license.js";','const {purchaseLicense,licensedProductUrl}=globalThis.__esLicenseHelpers;');
-const {default:handler}=await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));
+const {default:handler}=await import('data:text/javascript;base64,'+Buffer.from(source.replace('../lib/freela-openai-ads.js', new URL('../lib/freela-openai-ads.js', import.meta.url).href)).toString('base64'));
 async function call(action,{method='GET',body,query=''}={}){
  const req={method,body,url:'/api/freela.js?action='+action+query,headers:{host:'talkglobalapp.com'}};
  const res={headers:{},setHeader(k,v){this.headers[k]=v;},end(v){this.body=v?JSON.parse(v):null;}};
