@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex,nofollow">
 <title>Pagamento | Freela na Vida Real</title>
 <link rel="stylesheet" href="/assets/freela/freela-na-vida-real.css">
@@ -26,7 +27,7 @@ body{min-height:100vh}.mp-status-card{margin:6vh auto;max-width:650px;padding:cl
   const heading = document.querySelector("[data-title]");
   const statusEl = document.querySelector("[data-status]");
   const download = document.querySelector("[data-download-link]");
-  if (!/^\\d+$/.test(id) || !/^[a-f0-9]{64}$/.test(token)) {
+  if (!/^\d+$/.test(id) || !/^[a-f0-9]{64}$/.test(token)) {
     heading.textContent = "Não foi possível identificar sua compra";
     statusEl.textContent = "Se você concluiu um pagamento, entre em contato com nosso suporte com o comprovante. Não faça outra compra antes de confirmar.";
     return;
