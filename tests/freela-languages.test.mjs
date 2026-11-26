@@ -27,11 +27,7 @@ test('language isolation and Spanish review gate',async(t)=>{
    delete process.env.FREELA_ES_ENABLED;globalThis.fetch=async()=>{throw new Error('Must not call Stripe');};
    assert.equal((await call('checkout',{method:'POST',body:{product:'freelance-en-la-vida-real'}})).statusCode,503);
   });
-  await t.test('Spanish session uses its own price, metadata and Spanish return page',async()=>{
-   Object.assign(process.env,{FREELA_ES_ENABLED:'true',FREELA_ES_PRODUCT_OBJECT:'freela/es/Kit_ES.zip',STRIPE_FREELA_ES_PRICE_ID:'price_es'});
-   globalThis.fetch=async(url,opts)=>{const p=new URLSearchParams(opts.body);assert.equal(p.get('line_items[0][price]'),'price_es');assert.equal(p.get('metadata[product]'),'freelance-en-la-vida-real');assert.equal(p.get('metadata[language]'),'es');assert.equal(p.get('locale'),'es');assert.equal(p.get('payment_method_types[0]'),'card');assert.ok(p.get('success_url').includes('/es/freelance-en-la-vida-real/gracias/'));return {ok:true,json:async()=>({url:'https://checkout.test',amount_total:1499,currency:'brl'})};};
-   assert.equal((await call('checkout',{method:'POST',body:{product:'freelance-en-la-vida-real'}})).statusCode,200);
-  });
+  Object.assign(process.env,{FREELA_ES_ENABLED:'true',FREELA_ES_PRODUCT_OBJECT:'freela/es/Kit_ES.zip'});
   await t.test('paid Spanish status identifies Spanish edition',async()=>{
    globalThis.fetch=async()=>({ok:true,json:async()=>es});const r=await call('status',{query:'&session_id=cs_test_es'});assert.equal(r.body.language,'es');assert.equal(r.body.product_slug,'freelance-en-la-vida-real');
   });
@@ -48,4 +44,20 @@ test('language isolation and Spanish review gate',async(t)=>{
    await t.test('invalid Spanish payment is denied',async()=>{globalThis.fetch=async()=>({ok:true,json:async()=>({...es,...changes})});signed.length=0;assert.equal((await call('download',{query:'&session_id=cs_test_es'})).statusCode,403);assert.deepEqual(signed,[]);});
   }
  }finally{globalThis.fetch=previousFetch;for(const k of keys)if(previous[k]===undefined)delete process.env[k];else process.env[k]=previous[k];}
+});
+test('Spanish Mercado Pago delivery chooses only the Spanish private kit',async()=>{
+ const crypto=await import('node:crypto');const oldFetch=globalThis.fetch;
+ const keys=['MERCADOPAGO_ACCESS_TOKEN','SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','FREELA_ES_PRODUCT_OBJECT'];
+ const old=Object.fromEntries(keys.map(k=>[k,process.env[k]]));
+ Object.assign(process.env,{MERCADOPAGO_ACCESS_TOKEN:'test-es-key',SUPABASE_URL:'https://private.test',SUPABASE_SERVICE_ROLE_KEY:'test',FREELA_ES_PRODUCT_OBJECT:'freela/es/Kit_ES.zip'});
+ const reference='freelance-en-la-vida-real:12345678-1234-4234-8234-123456789abc';
+ const token=crypto.createHmac('sha256','test-es-key').update('freela-checkout-pro:'+reference).digest('hex');
+ const payment={id:12345,status:'approved',live_mode:true,currency_id:'BRL',transaction_amount:19.9,payment_method_id:'visa',payment_type_id:'credit_card',external_reference:reference,metadata:{product:'freelance-en-la-vida-real',language:'es'}};
+ try{
+  globalThis.fetch=async()=>({ok:true,json:async()=>payment});signed.length=0;
+  const r=await call('download',{query:`&mp_payment_id=12345&mp_checkout_token=${token}`});
+  assert.equal(r.statusCode,503);assert.deepEqual(signed,['freela/es/Kit_ES.zip']);
+  delete process.env.FREELA_ES_PRODUCT_OBJECT;signed.length=0;
+  assert.equal((await call('download',{query:`&mp_payment_id=12345&mp_checkout_token=${token}`})).statusCode,503);assert.deepEqual(signed,[]);
+ }finally{globalThis.fetch=oldFetch;for(const k of keys)if(old[k]===undefined)delete process.env[k];else process.env[k]=old[k];}
 });

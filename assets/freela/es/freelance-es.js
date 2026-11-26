@@ -1,20 +1,20 @@
-const sku='freelance-en-la-vida-real';
-const statusEl=document.querySelector('[data-checkout-status]');
-const buttons=[...document.querySelectorAll(`[data-checkout="${sku}"]`)];
-let busy=false;
-buttons.forEach(button=>button.addEventListener('click',async()=>{
- if(busy)return;
- busy=true;buttons.forEach(b=>b.disabled=true);statusEl.textContent='Preparando el pago…';
- let redirecting=false;
- try{
-  const r=await fetch('/api/freela-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({product:sku,openai_ads:window.talkglobalOpenAIAttribution?.()})});
-  const d=await r.json();
-  if(!r.ok||!d.url){statusEl.textContent=d.message||'La compra todavía no está disponible.';return;}
-  const url=new URL(d.url);
-  if(url.protocol!=='https:'||url.hostname!=='checkout.stripe.com'||url.username||url.password||url.port||d.value!==14.99||d.currency!=='BRL')throw Error('Invalid checkout');
-  redirecting=true;
-  let done=false;const redirect=()=>{if(!done){done=true;window.location.assign(d.url);}};
-  if(typeof window.gtag==='function'){window.gtag('event','begin_checkout',{currency:d.currency,value:d.value,items:[{item_id:sku,item_name:'Freelance en la Vida Real',price:d.value,quantity:1}],event_callback:redirect,event_timeout:1000});setTimeout(redirect,1200);}else redirect();
- }catch{statusEl.textContent='No pudimos iniciar el pago. Inténtalo de nuevo más tarde.';}
- finally{if(!redirecting){busy=false;buttons.forEach(b=>b.disabled=false);}}
-}));
+(() => {
+  const buttons = [...document.querySelectorAll('[data-mercadopago-checkout]')];
+  const status = document.getElementById('status');
+  let busy = false;
+  let requestId = crypto.randomUUID();
+  for (const button of buttons) button.addEventListener('click', async () => {
+    if (busy) return; busy = true; buttons.forEach(b => b.disabled = true);
+    status.textContent = 'Abriendo el pago seguro de Mercado Pago…';
+    try {
+      const response = await fetch('/api/freela-mercadopago-checkout', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({product:'freelance-en-la-vida-real',request_id:requestId,openai_ads:window.talkglobalOpenAIAttribution?.()})});
+      const data = await response.json();
+      if (!response.ok || data.value !== 19.9 || data.currency !== 'BRL') throw Error('checkout');
+      const url = new URL(data.url);
+      if (url.protocol !== 'https:' || !/^(?:[a-z0-9-]+\.)*mercadopago\.com(?:\.br)?$/i.test(url.hostname) || url.username || url.password || url.port) throw Error('redirect');
+      if (data.resume_url) window.freelaOrderAccess?.save(data.resume_url);
+      let redirected=false; const redirect=()=>{if(!redirected){redirected=true;location.assign(url.href);}};
+      if(typeof window.gtag==='function'){window.gtag('event','begin_checkout',{currency:'BRL',value:19.9,items:[{item_id:'freelance-en-la-vida-real',item_name:'Freelance en la Vida Real',quantity:1,price:19.9}],event_callback:redirect,event_timeout:1000});setTimeout(redirect,1200);}else redirect();
+    } catch { status.textContent = 'No pudimos abrir el pago. Inténtalo de nuevo o escribe a suporte@talkglobalapp.com.'; busy = false; buttons.forEach(b => b.disabled = false); }
+  });
+})();

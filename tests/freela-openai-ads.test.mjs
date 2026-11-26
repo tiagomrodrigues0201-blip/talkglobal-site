@@ -145,3 +145,10 @@ test('checkout and Pix preserve attribution in provider metadata; buyer cannot c
     assert.equal((await call('pix',{product:'freela-na-vida-real',email:'test@example.com',openai_ads,amount:1})).statusCode,200);
   } finally { globalThis.fetch=oldFetch; for(const k of keys) if(previous[k]===undefined) delete process.env[k]; else process.env[k]=previous[k]; }
 });
+test('Spanish Mercado Pago conversion preserves language and approved offer',()=>{
+ const payment={id:987654,status:'approved',live_mode:true,payment_method_id:'visa',payment_type_id:'credit_card',currency_id:'BRL',transaction_amount:19.9,date_approved:new Date(now).toISOString(),metadata:{product:'freelance-en-la-vida-real',language:'es',openai_ads_consent:'granted'}};
+ const event=purchaseEvent('mercadopago',payment);
+ assert.equal(event.data.amount,1990);assert.equal(event.data.contents[0].id,'freelance-en-la-vida-real');assert.match(event.source_url,/\/es\//);
+ assert.equal(purchaseEvent('mercadopago',{...payment,transaction_amount:14.99}),null);
+ assert.equal(purchaseEvent('mercadopago',{...payment,status:'pending'}),null);
+});

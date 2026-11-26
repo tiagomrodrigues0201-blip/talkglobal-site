@@ -14,7 +14,7 @@ on:
       - "assets/freela/freela-na-vida-real.js"
       - "freela-na-vida-real/**"
       - "es/freelance-en-la-vida-real/**"
-      - "assets/freela/es/freelance-es.js"
+      - "assets/freela/es/**"
       - "assets/freela/freela-sales.css"
       - "tests/freela-*.test.mjs"
       - ".github/workflows/freela-check.yml"
