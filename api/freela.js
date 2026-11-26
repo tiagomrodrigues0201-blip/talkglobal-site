@@ -247,12 +247,15 @@ async function mercadoPagoCheckout(req, res) {
   try { payload = await readJsonBody(req); }
   catch { return json(res, 400, { message: "Dados de compra inválidos." }); }
   if (payload?.product !== PRODUCT_SLUG) return json(res, 400, { message: "Produto inválido." });
+  // Prevent accidental live charges from automatic Vercel preview deployments.
+  if (process.env.VERCEL_ENV === "preview" && process.env.MERCADOPAGO_ALLOW_PREVIEW_CHECKOUT !== "true")
+    return json(res, 503, { message: "Checkout indisponível nesta prévia. Use o ambiente de testes autorizado." });
   const accessToken = getMercadoPagoToken();
   if (!accessToken) return json(res, 503, { message: "Mercado Pago ainda não configurado." });
   const externalReference = `${PRODUCT_SLUG}:${crypto.randomUUID()}`;
   const token = checkoutReferenceToken(externalReference);
   // Never derive a payment return URL from a user-controlled Host header.
-  const siteOrigin = process.env.SITE_URL || "https://talkglobalapp.com";
+  const siteOrigin = process.env.SITE_URL || (process.env.VERCEL_ENV === "preview" && process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://talkglobalapp.com");
   const destination = new URL("/freela-na-vida-real/mercadopago/", siteOrigin);
   destination.searchParams.set("checkout_token", token);
   const notify = new URL("/api/freela-mercadopago-webhook", siteOrigin);
