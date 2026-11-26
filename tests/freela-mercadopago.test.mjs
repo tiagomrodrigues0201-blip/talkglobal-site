@@ -42,6 +42,10 @@ test("checkout preference contains exactly R$ 19.90 and safe return URL",async()
   process.env.VERCEL_ENV="production";process.env.SITE_URL="https://talkglobalapp.com";
   let captured;
   globalThis.fetch=async (url,opts)=>{
+    if (url.endsWith('/v1/payment_methods')) return {ok:true,json:async()=>[
+      {id:'pix',payment_type_id:'bank_transfer'}, {id:'visa',payment_type_id:'credit_card'},
+      {id:'bolbradesco',payment_type_id:'ticket'}, {id:'account_money',payment_type_id:'account_money'}
+    ]};
     assert.equal(url,"https://api.mercadopago.com/checkout/preferences");
     captured=JSON.parse(opts.body);
     return {ok:true,json:async()=>({init_point:"https://www.mercadopago.com.br/checkout/v1/redirect"})};
@@ -51,6 +55,8 @@ test("checkout preference contains exactly R$ 19.90 and safe return URL",async()
   assert.equal(r.data.value,19.9);
   assert.equal(captured.items[0].unit_price,19.9);
   assert.equal(captured.items[0].currency_id,"BRL");
+  assert.deepEqual(captured.payment_methods, {excluded_payment_methods:[{id:'bolbradesco'}]});
+  assert.match(r.data.resume_url,/reference=freela-na-vida-real/);
   assert.equal(captured.back_urls.success.startsWith("https://talkglobalapp.com/freela-na-vida-real/mercadopago/"),true);
   assert.equal(new URL(captured.back_urls.success).searchParams.get("checkout_token"),checkoutToken(captured.external_reference));
 });
@@ -113,3 +119,4 @@ test("Pix creation uses new price, QR creation alone never grants access",async(
   assert.equal(r.data.amount,"R$19,90");
   assert.equal(r.data.status,"pending");
 });
+

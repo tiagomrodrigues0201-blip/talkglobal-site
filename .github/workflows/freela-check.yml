@@ -5,9 +5,14 @@ on:
       - "api/freela.js"
       - "lib/freela-license.js"
       - "lib/freela-openai-ads.js"
+      - "lib/freela-payment-policy.js"
+      - "lib/freela-readiness.js"
+      - "assets/freela/checkout-aprovacao.js"
+      - "assets/freela/order-access.js"
+      - "assets/freela/mercadopago-return.js"
       - "assets/freela/freela-na-vida-real.js"
       - "freela-na-vida-real/**"
-      - "tests/freela-mercadopago.test.mjs"
+      - "tests/freela-*.test.mjs"
       - ".github/workflows/freela-check.yml"
   workflow_dispatch:
 permissions:
@@ -22,8 +27,8 @@ jobs:
           node-version: '22'
           cache: npm
       - name: Install locked dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Syntax validation
         run: npm run check:freela
       - name: Mercado Pago flow and security tests
-        run: node --test tests/freela-mercadopago.test.mjs
+        run: node --check assets/freela/checkout-aprovacao.js && node --check assets/freela/mercadopago-return.js && node --check assets/freela/order-access.js && node --test tests/freela-*.test.mjs

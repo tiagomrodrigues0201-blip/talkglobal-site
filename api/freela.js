@@ -1,3 +1,4 @@
+import { supportedPayment, checkoutPaymentMethods } from "../lib/freela-payment-policy.js";
 import { adsMetadata, sendPurchase } from "../lib/freela-openai-ads.js";
 import crypto from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
@@ -81,6 +82,7 @@ async function checkout(req, res) {
   const { priceId, priceType } = spanish ? { priceId: process.env.STRIPE_FREELA_ES_PRICE_ID, priceType: "es" } : getActivePriceId();
   if (!secretKey || !priceId) return json(res, 503, { message: "A compra ainda não está ativa. Estamos preparando a liberação com segurança." });
 
+  if (process.env.VERCEL_ENV === "preview" && !String(secretKey).startsWith("sk_test_")) return json(res, 503, { message: "Checkout real indisponível nesta prévia." });
   const origin = getOrigin(req);
   const params = new URLSearchParams({
     mode: "payment",
@@ -151,7 +153,7 @@ async function webhook(req, res) {
   catch { return json(res, 400, { message: "Evento inválido." }); }
   if (["checkout.session.completed", "checkout.session.async_payment_succeeded"].includes(event.type)) {
     const session = event.data?.object || {};
-    const fulfilled = (session.metadata?.product === PRODUCT_SLUG && session.payment_status === "paid") || purchaseLanguage(session) === "es";
+    const fulfilled = Boolean(purchaseLanguage(session));
     const measurement = await sendPurchase('stripe', session, Number(event.created) * 1000);
     if (measurement.retry) {
       console.warn('openai_ads_delivery', measurement.reason);
@@ -171,7 +173,7 @@ async function getCheckoutSession(sessionId) {
 }
 
 function isPaidFreelaSession(session) {
-  return session.metadata?.product === PRODUCT_SLUG
+  return session.livemode === true && session.metadata?.product === PRODUCT_SLUG
     && session.payment_status === "paid"
     && session.mode === "payment"
     && session.currency === "brl"
@@ -180,7 +182,7 @@ function isPaidFreelaSession(session) {
 
 function purchaseLanguage(session) {
   if (isPaidFreelaSession(session)) return "pt";
-  if (session.metadata?.product === ES_PRODUCT_SLUG && session.metadata?.language === "es"
+  if (session.livemode === true && session.metadata?.product === ES_PRODUCT_SLUG && session.metadata?.language === "es"
       && session.payment_status === "paid" && session.mode === "payment"
       && session.currency === "brl" && session.amount_total === 1499) return "es";
   return null;
@@ -232,13 +234,25 @@ function hasCheckoutReferenceToken(payment, token) {
 
 function isApprovedMercadoPagoCheckout(payment) {
   // Only genuine, live payments for the exact new-price product can deliver the kit.
-  const method = String(payment?.payment_type_id || "");
   return payment?.status === "approved"
     && payment?.live_mode === true
     && String(payment?.currency_id || "").toUpperCase() === "BRL"
     && amountToCents(payment?.transaction_amount) === PIX_AMOUNT_CENTS
     && String(payment?.external_reference || "").startsWith(`${PRODUCT_SLUG}:`)
-    && (payment?.payment_method_id === "pix" || ["credit_card", "debit_card", "prepaid_card"].includes(method));
+    && supportedPayment(payment);
+}
+
+let methodCache;
+async function merchantPaymentMethods(accessToken) {
+  const account = crypto.createHash("sha256").update(accessToken).digest("hex");
+  if (methodCache?.account === account && Date.now() < methodCache.expires) return methodCache.methods;
+  const response = await fetch(`${MERCADOPAGO_API_BASE}/v1/payment_methods`, {
+    headers: { Authorization: `Bearer ${accessToken}` }, signal: AbortSignal.timeout(8000)
+  });
+  if (!response.ok) throw Error("Provider methods unavailable");
+  const methods = checkoutPaymentMethods(await response.json());
+  methodCache = { account, methods, expires: Date.now() + 600000 };
+  return methods;
 }
 
 async function mercadoPagoCheckout(req, res) {
@@ -252,8 +266,14 @@ async function mercadoPagoCheckout(req, res) {
     return json(res, 503, { message: "Checkout indisponível nesta prévia. Use o ambiente de testes autorizado." });
   const accessToken = getMercadoPagoToken();
   if (!accessToken) return json(res, 503, { message: "Mercado Pago ainda não configurado." });
-  const externalReference = `${PRODUCT_SLUG}:${crypto.randomUUID()}`;
+  const requestId = payload.request_id || crypto.randomUUID();
+  if (!/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(requestId))
+    return json(res, 400, { message: "Identificação da tentativa inválida." });
+  const externalReference = `${PRODUCT_SLUG}:${requestId}`;
   const token = checkoutReferenceToken(externalReference);
+  let paymentMethods;
+  try { paymentMethods = await merchantPaymentMethods(accessToken); }
+  catch { return json(res, 503, { message: "Não foi possível consultar os meios de pagamento. Tente novamente." }); }
   // Never derive a payment return URL from a user-controlled Host header.
   const siteOrigin = process.env.SITE_URL || (process.env.VERCEL_ENV === "preview" && process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://talkglobalapp.com");
   const destination = new URL("/freela-na-vida-real/mercadopago/", siteOrigin);
@@ -264,13 +284,13 @@ async function mercadoPagoCheckout(req, res) {
     external_reference: externalReference,
     notification_url: notify.toString(),
     back_urls: { success: destination.toString(), pending: destination.toString(), failure: destination.toString() },
-    payment_methods: { excluded_payment_types: [{ id: "ticket" }, { id: "atm" }, { id: "digital_currency" }, { id: "digital_wallet" }, { id: "account_money" }] },
+    payment_methods: paymentMethods,
     auto_return: "approved",
     metadata: { product: PRODUCT_SLUG, ...adsMetadata(payload.openai_ads), product_version: "1.1" }
   };
   const response = await fetch(`${MERCADOPAGO_API_BASE}/checkout/preferences`, {
     method: "POST",
-    headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json", "X-Idempotency-Key": crypto.randomUUID() },
+    headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json", "X-Idempotency-Key": requestId },
     body: JSON.stringify(preference)
   });
   const data = await response.json().catch(() => ({}));
@@ -278,19 +298,40 @@ async function mercadoPagoCheckout(req, res) {
   const redirect = new URL(data.init_point);
   if (redirect.protocol !== "https:" || !(redirect.hostname === "mercadopago.com.br" || redirect.hostname.endsWith(".mercadopago.com.br") || redirect.hostname.endsWith(".mercadopago.com")))
     return json(res, 502, { message: "Endereço do checkout inválido." });
-  return json(res, 200, { url: redirect.toString(), value: PIX_AMOUNT_CENTS / 100, currency: "BRL" });
+  const resume = new URL(destination);
+  resume.searchParams.set("reference", externalReference);
+  return json(res, 200, { url: redirect.toString(), resume_url: resume.pathname + resume.search, value: PIX_AMOUNT_CENTS / 100, currency: "BRL" });
 }
 
 async function mercadoPagoCheckoutStatus(req, res) {
   if (req.method !== "GET") { res.setHeader("Allow", "GET"); return json(res, 405, { message: "Método não permitido." }); }
   res.setHeader("Cache-Control", "private, no-store, max-age=0");
   const params = new URL(req.url, `http://${req.headers.host || "localhost"}`).searchParams;
-  const paymentId = params.get("payment_id") || "";
+  let paymentId = params.get("payment_id") || "";
+  const reference = params.get("reference") || "";
   const token = params.get("checkout_token") || "";
-  if (!/^\d+$/.test(paymentId) || !/^[a-f0-9]{64}$/.test(token))
-    return json(res, 400, { message: "Identificação de compra inválida." });
-  const result = await getMercadoPagoPayment(paymentId);
-  if (result.error) return json(res, result.status || 503, { message: "Não foi possível consultar o pagamento." });
+  if (!/^[a-f0-9]{64}$/.test(token)) return json(res, 400, { message: "Identificação de compra inválida." });
+  let result;
+  if (paymentId) {
+    if (!/^\d+$/.test(paymentId)) return json(res, 400, { message: "Identificação de compra inválida." });
+    result = await getMercadoPagoPayment(paymentId);
+  } else {
+    if (!/^freela-na-vida-real:[a-f0-9-]{36}$/i.test(reference)
+        || !hasCheckoutReferenceToken({ external_reference: reference }, token))
+      return json(res, 403, { message: "Acesso a esta compra não autorizado." });
+    const response = await fetch(`${MERCADOPAGO_API_BASE}/v1/payments/search?external_reference=${encodeURIComponent(reference)}&sort=date_created&criteria=desc&limit=50`, {
+      headers: { Authorization: `Bearer ${getMercadoPagoToken()}` }, signal: AbortSignal.timeout(8000)
+    });
+    if (!response.ok) return json(res, 503, { message: "Não foi possível consultar o pagamento." });
+    const search = await response.json();
+    const matching = (search.results || []).filter(p => p.external_reference === reference);
+    const payment = matching.find(isApprovedMercadoPagoCheckout) || matching[0];
+    if (!payment) return json(res, 200, { paid: false, status: "pending", currency: "BRL" });
+    paymentId = String(payment.id);
+    // Search is used to locate the ID; always recheck current status directly.
+    result = await getMercadoPagoPayment(paymentId);
+  }
+  if (result.error) return json(res, 503, { message: "Não foi possível consultar o pagamento." });
   if (!hasCheckoutReferenceToken(result.payment, token))
     return json(res, 403, { message: "Acesso a esta compra não autorizado." });
   const paid = isApprovedMercadoPagoCheckout(result.payment);
@@ -319,7 +360,7 @@ async function getMercadoPagoPayment(paymentId) {
     headers: { Authorization: `Bearer ${accessToken}` }
   });
   const data = await response.json().catch(() => ({}));
-  return response.ok ? { payment: data } : { error: "mercadopago_error", status: response.status };
+  return response.ok && String(data.id) === String(paymentId) ? { payment: data } : { error: "mercadopago_error", status: response.ok ? 502 : response.status };
 }
 
 function isFreelaPixPayment(payment) {
@@ -559,6 +600,13 @@ async function download(req, res) {
 
 export default async function handler(req, res) {
   const action = getAction(req);
+  if (action === "readiness") {
+    if (process.env.VERCEL_ENV !== "preview" || req.method !== "GET") return json(res,404,{message:"Rota não encontrada."});
+    res.setHeader("Cache-Control","private, no-store");
+    res.setHeader("X-Robots-Tag","noindex, nofollow");
+    const {readiness}=await import("../lib/freela-readiness.js");
+    return json(res,200,await readiness());
+  }
   if (action === "checkout") return checkout(req, res);
   if (action === "mercadopago-checkout") return mercadoPagoCheckout(req, res);
   if (action === "mercadopago-checkout-status") return mercadoPagoCheckoutStatus(req, res);
