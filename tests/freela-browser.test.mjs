@@ -87,3 +87,10 @@ test('both sales pages show the approved 19.90 offer and the same TikTok destina
   assert.match(html,/data-mercadopago-checkout/);
  }
 });
+test('Spanish recovery stores only its own signed purchase and translates the resume link',()=>{
+ const localStorage=storage(),window={};
+ vm.runInNewContext(source('es/order-access.js'),{localStorage,window,location:{origin:'https://talkglobalapp.com'},URL,Date,JSON,document:{getElementById:()=>null}});
+ const query='?payment_id=12345&checkout_token='+'a'.repeat(64);
+ assert.equal(window.freelaOrderAccess.save('/es/freelance-en-la-vida-real/mercadopago/'+query),true);
+ assert.equal(window.freelaOrderAccess.save('/freela-na-vida-real/mercadopago/'+query),false);
+});

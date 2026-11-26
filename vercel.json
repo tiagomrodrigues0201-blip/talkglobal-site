@@ -128,6 +128,10 @@
       "dest": "/api/freela.js?action=download"
     },
     {
+      "src": "/es/freelance-en-la-vida-real/mercadopago/?",
+      "dest": "/es/freelance-en-la-vida-real/mercadopago/index.html"
+    },
+    {
       "src": "/es/freelance-en-la-vida-real/?",
       "dest": "/es/freelance-en-la-vida-real/index.html"
     },
