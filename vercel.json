@@ -189,6 +189,14 @@
       "dest": "/videos/$1"
     },
     {
+      "src": "/cinehelion/?",
+      "dest": "/cinehelion/index.html"
+    },
+    {
+      "src": "/es/cinehelion/?",
+      "dest": "/es/cinehelion/index.html"
+    },
+    {
       "handle": "filesystem"
     },
     {
