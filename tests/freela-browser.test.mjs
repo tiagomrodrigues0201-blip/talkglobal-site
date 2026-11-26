@@ -62,20 +62,35 @@ test('tracking remains off without consent and clears on withdrawal or privacy s
 });
 test('Spanish checkout preserves its product, consent and price with a shared redirect lock',async()=>{
   const buttons=[button(),button()],status={},requests=[],redirects=[];
-  vm.runInNewContext(source('es/freelance-es.js'),{URL,JSON,setTimeout:f=>f(),
-    document:{querySelectorAll:()=>buttons,querySelector:()=>status},
-    window:{location:{assign:v=>redirects.push(v)},talkglobalOpenAIAttribution:()=>({consent:true,oppref:'opaque-es'})},
-    fetch:async(url,opts)=>{requests.push({url,...JSON.parse(opts.body)});return {ok:true,json:async()=>({url:'https://checkout.stripe.com/c/pay/test',value:14.99,currency:'BRL'})}}});
+  vm.runInNewContext(source('es/freelance-es.js'),{crypto:{randomUUID:()=> "12345678-1234-4234-8234-123456789abc"},URL,JSON,setTimeout:f=>f(),
+    document:{querySelectorAll:()=>buttons,getElementById:()=>status},
+    location:{assign:v=>redirects.push(v)},window:{talkglobalOpenAIAttribution:()=>({consent:true,oppref:'opaque-es'})},
+    fetch:async(url,opts)=>{requests.push({url,...JSON.parse(opts.body)});return {ok:true,json:async()=>({url:'https://www.mercadopago.com.br/checkout/v1/redirect',value:19.9,currency:'BRL'})}}});
   await Promise.all(buttons.map(b=>b.listeners.click()));
-  assert.equal(requests.length,1);assert.equal(requests[0].url,'/api/freela-checkout');
+  assert.equal(requests.length,1);assert.equal(requests[0].url,'/api/freela-mercadopago-checkout');
   assert.equal(requests[0].product,'freelance-en-la-vida-real');assert.equal(requests[0].openai_ads.oppref,'opaque-es');
   assert.equal(redirects.length,1);assert.ok(buttons.every(b=>b.disabled));
 });
 test('Spanish checkout rejects untrusted URLs and incorrect prices and restores buttons',async()=>{
-  for(const data of [{url:'https://evil.invalid',value:14.99,currency:'BRL'},{url:'https://checkout.stripe.com/c/pay/test',value:19.9,currency:'BRL'}]){
+  for(const data of [{url:'https://evil.invalid',value:19.9,currency:'BRL'},{url:'https://www.mercadopago.com.br/checkout/v1/redirect',value:14.99,currency:'BRL'}]){
     const buttons=[button(),button()],status={};let redirects=0;
-    vm.runInNewContext(source('es/freelance-es.js'),{URL,JSON,document:{querySelectorAll:()=>buttons,querySelector:()=>status},
-      window:{location:{assign(){redirects++}}},fetch:async()=>({ok:true,json:async()=>data})});
+    vm.runInNewContext(source('es/freelance-es.js'),{crypto:{randomUUID:()=> "12345678-1234-4234-8234-123456789abc"},URL,JSON,document:{querySelectorAll:()=>buttons,getElementById:()=>status},
+      window:{},location:{assign(){redirects++}},fetch:async()=>({ok:true,json:async()=>data})});
     await buttons[0].listeners.click();assert.equal(redirects,0);assert.ok(buttons.every(b=>!b.disabled));assert.match(status.textContent,/No pudimos/);
   }
+});
+test('both sales pages show the approved 19.90 offer and the same TikTok destination',()=>{
+ for(const path of ['freela-na-vida-real/index.html','es/freelance-en-la-vida-real/index.html']){
+  const html=fs.readFileSync(new URL('../'+path,import.meta.url),'utf8');
+  assert.doesNotMatch(html,/14[,.]99/);assert.match(html,/19,90/);
+  assert.match(html,/https:\/\/www\.tiktok\.com\/@bah\.viajou\?_r=1&amp;_t=ZS-9BijsLyE9bt/);
+  assert.match(html,/data-mercadopago-checkout/);
+ }
+});
+test('Spanish recovery stores only its own signed purchase and translates the resume link',()=>{
+ const localStorage=storage(),window={};
+ vm.runInNewContext(source('es/order-access.js'),{localStorage,window,location:{origin:'https://talkglobalapp.com'},URL,Date,JSON,document:{getElementById:()=>null}});
+ const query='?payment_id=12345&checkout_token='+'a'.repeat(64);
+ assert.equal(window.freelaOrderAccess.save('/es/freelance-en-la-vida-real/mercadopago/'+query),true);
+ assert.equal(window.freelaOrderAccess.save('/freela-na-vida-real/mercadopago/'+query),false);
 });

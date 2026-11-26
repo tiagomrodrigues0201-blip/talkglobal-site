@@ -120,3 +120,25 @@ test("Pix creation uses new price, QR creation alone never grants access",async(
   assert.equal(r.data.status,"pending");
 });
 
+
+test('Spanish Mercado Pago preference charges 19.90, preserves consent, and returns in Spanish',async()=>{
+ process.env.FREELA_ES_ENABLED='true';process.env.FREELA_ES_PRODUCT_OBJECT='freela/es/Kit_ES.zip';process.env.VERCEL_ENV='production';
+ let preference;
+ globalThis.fetch=async(url,opts)=>{preference=JSON.parse(opts.body);return {ok:true,json:async()=>({init_point:'https://www.mercadopago.com.br/checkout/v1/redirect'})};};
+ const r=await invoke('mercadopago-checkout','POST',{product:'freelance-en-la-vida-real',openai_ads:{consent:true,oppref:'opaque-es'}});
+ assert.equal(r.statusCode,200);assert.equal(r.data.value,19.9);
+ assert.equal(preference.items[0].unit_price,19.9);assert.equal(preference.items[0].currency_id,'BRL');
+ assert.equal(preference.metadata.product,'freelance-en-la-vida-real');assert.equal(preference.metadata.language,'es');
+ assert.equal(preference.metadata.openai_ads_ref_0,'opaque-es');assert.match(preference.back_urls.success,/\/es\/freelance-en-la-vida-real\/mercadopago\//);
+ const p=payment({external_reference:preference.external_reference,metadata:preference.metadata});
+ globalThis.fetch=async()=>({ok:true,json:async()=>p});
+ const token=checkoutToken(p.external_reference);
+ const paid=await invoke('mercadopago-checkout-status','GET',undefined,`&payment_id=12345&checkout_token=${token}`);
+ assert.equal(paid.data.paid,true);assert.equal(paid.data.language,'es');assert.equal(paid.data.product_slug,'freelance-en-la-vida-real');
+ for(const bad of [{transaction_amount:14.99},{status:'pending'},{metadata:{product:'freela-na-vida-real',language:'pt'}}]){
+  globalThis.fetch=async()=>({ok:true,json:async()=>({...p,...bad})});
+  const r=await invoke('mercadopago-checkout-status','GET',undefined,`&payment_id=12345&checkout_token=${token}`);
+  assert.equal(r.data.paid,false);
+ }
+ delete process.env.FREELA_ES_ENABLED;delete process.env.FREELA_ES_PRODUCT_OBJECT;
+});
