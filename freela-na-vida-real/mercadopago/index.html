@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Pagamento | Freela na Vida Real</title>
+<link rel="stylesheet" href="/assets/freela/freela-na-vida-real.css">
+<style>
+body{min-height:100vh}.mp-status-card{margin:6vh auto;max-width:650px;padding:clamp(24px,5vw,50px);background:#fff;border:1px solid #dce4ec;border-radius:22px;box-shadow:0 18px 45px #101b2d1a}.mp-status-card h1{line-height:1.2}.mp-download{display:none;margin:20px 0}.mp-download[data-ready="true"]{display:inline-block}.mp-status{line-height:1.6;color:#34445b}.mp-return{display:block;margin-top:24px}
+</style></head>
+<body class="freela-page freela-thanks-page">
+<main class="freela-wrap">
+<section class="mp-status-card">
+<span class="freela-kicker">Freela na Vida Real</span>
+<h1 data-title>Estamos confirmando seu pagamento</h1>
+<p class="mp-status" data-status role="status" aria-live="polite">O acesso é liberado somente depois da confirmação do Mercado Pago.</p>
+<a class="freela-button freela-button-primary mp-download" data-download-link aria-disabled="true">Baixar ebook + kit completo</a>
+<a class="mp-return" href="/freela-na-vida-real/">Voltar à página do produto</a>
+<p class="freela-legal">Se precisar de ajuda com o pagamento ou o acesso, escreva para <a href="mailto:suporte@talkglobalapp.com">suporte@talkglobalapp.com</a>.</p>
+</section></main>
+<script>
+(() => {
+  const params = new URLSearchParams(location.search);
+  const id = params.get("payment_id") || params.get("collection_id") || "";
+  const token = params.get("checkout_token") || "";
+  const heading = document.querySelector("[data-title]");
+  const statusEl = document.querySelector("[data-status]");
+  const download = document.querySelector("[data-download-link]");
+  if (!/^\\d+$/.test(id) || !/^[a-f0-9]{64}$/.test(token)) {
+    heading.textContent = "Não foi possível identificar sua compra";
+    statusEl.textContent = "Se você concluiu um pagamento, entre em contato com nosso suporte com o comprovante. Não faça outra compra antes de confirmar.";
+    return;
+  }
+  const endpoint = "/api/freela-mercadopago-checkout-status?payment_id=" + encodeURIComponent(id) + "&checkout_token=" + encodeURIComponent(token);
+  let attempts = 0;
+  async function check() {
+    attempts++;
+    try {
+      const response = await fetch(endpoint, {cache:"no-store"});
+      const result = await response.json();
+      if (!response.ok) throw Error(result.message || "Não foi possível verificar sua compra.");
+      if (result.paid && result.download_url) {
+        heading.textContent = "Pagamento confirmado!";
+        statusEl.textContent = "Seu ebook e os materiais do kit já estão disponíveis.";
+        download.href = result.download_url;
+        download.dataset.ready = "true";
+        download.removeAttribute("aria-disabled");
+        return;
+      }
+      if (["rejected", "cancelled", "refunded", "charged_back"].includes(result.status)) {
+        heading.textContent = "Pagamento não aprovado";
+        statusEl.textContent = "Nenhum material foi liberado. Volte ao produto para tentar novamente ou entre em contato com o suporte.";
+        return;
+      }
+      heading.textContent = "Aguardando confirmação";
+      statusEl.textContent = "Se você pagou com Pix, a confirmação pode levar alguns instantes. Esta página verifica automaticamente.";
+    } catch (error) {
+      heading.textContent = "Confirmação temporariamente indisponível";
+      statusEl.textContent = "Sua compra não foi perdida. Atualize esta página em instantes ou contate o suporte.";
+    }
+    if (attempts < 12) setTimeout(check, 5000);
+  }
+  check();
+})();
+</script>
+</body></html>
