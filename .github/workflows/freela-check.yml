@@ -7,6 +7,7 @@ on:
       - "lib/freela-openai-ads.js"
       - "lib/freela-payment-policy.js"
       - "lib/freela-readiness.js"
+      - "lib/freela-delivery-probe.js"
       - "assets/freela/checkout-aprovacao.js"
       - "assets/freela/order-access.js"
       - "assets/freela/mercadopago-return.js"

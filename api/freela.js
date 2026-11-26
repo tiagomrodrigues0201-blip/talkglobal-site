@@ -605,7 +605,8 @@ export default async function handler(req, res) {
     res.setHeader("Cache-Control","private, no-store");
     res.setHeader("X-Robots-Tag","noindex, nofollow");
     const {readiness}=await import("../lib/freela-readiness.js");
-    return json(res,200,await readiness());
+    const params=new URL(req.url,'http://localhost').searchParams;
+    return json(res,200,await readiness(process.env,fetch,{deliveryProbe:params.get('delivery_probe')==='1'}));
   }
   if (action === "checkout") return checkout(req, res);
   if (action === "mercadopago-checkout") return mercadoPagoCheckout(req, res);
