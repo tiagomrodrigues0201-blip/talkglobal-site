@@ -4,7 +4,7 @@ const productItem = {
   quantity: 1
 };
 
-const checkoutButtons = document.querySelectorAll("[data-checkout='freela-na-vida-real']");
+const checkoutButtons = document.querySelectorAll("[data-mercadopago-checkout]");
 const statusEl = document.querySelector("[data-checkout-status]");
 const pixToggle = document.querySelector("[data-pix-toggle]");
 const pixBox = document.querySelector("[data-pix-box]");
@@ -175,7 +175,7 @@ function trackCheckoutAndRedirect(checkout) {
     return;
   }
 
-  const value = Number(checkout.value) || 14.99;
+  const value = Number(checkout.value) || 19.90;
   const currency = String(checkout.currency || "BRL").toUpperCase();
 
   window.gtag("event", "begin_checkout", {
@@ -193,11 +193,11 @@ checkoutButtons.forEach((button) => {
   button.addEventListener("click", async (event) => {
     event.preventDefault();
     stopPixPolling();
-    setCheckoutStatus("Preparando pagamento com cartão...");
+    setCheckoutStatus("Abrindo checkout seguro do Mercado Pago...");
     setBusy(button, true);
 
     try {
-      const response = await fetch("/api/freela-checkout", {
+      const response = await fetch("/api/freela-mercadopago-checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ product: "freela-na-vida-real", openai_ads: window.talkglobalOpenAIAttribution?.() })
@@ -213,7 +213,7 @@ checkoutButtons.forEach((button) => {
       setCheckoutStatus(fallback);
       document.querySelector("#comprar")?.scrollIntoView({ behavior: "smooth", block: "start" });
     } catch {
-      setCheckoutStatus("A compra ainda não está ativa. Volte em breve para garantir seu acesso.");
+      setCheckoutStatus("Não foi possível abrir o Mercado Pago. Tente novamente.");
     } finally {
       setBusy(button, false);
     }
