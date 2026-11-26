@@ -138,7 +138,7 @@ test('checkout and Pix preserve attribution in provider metadata; buyer cannot c
       }
       const sent = JSON.parse(opts.body);
       assert.equal(sent.metadata.openai_ads_ref_0, openai_ads.oppref);
-      assert.equal(sent.transaction_amount,14.99);
+      assert.equal(sent.transaction_amount,19.9);
       return {ok:true,json:async()=>({...pix,status:'pending',point_of_interaction:{transaction_data:{qr_code:'test',qr_code_base64:'test'}}})};
     };
     assert.equal((await call('checkout',{product:'freela-na-vida-real',openai_ads,amount:1})).statusCode,200);

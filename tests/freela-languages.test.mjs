@@ -10,7 +10,7 @@ globalThis.__esStorage=()=>({storage:{from:()=>({
 const source=(await readFile(new URL('../api/freela.js',import.meta.url),'utf8'))
  .replace('import { createClient } from "@supabase/supabase-js";','const createClient=globalThis.__esStorage;')
  .replace('import { purchaseLicense, licensedProductUrl } from "../lib/freela-license.js";','const {purchaseLicense,licensedProductUrl}=globalThis.__esLicenseHelpers;');
-const {default:handler}=await import('data:text/javascript;base64,'+Buffer.from(source.replace('../lib/freela-openai-ads.js', new URL('../lib/freela-openai-ads.js', import.meta.url).href)).toString('base64'));
+const {default:handler}=await import('data:text/javascript;base64,'+Buffer.from(source.replace('../lib/freela-openai-ads.js', new URL('../lib/freela-openai-ads.js', import.meta.url).href).replace('../lib/freela-payment-policy.js', new URL('../lib/freela-payment-policy.js', import.meta.url).href)).toString('base64'));
 async function call(action,{method='GET',body,query=''}={}){
  const req={method,body,url:'/api/freela.js?action='+action+query,headers:{host:'talkglobalapp.com'}};
  const res={headers:{},setHeader(k,v){this.headers[k]=v;},end(v){this.body=v?JSON.parse(v):null;}};
@@ -21,7 +21,7 @@ test('language isolation and Spanish review gate',async(t)=>{
  const keys=['FREELA_ES_ENABLED','FREELA_ES_PRODUCT_OBJECT','STRIPE_FREELA_ES_PRICE_ID','STRIPE_SECRET_KEY','SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','SITE_URL'];
  const previous=Object.fromEntries(keys.map(k=>[k,process.env[k]]));
  Object.assign(process.env,{STRIPE_SECRET_KEY:'test',SUPABASE_URL:'https://private.test',SUPABASE_SERVICE_ROLE_KEY:'test',SITE_URL:'https://talkglobalapp.com'});
- const es={id:'cs_test_es',metadata:{product:'freelance-en-la-vida-real',language:'es'},payment_status:'paid',mode:'payment',currency:'brl',amount_total:1499};
+ const es={livemode:true,id:'cs_test_es',metadata:{product:'freelance-en-la-vida-real',language:'es'},payment_status:'paid',mode:'payment',currency:'brl',amount_total:1499};
  try{
   await t.test('unreviewed ES cannot open checkout',async()=>{
    delete process.env.FREELA_ES_ENABLED;globalThis.fetch=async()=>{throw new Error('Must not call Stripe');};
