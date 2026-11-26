@@ -7,9 +7,11 @@ const PRODUCT_SLUG = "freela-na-vida-real";
 const ES_PRODUCT_SLUG = "freelance-en-la-vida-real";
 const ES_PATH = "/es/freelance-en-la-vida-real/";
 const PRODUCT_TITLE = "Freela na Vida Real - Ebook + Kit Prático de Execução";
-const PIX_AMOUNT_CENTS = 1499;
+const PIX_AMOUNT_CENTS = 1990;
+// Preserve valid historical Pix purchases at the former price.
+const HISTORICAL_PIX_AMOUNTS = new Set([1499, PIX_AMOUNT_CENTS]);
 const MERCADOPAGO_API_BASE = "https://api.mercadopago.com";
-const ALLOWED_AMOUNTS = new Set([1499, 4700, 5700]);
+const ALLOWED_AMOUNTS = new Set([1499, 1990, 4700, 5700]);
 const DEFAULT_BUCKET = "private-products";
 const DEFAULT_OBJECT = "freela/Freela_na_Vida_Real_Kit.zip";
 const SIGNED_URL_TTL_SECONDS = 300;
@@ -108,7 +110,7 @@ async function checkout(req, res) {
   if (!response.ok) return json(res, response.status, { message: "Não foi possível iniciar a compra agora." });
   return json(res, 200, {
     url: data.url,
-    value: Number.isInteger(data.amount_total) ? data.amount_total / 100 : 14.99,
+    value: Number.isInteger(data.amount_total) ? data.amount_total / 100 : 19.90,
     currency: String(data.currency || "brl").toUpperCase()
   });
 }
@@ -214,6 +216,88 @@ function getMercadoPagoToken() {
   return process.env.MERCADOPAGO_ACCESS_TOKEN || "";
 }
 
+
+function checkoutReferenceToken(reference) {
+  return crypto.createHmac("sha256", getMercadoPagoToken())
+    .update(`freela-checkout-pro:${reference}`).digest("hex");
+}
+
+function hasCheckoutReferenceToken(payment, token) {
+  const reference = String(payment?.external_reference || "");
+  if (!getMercadoPagoToken() || !reference.startsWith(`${PRODUCT_SLUG}:`)
+      || !/^[a-f0-9]{64}$/.test(token)) return false;
+  const expected = checkoutReferenceToken(reference);
+  return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(token));
+}
+
+function isApprovedMercadoPagoCheckout(payment) {
+  // Only genuine, live payments for the exact new-price product can deliver the kit.
+  const method = String(payment?.payment_type_id || "");
+  return payment?.status === "approved"
+    && payment?.live_mode === true
+    && String(payment?.currency_id || "").toUpperCase() === "BRL"
+    && amountToCents(payment?.transaction_amount) === PIX_AMOUNT_CENTS
+    && String(payment?.external_reference || "").startsWith(`${PRODUCT_SLUG}:`)
+    && (payment?.payment_method_id === "pix" || ["credit_card", "debit_card", "prepaid_card"].includes(method));
+}
+
+async function mercadoPagoCheckout(req, res) {
+  if (req.method !== "POST") { res.setHeader("Allow", "POST"); return json(res, 405, { message: "Método não permitido." }); }
+  let payload;
+  try { payload = await readJsonBody(req); }
+  catch { return json(res, 400, { message: "Dados de compra inválidos." }); }
+  if (payload?.product !== PRODUCT_SLUG) return json(res, 400, { message: "Produto inválido." });
+  const accessToken = getMercadoPagoToken();
+  if (!accessToken) return json(res, 503, { message: "Mercado Pago ainda não configurado." });
+  const externalReference = `${PRODUCT_SLUG}:${crypto.randomUUID()}`;
+  const token = checkoutReferenceToken(externalReference);
+  // Never derive a payment return URL from a user-controlled Host header.
+  const siteOrigin = process.env.SITE_URL || "https://talkglobalapp.com";
+  const destination = new URL("/freela-na-vida-real/mercadopago/", siteOrigin);
+  destination.searchParams.set("checkout_token", token);
+  const notify = new URL("/api/freela-mercadopago-webhook", siteOrigin);
+  const preference = {
+    items: [{ id: PRODUCT_SLUG, title: PRODUCT_TITLE, quantity: 1, currency_id: "BRL", unit_price: PIX_AMOUNT_CENTS / 100 }],
+    external_reference: externalReference,
+    notification_url: notify.toString(),
+    back_urls: { success: destination.toString(), pending: destination.toString(), failure: destination.toString() },
+    auto_return: "approved",
+    metadata: { product: PRODUCT_SLUG, ...adsMetadata(payload.openai_ads), product_version: "1.1" }
+  };
+  const response = await fetch(`${MERCADOPAGO_API_BASE}/checkout/preferences`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json", "X-Idempotency-Key": crypto.randomUUID() },
+    body: JSON.stringify(preference)
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || !data.init_point) return json(res, 502, { message: "Não foi possível abrir o Mercado Pago." });
+  const redirect = new URL(data.init_point);
+  if (redirect.protocol !== "https:" || !(redirect.hostname === "mercadopago.com.br" || redirect.hostname.endsWith(".mercadopago.com.br") || redirect.hostname.endsWith(".mercadopago.com")))
+    return json(res, 502, { message: "Endereço do checkout inválido." });
+  return json(res, 200, { url: redirect.toString(), value: PIX_AMOUNT_CENTS / 100, currency: "BRL" });
+}
+
+async function mercadoPagoCheckoutStatus(req, res) {
+  if (req.method !== "GET") { res.setHeader("Allow", "GET"); return json(res, 405, { message: "Método não permitido." }); }
+  res.setHeader("Cache-Control", "private, no-store, max-age=0");
+  const params = new URL(req.url, `http://${req.headers.host || "localhost"}`).searchParams;
+  const paymentId = params.get("payment_id") || "";
+  const token = params.get("checkout_token") || "";
+  if (!/^\\d+$/.test(paymentId) || !/^[a-f0-9]{64}$/.test(token))
+    return json(res, 400, { message: "Identificação de compra inválida." });
+  const result = await getMercadoPagoPayment(paymentId);
+  if (result.error) return json(res, result.status || 503, { message: "Não foi possível consultar o pagamento." });
+  if (!hasCheckoutReferenceToken(result.payment, token))
+    return json(res, 403, { message: "Acesso a esta compra não autorizado." });
+  const paid = isApprovedMercadoPagoCheckout(result.payment);
+  return json(res, 200, {
+    paid, status: result.payment?.status || "unknown",
+    transaction_id: paid ? `mp_${paymentId}` : undefined,
+    value: paid ? PIX_AMOUNT_CENTS / 100 : undefined, currency: "BRL",
+    download_url: paid ? `/api/freela-download?mp_payment_id=${encodeURIComponent(paymentId)}&mp_checkout_token=${encodeURIComponent(token)}` : undefined
+  });
+}
+
 function pixPaymentToken(paymentId) {
   return crypto.createHmac("sha256", getMercadoPagoToken())
     .update(`freela-pix:${paymentId}`).digest("hex");
@@ -241,7 +325,7 @@ function isFreelaPixPayment(payment) {
     payment?.status === "approved" &&
     payment?.payment_method_id === "pix" &&
     String(payment?.currency_id || "").toUpperCase() === "BRL" &&
-    amountToCents(payment?.transaction_amount) === PIX_AMOUNT_CENTS &&
+    HISTORICAL_PIX_AMOUNTS.has(amountToCents(payment?.transaction_amount)) &&
     (metadataProduct === PRODUCT_SLUG || reference.startsWith(`${PRODUCT_SLUG}:`))
   );
 }
@@ -322,7 +406,7 @@ async function createPixPayment(req, res) {
     qr_code: pix.qrCode,
     qr_code_base64: pix.qrCodeBase64,
     ticket_url: pix.ticketUrl,
-    amount: "R$14,99"
+    amount: "R$19,90"
   });
 }
 
@@ -441,11 +525,20 @@ async function download(req, res) {
   } else if (paymentId) {
     if (!/^\d+$/.test(paymentId)) return json(res, 400, { message: "Pagamento Pix inválido." });
     const paymentToken = url.searchParams.get("payment_token") || "";
-    if (!hasPixPaymentToken(paymentId, paymentToken)) return json(res, 403, { message: "Acesso ao pagamento Pix inválido." });
-    const result = await getMercadoPagoPayment(paymentId);
-    if (result.error) return json(res, result.status || 503, { message: "Não foi possível confirmar o Pix." });
-    if (!isFreelaPixPayment(result.payment)) return json(res, 403, { message: "Pagamento Pix não confirmado para este produto." });
-    license = purchaseLicense("pix", result.payment);
+    const checkoutToken = url.searchParams.get("mp_checkout_token") || "";
+    if (checkoutToken) {
+      const result = await getMercadoPagoPayment(paymentId);
+      if (result.error) return json(res, result.status || 503, { message: "Não foi possível confirmar o pagamento." });
+      if (!hasCheckoutReferenceToken(result.payment, checkoutToken) || !isApprovedMercadoPagoCheckout(result.payment))
+        return json(res, 403, { message: "Pagamento não confirmado para este produto." });
+      license = purchaseLicense("mercadopago", result.payment);
+    } else {
+      if (!hasPixPaymentToken(paymentId, paymentToken)) return json(res, 403, { message: "Acesso ao pagamento Pix inválido." });
+      const result = await getMercadoPagoPayment(paymentId);
+      if (result.error) return json(res, result.status || 503, { message: "Não foi possível confirmar o Pix." });
+      if (!isFreelaPixPayment(result.payment)) return json(res, 403, { message: "Pagamento Pix não confirmado para este produto." });
+      license = purchaseLicense("pix", result.payment);
+    }
   } else {
     return json(res, 400, { message: "Sessão de compra não encontrada." });
   }
@@ -460,6 +553,8 @@ async function download(req, res) {
 export default async function handler(req, res) {
   const action = getAction(req);
   if (action === "checkout") return checkout(req, res);
+  if (action === "mercadopago-checkout") return mercadoPagoCheckout(req, res);
+  if (action === "mercadopago-checkout-status") return mercadoPagoCheckoutStatus(req, res);
   if (action === "webhook") return webhook(req, res);
   if (action === "status") return status(req, res);
   if (action === "pix") return createPixPayment(req, res);
