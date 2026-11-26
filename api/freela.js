@@ -248,7 +248,7 @@ async function mercadoPagoCheckout(req, res) {
   catch { return json(res, 400, { message: "Dados de compra inválidos." }); }
   if (payload?.product !== PRODUCT_SLUG) return json(res, 400, { message: "Produto inválido." });
   // Prevent accidental live charges from automatic Vercel preview deployments.
-  if (process.env.VERCEL_ENV === "preview" && process.env.MERCADOPAGO_ALLOW_PREVIEW_CHECKOUT !== "true")
+  if (process.env.VERCEL_ENV === "preview")
     return json(res, 503, { message: "Checkout indisponível nesta prévia. Use o ambiente de testes autorizado." });
   const accessToken = getMercadoPagoToken();
   if (!accessToken) return json(res, 503, { message: "Mercado Pago ainda não configurado." });
@@ -326,6 +326,7 @@ function isFreelaPixPayment(payment) {
   const reference = String(payment?.external_reference || "");
   return (
     payment?.status === "approved" &&
+    payment?.live_mode === true &&
     payment?.payment_method_id === "pix" &&
     String(payment?.currency_id || "").toUpperCase() === "BRL" &&
     HISTORICAL_PIX_AMOUNTS.has(amountToCents(payment?.transaction_amount)) &&
@@ -337,7 +338,7 @@ function mapPixStatus(payment) {
   if (isFreelaPixPayment(payment)) return "approved";
   if (["pending", "in_process", "authorized"].includes(payment?.status)) return "pending";
   if (["rejected", "cancelled", "refunded", "charged_back"].includes(payment?.status)) return "rejected";
-  return payment?.status || "unknown";
+  return payment?.status === "approved" ? "unknown" : (payment?.status || "unknown");
 }
 
 function extractPixData(payment) {
@@ -362,6 +363,7 @@ async function createPixPayment(req, res) {
   catch { return json(res, 400, { message: "Payload inválido." }); }
   if (payload.product !== PRODUCT_SLUG) return json(res, 400, { message: "Produto inválido." });
 
+  if (process.env.VERCEL_ENV === "preview") return json(res, 503, { message: "Pix indisponível nesta prévia." });
   const email = String(payload.email || "").trim().toLowerCase();
   if (!isValidEmail(email)) return json(res, 400, { message: "Informe um e-mail válido para gerar o Pix." });
 
@@ -468,8 +470,9 @@ async function mercadoPagoWebhook(req, res) {
 
   const url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
   const eventType = payload.type || payload.topic || url.searchParams.get("type") || url.searchParams.get("topic") || "";
-  const paymentId = payload.data?.id || url.searchParams.get("data.id") || url.searchParams.get("id") || "";
-  if (!["payment", "merchant_order"].includes(eventType) || !/^\d+$/.test(String(paymentId))) {
+  const paymentId = url.searchParams.get("data.id") || url.searchParams.get("id") || "";
+  if (payload.data?.id != null && String(payload.data.id) !== paymentId) return json(res, 400, { message: "ID do evento divergente." });
+  if (eventType !== "payment" || !/^\d+$/.test(String(paymentId))) {
     return json(res, 200, { received: true, ignored: true });
   }
 
