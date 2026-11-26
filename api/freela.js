@@ -1,3 +1,4 @@
+import { supportedPayment, checkoutPaymentMethods } from "../lib/freela-payment-policy.js";
 import { adsMetadata, sendPurchase } from "../lib/freela-openai-ads.js";
 import crypto from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
@@ -7,9 +8,11 @@ const PRODUCT_SLUG = "freela-na-vida-real";
 const ES_PRODUCT_SLUG = "freelance-en-la-vida-real";
 const ES_PATH = "/es/freelance-en-la-vida-real/";
 const PRODUCT_TITLE = "Freela na Vida Real - Ebook + Kit Prático de Execução";
-const PIX_AMOUNT_CENTS = 1499;
+const PIX_AMOUNT_CENTS = 1990;
+// Preserve valid historical Pix purchases at the former price.
+const HISTORICAL_PIX_AMOUNTS = new Set([1499, PIX_AMOUNT_CENTS]);
 const MERCADOPAGO_API_BASE = "https://api.mercadopago.com";
-const ALLOWED_AMOUNTS = new Set([1499, 4700, 5700]);
+const ALLOWED_AMOUNTS = new Set([1499, 1990, 4700, 5700]);
 const DEFAULT_BUCKET = "private-products";
 const DEFAULT_OBJECT = "freela/Freela_na_Vida_Real_Kit.zip";
 const SIGNED_URL_TTL_SECONDS = 300;
@@ -79,6 +82,7 @@ async function checkout(req, res) {
   const { priceId, priceType } = spanish ? { priceId: process.env.STRIPE_FREELA_ES_PRICE_ID, priceType: "es" } : getActivePriceId();
   if (!secretKey || !priceId) return json(res, 503, { message: "A compra ainda não está ativa. Estamos preparando a liberação com segurança." });
 
+  if (process.env.VERCEL_ENV === "preview" && !String(secretKey).startsWith("sk_test_")) return json(res, 503, { message: "Checkout real indisponível nesta prévia." });
   const origin = getOrigin(req);
   const params = new URLSearchParams({
     mode: "payment",
@@ -108,7 +112,7 @@ async function checkout(req, res) {
   if (!response.ok) return json(res, response.status, { message: "Não foi possível iniciar a compra agora." });
   return json(res, 200, {
     url: data.url,
-    value: Number.isInteger(data.amount_total) ? data.amount_total / 100 : 14.99,
+    value: Number.isInteger(data.amount_total) ? data.amount_total / 100 : 19.90,
     currency: String(data.currency || "brl").toUpperCase()
   });
 }
@@ -149,7 +153,7 @@ async function webhook(req, res) {
   catch { return json(res, 400, { message: "Evento inválido." }); }
   if (["checkout.session.completed", "checkout.session.async_payment_succeeded"].includes(event.type)) {
     const session = event.data?.object || {};
-    const fulfilled = (session.metadata?.product === PRODUCT_SLUG && session.payment_status === "paid") || purchaseLanguage(session) === "es";
+    const fulfilled = Boolean(purchaseLanguage(session));
     const measurement = await sendPurchase('stripe', session, Number(event.created) * 1000);
     if (measurement.retry) {
       console.warn('openai_ads_delivery', measurement.reason);
@@ -169,7 +173,7 @@ async function getCheckoutSession(sessionId) {
 }
 
 function isPaidFreelaSession(session) {
-  return session.metadata?.product === PRODUCT_SLUG
+  return session.livemode === true && session.metadata?.product === PRODUCT_SLUG
     && session.payment_status === "paid"
     && session.mode === "payment"
     && session.currency === "brl"
@@ -178,7 +182,7 @@ function isPaidFreelaSession(session) {
 
 function purchaseLanguage(session) {
   if (isPaidFreelaSession(session)) return "pt";
-  if (session.metadata?.product === ES_PRODUCT_SLUG && session.metadata?.language === "es"
+  if (session.livemode === true && session.metadata?.product === ES_PRODUCT_SLUG && session.metadata?.language === "es"
       && session.payment_status === "paid" && session.mode === "payment"
       && session.currency === "brl" && session.amount_total === 1499) return "es";
   return null;
@@ -214,6 +218,131 @@ function getMercadoPagoToken() {
   return process.env.MERCADOPAGO_ACCESS_TOKEN || "";
 }
 
+
+function checkoutReferenceToken(reference) {
+  return crypto.createHmac("sha256", getMercadoPagoToken())
+    .update(`freela-checkout-pro:${reference}`).digest("hex");
+}
+
+function hasCheckoutReferenceToken(payment, token) {
+  const reference = String(payment?.external_reference || "");
+  if (!getMercadoPagoToken() || !reference.startsWith(`${PRODUCT_SLUG}:`)
+      || !/^[a-f0-9]{64}$/.test(token)) return false;
+  const expected = checkoutReferenceToken(reference);
+  return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(token));
+}
+
+function isApprovedMercadoPagoCheckout(payment) {
+  // Only genuine, live payments for the exact new-price product can deliver the kit.
+  return payment?.status === "approved"
+    && payment?.live_mode === true
+    && String(payment?.currency_id || "").toUpperCase() === "BRL"
+    && amountToCents(payment?.transaction_amount) === PIX_AMOUNT_CENTS
+    && String(payment?.external_reference || "").startsWith(`${PRODUCT_SLUG}:`)
+    && supportedPayment(payment);
+}
+
+let methodCache;
+async function merchantPaymentMethods(accessToken) {
+  const account = crypto.createHash("sha256").update(accessToken).digest("hex");
+  if (methodCache?.account === account && Date.now() < methodCache.expires) return methodCache.methods;
+  const response = await fetch(`${MERCADOPAGO_API_BASE}/v1/payment_methods`, {
+    headers: { Authorization: `Bearer ${accessToken}` }, signal: AbortSignal.timeout(8000)
+  });
+  if (!response.ok) throw Error("Provider methods unavailable");
+  const methods = checkoutPaymentMethods(await response.json());
+  methodCache = { account, methods, expires: Date.now() + 600000 };
+  return methods;
+}
+
+async function mercadoPagoCheckout(req, res) {
+  if (req.method !== "POST") { res.setHeader("Allow", "POST"); return json(res, 405, { message: "Método não permitido." }); }
+  let payload;
+  try { payload = await readJsonBody(req); }
+  catch { return json(res, 400, { message: "Dados de compra inválidos." }); }
+  if (payload?.product !== PRODUCT_SLUG) return json(res, 400, { message: "Produto inválido." });
+  // Prevent accidental live charges from automatic Vercel preview deployments.
+  if (process.env.VERCEL_ENV === "preview")
+    return json(res, 503, { message: "Checkout indisponível nesta prévia. Use o ambiente de testes autorizado." });
+  const accessToken = getMercadoPagoToken();
+  if (!accessToken) return json(res, 503, { message: "Mercado Pago ainda não configurado." });
+  const requestId = payload.request_id || crypto.randomUUID();
+  if (!/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(requestId))
+    return json(res, 400, { message: "Identificação da tentativa inválida." });
+  const externalReference = `${PRODUCT_SLUG}:${requestId}`;
+  const token = checkoutReferenceToken(externalReference);
+  let paymentMethods;
+  try { paymentMethods = await merchantPaymentMethods(accessToken); }
+  catch { return json(res, 503, { message: "Não foi possível consultar os meios de pagamento. Tente novamente." }); }
+  // Never derive a payment return URL from a user-controlled Host header.
+  const siteOrigin = process.env.SITE_URL || (process.env.VERCEL_ENV === "preview" && process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://talkglobalapp.com");
+  const destination = new URL("/freela-na-vida-real/mercadopago/", siteOrigin);
+  destination.searchParams.set("checkout_token", token);
+  const notify = new URL("/api/freela-mercadopago-webhook", siteOrigin);
+  const preference = {
+    items: [{ id: PRODUCT_SLUG, title: PRODUCT_TITLE, quantity: 1, currency_id: "BRL", unit_price: PIX_AMOUNT_CENTS / 100 }],
+    external_reference: externalReference,
+    notification_url: notify.toString(),
+    back_urls: { success: destination.toString(), pending: destination.toString(), failure: destination.toString() },
+    payment_methods: paymentMethods,
+    auto_return: "approved",
+    metadata: { product: PRODUCT_SLUG, ...adsMetadata(payload.openai_ads), product_version: "1.1" }
+  };
+  const response = await fetch(`${MERCADOPAGO_API_BASE}/checkout/preferences`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json", "X-Idempotency-Key": requestId },
+    body: JSON.stringify(preference)
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || !data.init_point) return json(res, 502, { message: "Não foi possível abrir o Mercado Pago." });
+  const redirect = new URL(data.init_point);
+  if (redirect.protocol !== "https:" || !(redirect.hostname === "mercadopago.com.br" || redirect.hostname.endsWith(".mercadopago.com.br") || redirect.hostname.endsWith(".mercadopago.com")))
+    return json(res, 502, { message: "Endereço do checkout inválido." });
+  const resume = new URL(destination);
+  resume.searchParams.set("reference", externalReference);
+  return json(res, 200, { url: redirect.toString(), resume_url: resume.pathname + resume.search, value: PIX_AMOUNT_CENTS / 100, currency: "BRL" });
+}
+
+async function mercadoPagoCheckoutStatus(req, res) {
+  if (req.method !== "GET") { res.setHeader("Allow", "GET"); return json(res, 405, { message: "Método não permitido." }); }
+  res.setHeader("Cache-Control", "private, no-store, max-age=0");
+  const params = new URL(req.url, `http://${req.headers.host || "localhost"}`).searchParams;
+  let paymentId = params.get("payment_id") || "";
+  const reference = params.get("reference") || "";
+  const token = params.get("checkout_token") || "";
+  if (!/^[a-f0-9]{64}$/.test(token)) return json(res, 400, { message: "Identificação de compra inválida." });
+  let result;
+  if (paymentId) {
+    if (!/^\d+$/.test(paymentId)) return json(res, 400, { message: "Identificação de compra inválida." });
+    result = await getMercadoPagoPayment(paymentId);
+  } else {
+    if (!/^freela-na-vida-real:[a-f0-9-]{36}$/i.test(reference)
+        || !hasCheckoutReferenceToken({ external_reference: reference }, token))
+      return json(res, 403, { message: "Acesso a esta compra não autorizado." });
+    const response = await fetch(`${MERCADOPAGO_API_BASE}/v1/payments/search?external_reference=${encodeURIComponent(reference)}&sort=date_created&criteria=desc&limit=50`, {
+      headers: { Authorization: `Bearer ${getMercadoPagoToken()}` }, signal: AbortSignal.timeout(8000)
+    });
+    if (!response.ok) return json(res, 503, { message: "Não foi possível consultar o pagamento." });
+    const search = await response.json();
+    const matching = (search.results || []).filter(p => p.external_reference === reference);
+    const payment = matching.find(isApprovedMercadoPagoCheckout) || matching[0];
+    if (!payment) return json(res, 200, { paid: false, status: "pending", currency: "BRL" });
+    paymentId = String(payment.id);
+    // Search is used to locate the ID; always recheck current status directly.
+    result = await getMercadoPagoPayment(paymentId);
+  }
+  if (result.error) return json(res, 503, { message: "Não foi possível consultar o pagamento." });
+  if (!hasCheckoutReferenceToken(result.payment, token))
+    return json(res, 403, { message: "Acesso a esta compra não autorizado." });
+  const paid = isApprovedMercadoPagoCheckout(result.payment);
+  return json(res, 200, {
+    paid, status: result.payment?.status || "unknown",
+    transaction_id: paid ? `mp_${paymentId}` : undefined,
+    value: paid ? PIX_AMOUNT_CENTS / 100 : undefined, currency: "BRL",
+    download_url: paid ? `/api/freela-download?mp_payment_id=${encodeURIComponent(paymentId)}&mp_checkout_token=${encodeURIComponent(token)}` : undefined
+  });
+}
+
 function pixPaymentToken(paymentId) {
   return crypto.createHmac("sha256", getMercadoPagoToken())
     .update(`freela-pix:${paymentId}`).digest("hex");
@@ -231,7 +360,7 @@ async function getMercadoPagoPayment(paymentId) {
     headers: { Authorization: `Bearer ${accessToken}` }
   });
   const data = await response.json().catch(() => ({}));
-  return response.ok ? { payment: data } : { error: "mercadopago_error", status: response.status };
+  return response.ok && String(data.id) === String(paymentId) ? { payment: data } : { error: "mercadopago_error", status: response.ok ? 502 : response.status };
 }
 
 function isFreelaPixPayment(payment) {
@@ -239,9 +368,10 @@ function isFreelaPixPayment(payment) {
   const reference = String(payment?.external_reference || "");
   return (
     payment?.status === "approved" &&
+    payment?.live_mode === true &&
     payment?.payment_method_id === "pix" &&
     String(payment?.currency_id || "").toUpperCase() === "BRL" &&
-    amountToCents(payment?.transaction_amount) === PIX_AMOUNT_CENTS &&
+    HISTORICAL_PIX_AMOUNTS.has(amountToCents(payment?.transaction_amount)) &&
     (metadataProduct === PRODUCT_SLUG || reference.startsWith(`${PRODUCT_SLUG}:`))
   );
 }
@@ -250,7 +380,7 @@ function mapPixStatus(payment) {
   if (isFreelaPixPayment(payment)) return "approved";
   if (["pending", "in_process", "authorized"].includes(payment?.status)) return "pending";
   if (["rejected", "cancelled", "refunded", "charged_back"].includes(payment?.status)) return "rejected";
-  return payment?.status || "unknown";
+  return payment?.status === "approved" ? "unknown" : (payment?.status || "unknown");
 }
 
 function extractPixData(payment) {
@@ -275,6 +405,7 @@ async function createPixPayment(req, res) {
   catch { return json(res, 400, { message: "Payload inválido." }); }
   if (payload.product !== PRODUCT_SLUG) return json(res, 400, { message: "Produto inválido." });
 
+  if (process.env.VERCEL_ENV === "preview") return json(res, 503, { message: "Pix indisponível nesta prévia." });
   const email = String(payload.email || "").trim().toLowerCase();
   if (!isValidEmail(email)) return json(res, 400, { message: "Informe um e-mail válido para gerar o Pix." });
 
@@ -322,7 +453,7 @@ async function createPixPayment(req, res) {
     qr_code: pix.qrCode,
     qr_code_base64: pix.qrCodeBase64,
     ticket_url: pix.ticketUrl,
-    amount: "R$14,99"
+    amount: "R$19,90"
   });
 }
 
@@ -381,8 +512,9 @@ async function mercadoPagoWebhook(req, res) {
 
   const url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
   const eventType = payload.type || payload.topic || url.searchParams.get("type") || url.searchParams.get("topic") || "";
-  const paymentId = payload.data?.id || url.searchParams.get("data.id") || url.searchParams.get("id") || "";
-  if (!["payment", "merchant_order"].includes(eventType) || !/^\d+$/.test(String(paymentId))) {
+  const paymentId = url.searchParams.get("data.id") || url.searchParams.get("id") || "";
+  if (payload.data?.id != null && String(payload.data.id) !== paymentId) return json(res, 400, { message: "ID do evento divergente." });
+  if (eventType !== "payment" || !/^\d+$/.test(String(paymentId))) {
     return json(res, 200, { received: true, ignored: true });
   }
 
@@ -395,8 +527,8 @@ async function mercadoPagoWebhook(req, res) {
   }
   return json(res, 200, {
     received: true,
-    fulfilled: isFreelaPixPayment(result.payment),
-    payment_id: isFreelaPixPayment(result.payment) ? String(paymentId) : undefined
+    fulfilled: isFreelaPixPayment(result.payment) || isApprovedMercadoPagoCheckout(result.payment),
+    payment_id: (isFreelaPixPayment(result.payment) || isApprovedMercadoPagoCheckout(result.payment)) ? String(paymentId) : undefined
   });
 }
 
@@ -441,11 +573,20 @@ async function download(req, res) {
   } else if (paymentId) {
     if (!/^\d+$/.test(paymentId)) return json(res, 400, { message: "Pagamento Pix inválido." });
     const paymentToken = url.searchParams.get("payment_token") || "";
-    if (!hasPixPaymentToken(paymentId, paymentToken)) return json(res, 403, { message: "Acesso ao pagamento Pix inválido." });
-    const result = await getMercadoPagoPayment(paymentId);
-    if (result.error) return json(res, result.status || 503, { message: "Não foi possível confirmar o Pix." });
-    if (!isFreelaPixPayment(result.payment)) return json(res, 403, { message: "Pagamento Pix não confirmado para este produto." });
-    license = purchaseLicense("pix", result.payment);
+    const checkoutToken = url.searchParams.get("mp_checkout_token") || "";
+    if (checkoutToken) {
+      const result = await getMercadoPagoPayment(paymentId);
+      if (result.error) return json(res, result.status || 503, { message: "Não foi possível confirmar o pagamento." });
+      if (!hasCheckoutReferenceToken(result.payment, checkoutToken) || !isApprovedMercadoPagoCheckout(result.payment))
+        return json(res, 403, { message: "Pagamento não confirmado para este produto." });
+      license = purchaseLicense("mercadopago", result.payment);
+    } else {
+      if (!hasPixPaymentToken(paymentId, paymentToken)) return json(res, 403, { message: "Acesso ao pagamento Pix inválido." });
+      const result = await getMercadoPagoPayment(paymentId);
+      if (result.error) return json(res, result.status || 503, { message: "Não foi possível confirmar o Pix." });
+      if (!isFreelaPixPayment(result.payment)) return json(res, 403, { message: "Pagamento Pix não confirmado para este produto." });
+      license = purchaseLicense("pix", result.payment);
+    }
   } else {
     return json(res, 400, { message: "Sessão de compra não encontrada." });
   }
@@ -459,7 +600,17 @@ async function download(req, res) {
 
 export default async function handler(req, res) {
   const action = getAction(req);
+  if (action === "readiness") {
+    if (process.env.VERCEL_ENV !== "preview" || req.method !== "GET") return json(res,404,{message:"Rota não encontrada."});
+    res.setHeader("Cache-Control","private, no-store");
+    res.setHeader("X-Robots-Tag","noindex, nofollow");
+    const {readiness}=await import("../lib/freela-readiness.js");
+    const params=new URL(req.url,'http://localhost').searchParams;
+    return json(res,200,await readiness(process.env,fetch,{deliveryProbe:params.get('delivery_probe')==='1'}));
+  }
   if (action === "checkout") return checkout(req, res);
+  if (action === "mercadopago-checkout") return mercadoPagoCheckout(req, res);
+  if (action === "mercadopago-checkout-status") return mercadoPagoCheckoutStatus(req, res);
   if (action === "webhook") return webhook(req, res);
   if (action === "status") return status(req, res);
   if (action === "pix") return createPixPayment(req, res);

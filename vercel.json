@@ -100,6 +100,18 @@
       "dest": "/api/freela.js?action=status"
     },
     {
+      "src": "/api/freela-mercadopago-checkout/?",
+      "dest": "/api/freela.js?action=mercadopago-checkout"
+    },
+    {
+      "src": "/api/freela-mercadopago-checkout-status/?",
+      "dest": "/api/freela.js?action=mercadopago-checkout-status"
+    },
+    {
+      "src": "/freela-na-vida-real/mercadopago/?",
+      "dest": "/freela-na-vida-real/mercadopago/index.html"
+    },
+    {
       "src": "/api/freela-pix/?",
       "dest": "/api/freela.js?action=pix"
     },

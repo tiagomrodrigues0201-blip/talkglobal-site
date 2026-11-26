@@ -25,7 +25,7 @@ const isolatedSource = source.replace('import { createClient } from "@supabase/s
   'const createClient = globalThis.__freelaTestStorage;').replace(
   'import { purchaseLicense, licensedProductUrl } from "../lib/freela-license.js";',
   'const { purchaseLicense, licensedProductUrl } = globalThis.__freelaLicenseHelpers;');
-const { default: handler } = await import('data:text/javascript;base64,' + Buffer.from(isolatedSource.replace('../lib/freela-openai-ads.js', new URL('../lib/freela-openai-ads.js', import.meta.url).href)).toString('base64'));
+const { default: handler } = await import('data:text/javascript;base64,' + Buffer.from(isolatedSource.replace('../lib/freela-openai-ads.js', new URL('../lib/freela-openai-ads.js', import.meta.url).href).replace('../lib/freela-payment-policy.js', new URL('../lib/freela-payment-policy.js', import.meta.url).href)).toString('base64'));
 
 async function call(action, { method = 'GET', body, query = '' } = {}) {
   const req = { method, body, url: '/api/freela.js?action=' + action + query, headers: { host: 'talkglobalapp.com' } };
@@ -48,7 +48,7 @@ test('Pix creation, confirmation and delivery; existing card checkout', async (t
   const token = crypto.createHmac('sha256', 'unit-test-token').update('freela-pix:' + paymentId).digest('hex');
   const query = '&payment_id=' + paymentId + '&payment_token=' + token;
   const downloadQuery = '&mp_payment_id=' + paymentId + '&payment_token=' + token;
-  const paid = { id: paymentId, status: 'approved', payment_method_id: 'pix', currency_id: 'BRL', transaction_amount: 14.99, metadata: { product: 'freela-na-vida-real' } };
+  const paid = { live_mode: true, id: paymentId, status: 'approved', payment_method_id: 'pix', currency_id: 'BRL', transaction_amount: 14.99, metadata: { product: 'freela-na-vida-real' } };
   const mockPayment = payment => { globalThis.fetch = async () => ({ ok: true, json: async () => payment }); };
   try {
     await t.test('invalid email cannot create a charge', async () => {
@@ -60,7 +60,7 @@ test('Pix creation, confirmation and delivery; existing card checkout', async (t
       globalThis.fetch = async (url, options) => {
         assert.equal(url, 'https://api.mercadopago.com/v1/payments');
         const sent = JSON.parse(options.body);
-        assert.equal(sent.transaction_amount, 14.99);
+        assert.equal(sent.transaction_amount, 19.9);
         assert.equal(sent.payment_method_id, 'pix');
         assert.ok(options.headers['X-Idempotency-Key']);
         return { ok: true, json: async () => ({ ...paid, status: 'pending', point_of_interaction: { transaction_data: { qr_code: 'test-pix', qr_code_base64: 'test-base64' } } }) };
@@ -107,18 +107,18 @@ test('Pix creation, confirmation and delivery; existing card checkout', async (t
     });
     for (const [name, changes] of Object.entries({ unpaid: { payment_status: 'unpaid' }, wrongAmount: { amount_total: 1 }, wrongProduct: { metadata: { product: 'other' } }, wrongCurrency: { currency: 'usd' } })) {
       await t.test('Stripe ' + name + ' cannot download', async () => {
-        mockPayment({ id: 'cs_test', metadata: { product: 'freela-na-vida-real' }, payment_status: 'paid', mode: 'payment', currency: 'brl', amount_total: 1499, ...changes });
+        mockPayment({ livemode: true, id: 'cs_test', metadata: { product: 'freela-na-vida-real' }, payment_status: 'paid', mode: 'payment', currency: 'brl', amount_total: 1499, ...changes });
         const before = signedUrls;
         assert.equal((await call('download', { query: '&session_id=cs_test' })).status, 403);
         assert.equal(signedUrls, before);
       });
     }
     await t.test('confirmed Stripe also gets a licensed private download', async () => {
-      mockPayment({ id: 'cs_test', metadata: { product: 'freela-na-vida-real' }, customer_details: { name: 'Buyer Test' }, payment_status: 'paid', mode: 'payment', currency: 'brl', amount_total: 1499 });
+      mockPayment({ livemode: true, id: 'cs_test', metadata: { product: 'freela-na-vida-real' }, customer_details: { name: 'Buyer Test' }, payment_status: 'paid', mode: 'payment', currency: 'brl', amount_total: 1499 });
       assert.equal((await call('download', { query: '&session_id=cs_test' })).status, 302);
     });
     await t.test('existing Stripe status remains available', async () => {
-      mockPayment({ metadata: { product: 'freela-na-vida-real' }, payment_status: 'paid', mode: 'payment', currency: 'brl', amount_total: 1499, id: 'cs_test' });
+      mockPayment({ livemode: true, metadata: { product: 'freela-na-vida-real' }, payment_status: 'paid', mode: 'payment', currency: 'brl', amount_total: 1499, id: 'cs_test' });
       const r = await call('status', { query: '&session_id=cs_test' });
       assert.equal(r.body.paid, true);
     });
