@@ -189,12 +189,16 @@ function trackCheckoutAndRedirect(checkout) {
   window.setTimeout(redirect, 1200);
 }
 
+let checkoutInFlight = false;
 checkoutButtons.forEach((button) => {
   button.addEventListener("click", async (event) => {
     event.preventDefault();
+    if (checkoutInFlight) return;
+    checkoutInFlight = true;
+    let redirecting = false;
     stopPixPolling();
     setCheckoutStatus("Abrindo checkout seguro do Mercado Pago...");
-    setBusy(button, true);
+    checkoutButtons.forEach(b => setBusy(b, true));
 
     try {
       const response = await fetch("/api/freela-mercadopago-checkout", {
@@ -205,6 +209,7 @@ checkoutButtons.forEach((button) => {
       const data = await response.json().catch(() => ({}));
 
       if (response.ok && data.url) {
+        redirecting = true;
         trackCheckoutAndRedirect(data);
         return;
       }
@@ -215,7 +220,10 @@ checkoutButtons.forEach((button) => {
     } catch {
       setCheckoutStatus("Não foi possível abrir o Mercado Pago. Tente novamente.");
     } finally {
-      setBusy(button, false);
+      if (!redirecting) {
+        checkoutInFlight = false;
+        checkoutButtons.forEach(b => setBusy(b, false));
+      }
     }
   });
 });
