@@ -264,6 +264,7 @@ async function mercadoPagoCheckout(req, res) {
     external_reference: externalReference,
     notification_url: notify.toString(),
     back_urls: { success: destination.toString(), pending: destination.toString(), failure: destination.toString() },
+    payment_methods: { excluded_payment_types: [{ id: "ticket" }, { id: "atm" }, { id: "digital_currency" }, { id: "digital_wallet" }, { id: "account_money" }] },
     auto_return: "approved",
     metadata: { product: PRODUCT_SLUG, ...adsMetadata(payload.openai_ads), product_version: "1.1" }
   };
@@ -485,8 +486,8 @@ async function mercadoPagoWebhook(req, res) {
   }
   return json(res, 200, {
     received: true,
-    fulfilled: isFreelaPixPayment(result.payment),
-    payment_id: isFreelaPixPayment(result.payment) ? String(paymentId) : undefined
+    fulfilled: isFreelaPixPayment(result.payment) || isApprovedMercadoPagoCheckout(result.payment),
+    payment_id: (isFreelaPixPayment(result.payment) || isApprovedMercadoPagoCheckout(result.payment)) ? String(paymentId) : undefined
   });
 }
 
