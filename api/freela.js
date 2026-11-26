@@ -286,7 +286,7 @@ async function mercadoPagoCheckoutStatus(req, res) {
   const params = new URL(req.url, `http://${req.headers.host || "localhost"}`).searchParams;
   const paymentId = params.get("payment_id") || "";
   const token = params.get("checkout_token") || "";
-  if (!/^\\d+$/.test(paymentId) || !/^[a-f0-9]{64}$/.test(token))
+  if (!/^\d+$/.test(paymentId) || !/^[a-f0-9]{64}$/.test(token))
     return json(res, 400, { message: "Identificação de compra inválida." });
   const result = await getMercadoPagoPayment(paymentId);
   if (result.error) return json(res, result.status || 503, { message: "Não foi possível consultar o pagamento." });
