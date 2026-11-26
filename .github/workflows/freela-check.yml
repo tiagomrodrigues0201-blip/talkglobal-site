@@ -13,6 +13,9 @@ on:
       - "assets/freela/mercadopago-return.js"
       - "assets/freela/freela-na-vida-real.js"
       - "freela-na-vida-real/**"
+      - "es/freelance-en-la-vida-real/**"
+      - "assets/freela/es/freelance-es.js"
+      - "assets/freela/freela-sales.css"
       - "tests/freela-*.test.mjs"
       - ".github/workflows/freela-check.yml"
   workflow_dispatch:
@@ -32,4 +35,4 @@ jobs:
       - name: Syntax validation
         run: npm run check:freela
       - name: Mercado Pago flow and security tests
-        run: node --check assets/freela/checkout-aprovacao.js && node --check assets/freela/mercadopago-return.js && node --check assets/freela/order-access.js && node --test tests/freela-*.test.mjs
+        run: node --check assets/freela/es/freelance-es.js && node --check assets/freela/checkout-aprovacao.js && node --check assets/freela/mercadopago-return.js && node --check assets/freela/order-access.js && node --test tests/freela-*.test.mjs
